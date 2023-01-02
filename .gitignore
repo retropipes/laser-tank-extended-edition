@@ -1,0 +1,6 @@
+# Project-specific
+asset
+.classpath
+.project
+.settings
+!laser-tank-extended-edition/modules/*.module.jar

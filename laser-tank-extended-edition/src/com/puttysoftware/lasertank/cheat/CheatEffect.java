@@ -1,0 +1,30 @@
+package com.puttysoftware.lasertank.cheat;
+
+// Enumerations
+enum CheatEffect {
+    KILL_ANTI_TANKS,
+    BREAK_BRICKS,
+    LIGHT_MODE_TANK,
+    SHADOW_MODE_TANK,
+    FROZEN_MODE_TANK,
+    MOLTEN_MODE_TANK,
+    POWER_MODE_TANK,
+    BRIDGES_TO_GROUND,
+    GROUND_TO_BRIDGES,
+    OPEN_DOORS,
+    HEAT_ALL,
+    MELT_ALL,
+    HOVERING,
+    COLLISIONS_OFF,
+    INVINCIBLE,
+    INF_MISSILES,
+    INF_BLUE_LASERS,
+    INF_BOOSTS,
+    INF_MAGNETS,
+    INF_DISRUPTORS,
+    INF_BOMBS,
+    INF_HEAT_BOMBS,
+    INF_ICE_BOMBS,
+    INF_CONTROLLERS,
+    INACTIVE_MOVERS;
+}
