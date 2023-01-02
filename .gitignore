@@ -4,3 +4,4 @@ asset
 .project
 .settings
 !laser-tank-extended-edition/modules/*.module.jar
+!laser-tank-extended-edition/src/com/puttysoftware/lasertank/asset
