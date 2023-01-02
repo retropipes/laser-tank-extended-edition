@@ -58,8 +58,8 @@ public final class Cheats {
 
     // Methods
     private void loadCheatCache() {
-	final ResourceBundle instant = ResourceBundle.getBundle("asset.locale.cheats_instant");
-	final ResourceBundle toggle = ResourceBundle.getBundle("asset.locale.cheats_toggle");
+	final ResourceBundle instant = ResourceBundle.getBundle("locale.cheats_instant");
+	final ResourceBundle toggle = ResourceBundle.getBundle("locale.cheats_toggle");
 	final int iLimit = Cheat.instantCount();
 	for (int i = 0; i < iLimit; i++) {
 	    final String code = instant.getString(Integer.toString(i));

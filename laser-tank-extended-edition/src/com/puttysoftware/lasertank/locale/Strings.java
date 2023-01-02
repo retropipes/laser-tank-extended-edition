@@ -75,7 +75,7 @@ public class Strings {
     }
 
     private static ResourceBundle loadFile(final StringFile file) {
-	return ResourceBundle.getBundle("asset.locale." + Strings.LANGUAGE_NAME + StringFileNames.getFileName(file));
+	return ResourceBundle.getBundle("locale." + Strings.LANGUAGE_NAME + StringFileNames.getFileName(file));
     }
 
     public static String loadCommon(final CommonString str, final Object... values) {
