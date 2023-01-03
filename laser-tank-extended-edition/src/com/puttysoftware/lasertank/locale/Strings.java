@@ -155,6 +155,14 @@ public class Strings {
 	return string;
     }
 
+    public static String loadOverride(final OverrideString str, final Object... values) {
+	String string = Strings.loadFile(StringFile.OVERRIDES).getString(Integer.toString(str.ordinal()));
+	for (int v = 0; v < values.length; v++) {
+	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
+	}
+	return string;
+    }
+
     public static String loadSettings(final SettingsString str, final Object... values) {
 	String string = Strings.loadFile(StringFile.SETTINGS).getString(Integer.toString(str.ordinal()));
 	for (int v = 0; v < values.length; v++) {

@@ -1,15 +1,16 @@
 package com.puttysoftware.lasertank.locale;
 
 enum StringFile {
-    DIFFICULTY,
-    ERRORS,
-    SETTINGS,
-    GENERIC,
-    OBJECTS,
-    MENUS,
     DIALOGS,
-    MESSAGES,
+    DIFFICULTY,
     EDITOR,
+    ERRORS,
     GAME,
+    GENERIC,
+    MENUS,
+    MESSAGES,
+    OBJECTS,
+    OVERRIDES,
+    SETTINGS,
     TIME;
 }

@@ -2,8 +2,8 @@ package com.puttysoftware.lasertank.locale;
 
 class StringFileNames {
     // Static fields
-    private static String[] LIST = new String[] { "difficulty", "errors", "settings", "generic", "objects", "menus",
-	    "dialogs", "messages", "editor", "game", "time" };
+    private static String[] LIST = new String[] { "dialogs", "difficulty", "editor", "errors", "game", "generic",
+	    "menus", "messages", "objects", "overrides", "settings", "time" };
 
     // Private constructor
     private StringFileNames() {
