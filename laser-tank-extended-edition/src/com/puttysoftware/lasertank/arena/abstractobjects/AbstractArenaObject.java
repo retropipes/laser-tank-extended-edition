@@ -16,6 +16,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
+import com.puttysoftware.lasertank.datatype.GameObjectData;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.helper.GameTypeHelper;
@@ -118,13 +119,8 @@ public abstract class AbstractArenaObject {
 	this.imageEnabled = true;
     }
 
-    /**
-     *
-     * @param actionType
-     * @return
-     */
-    public boolean acceptTick(final GameAction actionType) {
-	return true;
+    public final boolean acceptTick(final GameAction actionType) {
+	return GameObjectData.acceptTick(getStringBaseID(), actionType);
     }
 
     public final void activateTimer(final int ticks) {

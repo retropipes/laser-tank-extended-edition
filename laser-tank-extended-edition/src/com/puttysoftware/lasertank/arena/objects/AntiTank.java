@@ -11,9 +11,7 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
-import com.puttysoftware.lasertank.helper.GameActionHelper;
 import com.puttysoftware.lasertank.index.Direction;
-import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -32,11 +30,6 @@ public class AntiTank extends AbstractMovableObject {
 	this.canShoot = true;
 	this.autoMove = false;
 	this.addType(GameType.ANTI);
-    }
-
-    @Override
-    public boolean acceptTick(final GameAction actionType) {
-	return GameActionHelper.isMove(actionType);
     }
 
     @Override
