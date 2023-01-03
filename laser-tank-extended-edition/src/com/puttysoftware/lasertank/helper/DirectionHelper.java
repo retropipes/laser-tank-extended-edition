@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.helper;
 
 import com.puttysoftware.lasertank.index.Direction;
-import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
 public class DirectionHelper {
     public static String toStringValue(final Direction thing) {
@@ -19,10 +18,6 @@ public class DirectionHelper {
 
     public static Direction fromStringValue(final String value) {
 	return Direction.values()[Integer.parseInt(value)];
-    }
-
-    public static String toImageSuffix(final Direction thing) {
-	return GlobalStrings.loadDirection(thing.ordinal());
     }
 
     public static Direction invert(final Direction thing) {

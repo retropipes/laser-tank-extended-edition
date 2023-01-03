@@ -2,7 +2,7 @@ package com.puttysoftware.lasertank.locale.global;
 
 class GlobalFileNames {
     // Static fields
-    private static String[] LIST = new String[] { "languages", "notranslate", "direction_suffix", "index_suffix" };
+    private static String[] LIST = new String[] { "languages", "notranslate", "index_suffix" };
 
     // Private constructor
     private GlobalFileNames() {

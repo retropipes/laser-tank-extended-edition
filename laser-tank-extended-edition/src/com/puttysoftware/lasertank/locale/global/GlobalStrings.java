@@ -18,10 +18,6 @@ public class GlobalStrings {
 	return GlobalStrings.loadFile(GlobalFile.NOT_TRANSLATED).getString(Integer.toString(str.ordinal()));
     }
 
-    public static String loadDirection(final int dir) {
-	return GlobalStrings.loadFile(GlobalFile.DIRECTIONS).getString(Integer.toString(dir));
-    }
-
     public static String loadIndex(final int index) {
 	return GlobalStrings.loadFile(GlobalFile.LANGUAGES).getString(Integer.toString(index));
     }
