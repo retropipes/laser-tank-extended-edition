@@ -39,11 +39,6 @@ public class Water extends AbstractGround {
     }
 
     @Override
-    public int getBlockHeight() {
-	return -1;
-    }
-
-    @Override
     public final GameObjectID getStringBaseID() {
 	return GameObjectID.WATER;
     }

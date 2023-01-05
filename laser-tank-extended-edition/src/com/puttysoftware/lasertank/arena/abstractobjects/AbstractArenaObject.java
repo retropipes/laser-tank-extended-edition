@@ -36,25 +36,9 @@ import com.puttysoftware.lasertank.utility.ObjectImageResolver;
 public abstract class AbstractArenaObject {
     static final int DEFAULT_CUSTOM_VALUE = 0;
     protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
-    private static final int PLASTIC_MINIMUM_REACTION_FORCE = 0;
-    private static final int DEFAULT_MINIMUM_REACTION_FORCE = 1;
-    private static final int METAL_MINIMUM_REACTION_FORCE = 2;
 
     public static final int getImbuedRangeForce(final Material materialID) {
-	if (materialID == Material.PLASTIC) {
-	    return AbstractArenaObject.PLASTIC_MINIMUM_REACTION_FORCE;
-	} else if (materialID == Material.METALLIC) {
-	    return AbstractArenaObject.METAL_MINIMUM_REACTION_FORCE;
-	} else {
-	    return AbstractArenaObject.DEFAULT_MINIMUM_REACTION_FORCE;
-	}
-    }
-
-    public static boolean hitReflectiveSide(final Direction dir) {
-	Direction trigger1, trigger2;
-	trigger1 = DirectionHelper.previous(dir);
-	trigger2 = DirectionHelper.next(dir);
-	return dir == trigger1 || dir == trigger2;
+	return GameObjectData.getImbuedRangeForce(materialID);
     }
 
     // Properties
@@ -81,7 +65,7 @@ public abstract class AbstractArenaObject {
 	this.timerValue = 0;
 	this.timerActive = false;
 	this.frameNumber = 0;
-	this.direction = Direction.NONE;
+	this.direction = this.getInitialDirection();
 	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
@@ -97,7 +81,7 @@ public abstract class AbstractArenaObject {
 	this.timerValue = 0;
 	this.timerActive = false;
 	this.frameNumber = 0;
-	this.direction = Direction.NONE;
+	this.direction = this.getInitialDirection();
 	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
@@ -112,7 +96,7 @@ public abstract class AbstractArenaObject {
 	this.timerValue = 0;
 	this.timerActive = false;
 	this.frameNumber = 0;
-	this.direction = Direction.NONE;
+	this.direction = this.getInitialDirection();
 	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
@@ -264,8 +248,8 @@ public abstract class AbstractArenaObject {
 	return true;
     }
 
-    public int getBlockHeight() {
-	return 1;
+    public final int getBlockHeight() {
+	return GameObjectData.getBlockHeight(this.getStringBaseID());
     }
 
     public final GameColor getColor() {
@@ -310,6 +294,10 @@ public abstract class AbstractArenaObject {
 	}
     }
 
+    private final Direction getInitialDirection() {
+	return GameObjectData.getValidDirections(this.getStringBaseID())[0];
+    }
+
     abstract public int getLayer();
 
     public final Material getMaterial() {
@@ -317,13 +305,7 @@ public abstract class AbstractArenaObject {
     }
 
     public final int getMinimumReactionForce() {
-	if (this.material == Material.PLASTIC) {
-	    return AbstractArenaObject.PLASTIC_MINIMUM_REACTION_FORCE;
-	} else if (this.material == Material.METALLIC) {
-	    return AbstractArenaObject.METAL_MINIMUM_REACTION_FORCE;
-	} else {
-	    return AbstractArenaObject.DEFAULT_MINIMUM_REACTION_FORCE;
-	}
+	return GameObjectData.getMinimumReactionForce(this.material);
     }
 
     public final AbstractArenaObject getPreviousState() {
@@ -361,6 +343,13 @@ public abstract class AbstractArenaObject {
 
     public final boolean hasPreviousState() {
 	return this.previousState != null;
+    }
+
+    public final boolean hitReflectiveSide(final Direction dir) {
+	if (!GameObjectData.isReflective(this.getStringBaseID(), dir)) {
+	    return false;
+	}
+	return GameObjectData.hitReflectiveSide(dir);
     }
 
     private final boolean isAnimated() {
@@ -408,6 +397,7 @@ public abstract class AbstractArenaObject {
      */
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
+	final Direction dir = DirectionHelper.resolveRelative(dirX, dirY);
 	if (this.isSolid()) {
 	    if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
 		try {
@@ -441,6 +431,8 @@ public abstract class AbstractArenaObject {
 		}
 	    }
 	    return Direction.NONE;
+	} else if (GameObjectData.isReflective(this.getStringBaseID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
+	    return this.direction;
 	} else {
 	    return DirectionHelper.resolveRelative(dirX, dirY);
 	}
@@ -458,7 +450,41 @@ public abstract class AbstractArenaObject {
      */
     public Direction laserExitedAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType) {
-	return DirectionHelper.resolveRelative(dirX, dirY);
+	final Direction dir = DirectionHelper.resolveRelative(dirX, dirY);
+	if (GameObjectData.isReflective(this.getStringBaseID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
+	    // Finish reflecting laser
+	    Sounds.play(Sound.REFLECT);
+	    final Direction oldlaser = DirectionHelper.resolveRelativeInvert(locX, locY);
+	    final Direction currdir = this.getDirection();
+	    if (oldlaser == Direction.NORTH) {
+		if (currdir == Direction.NORTHWEST) {
+		    return Direction.WEST;
+		} else if (currdir == Direction.NORTHEAST) {
+		    return Direction.EAST;
+		}
+	    } else if (oldlaser == Direction.SOUTH) {
+		if (currdir == Direction.SOUTHWEST) {
+		    return Direction.WEST;
+		} else if (currdir == Direction.SOUTHEAST) {
+		    return Direction.EAST;
+		}
+	    } else if (oldlaser == Direction.WEST) {
+		if (currdir == Direction.SOUTHWEST) {
+		    return Direction.SOUTH;
+		} else if (currdir == Direction.NORTHWEST) {
+		    return Direction.NORTH;
+		}
+	    } else if (oldlaser == Direction.EAST) {
+		if (currdir == Direction.SOUTHEAST) {
+		    return Direction.SOUTH;
+		} else if (currdir == Direction.NORTHEAST) {
+		    return Direction.NORTH;
+		}
+	    }
+	    return Direction.NONE;
+	} else {
+	    return DirectionHelper.resolveRelative(dirX, dirY);
+	}
     }
 
     /**

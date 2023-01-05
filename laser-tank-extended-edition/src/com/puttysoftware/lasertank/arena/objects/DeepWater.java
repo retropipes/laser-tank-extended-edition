@@ -39,11 +39,6 @@ public class DeepWater extends AbstractGround {
     }
 
     @Override
-    public int getBlockHeight() {
-	return -2;
-    }
-
-    @Override
     public final GameObjectID getStringBaseID() {
 	return GameObjectID.DEEP_WATER;
     }

@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -40,48 +39,13 @@ public class MetallicMirror extends AbstractMovableObject {
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
 	final Direction dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
-	if (AbstractArenaObject.hitReflectiveSide(dir)) {
+	if (this.hitReflectiveSide(dir)) {
 	    // Reflect laser
 	    return this.getDirection();
 	} else {
 	    // Move mirror
 	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
-    }
-
-    @Override
-    public Direction laserExitedAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType) {
-	// Finish reflecting laser
-	Sounds.play(Sound.REFLECT);
-	final Direction oldlaser = DirectionHelper.resolveRelativeInvert(locX, locY);
-	final Direction currdir = this.getDirection();
-	if (oldlaser == Direction.NORTH) {
-	    if (currdir == Direction.NORTHWEST) {
-		return Direction.WEST;
-	    } else if (currdir == Direction.NORTHEAST) {
-		return Direction.EAST;
-	    }
-	} else if (oldlaser == Direction.SOUTH) {
-	    if (currdir == Direction.SOUTHWEST) {
-		return Direction.WEST;
-	    } else if (currdir == Direction.SOUTHEAST) {
-		return Direction.EAST;
-	    }
-	} else if (oldlaser == Direction.WEST) {
-	    if (currdir == Direction.SOUTHWEST) {
-		return Direction.SOUTH;
-	    } else if (currdir == Direction.NORTHWEST) {
-		return Direction.NORTH;
-	    }
-	} else if (oldlaser == Direction.EAST) {
-	    if (currdir == Direction.SOUTHEAST) {
-		return Direction.SOUTH;
-	    } else if (currdir == Direction.NORTHEAST) {
-		return Direction.NORTH;
-	    }
-	}
-	return Direction.NONE;
     }
 
     @Override

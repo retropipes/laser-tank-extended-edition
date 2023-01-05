@@ -21,11 +21,6 @@ public abstract class AbstractGround extends AbstractArenaObject {
     }
 
     @Override
-    public int getBlockHeight() {
-	return 0;
-    }
-
-    @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }

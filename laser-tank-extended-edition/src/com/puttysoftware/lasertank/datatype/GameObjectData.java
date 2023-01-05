@@ -20,6 +20,16 @@ public class GameObjectData {
 	    return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
 	}
     }
+    
+    public static final int getMinimumReactionForce(final Material materialID) {
+	if (materialID == Material.PLASTIC) {
+	    return GameObjectData.PLASTIC_MINIMUM_REACTION_FORCE;
+	} else if (materialID == Material.METALLIC) {
+	    return GameObjectData.METAL_MINIMUM_REACTION_FORCE;
+	} else {
+	    return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
+	}
+    }
 
     public static boolean hitReflectiveSide(final Direction dir) {
 	Direction trigger1, trigger2;
