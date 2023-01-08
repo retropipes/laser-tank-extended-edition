@@ -15,7 +15,6 @@ public class LaserTankGraphics {
 	private static final long serialVersionUID = 2667335570076496956L;
 
 	public LTGLoadException() {
-	    super();
 	}
     }
 
@@ -27,75 +26,74 @@ public class LaserTankGraphics {
     private static final int INFO_LEN = 245;
 
     public static LaserTankGraphics loadFromFile(final File file) throws IOException {
-	try (FileInputStream fs = new FileInputStream(file)) {
+	try (var fs = new FileInputStream(file)) {
 	    return LaserTankGraphics.loadFromStream(fs);
 	}
     }
 
     public static LaserTankGraphics loadFromResource(final String resource) throws IOException {
-	try (InputStream fs = LaserTankGraphics.class.getResourceAsStream(resource)) {
+	try (var fs = LaserTankGraphics.class.getResourceAsStream(resource)) {
 	    return LaserTankGraphics.loadFromStream(fs);
 	}
     }
 
     // Internal stuff
     private static LaserTankGraphics loadFromStream(final InputStream fs) throws IOException {
-	int bytesRead = 0;
 	// Load file ID
-	final byte[] fileIdData = new byte[LaserTankGraphics.FILE_ID_LEN];
+	final var fileIdData = new byte[LaserTankGraphics.FILE_ID_LEN];
 	fs.read(fileIdData);
-	final String loadFileId = DataIOUtilities.decodeWindowsStringData(fileIdData);
+	final var loadFileId = DataIOUtilities.decodeWindowsStringData(fileIdData);
 	// Check for a valid ID
 	if (!LaserTankGraphics.FILE_ID.equals(loadFileId)) {
 	    throw new LTGLoadException();
 	}
 	// Load name
-	final byte[] nameData = new byte[LaserTankGraphics.NAME_LEN];
-	bytesRead = fs.read(nameData);
+	final var nameData = new byte[LaserTankGraphics.NAME_LEN];
+	var bytesRead = fs.read(nameData);
 	if (bytesRead < LaserTankGraphics.NAME_LEN) {
 	    throw new LTGLoadException();
 	}
-	final String loadName = DataIOUtilities.decodeWindowsStringData(nameData);
+	final var loadName = DataIOUtilities.decodeWindowsStringData(nameData);
 	// Load author
-	final byte[] authorData = new byte[LaserTankGraphics.AUTHOR_LEN];
+	final var authorData = new byte[LaserTankGraphics.AUTHOR_LEN];
 	bytesRead = fs.read(authorData);
 	if (bytesRead < LaserTankGraphics.AUTHOR_LEN) {
 	    throw new LTGLoadException();
 	}
-	final String loadAuthor = DataIOUtilities.decodeWindowsStringData(authorData);
+	final var loadAuthor = DataIOUtilities.decodeWindowsStringData(authorData);
 	// Load info
-	final byte[] infoData = new byte[LaserTankGraphics.INFO_LEN];
+	final var infoData = new byte[LaserTankGraphics.INFO_LEN];
 	bytesRead = fs.read(infoData);
 	if (bytesRead < LaserTankGraphics.INFO_LEN) {
 	    throw new LTGLoadException();
 	}
-	final String loadInfo = DataIOUtilities.decodeWindowsStringData(infoData);
+	final var loadInfo = DataIOUtilities.decodeWindowsStringData(infoData);
 	// Load game image
-	final BufferedImageIcon loadGame = ImageBMP.readFromStream(fs).convertToGameImage();
+	final var loadGame = ImageBMP.readFromStream(fs).convertToGameImage();
 	// Load mask image
-	final BufferedImageIcon loadMask = ImageBMP.readFromStream(fs).convertToGameImage();
+	final var loadMask = ImageBMP.readFromStream(fs).convertToGameImage();
 	// Merge game and mask images
-	final BufferedImageIcon mergeGraphics = LaserTankGraphics.mergeGameAndMask(loadGame, loadMask);
+	final var mergeGraphics = LaserTankGraphics.mergeGameAndMask(loadGame, loadMask);
 	// Return final result
 	return new LaserTankGraphics(loadName, loadAuthor, loadInfo, mergeGraphics);
     }
 
     private static BufferedImageIcon mergeGameAndMask(final BufferedImageIcon game, final BufferedImageIcon mask) {
-	final Color MASK_TRANSPARENT = Color.black;
-	final int GAME_TRANSPARENT = new Color(200, 100, 100, 0).getRGB();
+	final var MASK_TRANSPARENT = Color.black;
+	final var GAME_TRANSPARENT = new Color(200, 100, 100, 0).getRGB();
 	if (game != null && mask != null) {
-	    final int gWidth = game.getWidth();
-	    final int mWidth = mask.getWidth();
-	    final int gHeight = game.getHeight();
-	    final int mHeight = mask.getHeight();
+	    final var gWidth = game.getWidth();
+	    final var mWidth = mask.getWidth();
+	    final var gHeight = game.getHeight();
+	    final var mHeight = mask.getHeight();
 	    if (gWidth == mWidth && gHeight == mHeight) {
-		final int width = gWidth;
-		final int height = gHeight;
-		final BufferedImageIcon result = new BufferedImageIcon(game);
-		for (int x = 0; x < width; x++) {
-		    for (int y = 0; y < height; y++) {
-			final int pixel = mask.getRGB(x, y);
-			final Color c = new Color(pixel);
+		final var width = gWidth;
+		final var height = gHeight;
+		final var result = new BufferedImageIcon(game);
+		for (var x = 0; x < width; x++) {
+		    for (var y = 0; y < height; y++) {
+			final var pixel = mask.getRGB(x, y);
+			final var c = new Color(pixel);
 			if (c.equals(MASK_TRANSPARENT)) {
 			    result.setRGB(x, y, GAME_TRANSPARENT);
 			}

@@ -16,7 +16,6 @@ import javax.swing.WindowConstants;
 
 import com.puttysoftware.diane.fileio.utility.ZipUtilities;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
@@ -52,16 +51,16 @@ public class LoadTask extends Thread {
     @Override
     public void run() {
 	this.loadFrame.setVisible(true);
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (this.isSavedGame) {
 	    app.getGameManager().setSavedGameFlag(true);
 	} else {
 	    app.getGameManager().setSavedGameFlag(false);
 	}
 	try {
-	    final File arenaFile = new File(this.filename);
-	    final File tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
-	    Arena gameArena = ArenaManager.createArena();
+	    final var arenaFile = new File(this.filename);
+	    final var tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
+	    var gameArena = ArenaManager.createArena();
 	    if (this.arenaProtected) {
 		// Attempt to unprotect the file
 		ProtectionWrapper.unprotect(arenaFile, tempLock);
@@ -93,7 +92,7 @@ public class LoadTask extends Thread {
 		throw new InvalidArenaException(Strings.loadError(ErrorString.UNKNOWN_OBJECT));
 	    }
 	    app.getArenaManager().setArena(gameArena);
-	    final boolean playerExists = gameArena.doesPlayerExist(0);
+	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
 		app.getGameManager().getPlayerManager().resetPlayerLocation();
 	    }
@@ -101,8 +100,8 @@ public class LoadTask extends Thread {
 		gameArena.save();
 	    }
 	    // Final cleanup
-	    final String lum = app.getArenaManager().getLastUsedArena();
-	    final String lug = app.getArenaManager().getLastUsedGame();
+	    final var lum = app.getArenaManager().getLastUsedArena();
+	    final var lug = app.getArenaManager().getLastUsedGame();
 	    app.getArenaManager().clearLastUsedFilenames();
 	    if (this.isSavedGame) {
 		app.getArenaManager().setLastUsedGame(lug);

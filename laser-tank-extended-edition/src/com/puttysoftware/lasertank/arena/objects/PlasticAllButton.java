@@ -17,7 +17,7 @@ public class PlasticAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.PLASTIC_ALL_BUTTON;
     }
 }

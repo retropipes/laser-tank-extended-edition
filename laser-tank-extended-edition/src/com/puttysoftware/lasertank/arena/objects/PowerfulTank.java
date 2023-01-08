@@ -26,7 +26,7 @@ public class PowerfulTank extends AbstractCharacter {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.POWER_TANK;
     }
 

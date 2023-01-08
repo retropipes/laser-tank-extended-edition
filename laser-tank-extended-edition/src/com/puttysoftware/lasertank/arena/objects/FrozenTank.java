@@ -20,7 +20,7 @@ public class FrozenTank extends AbstractCharacter {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FROZEN_TANK;
     }
 }

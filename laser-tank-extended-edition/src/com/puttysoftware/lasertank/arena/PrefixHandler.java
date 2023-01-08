@@ -20,9 +20,8 @@ public class PrefixHandler implements DataIOPrefixHandler {
     private static boolean checkFormatVersion(final GameFormat version) {
 	if (version.ordinal() > PrefixHandler.FORMAT_VERSION) {
 	    return false;
-	} else {
-	    return true;
 	}
+	return true;
     }
 
     private static GameFormat readFormatVersion(final DataIOReader reader) throws IOException {
@@ -35,8 +34,8 @@ public class PrefixHandler implements DataIOPrefixHandler {
 
     @Override
     public GameFormat readPrefix(final DataIOReader reader) throws IOException {
-	final GameFormat formatVer = PrefixHandler.readFormatVersion(reader);
-	final boolean res = PrefixHandler.checkFormatVersion(formatVer);
+	final var formatVer = PrefixHandler.readFormatVersion(reader);
+	final var res = PrefixHandler.checkFormatVersion(formatVer);
 	if (!res) {
 	    throw new IOException(Strings.loadError(ErrorString.UNKNOWN_ARENA_FORMAT));
 	}

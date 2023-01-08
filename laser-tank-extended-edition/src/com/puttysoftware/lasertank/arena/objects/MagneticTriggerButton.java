@@ -17,7 +17,7 @@ public class MagneticTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_TRIGGER_BUTTON;
     }
 }

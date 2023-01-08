@@ -1,7 +1,6 @@
 package com.puttysoftware.lasertank.cheat;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
 class CheatList extends ArrayList<Cheat> {
     private static final long serialVersionUID = 2216922516012569257L;
@@ -10,10 +9,8 @@ class CheatList extends ArrayList<Cheat> {
 	if (code == null) {
 	    return -1;
 	}
-	final Iterator<Cheat> it = this.iterator();
-	int counter = -1;
-	while (it.hasNext()) {
-	    final Cheat c = it.next();
+	var counter = -1;
+	for (Cheat c : this) {
 	    counter += 1;
 	    if (c.getCode().equals(code)) {
 		return counter;

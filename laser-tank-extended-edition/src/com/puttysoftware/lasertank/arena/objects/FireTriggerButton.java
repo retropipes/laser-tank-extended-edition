@@ -17,7 +17,7 @@ public class FireTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FIRE_TRIGGER_BUTTON;
     }
 }

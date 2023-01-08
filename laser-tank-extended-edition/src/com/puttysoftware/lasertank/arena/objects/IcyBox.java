@@ -37,7 +37,7 @@ public class IcyBox extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICY_BOX;
     }
 

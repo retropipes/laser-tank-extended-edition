@@ -201,25 +201,23 @@ public abstract class Arena {
     protected abstract boolean removeActiveLevel();
 
     public final boolean removeLevel(final int num) {
-	final int saveLevel = this.getActiveLevelNumber();
+	final var saveLevel = this.getActiveLevelNumber();
 	this.switchLevel(num);
-	final boolean success = this.removeActiveLevel();
+	final var success = this.removeActiveLevel();
 	if (success) {
 	    if (saveLevel == 0) {
 		// Was at first level
 		this.switchLevel(0);
+	    } else // Was at level other than first
+	    if (saveLevel > num) {
+		// Saved level was shifted down
+		this.switchLevel(saveLevel - 1);
+	    } else if (saveLevel < num) {
+		// Saved level was NOT shifted down
+		this.switchLevel(saveLevel);
 	    } else {
-		// Was at level other than first
-		if (saveLevel > num) {
-		    // Saved level was shifted down
-		    this.switchLevel(saveLevel - 1);
-		} else if (saveLevel < num) {
-		    // Saved level was NOT shifted down
-		    this.switchLevel(saveLevel);
-		} else {
-		    // Saved level was deleted
-		    this.switchLevel(0);
-		}
+		// Saved level was deleted
+		this.switchLevel(0);
 	    }
 	} else {
 	    this.switchLevel(saveLevel);
@@ -280,9 +278,9 @@ public abstract class Arena {
     public abstract void switchLevelOffset(int level);
 
     public final boolean switchToNextLevelWithDifficulty(final int[] difficulty) {
-	boolean keepGoing = true;
+	var keepGoing = true;
 	while (keepGoing) {
-	    final int diff = this.getDifficulty();
+	    final var diff = this.getDifficulty();
 	    for (final int element : difficulty) {
 		if (diff - 1 == element) {
 		    keepGoing = false;
@@ -301,9 +299,9 @@ public abstract class Arena {
     }
 
     public final boolean switchToPreviousLevelWithDifficulty(final int[] difficulty) {
-	boolean keepGoing = true;
+	var keepGoing = true;
 	while (keepGoing) {
-	    final int diff = this.getDifficulty();
+	    final var diff = this.getDifficulty();
 	    for (final int element : difficulty) {
 		if (diff - 1 == element) {
 		    keepGoing = false;

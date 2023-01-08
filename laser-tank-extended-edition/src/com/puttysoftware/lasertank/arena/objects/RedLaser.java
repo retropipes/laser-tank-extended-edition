@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class RedLaser extends AbstractTransientObject {
     // Constructors
     public RedLaser() {
-	super();
     }
 
     @Override
@@ -20,7 +19,7 @@ public class RedLaser extends AbstractTransientObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.RED_LASER;
     }
 }

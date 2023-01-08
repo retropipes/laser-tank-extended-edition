@@ -36,11 +36,10 @@ public final class Application {
 		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
 		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX
 		    + Strings.loadCommon(CommonString.BETA_SHORT) + Application.VERSION_BETA;
-	} else {
-	    return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + Application.VERSION_MAJOR
-		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
-		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX;
 	}
+	return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + Application.VERSION_MAJOR
+		+ Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
+		+ Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX;
     }
 
     private static String getVersionString() {
@@ -49,11 +48,10 @@ public final class Application {
 		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
 		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX
 		    + Strings.loadMessage(MessageString.BETA) + Application.VERSION_BETA;
-	} else {
-	    return Strings.loadCommon(CommonString.EMPTY) + Application.VERSION_MAJOR
-		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
-		    + Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX;
 	}
+	return Strings.loadCommon(CommonString.EMPTY) + Application.VERSION_MAJOR
+		+ Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_MINOR
+		+ Strings.loadCommon(CommonString.NOTL_PERIOD) + Application.VERSION_BUGFIX;
     }
 
     private static boolean isBetaModeEnabled() {
@@ -61,7 +59,7 @@ public final class Application {
     }
 
     // Fields
-    private MainWindow masterFrame;
+    private final MainWindow masterFrame;
     private AboutDialog about;
     private Game gameMgr;
     private ArenaManager arenaMgr;

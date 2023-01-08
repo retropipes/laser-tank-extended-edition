@@ -9,7 +9,6 @@ import java.io.IOException;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.index.Direction;
@@ -39,7 +38,7 @@ public abstract class AbstractMovableObject extends AbstractArenaObject {
 
     @Override
     public AbstractArenaObject clone() {
-	final AbstractMovableObject copy = (AbstractMovableObject) super.clone();
+	final var copy = (AbstractMovableObject) super.clone();
 	if (this.getSavedObject() != null) {
 	    copy.setSavedObject(this.getSavedObject().clone());
 	}
@@ -69,49 +68,46 @@ public abstract class AbstractMovableObject extends AbstractArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Application app = LaserTankEE.getApplication();
-	if (this.canMove()) {
-	    if (forceUnits >= this.getMinimumReactionForce()) {
-		try {
-		    final AbstractArenaObject mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY,
-			    locZ, this.getLayer());
-		    final AbstractArenaObject mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY,
-			    locZ, this.getLayer());
-		    if (this.getMaterial() == Material.MAGNETIC) {
-			if (laserType == LaserType.BLUE && mof != null
-				&& (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
-			    app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-			    this.playSoundHook();
-			} else if (mor != null && (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
-			    app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-			    this.playSoundHook();
-			} else {
-			    // Object doesn't react to this type of laser
-			    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-			}
+	final var app = LaserTankEE.getApplication();
+	if (!this.canMove()) {
+	    // Object is not movable
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
+	if (forceUnits >= this.getMinimumReactionForce()) {
+	    try {
+		final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ,
+			this.getLayer());
+		final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
+			this.getLayer());
+		if (this.getMaterial() == Material.MAGNETIC) {
+		    if (laserType == LaserType.BLUE && mof != null
+			    && (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
+			app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+		    } else if (mor != null && (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
+			app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 		    } else {
-			if (laserType == LaserType.BLUE && mor != null
-				&& (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
-			    app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-			    this.playSoundHook();
-			} else if (mof != null && (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
-			    app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-			    this.playSoundHook();
-			} else {
-			    // Object doesn't react to this type of laser
-			    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-			}
+			// Object doesn't react to this type of laser
+			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 		    }
-		} catch (final ArrayIndexOutOfBoundsException aioobe) {
-		    // Object can't go that way
-		    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+		    this.playSoundHook();
+		} else {
+		    if (laserType == LaserType.BLUE && mor != null
+			    && (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
+			app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+		    } else if (mof != null && (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
+			app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+		    } else {
+			// Object doesn't react to this type of laser
+			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+		    }
+		    this.playSoundHook();
 		}
-	    } else {
-		// Not enough force
+	    } catch (final ArrayIndexOutOfBoundsException aioobe) {
+		// Object can't go that way
 		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	    }
 	} else {
-	    // Object is not movable
+	    // Not enough force
 	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
 	return Direction.NONE;

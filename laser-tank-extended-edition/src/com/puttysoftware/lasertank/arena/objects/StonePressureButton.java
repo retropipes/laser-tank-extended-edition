@@ -17,7 +17,7 @@ public class StonePressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.STONE_PRESSURE_BUTTON;
     }
 }

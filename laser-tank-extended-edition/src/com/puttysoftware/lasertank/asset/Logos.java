@@ -7,11 +7,7 @@ package com.puttysoftware.lasertank.asset;
 
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -59,31 +55,29 @@ public class Logos {
 
     private static BufferedImageIcon getLogo(final String name, final boolean drawing) {
 	try {
-	    final URL url = Logos.LOAD_CLASS.getResource(Logos.DEFAULT_LOAD_PATH + Strings.getLanguageName() + name);
-	    final BufferedImage image = ImageIO.read(url);
-	    final Graphics2D g2 = image.createGraphics();
+	    final var url = Logos.LOAD_CLASS.getResource(Logos.DEFAULT_LOAD_PATH + Strings.getLanguageName() + name);
+	    final var image = ImageIO.read(url);
+	    final var g2 = image.createGraphics();
 	    g2.setColor(Color.yellow);
-	    final String logoVer = Application.getLogoVersionString();
-	    if (drawing) {
-		if (Logos.LOGO_DRAW_FONT == null) {
-		    try (InputStream is = Logos.class
-			    .getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
-				    + GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
-			final Font baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
-			Logos.LOGO_DRAW_FONT = baseFont.deriveFont((float) 24);
-			g2.setFont(Logos.LOGO_DRAW_FONT);
-			g2.drawString(logoVer,
-				Logos.LOGO_DRAW_HORZ
-					+ (Logos.LOGO_DRAW_HORZ_MAX - logoVer.length()) * Logos.LOGO_DRAW_HORZ_PCO,
-				Logos.LOGO_DRAW_VERT);
-		    } catch (final Exception ex) {
-			Logos.LOGO_DRAW_FONT = Font.decode(Logos.LOGO_DRAW_FONT_FALLBACK);
-			g2.setFont(Logos.LOGO_DRAW_FONT);
-			g2.drawString(logoVer,
-				Logos.LOGO_FALLBACK_DRAW_HORZ + (Logos.LOGO_FALLBACK_DRAW_HORZ_MAX - logoVer.length())
-					* Logos.LOGO_FALLBACK_DRAW_HORZ_PCO,
-				Logos.LOGO_FALLBACK_DRAW_VERT);
-		    }
+	    final var logoVer = Application.getLogoVersionString();
+	    if (drawing && (Logos.LOGO_DRAW_FONT == null)) {
+		try (var is = Logos.class
+			.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
+				+ GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
+		    final var baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
+		    Logos.LOGO_DRAW_FONT = baseFont.deriveFont((float) 24);
+		    g2.setFont(Logos.LOGO_DRAW_FONT);
+		    g2.drawString(logoVer,
+			    Logos.LOGO_DRAW_HORZ
+				    + (Logos.LOGO_DRAW_HORZ_MAX - logoVer.length()) * Logos.LOGO_DRAW_HORZ_PCO,
+			    Logos.LOGO_DRAW_VERT);
+		} catch (final Exception ex) {
+		    Logos.LOGO_DRAW_FONT = Font.decode(Logos.LOGO_DRAW_FONT_FALLBACK);
+		    g2.setFont(Logos.LOGO_DRAW_FONT);
+		    g2.drawString(logoVer,
+			    Logos.LOGO_FALLBACK_DRAW_HORZ + (Logos.LOGO_FALLBACK_DRAW_HORZ_MAX - logoVer.length())
+				    * Logos.LOGO_FALLBACK_DRAW_HORZ_PCO,
+			    Logos.LOGO_FALLBACK_DRAW_VERT);
 		}
 	    }
 	    return new BufferedImageIcon(image);

@@ -37,8 +37,8 @@ class SettingsGUI {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 	    try {
-		final SettingsGUI pm = SettingsGUI.this;
-		final String cmd = e.getActionCommand();
+		final var pm = SettingsGUI.this;
+		final var cmd = e.getActionCommand();
 		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
 		    pm.setSettings();
 		} else if (cmd.equals(Strings.loadDialog(DialogString.CANCEL_BUTTON))) {
@@ -61,7 +61,7 @@ class SettingsGUI {
 
 	@Override
 	public void windowClosing(final WindowEvent e) {
-	    final SettingsGUI pm = SettingsGUI.this;
+	    final var pm = SettingsGUI.this;
 	    pm.hideSettings();
 	}
 
@@ -149,15 +149,15 @@ class SettingsGUI {
     }
 
     private void setUpGUI() {
-	final EventHandler handler = new EventHandler();
+	final var handler = new EventHandler();
 	this.settingsWindow = MainWindow.mainWindow();
 	this.mainSettingsPane = this.settingsWindow.createContent();
-	final Container buttonPane = new Container();
-	final Container settingsPane = new Container();
-	final JButton prefsOK = new JButton(Strings.loadDialog(DialogString.OK_BUTTON));
+	final var buttonPane = new Container();
+	final var settingsPane = new Container();
+	final var prefsOK = new JButton(Strings.loadDialog(DialogString.OK_BUTTON));
 	prefsOK.setDefaultCapable(true);
 	this.settingsWindow.setDefaultButton(prefsOK);
-	final JButton prefsCancel = new JButton(Strings.loadDialog(DialogString.CANCEL_BUTTON));
+	final var prefsCancel = new JButton(Strings.loadDialog(DialogString.CANCEL_BUTTON));
 	prefsCancel.setDefaultCapable(false);
 	this.sounds = new JCheckBox(Strings.loadSettings(SettingsString.ENABLE_SOUNDS), true);
 	this.music = new JCheckBox(Strings.loadSettings(SettingsString.ENABLE_MUSIC), true);

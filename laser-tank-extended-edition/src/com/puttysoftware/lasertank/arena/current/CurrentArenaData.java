@@ -29,13 +29,11 @@ import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.arena.objects.Wall;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
-import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
-import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
@@ -84,7 +82,7 @@ public final class CurrentArenaData extends ArenaData {
 	    }
 
 	    public void push(final CurrentArenaStorage i, final HistoryStatus hww) {
-		final HistoryEntry newEntry = new HistoryEntry(i, hww);
+		final var newEntry = new HistoryEntry(i, hww);
 		this.stack.addFirst(newEntry);
 	    }
 	}
@@ -120,7 +118,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	public void redo() {
 	    if (!this.redoHistory.isEmpty()) {
-		final HistoryEntry entry = this.redoHistory.pop();
+		final var entry = this.redoHistory.pop();
 		this.image = entry.getImage();
 		this.whatWas = entry.getWhatWas();
 	    } else {
@@ -140,7 +138,7 @@ public final class CurrentArenaData extends ArenaData {
 	// Public methods
 	public void undo() {
 	    if (!this.undoHistory.isEmpty()) {
-		final HistoryEntry entry = this.undoHistory.pop();
+		final var entry = this.undoHistory.pop();
 		this.image = entry.getImage();
 		this.whatWas = entry.getWhatWas();
 	    } else {
@@ -166,11 +164,11 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
-		    final AbstractArenaObject obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
+		    final var obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
 		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
 		}
 	    }
@@ -178,13 +176,13 @@ public final class CurrentArenaData extends ArenaData {
 	arena.setStartColumn(0, reader.readInt());
 	arena.setStartRow(0, reader.readInt());
 	arena.setStartFloor(0, reader.readInt());
-	final boolean horzWrap = reader.readBoolean();
+	final var horzWrap = reader.readBoolean();
 	if (horzWrap) {
 	    arena.enableHorizontalWraparound();
 	} else {
 	    arena.disableHorizontalWraparound();
 	}
-	final boolean vertWrap = reader.readBoolean();
+	final var vertWrap = reader.readBoolean();
 	if (vertWrap) {
 	    arena.enableVerticalWraparound();
 	} else {
@@ -208,12 +206,12 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	lt.resize(arena, arenaSizeZ, new Ground());
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
-		    final AbstractArenaObject obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
+		    final var obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
 		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
 		}
 	    }
@@ -221,19 +219,19 @@ public final class CurrentArenaData extends ArenaData {
 	arena.setStartColumn(0, reader.readInt());
 	arena.setStartRow(0, reader.readInt());
 	arena.setStartFloor(0, reader.readInt());
-	final boolean horzWrap = reader.readBoolean();
+	final var horzWrap = reader.readBoolean();
 	if (horzWrap) {
 	    arena.enableHorizontalWraparound();
 	} else {
 	    arena.disableHorizontalWraparound();
 	}
-	final boolean vertWrap = reader.readBoolean();
+	final var vertWrap = reader.readBoolean();
 	if (vertWrap) {
 	    arena.enableVerticalWraparound();
 	} else {
 	    arena.disableVerticalWraparound();
 	}
-	final boolean thirdWrap = reader.readBoolean();
+	final var thirdWrap = reader.readBoolean();
 	if (thirdWrap) {
 	    arena.enableThirdDimensionWraparound();
 	} else {
@@ -256,12 +254,12 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	lt.resize(arena, arenaSizeZ, new Ground());
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
-		    final AbstractArenaObject obj = ArenaObjectList.readArenaObjectG3(reader, formatVersion);
+		    final var obj = ArenaObjectList.readArenaObjectG3(reader, formatVersion);
 		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
 		}
 	    }
@@ -269,19 +267,19 @@ public final class CurrentArenaData extends ArenaData {
 	arena.setStartColumn(0, reader.readInt());
 	arena.setStartRow(0, reader.readInt());
 	arena.setStartFloor(0, reader.readInt());
-	final boolean horzWrap = reader.readBoolean();
+	final var horzWrap = reader.readBoolean();
 	if (horzWrap) {
 	    arena.enableHorizontalWraparound();
 	} else {
 	    arena.disableHorizontalWraparound();
 	}
-	final boolean vertWrap = reader.readBoolean();
+	final var vertWrap = reader.readBoolean();
 	if (vertWrap) {
 	    arena.enableVerticalWraparound();
 	} else {
 	    arena.disableVerticalWraparound();
 	}
-	final boolean thirdWrap = reader.readBoolean();
+	final var thirdWrap = reader.readBoolean();
 	if (thirdWrap) {
 	    arena.enableThirdDimensionWraparound();
 	} else {
@@ -304,12 +302,12 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	lt.resize(arena, arenaSizeZ, new Ground());
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
-		    final AbstractArenaObject obj = ArenaObjectList.readArenaObjectG4(reader, formatVersion);
+		    final var obj = ArenaObjectList.readArenaObjectG4(reader, formatVersion);
 		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
 		}
 	    }
@@ -317,19 +315,19 @@ public final class CurrentArenaData extends ArenaData {
 	arena.setStartColumn(0, reader.readInt());
 	arena.setStartRow(0, reader.readInt());
 	arena.setStartFloor(0, reader.readInt());
-	final boolean horzWrap = reader.readBoolean();
+	final var horzWrap = reader.readBoolean();
 	if (horzWrap) {
 	    arena.enableHorizontalWraparound();
 	} else {
 	    arena.disableHorizontalWraparound();
 	}
-	final boolean vertWrap = reader.readBoolean();
+	final var vertWrap = reader.readBoolean();
 	if (vertWrap) {
 	    arena.enableVerticalWraparound();
 	} else {
 	    arena.disableVerticalWraparound();
 	}
-	final boolean thirdWrap = reader.readBoolean();
+	final var thirdWrap = reader.readBoolean();
 	if (thirdWrap) {
 	    arena.enableThirdDimensionWraparound();
 	} else {
@@ -352,7 +350,7 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	lt.resize(arena, arenaSizeZ, new Ground());
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
@@ -366,19 +364,19 @@ public final class CurrentArenaData extends ArenaData {
 	arena.setStartColumn(0, reader.readInt());
 	arena.setStartRow(0, reader.readInt());
 	arena.setStartFloor(0, reader.readInt());
-	final boolean horzWrap = reader.readBoolean();
+	final var horzWrap = reader.readBoolean();
 	if (horzWrap) {
 	    arena.enableHorizontalWraparound();
 	} else {
 	    arena.disableHorizontalWraparound();
 	}
-	final boolean vertWrap = reader.readBoolean();
+	final var vertWrap = reader.readBoolean();
 	if (vertWrap) {
 	    arena.enableVerticalWraparound();
 	} else {
 	    arena.disableVerticalWraparound();
 	}
-	final boolean thirdWrap = reader.readBoolean();
+	final var thirdWrap = reader.readBoolean();
 	if (thirdWrap) {
 	    arena.enableThirdDimensionWraparound();
 	} else {
@@ -401,7 +399,7 @@ public final class CurrentArenaData extends ArenaData {
 	arenaSizeX = reader.readInt();
 	arenaSizeY = reader.readInt();
 	arenaSizeZ = reader.readInt();
-	final CurrentArenaData lt = new CurrentArenaData();
+	final var lt = new CurrentArenaData();
 	lt.resize(arena, arenaSizeZ, new Ground());
 	for (x = 0; x < arenaSizeX; x++) {
 	    for (y = 0; y < arenaSizeY; y++) {
@@ -444,10 +442,10 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void checkForEnemies(final Arena arena, final int floorIn, final int enemyLocXIn, final int enemyLocYIn,
 	    final AbstractCharacter enemy) {
-	final AntiTank template = new AntiTank();
-	int enemyLocX = enemyLocXIn;
-	int enemyLocY = enemyLocYIn;
-	int floor = floorIn;
+	final var template = new AntiTank();
+	var enemyLocX = enemyLocXIn;
+	var enemyLocY = enemyLocYIn;
+	var floor = floorIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    enemyLocX = this.normalizeColumn(enemyLocX);
 	}
@@ -457,41 +455,37 @@ public final class CurrentArenaData extends ArenaData {
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    floor = this.normalizeFloor(floor);
 	}
-	final boolean scanE = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.EAST);
+	final var scanE = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.EAST);
 	if (scanE) {
 	    try {
-		final AntiTank at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor,
-			template.getLayer());
+		final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
 		at.kill(this.foundX, this.foundY);
 	    } catch (final ClassCastException cce) {
 		// Ignore
 	    }
 	}
-	final boolean scanW = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.WEST);
+	final var scanW = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.WEST);
 	if (scanW) {
 	    try {
-		final AntiTank at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor,
-			template.getLayer());
+		final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
 		at.kill(this.foundX, this.foundY);
 	    } catch (final ClassCastException cce) {
 		// Ignore
 	    }
 	}
-	final boolean scanS = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.SOUTH);
+	final var scanS = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.SOUTH);
 	if (scanS) {
 	    try {
-		final AntiTank at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor,
-			template.getLayer());
+		final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
 		at.kill(this.foundX, this.foundY);
 	    } catch (final ClassCastException cce) {
 		// Ignore
 	    }
 	}
-	final boolean scanN = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.NORTH);
+	final var scanN = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.NORTH);
 	if (scanN) {
 	    try {
-		final AntiTank at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor,
-			template.getLayer());
+		final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
 		at.kill(this.foundX, this.foundY);
 	    } catch (final ClassCastException cce) {
 		// Ignore
@@ -504,7 +498,8 @@ public final class CurrentArenaData extends ArenaData {
 	    final Direction dir) {
 	if (dir == Direction.EAST) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.EAST);
-	} else if (dir == Direction.WEST) {
+	}
+	if (dir == Direction.WEST) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.WEST);
 	} else if (dir == Direction.SOUTH) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.SOUTH);
@@ -517,9 +512,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public int[] circularScan(final Arena arena, final int xIn, final int yIn, final int zIn, final int r,
 	    final String targetName, final boolean moved) {
-	int xFix = xIn;
-	int yFix = yIn;
-	int zFix = zIn;
+	var xFix = xIn;
+	var yFix = yIn;
+	var zFix = zIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    xFix = this.normalizeColumn(xFix);
 	}
@@ -536,17 +531,13 @@ public final class CurrentArenaData extends ArenaData {
 	    for (v = yFix - r; v <= yFix + r; v++) {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, v, u, zFix, w);
-			final AbstractArenaObject savedObj = obj.getSavedObject();
+			final var obj = this.getCell(arena, v, u, zFix, w);
+			final var savedObj = obj.getSavedObject();
 			String testName;
-			if (obj.isOfType(GameType.CHARACTER)) {
-			    if (moved) {
-				testName = obj.getImageName();
-			    } else {
-				testName = savedObj.getImageName();
-			    }
-			} else {
+			if (!obj.isOfType(GameType.CHARACTER) || moved) {
 			    testName = obj.getImageName();
+			} else {
+			    testName = savedObj.getImageName();
 			}
 			if (testName.equals(targetName)) {
 			    return new int[] { v, u, zFix };
@@ -563,9 +554,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void circularScanRange(final Arena arena, final int xIn, final int yIn, final int zIn, final int r,
 	    final RangeType rangeType, final int forceUnits) {
-	int xFix = xIn;
-	int yFix = yIn;
-	int zFix = zIn;
+	var xFix = xIn;
+	var yFix = yIn;
+	var zFix = zIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    xFix = this.normalizeColumn(xFix);
 	}
@@ -597,10 +588,10 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public boolean circularScanTank(final Arena arena, final int x, final int y, final int z, final int r) {
-	final int[] tankLoc = LaserTankEE.getApplication().getGameManager().getTankLocation();
-	int fX = x;
-	int fY = y;
-	int fZ = z;
+	final var tankLoc = LaserTankEE.getApplication().getGameManager().getTankLocation();
+	var fX = x;
+	var fY = y;
+	var fZ = z;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fX = this.normalizeColumn(fX);
 	}
@@ -610,18 +601,18 @@ public final class CurrentArenaData extends ArenaData {
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    fZ = this.normalizeFloor(fZ);
 	}
-	final int tx = tankLoc[0];
-	final int ty = tankLoc[1];
-	final int tz = tankLoc[2];
+	final var tx = tankLoc[0];
+	final var ty = tankLoc[1];
+	final var tz = tankLoc[2];
 	return fZ == tz && Math.abs(fX - tx) <= r && Math.abs(fY - ty) <= r;
     }
 
     @Override
     public int[] circularScanTunnel(final Arena arena, final int xIn, final int yIn, final int zIn, final int r,
 	    final int tx, final int ty, final AbstractTunnel target, final boolean moved) {
-	int xFix = xIn;
-	int yFix = yIn;
-	int zFix = zIn;
+	var xFix = xIn;
+	var yFix = yIn;
+	var zFix = zIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    xFix = this.normalizeColumn(xFix);
 	}
@@ -640,8 +631,8 @@ public final class CurrentArenaData extends ArenaData {
 		    continue;
 		}
 		if (v >= 0 && v < ArenaData.MIN_ROWS && u >= 0 && u < ArenaData.MIN_COLUMNS) {
-		    final AbstractArenaObject obj = this.getCell(arena, v, u, zFix, w);
-		    final AbstractArenaObject savedObj = obj.getSavedObject();
+		    final var obj = this.getCell(arena, v, u, zFix, w);
+		    final var savedObj = obj.getSavedObject();
 		    AbstractArenaObject test;
 		    if (obj.isOfType(GameType.CHARACTER)) {
 			test = savedObj;
@@ -659,8 +650,8 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void clearDirtyFlags(final int floor) {
-	for (int row = 0; row < this.getRows(); row++) {
-	    for (int col = 0; col < this.getColumns(); col++) {
+	for (var row = 0; row < this.getRows(); row++) {
+	    for (var col = 0; col < this.getColumns(); col++) {
 		this.dirtyData.setCell(false, col, row, floor);
 	    }
 	}
@@ -678,10 +669,10 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void clearVirtualGrid(final Arena arena) {
-	for (int row = 0; row < this.getRows(); row++) {
-	    for (int col = 0; col < this.getColumns(); col++) {
-		for (int floor = 0; floor < this.getFloors(); floor++) {
-		    for (int layer = 0; layer < LayerHelper.VIRTUAL_COUNT; layer++) {
+	for (var row = 0; row < this.getRows(); row++) {
+	    for (var col = 0; col < this.getColumns(); col++) {
+		for (var floor = 0; floor < this.getFloors(); floor++) {
+		    for (var layer = 0; layer < LayerHelper.VIRTUAL_COUNT; layer++) {
 			this.setVirtualCell(arena, new Empty(), row, col, floor, layer);
 		    }
 		}
@@ -719,12 +710,8 @@ public final class CurrentArenaData extends ArenaData {
 			if (this.getCell(arena, y, x, z, w) == null) {
 			    if (w == Layer.LOWER_GROUND.ordinal()) {
 				this.setCell(arena, fill1, y, x, z, w);
-			    } else if (w == Layer.LOWER_OBJECTS.ordinal() && was16) {
-				if (x >= 16 || y >= 16) {
-				    this.setCell(arena, fill2, y, x, z, w);
-				} else {
-				    this.setCell(arena, new Empty(), y, x, z, w);
-				}
+			    } else if ((w == Layer.LOWER_OBJECTS.ordinal() && was16) && (x >= 16 || y >= 16)) {
+				this.setCell(arena, fill2, y, x, z, w);
 			    } else {
 				this.setCell(arena, new Empty(), y, x, z, w);
 			    }
@@ -772,11 +759,11 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public int[] findObject(final Arena arena, final int z, final AbstractArenaObject target) {
 	// Perform the scan
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		for (int w = 0; w < LayerHelper.COUNT; w++) {
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		for (var w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, x, y, z, w);
+			final var obj = this.getCell(arena, x, y, z, w);
 			if (target.equals(obj)) {
 			    return new int[] { x, y };
 			}
@@ -791,16 +778,14 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public int[] findPlayer(final Arena arena, final int number) {
-	final Tank t = new Tank(number);
+	final var t = new Tank(number);
 	int y, x, z;
 	for (x = 0; x < this.getColumns(); x++) {
 	    for (y = 0; y < this.getRows(); y++) {
 		for (z = 0; z < this.getFloors(); z++) {
-		    final AbstractArenaObject mo = this.getCell(arena, y, x, z, t.getLayer());
-		    if (mo != null) {
-			if (t.equals(mo)) {
-			    return new int[] { y, x, z };
-			}
+		    final var mo = this.getCell(arena, y, x, z, t.getLayer());
+		    if ((mo != null) && t.equals(mo)) {
+			return new int[] { y, x, z };
 		    }
 		}
 	    }
@@ -811,34 +796,31 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void fullScanAllButtonClose(final Arena arena, final int zIn, final AbstractButton source) {
 	// Perform the scan
-	int zFix = zIn;
+	var zFix = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    zFix = this.normalizeFloor(zFix);
 	}
-	boolean flag = !source.isTriggered();
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	var flag = !source.isTriggered();
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    if (flag) {
 		break;
 	    }
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		if (flag) {
 		    break;
 		}
-		final AbstractArenaObject obj = this.getCell(arena, y, x, zFix, source.getLayer());
-		if (obj instanceof AbstractButton) {
-		    final AbstractButton button = (AbstractButton) obj;
-		    if (source.boundButtonDoorEquals(button)) {
-			if (!button.isTriggered()) {
-			    flag = true;
-			}
+		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
+		if (obj instanceof AbstractButton button) {
+		    if (source.boundButtonDoorEquals(button) && !button.isTriggered()) {
+			flag = true;
 		    }
 		}
 	    }
 	}
 	if (flag) {
 	    // Scan said OK to proceed
-	    final int dx = source.getDoorX();
-	    final int dy = source.getDoorY();
+	    final var dx = source.getDoorX();
+	    final var dy = source.getDoorY();
 	    if (!this.getCell(arena, dx, dy, zFix, source.getLayer()).getClass()
 		    .equals(source.getButtonDoor().getClass())) {
 		this.setCell(arena, source.getButtonDoor(), dx, dy, zFix, source.getLayer());
@@ -850,34 +832,31 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void fullScanAllButtonOpen(final Arena arena, final int zIn, final AbstractButton source) {
 	// Perform the scan
-	int zFix = zIn;
+	var zFix = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    zFix = this.normalizeFloor(zFix);
 	}
-	boolean flag = true;
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	var flag = true;
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    if (!flag) {
 		break;
 	    }
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		if (!flag) {
 		    break;
 		}
-		final AbstractArenaObject obj = this.getCell(arena, y, x, zFix, source.getLayer());
-		if (obj instanceof AbstractButton) {
-		    final AbstractButton button = (AbstractButton) obj;
-		    if (source.boundButtonDoorEquals(button)) {
-			if (!button.isTriggered()) {
-			    flag = false;
-			}
+		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
+		if (obj instanceof AbstractButton button) {
+		    if (source.boundButtonDoorEquals(button) && !button.isTriggered()) {
+			flag = false;
 		    }
 		}
 	    }
 	}
 	if (flag) {
 	    // Scan said OK to proceed
-	    final int dx = source.getDoorX();
-	    final int dy = source.getDoorY();
+	    final var dx = source.getDoorX();
+	    final var dy = source.getDoorY();
 	    if (!(this.getCell(arena, dx, dy, zFix, source.getLayer()) instanceof Ground)) {
 		this.setCell(arena, new Ground(), dx, dy, zFix, source.getLayer());
 		Sounds.play(Sound.DOOR_OPENS);
@@ -889,15 +868,14 @@ public final class CurrentArenaData extends ArenaData {
     public void fullScanButtonBind(final Arena arena, final int dx, final int dy, final int zIn,
 	    final AbstractButtonDoor source) {
 	// Perform the scan
-	int z = zIn;
+	var z = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    z = this.normalizeFloor(z);
 	}
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final AbstractArenaObject obj = this.getCell(arena, x, y, z, source.getLayer());
-		if (obj instanceof AbstractButton) {
-		    final AbstractButton button = (AbstractButton) obj;
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		final var obj = this.getCell(arena, x, y, z, source.getLayer());
+		if (obj instanceof AbstractButton button) {
 		    if (source.getClass().equals(button.getButtonDoor().getClass())) {
 			button.setDoorX(dx);
 			button.setDoorY(dy);
@@ -906,11 +884,10 @@ public final class CurrentArenaData extends ArenaData {
 		}
 	    }
 	}
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final AbstractArenaObject obj = this.getCell(arena, x, y, z, source.getLayer());
-		if (obj instanceof AbstractButtonDoor) {
-		    final AbstractButtonDoor door = (AbstractButtonDoor) obj;
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		final var obj = this.getCell(arena, x, y, z, source.getLayer());
+		if (obj instanceof AbstractButtonDoor door) {
 		    if (source.getClass().equals(door.getClass())) {
 			this.setCell(arena, new Ground(), x, y, z, source.getLayer());
 		    }
@@ -923,20 +900,18 @@ public final class CurrentArenaData extends ArenaData {
     public void fullScanButtonCleanup(final Arena arena, final int px, final int py, final int zIn,
 	    final AbstractButton button) {
 	// Perform the scan
-	int zFix = zIn;
+	var zFix = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    zFix = this.normalizeFloor(zFix);
 	}
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		if (x == px && y == py) {
 		    continue;
 		}
-		final AbstractArenaObject obj = this.getCell(arena, x, y, zFix, button.getLayer());
-		if (obj instanceof AbstractButton) {
-		    if (((AbstractButton) obj).boundButtonDoorEquals(button)) {
-			this.setCell(arena, new Ground(), x, y, zFix, button.getLayer());
-		    }
+		final var obj = this.getCell(arena, x, y, zFix, button.getLayer());
+		if ((obj instanceof AbstractButton) && ((AbstractButton) obj).boundButtonDoorEquals(button)) {
+		    this.setCell(arena, new Ground(), x, y, zFix, button.getLayer());
 		}
 	    }
 	}
@@ -945,15 +920,14 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void fullScanFindButtonLostDoor(final Arena arena, final int zIn, final AbstractButtonDoor door) {
 	// Perform the scan
-	int zFix = zIn;
+	var zFix = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    zFix = this.normalizeFloor(zFix);
 	}
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final AbstractArenaObject obj = this.getCell(arena, x, y, zFix, door.getLayer());
-		if (obj instanceof AbstractButton) {
-		    final AbstractButton button = (AbstractButton) obj;
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		final var obj = this.getCell(arena, x, y, zFix, door.getLayer());
+		if (obj instanceof AbstractButton button) {
 		    if (button.boundToSameButtonDoor(door)) {
 			button.setTriggered(true);
 			return;
@@ -966,10 +940,10 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void fullScanFreezeGround(final Arena arena) {
 	// Perform the scan
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		for (int z = 0; z < this.getFloors(); z++) {
-		    final AbstractArenaObject obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		for (var z = 0; z < this.getFloors(); z++) {
+		    final var obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
 		    if (!(obj instanceof Ground)) {
 			// Freeze the ground
 			LaserTankEE.getApplication().getGameManager().morph(obj.changesToOnExposure(Material.ICE), y, x,
@@ -983,14 +957,14 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void fullScanKillTanks(final Arena arena) {
 	// Perform the scan
-	for (int x = 0; x < ArenaData.MIN_COLUMNS; x++) {
-	    for (int y = 0; y < ArenaData.MIN_ROWS; y++) {
-		for (int z = 0; z < this.getFloors(); z++) {
-		    final AbstractArenaObject obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
+	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
+	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
+		for (var z = 0; z < this.getFloors(); z++) {
+		    final var obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
 		    if (obj instanceof AntiTank) {
 			// Kill the tank
-			final Game gm = LaserTankEE.getApplication().getGameManager();
-			final DeadAntiTank dat = new DeadAntiTank();
+			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var dat = new DeadAntiTank();
 			dat.setSavedObject(obj.getSavedObject());
 			dat.setDirection(obj.getDirection());
 			gm.morph(dat, y, x, z, Layer.LOWER_OBJECTS.ordinal());
@@ -1003,9 +977,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public AbstractArenaObject getCell(final Arena arena, final int row, final int col, final int floor,
 	    final int layer) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1036,9 +1010,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public AbstractArenaObject getVirtualCell(final Arena arena, final int row, final int col, final int floor,
 	    final int layer) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1058,9 +1032,9 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public boolean isCellDirty(final Arena arena, final int row, final int col, final int floor) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1076,9 +1050,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public boolean linearScan(final Arena arena, final int xIn, final int yIn, final int zIn, final Direction d) {
 	// Perform the scan
-	int xFix = xIn;
-	int yFix = yIn;
-	int zFix = zIn;
+	var xFix = xIn;
+	var yFix = yIn;
+	var zFix = zIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    xFix = this.normalizeColumn(xFix);
 	}
@@ -1097,93 +1071,12 @@ public final class CurrentArenaData extends ArenaData {
 		for (u = yFix - 1; u >= 0; u--) {
 		    for (w = 0; w < LayerHelper.COUNT; w++) {
 			try {
-			    final AbstractArenaObject obj = this.getCell(arena, xFix, u, zFix, w);
+			    final var obj = this.getCell(arena, xFix, u, zFix, w);
 			    if (obj.isOfType(GameType.ANTI)) {
-				final Direction invert = DirectionHelper.invert(obj.getDirection());
+				final var invert = DirectionHelper.invert(obj.getDirection());
 				if (d == invert) {
 				    this.foundX = xFix;
 				    this.foundY = u;
-				    return true;
-				}
-			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
-			    return false;
-			}
-		    }
-		}
-	    }
-	    return false;
-	} else if (d == Direction.SOUTH) {
-	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
-	    if (tank.getSavedObject().isSolid()) {
-		return false;
-	    } else {
-		for (u = yFix + 1; u < 24; u++) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final AbstractArenaObject obj = this.getCell(arena, xFix, u, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final Direction invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = xFix;
-				    this.foundY = u;
-				    return true;
-				}
-			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
-			    return false;
-			}
-		    }
-		}
-	    }
-	    return false;
-	} else if (d == Direction.WEST) {
-	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
-	    if (tank.getSavedObject().isSolid()) {
-		return false;
-	    } else {
-		for (u = xFix - 1; u >= 0; u--) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final AbstractArenaObject obj = this.getCell(arena, u, yFix, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final Direction invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = u;
-				    this.foundY = yFix;
-				    return true;
-				}
-			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
-			    return false;
-			}
-		    }
-		}
-	    }
-	    return false;
-	} else if (d == Direction.EAST) {
-	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
-	    if (tank.getSavedObject().isSolid()) {
-		return false;
-	    } else {
-		for (u = xFix + 1; u < 24; u++) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final AbstractArenaObject obj = this.getCell(arena, u, yFix, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final Direction invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = u;
-				    this.foundY = yFix;
 				    return true;
 				}
 			    }
@@ -1198,15 +1091,94 @@ public final class CurrentArenaData extends ArenaData {
 	    }
 	    return false;
 	}
+	if (d == Direction.SOUTH) {
+	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+	    if (tank.getSavedObject().isSolid()) {
+		return false;
+	    } else {
+		for (u = yFix + 1; u < 24; u++) {
+		    for (w = 0; w < LayerHelper.COUNT; w++) {
+			try {
+			    final var obj = this.getCell(arena, xFix, u, zFix, w);
+			    if (obj.isOfType(GameType.ANTI)) {
+				final var invert = DirectionHelper.invert(obj.getDirection());
+				if (d == invert) {
+				    this.foundX = xFix;
+				    this.foundY = u;
+				    return true;
+				}
+			    }
+			    if (obj.isSolid()) {
+				return false;
+			    }
+			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			    return false;
+			}
+		    }
+		}
+	    }
+	} else if (d == Direction.WEST) {
+	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+	    if (tank.getSavedObject().isSolid()) {
+		return false;
+	    } else {
+		for (u = xFix - 1; u >= 0; u--) {
+		    for (w = 0; w < LayerHelper.COUNT; w++) {
+			try {
+			    final var obj = this.getCell(arena, u, yFix, zFix, w);
+			    if (obj.isOfType(GameType.ANTI)) {
+				final var invert = DirectionHelper.invert(obj.getDirection());
+				if (d == invert) {
+				    this.foundX = u;
+				    this.foundY = yFix;
+				    return true;
+				}
+			    }
+			    if (obj.isSolid()) {
+				return false;
+			    }
+			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			    return false;
+			}
+		    }
+		}
+	    }
+	} else if (d == Direction.EAST) {
+	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+	    if (tank.getSavedObject().isSolid()) {
+		return false;
+	    } else {
+		for (u = xFix + 1; u < 24; u++) {
+		    for (w = 0; w < LayerHelper.COUNT; w++) {
+			try {
+			    final var obj = this.getCell(arena, u, yFix, zFix, w);
+			    if (obj.isOfType(GameType.ANTI)) {
+				final var invert = DirectionHelper.invert(obj.getDirection());
+				if (d == invert) {
+				    this.foundX = u;
+				    this.foundY = yFix;
+				    return true;
+				}
+			    }
+			    if (obj.isSolid()) {
+				return false;
+			    }
+			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			    return false;
+			}
+		    }
+		}
+	    }
+	}
 	return false;
     }
 
     @Override
     public int linearScanMagnetic(final Arena arena, final int xIn, final int yIn, final int zIn, final Direction d) {
 	// Perform the scan
-	int xFix = xIn;
-	int yFix = yIn;
-	int zFix = zIn;
+	var xFix = xIn;
+	var yFix = yIn;
+	var zFix = zIn;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    xFix = this.normalizeColumn(xFix);
 	}
@@ -1221,7 +1193,7 @@ public final class CurrentArenaData extends ArenaData {
 	    for (u = yFix - 1; u >= 0; u--) {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, xFix, u, zFix, w);
+			final var obj = this.getCell(arena, xFix, u, zFix, w);
 			if (obj.getMaterial() == Material.MAGNETIC) {
 			    return yFix - u - 1;
 			}
@@ -1234,11 +1206,12 @@ public final class CurrentArenaData extends ArenaData {
 		}
 	    }
 	    return 0;
-	} else if (d == Direction.SOUTH) {
+	}
+	if (d == Direction.SOUTH) {
 	    for (u = yFix + 1; u < 24; u++) {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, xFix, u, zFix, w);
+			final var obj = this.getCell(arena, xFix, u, zFix, w);
 			if (obj.getMaterial() == Material.MAGNETIC) {
 			    return u - yFix - 1;
 			}
@@ -1250,12 +1223,11 @@ public final class CurrentArenaData extends ArenaData {
 		    }
 		}
 	    }
-	    return 0;
 	} else if (d == Direction.WEST) {
 	    for (u = xFix - 1; u >= 0; u--) {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, u, yFix, zFix, w);
+			final var obj = this.getCell(arena, u, yFix, zFix, w);
 			if (obj.getMaterial() == Material.MAGNETIC) {
 			    return xFix - u - 1;
 			}
@@ -1267,12 +1239,11 @@ public final class CurrentArenaData extends ArenaData {
 		    }
 		}
 	    }
-	    return 0;
 	} else if (d == Direction.EAST) {
 	    for (u = xFix + 1; u < 24; u++) {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
-			final AbstractArenaObject obj = this.getCell(arena, u, yFix, zFix, w);
+			final var obj = this.getCell(arena, u, yFix, zFix, w);
 			if (obj.getMaterial() == Material.MAGNETIC) {
 			    return u - xFix - 1;
 			}
@@ -1284,16 +1255,15 @@ public final class CurrentArenaData extends ArenaData {
 		    }
 		}
 	    }
-	    return 0;
 	}
 	return 0;
     }
 
     @Override
     public void markAsDirty(final Arena arena, final int row, final int col, final int floor) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1310,23 +1280,18 @@ public final class CurrentArenaData extends ArenaData {
     public ArenaData readData(final Arena arena, final DataIOReader reader, final GameFormat formatVersion)
 	    throws IOException {
 	if (GameFormatHelper.isValidG1(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG1(arena, reader, formatVersion);
-	    return tempData;
-	} else if (GameFormatHelper.isValidG2(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG2(arena, reader, formatVersion);
-	    return tempData;
+	    return CurrentArenaData.readDataG1(arena, reader, formatVersion);
+	}
+	if (GameFormatHelper.isValidG2(formatVersion)) {
+	    return CurrentArenaData.readDataG2(arena, reader, formatVersion);
 	} else if (GameFormatHelper.isValidG3(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG3(arena, reader, formatVersion);
-	    return tempData;
+	    return CurrentArenaData.readDataG3(arena, reader, formatVersion);
 	} else if (GameFormatHelper.isValidG4(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG4(arena, reader, formatVersion);
-	    return tempData;
+	    return CurrentArenaData.readDataG4(arena, reader, formatVersion);
 	} else if (GameFormatHelper.isValidG5(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG5(arena, reader, formatVersion);
-	    return tempData;
+	    return CurrentArenaData.readDataG5(arena, reader, formatVersion);
 	} else if (GameFormatHelper.isValidG6(formatVersion)) {
-	    final CurrentArenaData tempData = CurrentArenaData.readDataG6(arena, reader, formatVersion);
-	    return tempData;
+	    return CurrentArenaData.readDataG6(arena, reader, formatVersion);
 	} else {
 	    throw new IOException(Strings.loadError(ErrorString.UNKNOWN_ARENA_FORMAT));
 	}
@@ -1334,9 +1299,7 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void readSavedState(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
-	if (GameFormatHelper.isValidG1(formatVersion)) {
-	    this.readSavedStateG2(reader, formatVersion);
-	} else if (GameFormatHelper.isValidG2(formatVersion)) {
+	if (GameFormatHelper.isValidG1(formatVersion) || GameFormatHelper.isValidG2(formatVersion)) {
 	    this.readSavedStateG2(reader, formatVersion);
 	} else if (GameFormatHelper.isValidG3(formatVersion)) {
 	    this.readSavedStateG3(reader, formatVersion);
@@ -1463,14 +1426,14 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void resize(final Arena arena, final int zIn, final AbstractArenaObject nullFill) {
-	final int x = ArenaData.MIN_ROWS;
-	final int y = ArenaData.MIN_COLUMNS;
-	int z = zIn;
+	final var x = ArenaData.MIN_ROWS;
+	final var y = ArenaData.MIN_COLUMNS;
+	var z = zIn;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    z = this.normalizeFloor(z);
 	}
 	// Allocate temporary storage array
-	final CurrentArenaStorage tempStorage = new CurrentArenaStorage(y, x, z, LayerHelper.COUNT);
+	final var tempStorage = new CurrentArenaStorage(y, x, z, LayerHelper.COUNT);
 	// Copy existing maze into temporary array
 	int u, v, w, t;
 	for (u = 0; u < y; u++) {
@@ -1498,10 +1461,10 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void resizeSavedState(final int z, final AbstractArenaObject nullFill) {
-	final int x = ArenaData.MIN_ROWS;
-	final int y = ArenaData.MIN_COLUMNS;
+	final var x = ArenaData.MIN_ROWS;
+	final var y = ArenaData.MIN_COLUMNS;
 	// Allocate temporary storage array
-	final CurrentArenaStorage tempStorage = new CurrentArenaStorage(y, x, z, LayerHelper.COUNT);
+	final var tempStorage = new CurrentArenaStorage(y, x, z, LayerHelper.COUNT);
 	// Copy existing maze into temporary array
 	int u, v, w, t;
 	for (u = 0; u < y; u++) {
@@ -1530,7 +1493,7 @@ public final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < this.getRows(); y++) {
 		for (z = 0; z < this.getFloors(); z++) {
 		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			this.setCell(arena, ((AbstractArenaObject) this.savedState.getCell(x, y, z, w)), y, x, z, w);
+			this.setCell(arena, (AbstractArenaObject) this.savedState.getCell(x, y, z, w), y, x, z, w);
 		    }
 		}
 	    }
@@ -1553,7 +1516,7 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void setAllDirtyFlags() {
-	for (int floor = 0; floor < this.getFloors(); floor++) {
+	for (var floor = 0; floor < this.getFloors(); floor++) {
 	    this.setDirtyFlags(floor);
 	}
     }
@@ -1561,9 +1524,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void setCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col, final int floor,
 	    final int layer) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1579,8 +1542,8 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void setDirtyFlags(final int floor) {
-	for (int row = 0; row < this.getRows(); row++) {
-	    for (int col = 0; col < this.getColumns(); col++) {
+	for (var row = 0; row < this.getRows(); row++) {
+	    for (var col = 0; col < this.getColumns(); col++) {
 		this.dirtyData.setCell(true, col, row, floor);
 	    }
 	}
@@ -1589,9 +1552,9 @@ public final class CurrentArenaData extends ArenaData {
     @Override
     public void setVirtualCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col,
 	    final int floor, final int layer) {
-	int fR = row;
-	int fC = col;
-	int fF = floor;
+	var fR = row;
+	var fC = col;
+	var fF = floor;
 	if (arena.isVerticalWraparoundEnabled()) {
 	    fC = this.normalizeColumn(fC);
 	}
@@ -1607,7 +1570,7 @@ public final class CurrentArenaData extends ArenaData {
 
     @Override
     public void tickTimers(final Arena arena, final int floor, final GameAction actionType) {
-	int floorFix = floor;
+	var floorFix = floor;
 	if (arena.isThirdDimensionWraparoundEnabled()) {
 	    floorFix = this.normalizeFloor(floorFix);
 	}
@@ -1618,26 +1581,23 @@ public final class CurrentArenaData extends ArenaData {
 	    for (x = 0; x < this.getColumns(); x++) {
 		for (y = 0; y < this.getRows(); y++) {
 		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			final AbstractArenaObject mo = this.getCell(arena, y, x, floorFix, w);
-			if (mo != null) {
-			    if (z == Direction.NORTH.ordinal()) {
-				// Handle objects waiting for a tunnel to open
-				if (mo instanceof AbstractMovableObject) {
-				    final AbstractMovableObject gmo = (AbstractMovableObject) mo;
-				    final AbstractArenaObject saved = gmo.getSavedObject();
-				    if (saved instanceof AbstractTunnel) {
-					final GameColor color = saved.getColor();
-					if (gmo.waitingOnTunnel() && !AbstractTunnel.tunnelsFull(color)) {
-					    gmo.setWaitingOnTunnel(false);
-					    saved.pushIntoAction(gmo, y, x, floorFix);
-					}
-					if (AbstractTunnel.tunnelsFull(color)) {
-					    gmo.setWaitingOnTunnel(true);
-					}
+			final var mo = this.getCell(arena, y, x, floorFix, w);
+			if ((mo != null) && (z == Direction.NORTH.ordinal())) {
+			    // Handle objects waiting for a tunnel to open
+			    if (mo instanceof AbstractMovableObject gmo) {
+				final var saved = gmo.getSavedObject();
+				if (saved instanceof AbstractTunnel) {
+				    final var color = saved.getColor();
+				    if (gmo.waitingOnTunnel() && !AbstractTunnel.tunnelsFull(color)) {
+					gmo.setWaitingOnTunnel(false);
+					saved.pushIntoAction(gmo, y, x, floorFix);
+				    }
+				    if (AbstractTunnel.tunnelsFull(color)) {
+					gmo.setWaitingOnTunnel(true);
 				    }
 				}
-				mo.tickTimer(y, x, actionType);
 			    }
+			    mo.tickTimer(y, x, actionType);
 			}
 		    }
 		}

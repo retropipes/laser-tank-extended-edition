@@ -21,8 +21,6 @@ import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.datatype.LaserTankPlayback;
-import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.locale.EditorString;
 import com.puttysoftware.lasertank.locale.MenuString;
@@ -41,12 +39,12 @@ public class MenuManager {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 	    try {
-		final Application app = LaserTankEE.getApplication();
-		final Game game = app.getGameManager();
-		final Editor editor = app.getEditor();
-		final MenuManager menu = MenuManager.this;
-		boolean loaded = false;
-		final String cmd = e.getActionCommand();
+		final var app = LaserTankEE.getApplication();
+		final var game = app.getGameManager();
+		final var editor = app.getEditor();
+		final var menu = MenuManager.this;
+		var loaded = false;
+		final var cmd = e.getActionCommand();
 		if (cmd.equals(Strings.loadMenu(MenuString.ITEM_NEW))) {
 		    loaded = app.getEditor().newArena();
 		    app.getArenaManager().setLoaded(loaded);
@@ -61,8 +59,8 @@ public class MenuManager {
 		    if (app.isInEditorMode()) {
 			app.getEditor().handleCloseWindow();
 		    } else if (app.isInGameMode()) {
-			boolean saved = true;
-			int status = 0;
+			var saved = true;
+			var status = 0;
 			if (app.getArenaManager().getDirty()) {
 			    status = ArenaManager.showSaveDialog();
 			    if (status == JOptionPane.YES_OPTION) {
@@ -101,19 +99,15 @@ public class MenuManager {
 		    Settings.showSettings();
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PRINT_GAMEBOARD))) {
 		    GUIPrinter.printScreen();
-		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EXIT))) {
+		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EXIT))
+			|| cmd.equals(Strings.loadMenu(MenuString.ITEM_QUIT))) {
 		    // Exit program
-		    if (app.getGUIManager().quitHandler()) {
-			System.exit(0);
-		    }
-		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_QUIT))) {
-		    // Quit program
 		    if (app.getGUIManager().quitHandler()) {
 			System.exit(0);
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PLAY))) {
 		    // Play the current arena
-		    final boolean proceed = app.getGameManager().newGame();
+		    final var proceed = app.getGameManager().newGame();
 		    if (proceed) {
 			app.exitCurrentMode();
 			app.getGameManager().playArena();
@@ -126,7 +120,7 @@ public class MenuManager {
 		    // Toggle accelerators
 		    app.getMenuManager().toggleAccelerators();
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL))) {
-		    final int result = CommonDialogs.showConfirmDialog(
+		    final var result = CommonDialogs.showConfirmDialog(
 			    Strings.loadMenu(MenuString.CONFIRM_RESET_CURRENT_LEVEL),
 			    GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
 		    if (result == JOptionPane.YES_OPTION) {
@@ -225,7 +219,7 @@ public class MenuManager {
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL))) {
 		    // Cut Level
-		    final int level = editor.getEditorLocationU();
+		    final var level = editor.getEditorLocationU();
 		    app.getArenaManager().getArena().cutLevel();
 		    editor.fixLimits();
 		    editor.updateEditorLevelAbsolute(level);
@@ -243,7 +237,7 @@ public class MenuManager {
 		    editor.fixLimits();
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY))) {
 		    // Clear undo/redo history, confirm first
-		    final int res = CommonDialogs.showConfirmDialog(Strings.loadMenu(MenuString.CONFIRM_CLEAR_HISTORY),
+		    final var res = CommonDialogs.showConfirmDialog(Strings.loadMenu(MenuString.CONFIRM_CLEAR_HISTORY),
 			    Strings.loadEditor(EditorString.EDITOR));
 		    if (res == JOptionPane.YES_OPTION) {
 			editor.clearHistory();
@@ -377,8 +371,8 @@ public class MenuManager {
     // Methods
     public final void updateMenuItemState() {
 	try {
-	    final Application app = LaserTankEE.getApplication();
-	    final Editor editor = app.getEditor();
+	    final var app = LaserTankEE.getApplication();
+	    final var editor = app.getEditor();
 	    if (app.getArenaManager().getLoaded()) {
 		this.enableLoadedCommands();
 	    } else {
@@ -390,7 +384,7 @@ public class MenuManager {
 		this.disableDirtyCommands();
 	    }
 	    if (app.isInEditorMode()) {
-		final Arena m = app.getArenaManager().getArena();
+		final var m = app.getArenaManager().getArena();
 		if (m.getLevels() == Arena.getMinLevels()) {
 		    this.disableRemoveLevel();
 		} else {
@@ -453,7 +447,7 @@ public class MenuManager {
 		}
 	    }
 	    if (app.isInGameMode()) {
-		final Arena a = app.getArenaManager().getArena();
+		final var a = app.getArenaManager().getArena();
 		if (a.tryUndo()) {
 		    this.enableUndo();
 		} else {
@@ -465,7 +459,7 @@ public class MenuManager {
 		    this.disableRedo();
 		}
 	    }
-	    final Arena a = app.getArenaManager().getArena();
+	    final var a = app.getArenaManager().getArena();
 	    if (a != null && a.isPasteBlocked()) {
 		this.disablePasteLevel();
 		this.disableInsertLevelFromClipboard();
@@ -596,13 +590,13 @@ public class MenuManager {
     }
 
     void populateMenuBar() {
-	final MenuHandler mhandler = new MenuHandler();
-	final JMenu fileMenu = this.buildFileMenu(mhandler);
-	final JMenu editMenu = this.buildEditMenu(mhandler);
-	final JMenu playMenu = this.buildPlayMenu(mhandler);
-	final JMenu gameMenu = this.buildGameMenu(mhandler);
-	final JMenu editorMenu = this.buildEditorMenu(mhandler);
-	final JMenu helpMenu = this.buildHelpMenu(mhandler);
+	final var mhandler = new MenuHandler();
+	final var fileMenu = this.buildFileMenu(mhandler);
+	final var editMenu = this.buildEditMenu(mhandler);
+	final var playMenu = this.buildPlayMenu(mhandler);
+	final var gameMenu = this.buildGameMenu(mhandler);
+	final var editorMenu = this.buildEditorMenu(mhandler);
+	final var helpMenu = this.buildHelpMenu(mhandler);
 	this.attachAccelerators();
 	this.menuBar.add(fileMenu);
 	this.menuBar.add(editMenu);
@@ -613,7 +607,7 @@ public class MenuManager {
     }
 
     private JMenu buildFileMenu(final MenuHandler mhandler) {
-	final JMenu fileMenu = new JMenu(Strings.loadMenu(MenuString.MENU_FILE));
+	final var fileMenu = new JMenu(Strings.loadMenu(MenuString.MENU_FILE));
 	this.fileNew = new JMenuItem(Strings.loadMenu(MenuString.ITEM_NEW));
 	this.fileOpen = new JMenuItem(Strings.loadMenu(MenuString.ITEM_OPEN));
 	this.fileOpenDefault = new JMenuItem(Strings.loadMenu(MenuString.ITEM_OPEN_DEFAULT));
@@ -659,7 +653,7 @@ public class MenuManager {
     }
 
     private JMenu buildEditMenu(final MenuHandler mhandler) {
-	final JMenu editMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDIT));
+	final var editMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDIT));
 	this.editUndo = new JMenuItem(Strings.loadMenu(MenuString.ITEM_UNDO));
 	this.editRedo = new JMenuItem(Strings.loadMenu(MenuString.ITEM_REDO));
 	this.editCutLevel = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL));
@@ -692,7 +686,7 @@ public class MenuManager {
     }
 
     private JMenu buildPlayMenu(final MenuHandler mhandler) {
-	final JMenu playMenu = new JMenu(Strings.loadMenu(MenuString.MENU_PLAY));
+	final var playMenu = new JMenu(Strings.loadMenu(MenuString.MENU_PLAY));
 	this.playPlay = new JMenuItem(Strings.loadMenu(MenuString.ITEM_PLAY));
 	this.playEdit = new JMenuItem(Strings.loadMenu(MenuString.ITEM_EDIT));
 	this.playToggleAccelerators = new JCheckBoxMenuItem(Strings.loadMenu(MenuString.ITEM_USE_CLASSIC_ACCELERATORS));
@@ -709,7 +703,7 @@ public class MenuManager {
     }
 
     private JMenu buildGameMenu(final MenuHandler mhandler) {
-	final JMenu gameMenu = new JMenu(Strings.loadMenu(MenuString.MENU_GAME));
+	final var gameMenu = new JMenu(Strings.loadMenu(MenuString.MENU_GAME));
 	this.gameReset = new JMenuItem(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL));
 	this.gameShowTable = new JMenuItem(Strings.loadMenu(MenuString.ITEM_SHOW_SCORE_TABLE));
 	this.gameReplaySolution = new JMenuItem(Strings.loadMenu(MenuString.ITEM_REPLAY_SOLUTION));
@@ -788,7 +782,7 @@ public class MenuManager {
     }
 
     private JMenu buildEditorMenu(final MenuHandler mhandler) {
-	final JMenu editorMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDITOR));
+	final var editorMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDITOR));
 	this.editorClearHistory = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY));
 	this.editorGoToLevel = new JMenuItem(Strings.loadMenu(MenuString.ITEM_GO_TO_LEVEL));
 	this.editorUpOneFloor = new JMenuItem(Strings.loadMenu(MenuString.ITEM_UP_ONE_FLOOR));
@@ -871,7 +865,7 @@ public class MenuManager {
     }
 
     private JMenu buildHelpMenu(final MenuHandler mhandler) {
-	final JMenu helpMenu = new JMenu(Strings.loadMenu(MenuString.MENU_HELP));
+	final var helpMenu = new JMenu(Strings.loadMenu(MenuString.MENU_HELP));
 	this.helpAbout = new JMenuItem(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK));
 	this.helpAbout.addActionListener(mhandler);
 	helpMenu.add(this.helpAbout);
@@ -926,7 +920,7 @@ public class MenuManager {
     }
 
     private void enableLoadedCommands() {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (app.isInGUIMode()) {
 	    this.fileClose.setEnabled(false);
 	    this.fileSaveAs.setEnabled(false);

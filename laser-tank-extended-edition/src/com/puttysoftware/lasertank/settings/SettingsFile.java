@@ -20,12 +20,12 @@ class SettingsFile {
     }
 
     public boolean getBoolean(final String key, final boolean defaultValue) {
-	final String strVal = this.getString(key, Boolean.toString(defaultValue));
+	final var strVal = this.getString(key, Boolean.toString(defaultValue));
 	return Boolean.parseBoolean(strVal);
     }
 
     public int getInteger(final String key, final int defaultValue) {
-	final String strVal = this.getString(key, Integer.toString(defaultValue));
+	final var strVal = this.getString(key, Integer.toString(defaultValue));
 	return Integer.parseInt(strVal);
     }
 

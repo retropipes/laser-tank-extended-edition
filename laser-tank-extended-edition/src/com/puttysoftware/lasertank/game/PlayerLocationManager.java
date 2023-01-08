@@ -7,7 +7,6 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.diane.storage.NumberStorage;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.helper.Players;
 
 public final class PlayerLocationManager {
@@ -60,13 +59,13 @@ public final class PlayerLocationManager {
     }
 
     public void resetPlayerLocation() {
-	final Arena a = LaserTankEE.getApplication().getArenaManager().getArena();
-	for (int pi = 0; pi < Players.COUNT; pi++) {
-	    final int[] found = a.findPlayer(pi);
+	final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+	for (var pi = 0; pi < Players.COUNT; pi++) {
+	    final var found = a.findPlayer(pi);
 	    if (found != null) {
-		final int valX = found[0];
-		final int valY = found[1];
-		final int valZ = found[2];
+		final var valX = found[0];
+		final var valY = found[1];
+		final var valZ = found[2];
 		this.initPlayerLocation(valX, valY, valZ, pi);
 	    }
 	}
@@ -111,15 +110,15 @@ public final class PlayerLocationManager {
     }
 
     public void togglePlayerInstance() {
-	boolean doesNotExist = true;
+	var doesNotExist = true;
 	while (doesNotExist) {
 	    this.playerInstance++;
 	    if (this.playerInstance >= Players.COUNT) {
 		this.playerInstance = 0;
 	    }
-	    final int px = this.getPlayerLocationX();
-	    final int py = this.getPlayerLocationY();
-	    final int pz = this.getPlayerLocationZ();
+	    final var px = this.getPlayerLocationX();
+	    final var py = this.getPlayerLocationY();
+	    final var pz = this.getPlayerLocationZ();
 	    if (px != -1 && py != -1 && pz != -1) {
 		doesNotExist = false;
 	    }

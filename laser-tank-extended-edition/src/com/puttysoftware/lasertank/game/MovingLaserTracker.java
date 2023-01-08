@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.game;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
@@ -32,14 +31,14 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 
 final class MovingLaserTracker {
     private static boolean canMoveThere(final int sx, final int sy) {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
-	final PlayerLocationManager plMgr = gm.getPlayerManager();
-	final int px = plMgr.getPlayerLocationX();
-	final int py = plMgr.getPlayerLocationY();
-	final int pz = plMgr.getPlayerLocationZ();
-	final Application app = LaserTankEE.getApplication();
-	final Arena m = app.getArenaManager().getArena();
-	boolean zproceed = true;
+	final var gm = LaserTankEE.getApplication().getGameManager();
+	final var plMgr = gm.getPlayerManager();
+	final var px = plMgr.getPlayerLocationX();
+	final var py = plMgr.getPlayerLocationY();
+	final var pz = plMgr.getPlayerLocationZ();
+	final var app = LaserTankEE.getApplication();
+	final var m = app.getArenaManager().getArena();
+	var zproceed = true;
 	AbstractArenaObject zo = null;
 	try {
 	    try {
@@ -64,45 +63,33 @@ final class MovingLaserTracker {
     }
 
     private static boolean checkSolid(final AbstractArenaObject next) {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
+	final var gm = LaserTankEE.getApplication().getGameManager();
 	// Check cheats
 	if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
 	    return true;
+	}
+	final var nextSolid = next.isConditionallySolid();
+	if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
+	    return true;
 	} else {
-	    final boolean nextSolid = next.isConditionallySolid();
-	    if (nextSolid) {
-		if (next.isOfType(GameType.CHARACTER)) {
-		    return true;
-		} else {
-		    return false;
-		}
-	    } else {
-		return true;
-	    }
+	    return false;
 	}
     }
 
     private static AbstractTransientObject createLaserForType(final LaserType type) {
-	switch (type) {
-	case GREEN:
-	    return new GreenLaser();
-	case BLUE:
-	    return new BlueLaser();
-	case RED:
-	    return new RedLaser();
-	case MISSILE:
-	    return new Missile();
-	case STUNNER:
-	    return new Stunner();
-	case POWER:
-	    return new PowerLaser();
-	default:
-	    return null;
-	}
+	return switch (type) {
+	case GREEN -> new GreenLaser();
+	case BLUE -> new BlueLaser();
+	case RED -> new RedLaser();
+	case MISSILE -> new Missile();
+	case STUNNER -> new Stunner();
+	case POWER -> new PowerLaser();
+	default -> null;
+	};
     }
 
     private static int normalizeColumn(final int column, final int columns) {
-	int fC = column;
+	var fC = column;
 	if (fC < 0) {
 	    fC += columns;
 	    while (fC < 0) {
@@ -118,7 +105,7 @@ final class MovingLaserTracker {
     }
 
     private static int normalizeRow(final int row, final int rows) {
-	int fR = row;
+	var fR = row;
 	if (fR < 0) {
 	    fR += rows;
 	    while (fR < 0) {
@@ -149,7 +136,7 @@ final class MovingLaserTracker {
 
     void activateLasers(final int zx, final int zy, final int zox, final int zoy, final LaserType zlt,
 	    final AbstractArenaObject zshooter) {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
+	final var gm = LaserTankEE.getApplication().getGameManager();
 	this.shooter = zshooter;
 	this.ox = zox;
 	this.oy = zoy;
@@ -216,9 +203,9 @@ final class MovingLaserTracker {
     }
 
     void clearLastLaser() {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
-	final PlayerLocationManager plMgr = gm.getPlayerManager();
-	final int pz = plMgr.getPlayerLocationZ();
+	final var gm = LaserTankEE.getApplication().getGameManager();
+	final var plMgr = gm.getPlayerManager();
+	final var pz = plMgr.getPlayerLocationZ();
 	if (this.laser) {
 	    // Clear last laser
 	    try {
@@ -237,14 +224,14 @@ final class MovingLaserTracker {
     }
 
     private void doLasersOnce(final boolean tracking) {
-	final Ground g = new Ground();
-	final Application app = LaserTankEE.getApplication();
-	final Game gm = app.getGameManager();
-	final PlayerLocationManager plMgr = app.getGameManager().getPlayerManager();
-	final int px = plMgr.getPlayerLocationX();
-	final int py = plMgr.getPlayerLocationY();
-	final int pz = plMgr.getPlayerLocationZ();
-	final Arena m = app.getArenaManager().getArena();
+	final var g = new Ground();
+	final var app = LaserTankEE.getApplication();
+	final var gm = app.getGameManager();
+	final var plMgr = app.getGameManager().getPlayerManager();
+	final var px = plMgr.getPlayerLocationX();
+	final var py = plMgr.getPlayerLocationY();
+	final var pz = plMgr.getPlayerLocationZ();
+	final var m = app.getArenaManager().getArena();
 	AbstractArenaObject lol = null;
 	AbstractArenaObject lou = null;
 	try {
@@ -260,16 +247,16 @@ final class MovingLaserTracker {
 	    Direction laserDir;
 	    this.l = MovingLaserTracker.createLaserForType(this.lt);
 	    if (this.lt == LaserType.MISSILE) {
-		final Direction suffix = DirectionHelper.resolveRelative(this.incX, this.incY);
+		final var suffix = DirectionHelper.resolveRelative(this.incX, this.incY);
 		this.l.setDirection(suffix);
 	    } else if (this.lt == LaserType.STUNNER) {
 		// Do nothing
 	    } else {
-		final Direction suffix = DirectionHelper.resolveRelativeHV(this.incX, this.incY);
+		final var suffix = DirectionHelper.resolveRelativeHV(this.incX, this.incY);
 		this.l.setDirection(suffix);
 	    }
-	    final int oldincX = this.incX;
-	    final int oldincY = this.incY;
+	    final var oldincX = this.incX;
+	    final var oldincY = this.incY;
 	    try {
 		if (lol.doLasersPassThrough() && lou.doLasersPassThrough()) {
 		    m.setVirtualCell(this.l, this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
@@ -283,14 +270,14 @@ final class MovingLaserTracker {
 	    } catch (final ArrayIndexOutOfBoundsException aioobe) {
 		// Ignore
 	    }
-	    final Direction oldLaserDir = this.l.getDirection();
+	    final var oldLaserDir = this.l.getDirection();
 	    laserDir = oldLaserDir;
-	    final boolean laserKill = this.ox + this.cumX == px && this.oy + this.cumY == py;
+	    final var laserKill = this.ox + this.cumX == px && this.oy + this.cumY == py;
 	    if (laserKill) {
 		gm.gameOver();
 		return;
 	    }
-	    Direction dir = lou.laserEnteredAction(this.ox + this.cumX, this.oy + this.cumY, pz, this.incX, this.incY,
+	    var dir = lou.laserEnteredAction(this.ox + this.cumX, this.oy + this.cumY, pz, this.incX, this.incY,
 		    this.lt, this.l.getForceUnitsImbued());
 	    if (dir != Direction.NONE) {
 		dir = lol.laserEnteredAction(this.ox + this.cumX, this.oy + this.cumY, pz, this.incX, this.incY,
@@ -307,8 +294,8 @@ final class MovingLaserTracker {
 		return;
 	    }
 	    resolved = DirectionHelper.unresolveRelative(dir);
-	    int resX = resolved[0];
-	    int resY = resolved[1];
+	    var resX = resolved[0];
+	    var resY = resolved[1];
 	    laserDir = DirectionHelper.resolveRelativeHV(resX, resY);
 	    this.l.setDirection(laserDir);
 	    this.incX = resX;
@@ -381,14 +368,14 @@ final class MovingLaserTracker {
     }
 
     boolean trackPart2(final int nsx, final int nsy, final boolean nMover) {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
-	int sx = nsx;
-	int sy = nsy;
-	boolean mover = nMover;
+	final var gm = LaserTankEE.getApplication().getGameManager();
+	var sx = nsx;
+	var sy = nsy;
+	var mover = nMover;
 	if (!this.res && this.laser) {
 	    if (gm.getTank().getSavedObject().isOfType(GameType.MOVER)) {
-		final Direction dir = gm.getTank().getSavedObject().getDirection();
-		final int[] unres = DirectionHelper.unresolveRelative(dir);
+		final var dir = gm.getTank().getSavedObject().getDirection();
+		final var unres = DirectionHelper.unresolveRelative(dir);
 		sx = unres[0];
 		sy = unres[1];
 		mover = true;

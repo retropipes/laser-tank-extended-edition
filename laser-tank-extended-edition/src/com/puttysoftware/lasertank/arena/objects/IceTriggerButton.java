@@ -17,7 +17,7 @@ public class IceTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICE_TRIGGER_BUTTON;
     }
 }

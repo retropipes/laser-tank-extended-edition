@@ -17,13 +17,13 @@ public class LaserTankHighScores {
     private static final int NAME_LEN = 6;
 
     public static LaserTankHighScores loadFromFile(final File file) throws IOException {
-	try (FileInputStream fs = new FileInputStream(file)) {
+	try (var fs = new FileInputStream(file)) {
 	    return LaserTankHighScores.loadFromStream(fs);
 	}
     }
 
     public static LaserTankHighScores loadFromResource(final String resource) throws IOException {
-	try (InputStream fs = LaserTankHighScores.class.getResourceAsStream(resource)) {
+	try (var fs = LaserTankHighScores.class.getResourceAsStream(resource)) {
 	    return LaserTankHighScores.loadFromStream(fs);
 	}
     }
@@ -31,23 +31,23 @@ public class LaserTankHighScores {
     // Internal stuff
     private static LaserTankHighScores loadFromStream(final InputStream fs) throws IOException {
 	// Create temporary storage
-	final ArrayList<String> nameTemp = new ArrayList<>();
-	final ArrayList<Integer> moveTemp = new ArrayList<>();
-	final ArrayList<Integer> shotTemp = new ArrayList<>();
-	boolean success = true;
-	int bytesRead = 0;
+	final var nameTemp = new ArrayList<String>();
+	final var moveTemp = new ArrayList<Integer>();
+	final var shotTemp = new ArrayList<Integer>();
+	var success = true;
+	var bytesRead = 0;
 	while (success) {
 	    try {
 		// Load name
-		final byte[] nameData = new byte[LaserTankHighScores.NAME_LEN];
+		final var nameData = new byte[LaserTankHighScores.NAME_LEN];
 		bytesRead = fs.read(nameData);
 		if (bytesRead < LaserTankHighScores.NAME_LEN) {
 		    success = false;
 		    break;
 		}
-		final String loadName = DataIOUtilities.decodeWindowsStringData(nameData);
+		final var loadName = DataIOUtilities.decodeWindowsStringData(nameData);
 		// Load moves
-		final byte[] moveData = new byte[Short.BYTES];
+		final var moveData = new byte[Short.BYTES];
 		bytesRead = fs.read(moveData);
 		if (bytesRead < Short.BYTES) {
 		    success = false;
@@ -55,7 +55,7 @@ public class LaserTankHighScores {
 		}
 		final int moves = ByteBuffer.wrap(moveData).asShortBuffer().get();
 		// Load shots
-		final byte[] shotData = new byte[Short.BYTES];
+		final var shotData = new byte[Short.BYTES];
 		bytesRead = fs.read(shotData);
 		if (bytesRead < Short.BYTES) {
 		    success = false;
@@ -72,12 +72,12 @@ public class LaserTankHighScores {
 	    }
 	}
 	// Convert temporary storage to the correct format
-	final String[] nameLoad = nameTemp.toArray(new String[nameTemp.size()]);
-	final int len = nameLoad.length;
-	final Integer[] moveLoadTemp = moveTemp.toArray(new Integer[moveTemp.size()]);
-	final Integer[] shotLoadTemp = shotTemp.toArray(new Integer[shotTemp.size()]);
-	final LaserTankScoreTable table = new LaserTankScoreTable(len);
-	for (int x = 0; x < len; x++) {
+	final var nameLoad = nameTemp.toArray(new String[nameTemp.size()]);
+	final var len = nameLoad.length;
+	final var moveLoadTemp = moveTemp.toArray(new Integer[moveTemp.size()]);
+	final var shotLoadTemp = shotTemp.toArray(new Integer[shotTemp.size()]);
+	final var table = new LaserTankScoreTable(len);
+	for (var x = 0; x < len; x++) {
 	    table.add(new LaserTankScore(moveLoadTemp[x], shotLoadTemp[x], nameLoad[x]));
 	}
 	// Return final result

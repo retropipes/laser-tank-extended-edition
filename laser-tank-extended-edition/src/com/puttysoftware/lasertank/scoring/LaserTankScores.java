@@ -22,7 +22,7 @@ public class LaserTankScores {
     public LaserTankScores() {
 	this.table = new LaserTankSortedScoreTable();
 	this.name = "";
-	final String dialogTitle = Strings.loadDialog(DialogString.SCORES_HEADER);
+	final var dialogTitle = Strings.loadDialog(DialogString.SCORES_HEADER);
 	this.title = dialogTitle;
 	this.viewerTitle = dialogTitle;
     }
@@ -41,7 +41,7 @@ public class LaserTankScores {
 
     // Methods
     public boolean add(final long newMoves, final long newShots) {
-	boolean success = true;
+	var success = true;
 	this.name = CommonDialogs.showTextInputDialog(LaserTankScores.NAME_PROMPT, this.title);
 	if (this.name != null) {
 	    this.table.add(new LaserTankScore(newMoves, newShots, this.name));

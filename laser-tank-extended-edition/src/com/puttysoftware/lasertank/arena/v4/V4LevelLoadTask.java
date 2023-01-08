@@ -14,9 +14,7 @@ import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -46,20 +44,20 @@ public class V4LevelLoadTask extends Thread {
     @Override
     public void run() {
 	this.loadFrame.setVisible(true);
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().setSavedGameFlag(false);
-	try (FileInputStream arenaFile = new FileInputStream(this.filename)) {
-	    final Arena gameArena = ArenaManager.createArena();
+	try (var arenaFile = new FileInputStream(this.filename)) {
+	    final var gameArena = ArenaManager.createArena();
 	    V4File.loadOldFile(gameArena, arenaFile);
 	    arenaFile.close();
 	    app.getArenaManager().setArena(gameArena);
-	    final boolean playerExists = gameArena.doesPlayerExist(0);
+	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
 		app.getGameManager().getPlayerManager().resetPlayerLocation();
 	    }
 	    gameArena.save();
 	    // Final cleanup
-	    final String lum = app.getArenaManager().getLastUsedArena();
+	    final var lum = app.getArenaManager().getLastUsedArena();
 	    app.getArenaManager().clearLastUsedFilenames();
 	    app.getArenaManager().setLastUsedArena(lum);
 	    app.updateLevelInfoList();

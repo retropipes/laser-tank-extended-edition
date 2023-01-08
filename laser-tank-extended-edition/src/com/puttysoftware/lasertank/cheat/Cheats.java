@@ -28,26 +28,25 @@ public final class Cheats {
     }
 
     public String enterCheat() {
-	final String userInput = CommonDialogs.showTextInputDialog(Strings.loadGame(GameString.CHEAT_PROMPT),
+	final var userInput = CommonDialogs.showTextInputDialog(Strings.loadGame(GameString.CHEAT_PROMPT),
 		Strings.loadDialog(DialogString.CHEATS));
-	if (userInput != null) {
-	    final int index = this.cheatCache.indexOf(userInput.toLowerCase());
-	    if (index != -1) {
-		final int value = CommonDialogs.showConfirmDialog(Strings.loadGame(GameString.CHEAT_ACTION),
-			Strings.loadDialog(DialogString.CHEATS));
-		if (value == JOptionPane.YES_OPTION) {
-		    return Strings.loadGame(GameString.ENABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
-			    + userInput.toLowerCase();
-		} else {
-		    return Strings.loadGame(GameString.DISABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
-			    + userInput.toLowerCase();
-		}
+	if (userInput == null) {
+	    return null;
+	}
+	final var index = this.cheatCache.indexOf(userInput.toLowerCase());
+	if (index != -1) {
+	    final var value = CommonDialogs.showConfirmDialog(Strings.loadGame(GameString.CHEAT_ACTION),
+		    Strings.loadDialog(DialogString.CHEATS));
+	    if (value == JOptionPane.YES_OPTION) {
+		return Strings.loadGame(GameString.ENABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
+			+ userInput.toLowerCase();
 	    } else {
-		CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.INVALID_CHEAT),
-			Strings.loadDialog(DialogString.CHEATS));
-		return null;
+		return Strings.loadGame(GameString.DISABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
+			+ userInput.toLowerCase();
 	    }
 	} else {
+	    CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.INVALID_CHEAT),
+		    Strings.loadDialog(DialogString.CHEATS));
 	    return null;
 	}
     }
@@ -58,16 +57,16 @@ public final class Cheats {
 
     // Methods
     private void loadCheatCache() {
-	final ResourceBundle instant = ResourceBundle.getBundle("locale.cheats_instant");
-	final ResourceBundle toggle = ResourceBundle.getBundle("locale.cheats_toggle");
-	final int iLimit = Cheat.instantCount();
-	for (int i = 0; i < iLimit; i++) {
-	    final String code = instant.getString(Integer.toString(i));
+	final var instant = ResourceBundle.getBundle("locale.cheats_instant");
+	final var toggle = ResourceBundle.getBundle("locale.cheats_toggle");
+	final var iLimit = Cheat.instantCount();
+	for (var i = 0; i < iLimit; i++) {
+	    final var code = instant.getString(Integer.toString(i));
 	    this.cheatCache.add(new InstantCheat(code, CheatEffect.values()[i]));
 	}
-	final int tLimit = Cheat.count();
-	for (int t = iLimit; t < tLimit; t++) {
-	    final String code = toggle.getString(Integer.toString(t));
+	final var tLimit = Cheat.count();
+	for (var t = iLimit; t < tLimit; t++) {
+	    final var code = toggle.getString(Integer.toString(t));
 	    this.cheatCache.add(new ToggleCheat(code, CheatEffect.values()[t]));
 	}
 	this.cheatCount = tLimit;

@@ -17,26 +17,24 @@ import com.puttysoftware.lasertank.index.Material;
 public class ThinIce extends AbstractGround {
     // Constructors
     public ThinIce() {
-	super();
 	this.setMaterial(Material.ICE);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final Ice i = new Ice();
+	return switch (materialID) {
+	case ICE -> {
+	    final var i = new Ice();
 	    i.setPreviousState(this);
-	    return i;
-	case FIRE:
-	    return new Water();
-	default:
-	    return this;
+	    yield i;
 	}
+	case FIRE -> new Water();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.THIN_ICE;
     }
 

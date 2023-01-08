@@ -12,7 +12,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Flag extends AbstractPassThroughObject {
     // Constructors
     public Flag() {
-	super();
     }
 
     // Scriptability
@@ -32,7 +31,7 @@ public class Flag extends AbstractPassThroughObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FLAG;
     }
 }

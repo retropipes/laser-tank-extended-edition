@@ -23,16 +23,14 @@ public class HotBox extends AbstractMovableObject {
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    return new Box();
-	default:
-	    return this;
-	}
+	return switch (materialID) {
+	case ICE -> new Box();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.HOT_BOX;
     }
 

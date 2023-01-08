@@ -10,16 +10,15 @@ public class LaserTankScoreDescendingSorter implements Comparator<LaserTankScore
     public int compare(final LaserTankScore o1, final LaserTankScore o2) {
 	if (o2.shots > o1.shots) {
 	    return -1;
-	} else if (o2.shots < o1.shots) {
+	}
+	if (o2.shots < o1.shots) {
+	    return 1;
+	} else if (o2.moves > o1.moves) {
+	    return -1;
+	} else if (o2.moves < o1.moves) {
 	    return 1;
 	} else {
-	    if (o2.moves > o1.moves) {
-		return -1;
-	    } else if (o2.moves < o1.moves) {
-		return 1;
-	    } else {
-		return 0;
-	    }
+	    return 0;
 	}
     }
 }

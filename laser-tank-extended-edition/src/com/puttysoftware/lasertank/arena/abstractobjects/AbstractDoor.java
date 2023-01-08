@@ -21,20 +21,17 @@ public abstract class AbstractDoor extends AbstractArenaObject {
 
     @Override
     public AbstractDoor clone() {
-	final AbstractDoor copy = (AbstractDoor) super.clone();
+	final var copy = (AbstractDoor) super.clone();
 	copy.key = (AbstractKey) this.key.clone();
 	return copy;
     }
 
     @Override
     public boolean equals(final Object obj) {
-	if (obj == null) {
+	if ((obj == null) || (this.getClass() != obj.getClass())) {
 	    return false;
 	}
-	if (this.getClass() != obj.getClass()) {
-	    return false;
-	}
-	final AbstractDoor other = (AbstractDoor) obj;
+	final var other = (AbstractDoor) obj;
 	if (this.key != other.key && (this.key == null || !this.key.equals(other.key))) {
 	    return false;
 	}
@@ -53,7 +50,7 @@ public abstract class AbstractDoor extends AbstractArenaObject {
 
     @Override
     public int hashCode() {
-	final int hash = 7;
+	final var hash = 7;
 	return 71 * hash + (this.key != null ? this.key.hashCode() : 0);
     }
 

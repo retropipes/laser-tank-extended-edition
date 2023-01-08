@@ -30,7 +30,7 @@ public class LaserTankSavedScoreManager extends LaserTankScores {
     // Methods
     @Override
     public boolean add(final long newMoves, final long newShots) {
-	final boolean success = super.add(newMoves, newShots);
+	final var success = super.add(newMoves, newShots);
 	try {
 	    this.writeScoresFile();
 	} catch (final IOException io) {
@@ -41,7 +41,7 @@ public class LaserTankSavedScoreManager extends LaserTankScores {
 
     @Override
     public boolean add(final long newMoves, final long newShots, final String newName) {
-	final boolean success = super.add(newMoves, newShots, newName);
+	final var success = super.add(newMoves, newShots, newName);
 	try {
 	    this.writeScoresFile();
 	} catch (final IOException io) {
@@ -51,13 +51,13 @@ public class LaserTankSavedScoreManager extends LaserTankScores {
     }
 
     private void readScoresFile() throws IOException {
-	try (GameIODataReader gio = new GameIODataReader(this.scoresFilename)) {
+	try (var gio = new GameIODataReader(this.scoresFilename)) {
 	    this.table = LaserTankSortedScoreTable.load(gio);
 	}
     }
 
     private void writeScoresFile() throws IOException {
-	try (GameIODataWriter gio = new GameIODataWriter(this.scoresFilename)) {
+	try (var gio = new GameIODataWriter(this.scoresFilename)) {
 	    this.table.save(gio);
 	}
     }

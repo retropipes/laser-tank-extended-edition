@@ -9,8 +9,8 @@ final class LaserTankPlaybackEntry {
     private final int dirZ;
     private final int dirW;
 
-    LaserTankPlaybackEntry(GameAction action1, int dirX1, int dirY1, int dirZ1, int dirW1) {
-	super();
+    LaserTankPlaybackEntry(final GameAction action1, final int dirX1, final int dirY1, final int dirZ1,
+	    final int dirW1) {
 	this.action = action1;
 	this.dirX = dirX1;
 	this.dirY = dirY1;
@@ -18,8 +18,7 @@ final class LaserTankPlaybackEntry {
 	this.dirW = dirW1;
     }
 
-    LaserTankPlaybackEntry(LaserTankPlaybackEntry source) {
-	super();
+    LaserTankPlaybackEntry(final LaserTankPlaybackEntry source) {
 	this.action = source.action;
 	this.dirX = source.dirX;
 	this.dirY = source.dirY;
@@ -27,23 +26,23 @@ final class LaserTankPlaybackEntry {
 	this.dirW = source.dirW;
     }
 
-    final GameAction getAction() {
+    GameAction getAction() {
 	return this.action;
     }
 
-    final int getDirW() {
+    int getDirW() {
 	return this.dirW;
     }
 
-    final int getDirX() {
+    int getDirX() {
 	return this.dirX;
     }
 
-    final int getDirY() {
+    int getDirY() {
 	return this.dirY;
     }
 
-    final int getDirZ() {
+    int getDirZ() {
 	return this.dirZ;
     }
 }

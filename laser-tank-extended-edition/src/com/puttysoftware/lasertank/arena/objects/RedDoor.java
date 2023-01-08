@@ -19,7 +19,7 @@ public class RedDoor extends AbstractDoor {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.RED_DOOR;
     }
 

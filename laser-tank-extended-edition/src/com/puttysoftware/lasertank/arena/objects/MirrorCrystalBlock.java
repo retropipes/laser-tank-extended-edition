@@ -22,22 +22,20 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class MirrorCrystalBlock extends AbstractReactionWall {
     // Constructors
     public MirrorCrystalBlock() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final IcyCrystalBlock icb = new IcyCrystalBlock();
+	return switch (materialID) {
+	case ICE -> {
+	    final var icb = new IcyCrystalBlock();
 	    icb.setPreviousState(this);
-	    return icb;
-	case FIRE:
-	    return new HotCrystalBlock();
-	default:
-	    return this;
+	    yield icb;
 	}
+	case FIRE -> new HotCrystalBlock();
+	default -> this;
+	};
     }
 
     @Override
@@ -46,7 +44,7 @@ public class MirrorCrystalBlock extends AbstractReactionWall {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MIRROR_CRYSTAL_BLOCK;
     }
 
@@ -58,7 +56,8 @@ public class MirrorCrystalBlock extends AbstractReactionWall {
 	    Sounds.play(Sound.BOOM);
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else if (laserType == LaserType.BLUE) {
+	}
+	if (laserType == LaserType.BLUE) {
 	    // Pass laser through
 	    return DirectionHelper.resolveRelative(dirX, dirY);
 	} else {
@@ -81,21 +80,18 @@ public class MirrorCrystalBlock extends AbstractReactionWall {
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
 		    this.getLayer());
 	    return true;
-	} else if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
+	}
+	if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
 	    // Heat up mirror crystal block
 	    Sounds.play(Sound.MELT);
 	    LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
 		    locY + dirY, locZ, this.getLayer());
-	    return true;
 	} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
 	    // Freeze mirror crystal block
 	    Sounds.play(Sound.FREEZE);
 	    LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
 		    locY + dirY, locZ, this.getLayer());
-	    return true;
-	} else {
-	    // Do nothing
-	    return true;
 	}
+	return true;
     }
 }

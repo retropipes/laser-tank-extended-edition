@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractKey extends AbstractArenaObject {
     // Constructors
     protected AbstractKey() {
-	super();
 	this.addType(GameType.KEY);
     }
 

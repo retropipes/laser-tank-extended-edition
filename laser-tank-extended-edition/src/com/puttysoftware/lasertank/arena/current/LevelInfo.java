@@ -17,7 +17,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 
 public final class LevelInfo {
     public static LevelInfo readLevelInfo(final DataIOReader reader) throws IOException {
-	final LevelInfo li = new LevelInfo();
+	final var li = new LevelInfo();
 	int x, y;
 	for (y = 0; y < 3; y++) {
 	    for (x = 0; x < Players.COUNT; x++) {
@@ -62,7 +62,7 @@ public final class LevelInfo {
     // Methods
     @Override
     public LevelInfo clone() {
-	final LevelInfo copy = new LevelInfo();
+	final var copy = new LevelInfo();
 	copy.playerData = new NumberStorage(this.playerData);
 	copy.horizontalWraparoundEnabled = this.horizontalWraparoundEnabled;
 	copy.verticalWraparoundEnabled = this.verticalWraparoundEnabled;
@@ -87,7 +87,7 @@ public final class LevelInfo {
     }
 
     public boolean doesPlayerExist(final int pi) {
-	for (int y = 0; y < Players.DIMENSIONS; y++) {
+	for (var y = 0; y < Players.DIMENSIONS; y++) {
 	    if (this.playerData.getCell(y, pi) == -1) {
 		return false;
 	    }

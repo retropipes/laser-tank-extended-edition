@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 
 import com.puttysoftware.diane.fileio.utility.ZipUtilities;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.DialogString;
@@ -22,15 +21,14 @@ import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 public class SaveTask extends Thread {
     private static boolean hasExtension(final String s) {
 	String ext = null;
-	final int i = s.lastIndexOf('.');
+	final var i = s.lastIndexOf('.');
 	if (i > 0 && i < s.length() - 1) {
 	    ext = s.substring(i + 1).toLowerCase();
 	}
 	if (ext == null) {
 	    return false;
-	} else {
-	    return true;
 	}
+	return true;
     }
 
     // Fields
@@ -48,10 +46,10 @@ public class SaveTask extends Thread {
 
     @Override
     public void run() {
-	final Application app = LaserTankEE.getApplication();
-	boolean success = true;
+	final var app = LaserTankEE.getApplication();
+	var success = true;
 	// filename check
-	final boolean hasExtension = SaveTask.hasExtension(this.filename);
+	final var hasExtension = SaveTask.hasExtension(this.filename);
 	if (!hasExtension) {
 	    if (this.isSavedGame) {
 		this.filename += FileExtensions.getGameExtensionWithPeriod();
@@ -59,8 +57,8 @@ public class SaveTask extends Thread {
 		this.filename += FileExtensions.getArenaExtensionWithPeriod();
 	    }
 	}
-	final File arenaFile = new File(this.filename);
-	final File tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
+	final var arenaFile = new File(this.filename);
+	final var tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
 	try {
 	    // Set prefix handler
 	    app.getArenaManager().getArena().setPrefixHandler(new PrefixHandler());

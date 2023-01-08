@@ -17,7 +17,7 @@ public class IceAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICE_ALL_BUTTON;
     }
 }

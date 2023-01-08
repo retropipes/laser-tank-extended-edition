@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.index.Layer;
 public class UpperGroundEmpty extends AbstractPassThroughObject {
     // Constructors
     public UpperGroundEmpty() {
-	super();
 	this.addType(GameType.EMPTY_SPACE);
     }
 
@@ -23,7 +22,7 @@ public class UpperGroundEmpty extends AbstractPassThroughObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.PLACEHOLDER;
     }
 }

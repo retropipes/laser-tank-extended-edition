@@ -14,11 +14,10 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class PowerBolt extends AbstractField {
     // Constructors
     public PowerBolt() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.POWER_BOLT;
     }
 

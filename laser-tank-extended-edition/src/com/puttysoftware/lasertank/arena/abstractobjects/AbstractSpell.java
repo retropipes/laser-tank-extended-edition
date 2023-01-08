@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractSpell extends AbstractArenaObject {
     // Constructors
     protected AbstractSpell() {
-	super();
 	this.addType(GameType.SPELL);
     }
 

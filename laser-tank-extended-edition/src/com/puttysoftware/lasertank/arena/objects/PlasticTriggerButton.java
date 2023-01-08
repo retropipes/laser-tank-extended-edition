@@ -17,7 +17,7 @@ public class PlasticTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.PLASTIC_TRIGGER_BUTTON;
     }
 }

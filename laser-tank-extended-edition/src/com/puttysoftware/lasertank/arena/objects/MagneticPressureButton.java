@@ -17,7 +17,7 @@ public class MagneticPressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_PRESSURE_BUTTON;
     }
 }

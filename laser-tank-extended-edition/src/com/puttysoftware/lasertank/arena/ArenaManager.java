@@ -16,7 +16,6 @@ import javax.swing.JOptionPane;
 import com.puttysoftware.diane.fileio.utility.FilenameChecker;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.current.CurrentArena;
 import com.puttysoftware.lasertank.arena.v4.V4LevelLoadTask;
@@ -39,7 +38,7 @@ public class ArenaManager {
 
     private static String getExtension(final String s) {
 	String ext = null;
-	final int i = s.lastIndexOf('.');
+	final var i = s.lastIndexOf('.');
 	if (i > 0 && i < s.length() - 1) {
 	    ext = s.substring(i + 1).toLowerCase();
 	}
@@ -48,7 +47,7 @@ public class ArenaManager {
 
     private static String getFileNameOnly(final String s) {
 	String fno = null;
-	final int i = s.lastIndexOf(File.separatorChar);
+	final var i = s.lastIndexOf(File.separatorChar);
 	if (i > 0 && i < s.length() - 1) {
 	    fno = s.substring(i + 1);
 	} else {
@@ -59,7 +58,7 @@ public class ArenaManager {
 
     private static String getNameWithoutExtension(final String s) {
 	String ext = null;
-	final int i = s.lastIndexOf('.');
+	final var i = s.lastIndexOf('.');
 	if (i > 0 && i < s.length() - 1) {
 	    ext = s.substring(0, i);
 	} else {
@@ -77,7 +76,7 @@ public class ArenaManager {
 	    // Run cleanup task
 	    CleanupTask.cleanUp();
 	    // Load file
-	    final LoadTask xlt = new LoadTask(filename, isSavedGame, protect);
+	    final var xlt = new LoadTask(filename, isSavedGame, protect);
 	    xlt.start();
 	}
     }
@@ -88,13 +87,13 @@ public class ArenaManager {
 	} else {
 	    LaserTankEE.getApplication().showMessage(Strings.loadMessage(MessageString.SAVING_ARENA));
 	}
-	final SaveTask xst = new SaveTask(filename, isSavedGame, protect);
+	final var xst = new SaveTask(filename, isSavedGame, protect);
 	xst.start();
     }
 
     public static int showSaveDialog() {
 	String type, source;
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (app.isInEditorMode()) {
 	    type = Strings.loadDialog(DialogString.PROMPT_SAVE_ARENA);
 	    source = Strings.loadEditor(EditorString.EDITOR);
@@ -182,10 +181,10 @@ public class ArenaManager {
     }
 
     private boolean loadArenaImpl(final String initialDirectory) {
-	int status = 0;
-	boolean saved = true;
+	var status = 0;
+	var saved = true;
 	String filename, extension, file, dir;
-	final FileDialog fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.LOAD), FileDialog.LOAD);
+	final var fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.LOAD), FileDialog.LOAD);
 	fd.setDirectory(initialDirectory);
 	if (this.getDirty()) {
 	    status = ArenaManager.showSaveDialog();
@@ -219,139 +218,129 @@ public class ArenaManager {
 		} else if (extension.equals(FileExtensions.getOldLevelExtension())) {
 		    this.lastUsedArenaFile = filename;
 		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
-		    final V4LevelLoadTask ollt = new V4LevelLoadTask(filename);
+		    final var ollt = new V4LevelLoadTask(filename);
 		    ollt.start();
 		} else {
 		    CommonDialogs.showDialog(Strings.loadDialog(DialogString.NON_ARENA_FILE));
 		}
-	    } else {
-		// User cancelled
-		if (this.loaded) {
-		    return true;
-		}
+	    } else // User cancelled
+	    if (this.loaded) {
+		return true;
 	    }
 	}
 	return false;
     }
 
     public boolean saveArena(final boolean protect) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (app.isInGameMode()) {
-	    if (this.lastUsedGameFile != null
-		    && !this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
-		final String extension = ArenaManager.getExtension(this.lastUsedGameFile);
-		if (extension != null) {
-		    if (!extension.equals(FileExtensions.getGameExtension())) {
-			this.lastUsedGameFile = ArenaManager.getNameWithoutExtension(this.lastUsedGameFile)
-				+ FileExtensions.getGameExtensionWithPeriod();
-		    }
-		} else {
-		    this.lastUsedGameFile += FileExtensions.getGameExtensionWithPeriod();
-		}
-		ArenaManager.saveFile(this.lastUsedGameFile, true, false);
-	    } else {
+	    if ((this.lastUsedGameFile == null)
+		    || this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 		return this.saveArenaAs(protect);
 	    }
-	} else {
-	    if (protect) {
-		if (this.lastUsedArenaFile != null
-			&& !this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
-		    final String extension = ArenaManager.getExtension(this.lastUsedArenaFile);
-		    if (extension != null) {
-			if (!extension.equals(FileExtensions.getProtectedArenaExtension())) {
-			    this.lastUsedArenaFile = ArenaManager.getNameWithoutExtension(this.lastUsedArenaFile)
-				    + FileExtensions.getProtectedArenaExtensionWithPeriod();
-			}
-		    } else {
-			this.lastUsedArenaFile += FileExtensions.getProtectedArenaExtensionWithPeriod();
-		    }
-		    ArenaManager.saveFile(this.lastUsedArenaFile, false, protect);
-		} else {
-		    return this.saveArenaAs(protect);
+	    final var extension = ArenaManager.getExtension(this.lastUsedGameFile);
+	    if (extension != null) {
+		if (!extension.equals(FileExtensions.getGameExtension())) {
+		    this.lastUsedGameFile = ArenaManager.getNameWithoutExtension(this.lastUsedGameFile)
+			    + FileExtensions.getGameExtensionWithPeriod();
 		}
 	    } else {
-		if (this.lastUsedArenaFile != null
-			&& !this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
-		    final String extension = ArenaManager.getExtension(this.lastUsedArenaFile);
-		    if (extension != null) {
-			if (!extension.equals(FileExtensions.getArenaExtension())) {
-			    this.lastUsedArenaFile = ArenaManager.getNameWithoutExtension(this.lastUsedArenaFile)
-				    + FileExtensions.getArenaExtensionWithPeriod();
-			}
-		    } else {
-			this.lastUsedArenaFile += FileExtensions.getArenaExtensionWithPeriod();
-		    }
-		    ArenaManager.saveFile(this.lastUsedArenaFile, false, protect);
-		} else {
+		this.lastUsedGameFile += FileExtensions.getGameExtensionWithPeriod();
+	    }
+	    ArenaManager.saveFile(this.lastUsedGameFile, true, false);
+	} else {
+	    if (protect) {
+		if ((this.lastUsedArenaFile == null)
+			|| this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 		    return this.saveArenaAs(protect);
 		}
+		final var extension = ArenaManager.getExtension(this.lastUsedArenaFile);
+		if (extension != null) {
+		    if (!extension.equals(FileExtensions.getProtectedArenaExtension())) {
+			this.lastUsedArenaFile = ArenaManager.getNameWithoutExtension(this.lastUsedArenaFile)
+				+ FileExtensions.getProtectedArenaExtensionWithPeriod();
+		    }
+		} else {
+		    this.lastUsedArenaFile += FileExtensions.getProtectedArenaExtensionWithPeriod();
+		}
+	    } else {
+		if ((this.lastUsedArenaFile == null)
+			|| this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
+		    return this.saveArenaAs(protect);
+		}
+		final var extension = ArenaManager.getExtension(this.lastUsedArenaFile);
+		if (extension != null) {
+		    if (!extension.equals(FileExtensions.getArenaExtension())) {
+			this.lastUsedArenaFile = ArenaManager.getNameWithoutExtension(this.lastUsedArenaFile)
+				+ FileExtensions.getArenaExtensionWithPeriod();
+		    }
+		} else {
+		    this.lastUsedArenaFile += FileExtensions.getArenaExtensionWithPeriod();
+		}
 	    }
+	    ArenaManager.saveFile(this.lastUsedArenaFile, false, protect);
 	}
 	return false;
     }
 
     public boolean saveArenaAs(final boolean protect) {
-	final Application app = LaserTankEE.getApplication();
-	String filename = Strings.loadCommon(CommonString.EMPTY);
-	String fileOnly = GlobalStrings.loadUntranslated(UntranslatedString.DOUBLE_BACKSLASH);
+	final var app = LaserTankEE.getApplication();
+	var filename = Strings.loadCommon(CommonString.EMPTY);
+	var fileOnly = GlobalStrings.loadUntranslated(UntranslatedString.DOUBLE_BACKSLASH);
 	String extension, file, dir;
-	final String lastSave = Settings.getLastDirSave();
-	final FileDialog fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.SAVE), FileDialog.SAVE);
+	final var lastSave = Settings.getLastDirSave();
+	final var fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.SAVE), FileDialog.SAVE);
 	fd.setDirectory(lastSave);
 	while (!FilenameChecker.isFilenameOK(fileOnly)) {
 	    fd.setVisible(true);
 	    file = fd.getFile();
 	    dir = fd.getDirectory();
-	    if (file != null && dir != null) {
-		extension = ArenaManager.getExtension(file);
-		filename = dir + file;
-		fileOnly = filename.substring(dir.length() + 1);
-		if (!FilenameChecker.isFilenameOK(fileOnly)) {
-		    CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.ILLEGAL_CHARACTERS),
-			    Strings.loadDialog(DialogString.SAVE));
-		} else {
-		    Settings.setLastDirSave(dir);
-		    if (app.isInGameMode()) {
-			if (extension != null) {
-			    if (!extension.equals(FileExtensions.getGameExtension())) {
-				filename = ArenaManager.getNameWithoutExtension(file)
-					+ FileExtensions.getGameExtensionWithPeriod();
-			    }
-			} else {
-			    filename += FileExtensions.getGameExtensionWithPeriod();
+	    if ((file == null) || (dir == null)) {
+		break;
+	    }
+	    extension = ArenaManager.getExtension(file);
+	    filename = dir + file;
+	    fileOnly = filename.substring(dir.length() + 1);
+	    if (!FilenameChecker.isFilenameOK(fileOnly)) {
+		CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.ILLEGAL_CHARACTERS),
+			Strings.loadDialog(DialogString.SAVE));
+	    } else {
+		Settings.setLastDirSave(dir);
+		if (app.isInGameMode()) {
+		    if (extension != null) {
+			if (!extension.equals(FileExtensions.getGameExtension())) {
+			    filename = ArenaManager.getNameWithoutExtension(file)
+				    + FileExtensions.getGameExtensionWithPeriod();
 			}
-			this.lastUsedGameFile = filename;
-			ArenaManager.saveFile(filename, true, false);
 		    } else {
-			if (protect) {
-			    if (extension != null) {
-				if (!extension.equals(FileExtensions.getProtectedArenaExtension())) {
-				    filename = ArenaManager.getNameWithoutExtension(file)
-					    + FileExtensions.getProtectedArenaExtensionWithPeriod();
-				}
-			    } else {
-				filename += FileExtensions.getProtectedArenaExtensionWithPeriod();
+			filename += FileExtensions.getGameExtensionWithPeriod();
+		    }
+		    this.lastUsedGameFile = filename;
+		    ArenaManager.saveFile(filename, true, false);
+		} else {
+		    if (protect) {
+			if (extension != null) {
+			    if (!extension.equals(FileExtensions.getProtectedArenaExtension())) {
+				filename = ArenaManager.getNameWithoutExtension(file)
+					+ FileExtensions.getProtectedArenaExtensionWithPeriod();
 			    }
-			    this.lastUsedArenaFile = filename;
-			    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
-			    ArenaManager.saveFile(filename, false, protect);
 			} else {
-			    if (extension != null) {
-				if (!extension.equals(FileExtensions.getArenaExtension())) {
-				    filename = ArenaManager.getNameWithoutExtension(file)
-					    + FileExtensions.getArenaExtensionWithPeriod();
-				}
-			    } else {
-				filename += FileExtensions.getArenaExtensionWithPeriod();
+			    filename += FileExtensions.getProtectedArenaExtensionWithPeriod();
+			}
+		    } else {
+			if (extension != null) {
+			    if (!extension.equals(FileExtensions.getArenaExtension())) {
+				filename = ArenaManager.getNameWithoutExtension(file)
+					+ FileExtensions.getArenaExtensionWithPeriod();
 			    }
-			    this.lastUsedArenaFile = filename;
-			    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
-			    ArenaManager.saveFile(filename, false, protect);
+			} else {
+			    filename += FileExtensions.getArenaExtensionWithPeriod();
 			}
 		    }
+		    this.lastUsedArenaFile = filename;
+		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
+		    ArenaManager.saveFile(filename, false, protect);
 		}
-	    } else {
-		break;
 	    }
 	}
 	return false;
@@ -366,7 +355,7 @@ public class ArenaManager {
     }
 
     public void setDirty(final boolean newDirty) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	this.isDirty = newDirty;
 	MainWindow.mainWindow().setDirty(newDirty);
 	app.getMenuManager().updateMenuItemState();
@@ -381,7 +370,7 @@ public class ArenaManager {
     }
 
     public void setLoaded(final boolean status) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	this.loaded = status;
 	app.getMenuManager().updateMenuItemState();
     }

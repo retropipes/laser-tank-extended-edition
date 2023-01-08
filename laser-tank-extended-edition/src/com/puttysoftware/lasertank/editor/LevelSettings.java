@@ -24,7 +24,6 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -40,8 +39,8 @@ class LevelSettings {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 	    try {
-		final LevelSettings lpm = LevelSettings.this;
-		final String cmd = e.getActionCommand();
+		final var lpm = LevelSettings.this;
+		final var cmd = e.getActionCommand();
 		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
 		    lpm.setSettings();
 		    lpm.hideSettings();
@@ -65,7 +64,7 @@ class LevelSettings {
 
 	@Override
 	public void windowClosing(final WindowEvent e) {
-	    final LevelSettings pm = LevelSettings.this;
+	    final var pm = LevelSettings.this;
 	    pm.hideSettings();
 	}
 
@@ -115,7 +114,7 @@ class LevelSettings {
     }
 
     private void loadSettings() {
-	final Arena m = LaserTankEE.getApplication().getArenaManager().getArena();
+	final var m = LaserTankEE.getApplication().getArenaManager().getArena();
 	this.horizontalWrap.setSelected(m.isHorizontalWraparoundEnabled());
 	this.verticalWrap.setSelected(m.isVerticalWraparoundEnabled());
 	this.thirdWrap.setSelected(m.isThirdDimensionWraparoundEnabled());
@@ -127,7 +126,7 @@ class LevelSettings {
     }
 
     void setSettings() {
-	final Arena m = LaserTankEE.getApplication().getArenaManager().getArena();
+	final var m = LaserTankEE.getApplication().getArenaManager().getArena();
 	if (this.horizontalWrap.isSelected()) {
 	    m.enableHorizontalWraparound();
 	} else {
@@ -153,7 +152,7 @@ class LevelSettings {
     private void setUpGUI() {
 	Container mainSettingsPane, contentPane, buttonPane;
 	JButton prefsOK, prefsCancel;
-	final EventHandler handler = new EventHandler();
+	final var handler = new EventHandler();
 	this.prefFrame = new JFrame(Strings.loadEditor(EditorString.LEVEL_SETTINGS));
 	mainSettingsPane = new Container();
 	contentPane = new Container();

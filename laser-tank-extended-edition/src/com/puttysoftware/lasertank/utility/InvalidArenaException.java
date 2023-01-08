@@ -11,7 +11,6 @@ public class InvalidArenaException extends RuntimeException {
 
     // Constructors
     public InvalidArenaException() {
-	super();
     }
 
     public InvalidArenaException(final String msg) {

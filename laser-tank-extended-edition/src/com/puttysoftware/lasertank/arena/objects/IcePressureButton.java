@@ -17,7 +17,7 @@ public class IcePressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICE_PRESSURE_BUTTON;
     }
 }

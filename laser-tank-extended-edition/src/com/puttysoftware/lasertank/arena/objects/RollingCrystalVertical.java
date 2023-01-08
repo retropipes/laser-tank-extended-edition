@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -25,37 +24,36 @@ public class RollingCrystalVertical extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ROLLING_CRYSTAL_VERTICAL;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Direction dir = DirectionHelper.resolveRelative(dirX, dirY);
+	final var dir = DirectionHelper.resolveRelative(dirX, dirY);
 	if (dir == Direction.NORTH || dir == Direction.SOUTH) {
 	    // Roll
 	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
+	// Break up
+	final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+	// Boom!
+	Sounds.play(Sound.PROXIMITY);
+	// Destroy barrel
+	LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+	// Check for tank in range of explosion
+	final var target = a.circularScanTank(locX, locY, locZ, 1);
+	if (target) {
+	    // Kill tank
+	    LaserTankEE.getApplication().getGameManager().gameOver();
+	}
+	if (laserType == LaserType.POWER) {
+	    // Laser keeps going
+	    return DirectionHelper.resolveRelative(dirX, dirY);
 	} else {
-	    // Break up
-	    final Arena a = LaserTankEE.getApplication().getArenaManager().getArena();
-	    // Boom!
-	    Sounds.play(Sound.PROXIMITY);
-	    // Destroy barrel
-	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
-	    // Check for tank in range of explosion
-	    final boolean target = a.circularScanTank(locX, locY, locZ, 1);
-	    if (target) {
-		// Kill tank
-		LaserTankEE.getApplication().getGameManager().gameOver();
-	    }
-	    if (laserType == LaserType.POWER) {
-		// Laser keeps going
-		return DirectionHelper.resolveRelative(dirX, dirY);
-	    } else {
-		// Laser stops
-		return Direction.NONE;
-	    }
+	    // Laser stops
+	    return Direction.NONE;
 	}
     }
 
@@ -67,13 +65,13 @@ public class RollingCrystalVertical extends AbstractMovableObject {
     @Override
     public void pushCollideAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 	// Break up
-	final Arena a = LaserTankEE.getApplication().getArenaManager().getArena();
+	final var a = LaserTankEE.getApplication().getArenaManager().getArena();
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Destroy barrel
 	LaserTankEE.getApplication().getGameManager().morph(new Empty(), x, y, z, this.getLayer());
 	// Check for tank in range of explosion
-	final boolean target = a.circularScanTank(x, y, z, 1);
+	final var target = a.circularScanTank(x, y, z, 1);
 	if (target) {
 	    // Kill tank
 	    LaserTankEE.getApplication().getGameManager().gameOver();

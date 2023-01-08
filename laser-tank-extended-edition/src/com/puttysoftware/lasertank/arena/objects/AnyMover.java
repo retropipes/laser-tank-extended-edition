@@ -12,7 +12,6 @@ import com.puttysoftware.lasertank.index.GameType;
 public class AnyMover extends AbstractMover {
     // Constructors
     public AnyMover() {
-	super();
 	this.addType(GameType.MOVER);
 	this.addType(GameType.ANTI_MOVER);
 	this.addType(GameType.BOX_MOVER);
@@ -20,7 +19,7 @@ public class AnyMover extends AbstractMover {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ANY_MOVER;
     }
 }

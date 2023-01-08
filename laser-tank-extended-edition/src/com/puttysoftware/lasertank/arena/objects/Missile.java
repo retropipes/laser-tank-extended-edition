@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Missile extends AbstractTransientObject {
     // Constructors
     public Missile() {
-	super();
     }
 
     @Override
@@ -20,7 +19,7 @@ public class Missile extends AbstractTransientObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MISSILE;
     }
 }

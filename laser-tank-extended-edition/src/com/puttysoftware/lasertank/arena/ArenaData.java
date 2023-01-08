@@ -117,7 +117,7 @@ public abstract class ArenaData implements Cloneable {
     public abstract void markAsDirty(final Arena arena, final int row, final int col, final int floor);
 
     protected final int normalizeColumn(final int column) {
-	int fC = column;
+	var fC = column;
 	if (fC < 0) {
 	    fC += this.getColumns();
 	    while (fC < 0) {
@@ -133,7 +133,7 @@ public abstract class ArenaData implements Cloneable {
     }
 
     protected final int normalizeFloor(final int floor) {
-	int fF = floor;
+	var fF = floor;
 	if (fF < 0) {
 	    fF += this.getFloors();
 	    while (fF < 0) {
@@ -149,7 +149,7 @@ public abstract class ArenaData implements Cloneable {
     }
 
     protected final int normalizeRow(final int row) {
-	int fR = row;
+	var fR = row;
 	if (fR < 0) {
 	    fR += this.getRows();
 	    while (fR < 0) {

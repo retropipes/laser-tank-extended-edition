@@ -11,11 +11,10 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Darkness extends AbstractAttribute {
     // Constructors
     public Darkness() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.DARKNESS;
     }
 }

@@ -17,7 +17,7 @@ public class UniversalTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.UNIVERSAL_TRIGGER_BUTTON;
     }
 }

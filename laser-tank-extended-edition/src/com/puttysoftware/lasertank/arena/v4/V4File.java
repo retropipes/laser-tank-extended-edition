@@ -16,21 +16,20 @@ import com.puttysoftware.lasertank.utility.InvalidArenaException;
 class V4File {
     static void loadOldFile(final Arena a, final FileInputStream file) throws InvalidArenaException {
 	CurrentArenaData t = null;
-	int levelCount = 0;
+	var levelCount = 0;
 	do {
 	    a.switchLevel(levelCount);
 	    t = V4FileLevel.loadAndConvert(file, a);
 	    if (t != null) {
 		levelCount++;
 		a.setData(t, levelCount);
-		final int[] found = a.findPlayer(1);
+		final var found = a.findPlayer(1);
 		if (found == null) {
 		    throw new InvalidArenaException(Strings.loadError(ErrorString.TANK_LOCATION));
-		} else {
-		    a.setStartColumn(0, found[0]);
-		    a.setStartRow(0, found[1]);
-		    a.setStartFloor(0, found[2]);
 		}
+		a.setStartColumn(0, found[0]);
+		a.setStartRow(0, found[1]);
+		a.setStartFloor(0, found[2]);
 		a.save();
 		a.switchLevel(levelCount);
 	    }

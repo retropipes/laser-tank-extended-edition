@@ -12,9 +12,9 @@ import com.puttysoftware.diane.fileio.GameIODataWriter;
 
 public final class LaserTankScore {
     public static LaserTankScore load(final GameIODataReader gio) throws IOException {
-	final String loadName = gio.readString();
-	final long loadMoves = gio.readLong();
-	final long loadShots = gio.readLong();
+	final var loadName = gio.readString();
+	final var loadMoves = gio.readLong();
+	final var loadShots = gio.readLong();
 	return new LaserTankScore(loadMoves, loadShots, loadName);
     }
 

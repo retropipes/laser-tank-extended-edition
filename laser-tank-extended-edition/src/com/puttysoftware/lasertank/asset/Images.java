@@ -6,11 +6,7 @@
 package com.puttysoftware.lasertank.asset;
 
 import java.awt.Font;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
 
 import javax.imageio.ImageIO;
 
@@ -36,25 +32,22 @@ public class Images {
 
     public static BufferedImageIcon getCompositeImage(final AbstractArenaObject obj1, final AbstractArenaObject obj2,
 	    final boolean useText) {
-	final BufferedImageIcon icon1 = Images.getImage(obj1, useText);
-	final BufferedImageIcon icon2 = Images.getImage(obj2, useText);
+	final var icon1 = Images.getImage(obj1, useText);
+	final var icon2 = Images.getImage(obj2, useText);
 	return Images.getCompositeImageDirectly(icon1, icon2);
     }
 
     private static BufferedImageIcon getCompositeImageDirectly(final BufferedImageIcon icon1,
 	    final BufferedImageIcon icon2) {
 	try {
-	    final BufferedImageIcon result = new BufferedImageIcon(icon1);
+	    final var result = new BufferedImageIcon(icon1);
 	    if (icon1 != null && icon2 != null) {
-		final Graphics2D g2 = result.createGraphics();
+		final var g2 = result.createGraphics();
 		g2.drawImage(icon2, 0, 0, null);
 		return result;
-	    } else {
-		return null;
 	    }
-	} catch (final NullPointerException np) {
 	    return null;
-	} catch (final IllegalArgumentException ia) {
+	} catch (final NullPointerException | IllegalArgumentException ia) {
 	    return null;
 	}
     }
@@ -69,25 +62,25 @@ public class Images {
 
     static BufferedImageIcon getUncachedImage(final AbstractArenaObject obj, final boolean useText) {
 	try {
-	    final String normalName = obj.getImageName();
-	    final String path = GlobalStrings.loadUntranslated(UntranslatedString.OBJECTS_PATH) + normalName
+	    final var normalName = obj.getImageName();
+	    final var path = GlobalStrings.loadUntranslated(UntranslatedString.OBJECTS_PATH) + normalName
 		    + FileExtensions.getImageExtensionWithPeriod();
 	    try {
-		final URL url = Images.LOAD_CLASS.getResource(path);
-		final BufferedImage image = ImageIO.read(url);
-		final String customText = obj.getCustomText();
+		final var url = Images.LOAD_CLASS.getResource(path);
+		final var image = ImageIO.read(url);
+		final var customText = obj.getCustomText();
 		if (useText && customText != null) {
 		    if (Images.DRAW_FONT == null) {
-			try (InputStream is = Images.class
+			try (var is = Images.class
 				.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
 					+ GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
-			    final Font baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
+			    final var baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
 			    Images.DRAW_FONT = baseFont.deriveFont(Images.DRAW_SIZE);
 			} catch (final Exception ex) {
 			    Images.DRAW_FONT = Font.decode(Images.DRAW_FONT_FALLBACK);
 			}
 		    }
-		    final Graphics2D g2 = image.createGraphics();
+		    final var g2 = image.createGraphics();
 		    g2.setFont(Images.DRAW_FONT);
 		    g2.setColor(obj.getCustomTextColor());
 		    g2.drawString(customText, Images.DRAW_HORZ, Images.DRAW_VERT);
@@ -105,9 +98,9 @@ public class Images {
 
     public static BufferedImageIcon getVirtualCompositeImage(final AbstractArenaObject obj1,
 	    final AbstractArenaObject obj2, final AbstractArenaObject... otherObjs) {
-	BufferedImageIcon result = Images.getCompositeImage(obj1, obj2, true);
+	var result = Images.getCompositeImage(obj1, obj2, true);
 	for (final AbstractArenaObject otherObj : otherObjs) {
-	    final BufferedImageIcon img = Images.getImage(otherObj, true);
+	    final var img = Images.getImage(otherObj, true);
 	    result = Images.getCompositeImageDirectly(result, img);
 	}
 	return result;

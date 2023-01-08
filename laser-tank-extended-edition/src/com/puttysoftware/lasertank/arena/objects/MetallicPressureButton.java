@@ -17,7 +17,7 @@ public class MetallicPressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_PRESSURE_BUTTON;
     }
 }

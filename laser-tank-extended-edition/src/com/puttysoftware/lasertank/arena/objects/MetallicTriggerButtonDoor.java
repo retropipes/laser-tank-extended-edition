@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.Material;
 public class MetallicTriggerButtonDoor extends AbstractTriggerButtonDoor {
     // Constructors
     public MetallicTriggerButtonDoor() {
-	super();
 	this.setMaterial(Material.METALLIC);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_TRIGGER_DOOR;
     }
 }

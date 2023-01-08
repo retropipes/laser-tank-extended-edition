@@ -39,13 +39,9 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
 	if (this == obj) {
 	    return true;
 	}
-	if (!super.equals(obj)) {
+	if (!super.equals(obj) || !(obj instanceof AbstractCharacter other)) {
 	    return false;
 	}
-	if (!(obj instanceof AbstractCharacter)) {
-	    return false;
-	}
-	final AbstractCharacter other = (AbstractCharacter) obj;
 	if (this.characterNumber != other.characterNumber) {
 	    return false;
 	}
@@ -89,10 +85,9 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
      */
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = super.hashCode();
-	result = prime * result + this.characterNumber;
-	return result;
+	final var prime = 31;
+	var result = super.hashCode();
+	return prime * result + this.characterNumber;
     }
 
     @Override

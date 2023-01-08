@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAttribute;
@@ -19,7 +18,6 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class Cloak extends AbstractAttribute {
     // Constructors
     public Cloak() {
-	super();
 	this.addType(GameType.CLOAK);
     }
 
@@ -29,14 +27,14 @@ public class Cloak extends AbstractAttribute {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.CLOAK;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CHANGE);
 	return Direction.NONE;
@@ -44,14 +42,14 @@ public class Cloak extends AbstractAttribute {
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CHANGE);
     }
 
     @Override
     public void postMoveAction(final int locX, final int locY, final int locZ) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CHANGE);
     }

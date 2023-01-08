@@ -21,166 +21,102 @@ public class DirectionHelper {
     }
 
     public static Direction invert(final Direction thing) {
-	switch (thing) {
-	case NONE:
-	    return Direction.NONE;
-	case NORTH:
-	    return Direction.SOUTH;
-	case NORTHEAST:
-	    return Direction.SOUTHWEST;
-	case EAST:
-	    return Direction.WEST;
-	case SOUTHEAST:
-	    return Direction.NORTHWEST;
-	case SOUTH:
-	    return Direction.NORTH;
-	case SOUTHWEST:
-	    return Direction.NORTHEAST;
-	case WEST:
-	    return Direction.EAST;
-	case NORTHWEST:
-	    return Direction.SOUTHEAST;
-	case HORIZONTAL:
-	    return Direction.VERTICAL;
-	case VERTICAL:
-	    return Direction.HORIZONTAL;
-	case BOTH:
-	    return Direction.BOTH;
-	default:
-	    return Direction.NONE;
-	}
+	return switch (thing) {
+	case NONE -> Direction.NONE;
+	case NORTH -> Direction.SOUTH;
+	case NORTHEAST -> Direction.SOUTHWEST;
+	case EAST -> Direction.WEST;
+	case SOUTHEAST -> Direction.NORTHWEST;
+	case SOUTH -> Direction.NORTH;
+	case SOUTHWEST -> Direction.NORTHEAST;
+	case WEST -> Direction.EAST;
+	case NORTHWEST -> Direction.SOUTHEAST;
+	case HORIZONTAL -> Direction.VERTICAL;
+	case VERTICAL -> Direction.HORIZONTAL;
+	case BOTH -> Direction.BOTH;
+	default -> Direction.NONE;
+	};
     }
 
     public static Direction next(final Direction thing) {
-	switch (thing) {
-	case NONE:
-	    return Direction.NONE;
-	case NORTH:
-	    return Direction.NORTHEAST;
-	case NORTHEAST:
-	    return Direction.EAST;
-	case EAST:
-	    return Direction.SOUTHEAST;
-	case SOUTHEAST:
-	    return Direction.SOUTH;
-	case SOUTH:
-	    return Direction.SOUTHWEST;
-	case SOUTHWEST:
-	    return Direction.WEST;
-	case WEST:
-	    return Direction.NORTHWEST;
-	case NORTHWEST:
-	    return Direction.NORTH;
-	case HORIZONTAL:
-	    return Direction.VERTICAL;
-	case VERTICAL:
-	    return Direction.HORIZONTAL;
-	case BOTH:
-	    return Direction.BOTH;
-	default:
-	    return Direction.NONE;
-	}
+	return switch (thing) {
+	case NONE -> Direction.NONE;
+	case NORTH -> Direction.NORTHEAST;
+	case NORTHEAST -> Direction.EAST;
+	case EAST -> Direction.SOUTHEAST;
+	case SOUTHEAST -> Direction.SOUTH;
+	case SOUTH -> Direction.SOUTHWEST;
+	case SOUTHWEST -> Direction.WEST;
+	case WEST -> Direction.NORTHWEST;
+	case NORTHWEST -> Direction.NORTH;
+	case HORIZONTAL -> Direction.VERTICAL;
+	case VERTICAL -> Direction.HORIZONTAL;
+	case BOTH -> Direction.BOTH;
+	default -> Direction.NONE;
+	};
     }
 
     public static Direction nextOrthogonal(final Direction thing) {
-	switch (thing) {
-	case NONE:
-	    return Direction.NONE;
-	case NORTH:
-	    return Direction.EAST;
-	case NORTHEAST:
-	    return Direction.SOUTHEAST;
-	case EAST:
-	    return Direction.SOUTH;
-	case SOUTHEAST:
-	    return Direction.SOUTHWEST;
-	case SOUTH:
-	    return Direction.WEST;
-	case SOUTHWEST:
-	    return Direction.NORTHWEST;
-	case WEST:
-	    return Direction.NORTH;
-	case NORTHWEST:
-	    return Direction.NORTHEAST;
-	case HORIZONTAL:
-	    return Direction.VERTICAL;
-	case VERTICAL:
-	    return Direction.HORIZONTAL;
-	case BOTH:
-	    return Direction.BOTH;
-	default:
-	    return Direction.NONE;
-	}
+	return switch (thing) {
+	case NONE -> Direction.NONE;
+	case NORTH -> Direction.EAST;
+	case NORTHEAST -> Direction.SOUTHEAST;
+	case EAST -> Direction.SOUTH;
+	case SOUTHEAST -> Direction.SOUTHWEST;
+	case SOUTH -> Direction.WEST;
+	case SOUTHWEST -> Direction.NORTHWEST;
+	case WEST -> Direction.NORTH;
+	case NORTHWEST -> Direction.NORTHEAST;
+	case HORIZONTAL -> Direction.VERTICAL;
+	case VERTICAL -> Direction.HORIZONTAL;
+	case BOTH -> Direction.BOTH;
+	default -> Direction.NONE;
+	};
     }
 
     public static Direction previous(final Direction thing) {
-	switch (thing) {
-	case NONE:
-	    return Direction.NONE;
-	case NORTH:
-	    return Direction.NORTHWEST;
-	case NORTHEAST:
-	    return Direction.NORTH;
-	case EAST:
-	    return Direction.NORTHEAST;
-	case SOUTHEAST:
-	    return Direction.EAST;
-	case SOUTH:
-	    return Direction.SOUTHEAST;
-	case SOUTHWEST:
-	    return Direction.SOUTH;
-	case WEST:
-	    return Direction.SOUTHWEST;
-	case NORTHWEST:
-	    return Direction.WEST;
-	case HORIZONTAL:
-	    return Direction.VERTICAL;
-	case VERTICAL:
-	    return Direction.HORIZONTAL;
-	case BOTH:
-	    return Direction.BOTH;
-	default:
-	    return Direction.NONE;
-	}
+	return switch (thing) {
+	case NONE -> Direction.NONE;
+	case NORTH -> Direction.NORTHWEST;
+	case NORTHEAST -> Direction.NORTH;
+	case EAST -> Direction.NORTHEAST;
+	case SOUTHEAST -> Direction.EAST;
+	case SOUTH -> Direction.SOUTHEAST;
+	case SOUTHWEST -> Direction.SOUTH;
+	case WEST -> Direction.SOUTHWEST;
+	case NORTHWEST -> Direction.WEST;
+	case HORIZONTAL -> Direction.VERTICAL;
+	case VERTICAL -> Direction.HORIZONTAL;
+	case BOTH -> Direction.BOTH;
+	default -> Direction.NONE;
+	};
     }
 
     public static Direction previousOrthogonal(final Direction thing) {
-	switch (thing) {
-	case NONE:
-	    return Direction.NONE;
-	case NORTH:
-	    return Direction.WEST;
-	case NORTHEAST:
-	    return Direction.NORTHWEST;
-	case EAST:
-	    return Direction.NORTH;
-	case SOUTHEAST:
-	    return Direction.NORTHEAST;
-	case SOUTH:
-	    return Direction.EAST;
-	case SOUTHWEST:
-	    return Direction.SOUTHEAST;
-	case WEST:
-	    return Direction.SOUTH;
-	case NORTHWEST:
-	    return Direction.SOUTHWEST;
-	case HORIZONTAL:
-	    return Direction.VERTICAL;
-	case VERTICAL:
-	    return Direction.HORIZONTAL;
-	case BOTH:
-	    return Direction.BOTH;
-	default:
-	    return Direction.NONE;
-	}
+	return switch (thing) {
+	case NONE -> Direction.NONE;
+	case NORTH -> Direction.WEST;
+	case NORTHEAST -> Direction.NORTHWEST;
+	case EAST -> Direction.NORTH;
+	case SOUTHEAST -> Direction.NORTHEAST;
+	case SOUTH -> Direction.EAST;
+	case SOUTHWEST -> Direction.SOUTHEAST;
+	case WEST -> Direction.SOUTH;
+	case NORTHWEST -> Direction.SOUTHWEST;
+	case HORIZONTAL -> Direction.VERTICAL;
+	case VERTICAL -> Direction.HORIZONTAL;
+	case BOTH -> Direction.BOTH;
+	default -> Direction.NONE;
+	};
     }
 
     public static Direction resolveRelative(final int dX, final int dY) {
-	final int dirX = (int) Math.signum(dX);
-	final int dirY = (int) Math.signum(dY);
+	final var dirX = (int) Math.signum(dX);
+	final var dirY = (int) Math.signum(dY);
 	if (dirX == 0 && dirY == 0) {
 	    return Direction.NONE;
-	} else if (dirX == 0 && dirY == -1) {
+	}
+	if (dirX == 0 && dirY == -1) {
 	    return Direction.NORTH;
 	} else if (dirX == 0 && dirY == 1) {
 	    return Direction.SOUTH;
@@ -202,13 +138,12 @@ public class DirectionHelper {
     }
 
     public static Direction resolveRelativeHV(final int dX, final int dY) {
-	final int dirX = (int) Math.signum(dX);
-	final int dirY = (int) Math.signum(dY);
+	final var dirX = (int) Math.signum(dX);
+	final var dirY = (int) Math.signum(dY);
 	if (dirX == 0 && dirY == 0) {
 	    return Direction.NONE;
-	} else if (dirX == 0 && dirY == -1) {
-	    return Direction.VERTICAL;
-	} else if (dirX == 0 && dirY == 1) {
+	}
+	if ((dirX == 0 && dirY == -1) || (dirX == 0 && dirY == 1)) {
 	    return Direction.VERTICAL;
 	} else if (dirX == -1 && dirY == 0) {
 	    return Direction.HORIZONTAL;
@@ -228,11 +163,12 @@ public class DirectionHelper {
     }
 
     public static Direction resolveRelativeInvert(final int dX, final int dY) {
-	final int dirX = (int) Math.signum(dX);
-	final int dirY = (int) Math.signum(dY);
+	final var dirX = (int) Math.signum(dX);
+	final var dirY = (int) Math.signum(dY);
 	if (dirX == 0 && dirY == 0) {
 	    return Direction.NONE;
-	} else if (dirX == 0 && dirY == -1) {
+	}
+	if (dirX == 0 && dirY == -1) {
 	    return Direction.SOUTH;
 	} else if (dirX == 0 && dirY == 1) {
 	    return Direction.NORTH;
@@ -254,7 +190,7 @@ public class DirectionHelper {
     }
 
     public static int[] unresolveRelative(final Direction dir) {
-	int[] res = new int[2];
+	var res = new int[2];
 	if (dir == Direction.NONE) {
 	    res[0] = 0;
 	    res[1] = 0;

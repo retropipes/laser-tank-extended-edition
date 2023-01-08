@@ -15,11 +15,10 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class RedKey extends AbstractKey {
     // Constructors
     public RedKey() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.RED_KEY;
     }
 

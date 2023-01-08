@@ -14,7 +14,6 @@ import com.puttysoftware.diane.fileio.DataIOUtilities;
 import com.puttysoftware.diane.fileio.utility.FilenameChecker;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
@@ -26,7 +25,6 @@ public class LaserTankPlayback {
 	private static final long serialVersionUID = 8993383672852880300L;
 
 	public LPBLoadException() {
-	    super();
 	}
     }
 
@@ -36,38 +34,42 @@ public class LaserTankPlayback {
 
     private static Deque<LaserTankPlaybackEntry> decodeRawData(final byte[] d) throws LPBLoadException {
 	final Deque<LaserTankPlaybackEntry> decoded = new LinkedList<>();
-	for (int x = 0; x < d.length; x++) {
-	    decoded.add(LaserTankPlayback.decodeRawDataPoint(d[x]));
+	for (final byte element : d) {
+	    decoded.add(LaserTankPlayback.decodeRawDataPoint(element));
 	}
 	return decoded;
     }
 
     private static LaserTankPlaybackEntry decodeRawDataPoint(final byte d) throws LPBLoadException {
-	final Game game = LaserTankEE.getApplication().getGameManager();
-	switch (d) {
-	case 0x20:
+	final var game = LaserTankEE.getApplication().getGameManager();
+	return switch (d) {
+	case 0x20 -> {
 	    game.loadReplay(GameAction.SHOOT, 0, 0);
-	    return new LaserTankPlaybackEntry(GameAction.SHOOT, 0, 0, 0, 0);
-	case 0x25:
-	    game.loadReplay(GameAction.MOVE, -1, 0);
-	    return new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
-	case 0x26:
-	    game.loadReplay(GameAction.MOVE, 0, -1);
-	    return new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
-	case 0x27:
-	    game.loadReplay(GameAction.MOVE, 1, 0);
-	    return new LaserTankPlaybackEntry(GameAction.MOVE, 1, 0, 0, 0);
-	case 0x28:
-	    game.loadReplay(GameAction.MOVE, 0, 1);
-	    return new LaserTankPlaybackEntry(GameAction.MOVE, 0, 1, 0, 0);
-	default:
-	    throw new LPBLoadException();
+	    yield new LaserTankPlaybackEntry(GameAction.SHOOT, 0, 0, 0, 0);
 	}
+	case 0x25 -> {
+	    game.loadReplay(GameAction.MOVE, -1, 0);
+	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
+	}
+	case 0x26 -> {
+	    game.loadReplay(GameAction.MOVE, 0, -1);
+	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
+	}
+	case 0x27 -> {
+	    game.loadReplay(GameAction.MOVE, 1, 0);
+	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 1, 0, 0, 0);
+	}
+	case 0x28 -> {
+	    game.loadReplay(GameAction.MOVE, 0, 1);
+	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, 1, 0, 0);
+	}
+	default -> throw new LPBLoadException();
+	};
     }
 
     private static String getExtension(final String s) {
 	String ext = null;
-	final int i = s.lastIndexOf('.');
+	final var i = s.lastIndexOf('.');
 	if (i > 0 && i < s.length() - 1) {
 	    ext = s.substring(i + 1).toLowerCase();
 	}
@@ -76,7 +78,7 @@ public class LaserTankPlayback {
 
     private static String getFileNameOnly(final String s) {
 	String fno = null;
-	final int i = s.lastIndexOf(File.separatorChar);
+	final var i = s.lastIndexOf(File.separatorChar);
 	if (i > 0 && i < s.length() - 1) {
 	    fno = s.substring(i + 1);
 	} else {
@@ -87,7 +89,7 @@ public class LaserTankPlayback {
 
     private static String getNameWithoutExtension(final String s) {
 	String ext = null;
-	final int i = s.lastIndexOf('.');
+	final var i = s.lastIndexOf('.');
 	if (i > 0 && i < s.length() - 1) {
 	    ext = s.substring(0, i);
 	} else {
@@ -102,65 +104,63 @@ public class LaserTankPlayback {
 	    CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.ILLEGAL_CHARACTERS),
 		    Strings.loadDialog(DialogString.LOAD));
 	} else {
-	    final LaserTankPlaybackLoadTask lpblt = new LaserTankPlaybackLoadTask(new File(filename));
+	    final var lpblt = new LaserTankPlaybackLoadTask(new File(filename));
 	    lpblt.start();
 	}
     }
 
     static LaserTankPlayback loadFromFile(final File file) throws IOException {
-	try (FileInputStream fs = new FileInputStream(file)) {
+	try (var fs = new FileInputStream(file)) {
 	    return LaserTankPlayback.loadFromStream(fs);
 	}
     }
 
     // Internal stuff
     private static LaserTankPlayback loadFromStream(final InputStream fs) throws IOException {
-	int bytesRead = 0;
 	// Load level name
-	final byte[] levelNameData = new byte[LaserTankPlayback.LEVEL_NAME_LEN];
-	bytesRead = fs.read(levelNameData);
+	final var levelNameData = new byte[LaserTankPlayback.LEVEL_NAME_LEN];
+	var bytesRead = fs.read(levelNameData);
 	if (bytesRead < LaserTankPlayback.LEVEL_NAME_LEN) {
 	    throw new LPBLoadException();
 	}
-	final String loadLevelName = DataIOUtilities.decodeWindowsStringData(levelNameData);
+	final var loadLevelName = DataIOUtilities.decodeWindowsStringData(levelNameData);
 	// Load author
-	final byte[] authorData = new byte[LaserTankPlayback.AUTHOR_LEN];
+	final var authorData = new byte[LaserTankPlayback.AUTHOR_LEN];
 	bytesRead = fs.read(authorData);
 	if (bytesRead < LaserTankPlayback.AUTHOR_LEN) {
 	    throw new LPBLoadException();
 	}
-	final String loadAuthor = DataIOUtilities.decodeWindowsStringData(authorData);
+	final var loadAuthor = DataIOUtilities.decodeWindowsStringData(authorData);
 	// Load info
-	final byte[] levelNumberData = new byte[Short.BYTES];
+	final var levelNumberData = new byte[Short.BYTES];
 	bytesRead = fs.read(levelNumberData);
 	if (bytesRead < Short.BYTES) {
 	    throw new LPBLoadException();
 	}
-	final int loadLevelNumber = DataIOUtilities.unsignedShortByteArrayToInt(levelNumberData);
+	final var loadLevelNumber = DataIOUtilities.unsignedShortByteArrayToInt(levelNumberData);
 	// Load recording size
-	final byte[] recordingSizeData = new byte[Short.BYTES];
+	final var recordingSizeData = new byte[Short.BYTES];
 	bytesRead = fs.read(recordingSizeData);
 	if (bytesRead < Short.BYTES) {
 	    throw new LPBLoadException();
 	}
-	final int recordingSize = DataIOUtilities.unsignedShortByteArrayToInt(levelNumberData);
+	final var recordingSize = DataIOUtilities.unsignedShortByteArrayToInt(levelNumberData);
 	// Load raw recording data
-	final byte[] rawRecordingData = new byte[recordingSize];
+	final var rawRecordingData = new byte[recordingSize];
 	bytesRead = fs.read(rawRecordingData);
 	if (bytesRead < recordingSize) {
 	    throw new LPBLoadException();
 	}
 	// Decode raw recording data
-	final Deque<LaserTankPlaybackEntry> loadRecordingData = LaserTankPlayback.decodeRawData(rawRecordingData);
+	final var loadRecordingData = LaserTankPlayback.decodeRawData(rawRecordingData);
 	// Return final result
 	return new LaserTankPlayback(loadLevelName, loadAuthor, loadLevelNumber, loadRecordingData);
     }
 
     public static void loadLPB() {
 	String filename, extension, file, dir;
-	final String lastOpen = Settings.getLastDirOpen();
-	final FileDialog fd = new FileDialog((JFrame) null, Strings.loadGame(GameString.LOAD_PLAYBACK),
-		FileDialog.LOAD);
+	final var lastOpen = Settings.getLastDirOpen();
+	final var fd = new FileDialog((JFrame) null, Strings.loadGame(GameString.LOAD_PLAYBACK), FileDialog.LOAD);
 	fd.setDirectory(lastOpen);
 	fd.setVisible(true);
 	file = fd.getFile();

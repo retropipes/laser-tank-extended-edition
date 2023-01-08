@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class PowerLaser extends AbstractTransientObject {
     // Constructors
     public PowerLaser() {
-	super();
     }
 
     @Override
@@ -20,7 +19,7 @@ public class PowerLaser extends AbstractTransientObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.POWER_LASER;
     }
 }

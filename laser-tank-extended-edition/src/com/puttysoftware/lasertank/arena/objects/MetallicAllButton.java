@@ -17,7 +17,7 @@ public class MetallicAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_ALL_BUTTON;
     }
 }

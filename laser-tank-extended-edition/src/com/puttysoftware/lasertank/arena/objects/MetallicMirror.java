@@ -29,21 +29,20 @@ public class MetallicMirror extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Direction dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
 	if (this.hitReflectiveSide(dir)) {
 	    // Reflect laser
 	    return this.getDirection();
-	} else {
-	    // Move mirror
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	// Move mirror
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override

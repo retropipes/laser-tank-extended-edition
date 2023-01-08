@@ -17,7 +17,7 @@ public class FireAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FIRE_ALL_BUTTON;
     }
 }

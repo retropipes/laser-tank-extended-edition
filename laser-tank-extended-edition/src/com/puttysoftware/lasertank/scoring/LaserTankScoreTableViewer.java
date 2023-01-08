@@ -15,7 +15,7 @@ public final class LaserTankScoreTableViewer {
 
     // Methods
     public static void view(final LaserTankScoreTable table, final String customTitle) {
-	final StringBuilder msgBuilder = new StringBuilder();
+	final var msgBuilder = new StringBuilder();
 	String msg = null;
 	String title = null;
 	if (customTitle == null || customTitle.isEmpty()) {

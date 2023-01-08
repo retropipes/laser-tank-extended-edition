@@ -14,11 +14,10 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class FrostField extends AbstractField {
     // Constructors
     public FrostField() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FROST_FIELD;
     }
 

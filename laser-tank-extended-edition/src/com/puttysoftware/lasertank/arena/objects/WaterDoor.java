@@ -19,7 +19,7 @@ public class WaterDoor extends AbstractDoor {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.WATER_DOOR;
     }
 

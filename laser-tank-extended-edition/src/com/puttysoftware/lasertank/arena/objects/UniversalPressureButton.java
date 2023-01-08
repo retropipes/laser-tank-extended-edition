@@ -17,7 +17,7 @@ public class UniversalPressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.UNIVERSAL_PRESSURE_BUTTON;
     }
 }

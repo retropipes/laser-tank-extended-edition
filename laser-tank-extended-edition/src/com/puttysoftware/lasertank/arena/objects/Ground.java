@@ -13,26 +13,24 @@ import com.puttysoftware.lasertank.index.Material;
 public class Ground extends AbstractGround {
     // Constructors
     public Ground() {
-	super();
 	this.setMaterial(Material.METALLIC);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final Ice i = new Ice();
+	return switch (materialID) {
+	case ICE -> {
+	    final var i = new Ice();
 	    i.setPreviousState(this);
-	    return i;
-	case FIRE:
-	    return new Lava();
-	default:
-	    return this;
+	    yield i;
 	}
+	case FIRE -> new Lava();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.GROUND;
     }
 }

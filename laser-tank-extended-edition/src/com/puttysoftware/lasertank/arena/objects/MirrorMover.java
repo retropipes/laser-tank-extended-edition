@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.GameType;
 public class MirrorMover extends AbstractMover {
     // Constructors
     public MirrorMover() {
-	super();
 	this.addType(GameType.MIRROR_MOVER);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MIRROR_MOVER;
     }
 }

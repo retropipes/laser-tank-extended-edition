@@ -18,7 +18,6 @@ public class LaserTankSortedScoreTable extends LaserTankScoreTable {
 
     // Constructors
     public LaserTankSortedScoreTable() {
-	super();
 	this.laserTankScoreSortOrder = LaserTankScoreSortOrder.ASCENDING;
     }
 
@@ -47,7 +46,7 @@ public class LaserTankSortedScoreTable extends LaserTankScoreTable {
     }
 
     public boolean check(final LaserTankScore newEntry) {
-	final ArrayList<LaserTankScore> temp = new ArrayList<>(this.table);
+	final var temp = new ArrayList<>(this.table);
 	if (this.laserTankScoreSortOrder == LaserTankScoreSortOrder.DESCENDING) {
 	    // Copy the current table to the temporary table
 	    Collections.copy(temp, this.table);
@@ -57,16 +56,15 @@ public class LaserTankSortedScoreTable extends LaserTankScoreTable {
 	    Collections.sort(temp, new LaserTankScoreDescendingSorter());
 	    // Determine if lowest score would be removed
 	    return !Collections.min(temp, new LaserTankScoreDescendingSorter()).equals(newEntry);
-	} else {
-	    // Copy the current table to the temporary table
-	    Collections.copy(temp, this.table);
-	    // Append the new score to the end
-	    temp.add(newEntry);
-	    // Sort the score table
-	    Collections.sort(temp, new LaserTankScoreAscendingSorter());
-	    // Determine if highest score would be removed
-	    return !Collections.max(temp, new LaserTankScoreAscendingSorter()).equals(newEntry);
 	}
+	// Copy the current table to the temporary table
+	Collections.copy(temp, this.table);
+	// Append the new score to the end
+	temp.add(newEntry);
+	// Sort the score table
+	Collections.sort(temp, new LaserTankScoreAscendingSorter());
+	// Determine if highest score would be removed
+	return !Collections.max(temp, new LaserTankScoreAscendingSorter()).equals(newEntry);
     }
 
     @Override
@@ -79,11 +77,11 @@ public class LaserTankSortedScoreTable extends LaserTankScoreTable {
     }
 
     public static LaserTankSortedScoreTable load(final GameIODataReader gio) throws IOException {
-	final int len = gio.readInt();
-	final LaserTankScoreSortOrder so = LaserTankScoreSortOrder.valueOf(gio.readString());
-	final LaserTankSortedScoreTable sst = new LaserTankSortedScoreTable(len, so);
-	for (int x = 0; x < len; x++) {
-	    final LaserTankScore sc = LaserTankScore.load(gio);
+	final var len = gio.readInt();
+	final var so = LaserTankScoreSortOrder.valueOf(gio.readString());
+	final var sst = new LaserTankSortedScoreTable(len, so);
+	for (var x = 0; x < len; x++) {
+	    final var sc = LaserTankScore.load(gio);
 	    sst.add(sc);
 	}
 	return sst;

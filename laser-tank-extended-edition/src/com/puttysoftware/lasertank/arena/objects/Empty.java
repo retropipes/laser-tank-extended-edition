@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.GameType;
 public class Empty extends AbstractPassThroughObject {
     // Constructors
     public Empty() {
-	super();
 	this.addType(GameType.EMPTY_SPACE);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.PLACEHOLDER;
     }
 }

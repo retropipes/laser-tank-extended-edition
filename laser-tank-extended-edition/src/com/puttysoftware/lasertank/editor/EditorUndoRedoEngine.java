@@ -35,14 +35,14 @@ class EditorUndoRedoEngine {
 	}
 
 	public Link deleteFirst() {
-	    final Link temp = this.first;
+	    final var temp = this.first;
 	    this.first = this.first.next;
 	    return temp;
 	}
 
 	public void insertFirst(final AbstractArenaObject obj, final int x, final int y, final int z, final int w,
 		final int u) {
-	    final Link newLink = new Link(obj, x, y, z, w, u);
+	    final var newLink = new Link(obj, x, y, z, w, u);
 	    newLink.next = this.first;
 	    this.first = newLink;
 	}
@@ -118,7 +118,7 @@ class EditorUndoRedoEngine {
 
     void redo() {
 	if (!this.redoHistory.isEmpty()) {
-	    final Link entry = this.redoHistory.pop();
+	    final var entry = this.redoHistory.pop();
 	    this.object = entry.mo;
 	    this.destX = entry.coordX;
 	    this.destY = entry.coordY;
@@ -150,7 +150,7 @@ class EditorUndoRedoEngine {
     // Public methods
     void undo() {
 	if (!this.undoHistory.isEmpty()) {
-	    final Link entry = this.undoHistory.pop();
+	    final var entry = this.undoHistory.pop();
 	    this.object = entry.mo;
 	    this.destX = entry.coordX;
 	    this.destY = entry.coordY;

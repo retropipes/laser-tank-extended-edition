@@ -19,7 +19,7 @@ public class MagneticDoor extends AbstractDoor {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_DOOR;
     }
 

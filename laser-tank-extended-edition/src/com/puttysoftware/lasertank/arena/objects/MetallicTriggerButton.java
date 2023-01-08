@@ -17,7 +17,7 @@ public class MetallicTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_TRIGGER_BUTTON;
     }
 }

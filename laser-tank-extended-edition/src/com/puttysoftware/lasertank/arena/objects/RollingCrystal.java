@@ -20,7 +20,7 @@ public class RollingCrystal extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ROLLING_CRYSTAL;
     }
 

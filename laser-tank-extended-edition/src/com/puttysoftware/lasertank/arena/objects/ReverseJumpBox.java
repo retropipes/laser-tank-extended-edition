@@ -16,23 +16,21 @@ import com.puttysoftware.lasertank.index.Material;
 public class ReverseJumpBox extends AbstractJumpObject {
     // Constructors
     public ReverseJumpBox() {
-	super();
 	this.addType(GameType.BOX);
 	this.setMaterial(Material.STONE);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final IcyBox ib = new IcyBox();
+	return switch (materialID) {
+	case ICE -> {
+	    final var ib = new IcyBox();
 	    ib.setPreviousState(this);
-	    return ib;
-	case FIRE:
-	    return new HotBox();
-	default:
-	    return this;
+	    yield ib;
 	}
+	case FIRE -> new HotBox();
+	default -> this;
+	};
     }
 
     @Override
@@ -51,7 +49,7 @@ public class ReverseJumpBox extends AbstractJumpObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.REVERSE_JUMP_BOX;
     }
 }

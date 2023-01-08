@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -21,7 +20,7 @@ public abstract class AbstractTriggerButton extends AbstractButton {
 
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (this.isUniversal() || pushed.getMaterial() == this.getMaterial()) {
 	    Sounds.play(Sound.BUTTON);
 	    if (this.isTriggered()) {

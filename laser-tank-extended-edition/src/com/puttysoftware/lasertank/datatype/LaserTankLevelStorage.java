@@ -16,28 +16,28 @@ class LaserTankLevelStorage extends NumberStorage {
     }
 
     public void save(final GameIODataWriter gio) throws IOException {
-	final int[] shape = this.getShape();
-	final int shapeLen = shape.length;
+	final var shape = this.getShape();
+	final var shapeLen = shape.length;
 	gio.writeInt(shapeLen);
-	for (int s = 0; s < shapeLen; s++) {
+	for (var s = 0; s < shapeLen; s++) {
 	    gio.writeInt(shape[s]);
 	}
-	final int rawLength = this.getRawLength();
+	final var rawLength = this.getRawLength();
 	gio.writeInt(rawLength);
-	for (int d = 0; d < rawLength; d++) {
+	for (var d = 0; d < rawLength; d++) {
 	    gio.writeInt(this.getRawCell(d));
 	}
     }
 
     public static LaserTankLevelStorage load(final GameIODataReader gio) throws IOException {
-	final int shapeLen = gio.readInt();
-	final int[] shape = new int[shapeLen];
-	for (int s = 0; s < shapeLen; s++) {
+	final var shapeLen = gio.readInt();
+	final var shape = new int[shapeLen];
+	for (var s = 0; s < shapeLen; s++) {
 	    shape[s] = gio.readInt();
 	}
-	final LaserTankLevelStorage obj = new LaserTankLevelStorage(shape);
-	final int rawLength = gio.readInt();
-	for (int d = 0; d < rawLength; d++) {
+	final var obj = new LaserTankLevelStorage(shape);
+	final var rawLength = gio.readInt();
+	for (var d = 0; d < rawLength; d++) {
 	    obj.setRawCell(gio.readInt(), d);
 	}
 	return obj;

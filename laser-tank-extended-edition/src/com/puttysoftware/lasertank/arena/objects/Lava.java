@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractGround;
@@ -18,37 +17,33 @@ import com.puttysoftware.lasertank.index.Material;
 public class Lava extends AbstractGround {
     // Constructors
     public Lava() {
-	super();
 	this.setMaterial(Material.FIRE);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    return new Ground();
-	default:
-	    return this;
-	}
+	return switch (materialID) {
+	case ICE -> new Ground();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.LAVA;
     }
 
     // Scriptability
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	if (pushed instanceof IcyBox) {
 	    app.getGameManager().morph(new Ground(), x, y, z, this.getLayer());
 	    Sounds.play(Sound.COOL_OFF);
 	    return true;
-	} else {
-	    app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-	    Sounds.play(Sound.MELT);
-	    return false;
 	}
+	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+	Sounds.play(Sound.MELT);
+	return false;
     }
 }

@@ -19,23 +19,20 @@ import com.puttysoftware.lasertank.index.Material;
 public class HotWall extends AbstractWall {
     // Constructors
     public HotWall() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
 	this.setMaterial(Material.FIRE);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    return new Wall();
-	default:
-	    return this;
-	}
+	return switch (materialID) {
+	case ICE -> new Wall();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.HOT_WALL;
     }
 
@@ -47,9 +44,8 @@ public class HotWall extends AbstractWall {
 	    Sounds.play(Sound.COOL_OFF);
 	    LaserTankEE.getApplication().getGameManager().morph(new Wall(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    // Stop laser
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	// Stop laser
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 }

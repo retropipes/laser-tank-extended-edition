@@ -23,20 +23,19 @@ public class MetallicBox extends AbstractMovableObject {
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final IcyBox ib = new IcyBox();
+	return switch (materialID) {
+	case ICE -> {
+	    final var ib = new IcyBox();
 	    ib.setPreviousState(this);
-	    return ib;
-	case FIRE:
-	    return new HotBox();
-	default:
-	    return this;
+	    yield ib;
 	}
+	case FIRE -> new HotBox();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_BOX;
     }
 

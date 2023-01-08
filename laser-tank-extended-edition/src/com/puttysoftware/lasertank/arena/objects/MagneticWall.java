@@ -13,13 +13,12 @@ import com.puttysoftware.lasertank.index.Material;
 public class MagneticWall extends AbstractWall {
     // Constructors
     public MagneticWall() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
 	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_WALL;
     }
 }

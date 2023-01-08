@@ -19,12 +19,11 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class Bricks extends AbstractReactionWall {
     // Constructors
     public Bricks() {
-	super();
 	this.setMaterial(Material.PLASTIC);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.BRICKS;
     }
 
@@ -36,17 +35,17 @@ public class Bricks extends AbstractReactionWall {
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going
 	    return DirectionHelper.resolveRelative(dirX, dirY);
-	} else {
-	    // Laser stops
-	    return Direction.NONE;
 	}
+	// Laser stops
+	return Direction.NONE;
     }
 
     @Override
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
 	Sounds.play(Sound.BREAK_BRICKS);
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ, this.getLayer());
+	LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+		this.getLayer());
 	return true;
     }
 }

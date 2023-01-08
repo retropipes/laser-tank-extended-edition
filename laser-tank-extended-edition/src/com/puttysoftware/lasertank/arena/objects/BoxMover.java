@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.GameType;
 public class BoxMover extends AbstractMover {
     // Constructors
     public BoxMover() {
-	super();
 	this.addType(GameType.BOX_MOVER);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.BOX_MOVER;
     }
 }

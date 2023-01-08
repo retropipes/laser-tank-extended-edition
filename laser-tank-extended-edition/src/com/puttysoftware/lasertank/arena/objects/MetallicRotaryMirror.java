@@ -19,7 +19,6 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class MetallicRotaryMirror extends AbstractReactionWall {
     // Constructors
     public MetallicRotaryMirror() {
-	super();
 	this.setMaterial(Material.METALLIC);
     }
 
@@ -29,23 +28,22 @@ public class MetallicRotaryMirror extends AbstractReactionWall {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.METALLIC_ROTARY_MIRROR;
     }
 
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
-	final Direction dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
 	if (this.hitReflectiveSide(dir)) {
 	    // Reflect laser
 	    return this.getDirection();
-	} else {
-	    // Rotate mirror
-	    this.toggleDirection();
-	    Sounds.play(Sound.ROTATE);
-	    return Direction.NONE;
 	}
+	// Rotate mirror
+	this.toggleDirection();
+	Sounds.play(Sound.ROTATE);
+	return Direction.NONE;
     }
 
     @Override

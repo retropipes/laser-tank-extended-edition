@@ -32,12 +32,10 @@ public abstract class AbstractAllButton extends AbstractButton {
 
     @Override
     public void pushOutAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	if (this.isUniversal() || pushed.getMaterial() == this.getMaterial()) {
-	    if (this.isTriggered()) {
-		// Check to close door at location
-		this.setTriggered(false);
-		LaserTankEE.getApplication().getArenaManager().getArena().fullScanAllButtonClose(z, this);
-	    }
+	if ((this.isUniversal() || pushed.getMaterial() == this.getMaterial()) && this.isTriggered()) {
+	    // Check to close door at location
+	    this.setTriggered(false);
+	    LaserTankEE.getApplication().getArenaManager().getArena().fullScanAllButtonClose(z, this);
 	}
     }
 }

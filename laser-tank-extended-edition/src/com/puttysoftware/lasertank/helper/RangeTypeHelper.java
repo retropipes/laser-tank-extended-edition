@@ -14,15 +14,11 @@ public class RangeTypeHelper {
     }
 
     public static Material material(final RangeType thing) {
-	switch (thing) {
-	case BOMB:
-	    return Material.METALLIC;
-	case HEAT_BOMB:
-	    return Material.FIRE;
-	case ICE_BOMB:
-	    return Material.ICE;
-	default:
-	    return Material.NONE;
-	}
+	return switch (thing) {
+	case BOMB -> Material.METALLIC;
+	case HEAT_BOMB -> Material.FIRE;
+	case ICE_BOMB -> Material.ICE;
+	default -> Material.NONE;
+	};
     }
 }

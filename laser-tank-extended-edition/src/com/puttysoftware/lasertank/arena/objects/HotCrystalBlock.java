@@ -21,23 +21,20 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class HotCrystalBlock extends AbstractReactionWall {
     // Constructors
     public HotCrystalBlock() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
 	this.setMaterial(Material.FIRE);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    return new CrystalBlock();
-	default:
-	    return this;
-	}
+	return switch (materialID) {
+	case ICE -> new CrystalBlock();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.HOT_CRYSTAL_BLOCK;
     }
 
@@ -49,11 +46,10 @@ public class HotCrystalBlock extends AbstractReactionWall {
 	    Sounds.play(Sound.BOOM);
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    // Stop laser
-	    Sounds.play(Sound.LASER_DIE);
-	    return Direction.NONE;
 	}
+	// Stop laser
+	Sounds.play(Sound.LASER_DIE);
+	return Direction.NONE;
     }
 
     @Override
@@ -64,18 +60,16 @@ public class HotCrystalBlock extends AbstractReactionWall {
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
 		    this.getLayer());
 	    return true;
-	} else if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
-	    // Do nothing
-	    return true;
-	} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
+	}
+	if ((RangeTypeHelper.material(rangeType) == Material.FIRE)
+		|| (RangeTypeHelper.material(rangeType) != Material.ICE)) {
+	} else {
 	    // Freeze crystal block
 	    Sounds.play(Sound.FREEZE);
 	    LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
 		    locY + dirY, locZ, this.getLayer());
-	    return true;
-	} else {
-	    // Do nothing
-	    return true;
 	}
+	// Do nothing
+	return true;
     }
 }

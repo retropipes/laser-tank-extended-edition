@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractAttribute extends AbstractPassThroughObject {
     // Constructors
     protected AbstractAttribute() {
-	super();
 	this.addType(GameType.ATTRIBUTE);
     }
 

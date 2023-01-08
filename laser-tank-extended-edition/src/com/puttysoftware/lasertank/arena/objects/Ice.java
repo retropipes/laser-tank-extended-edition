@@ -17,7 +17,6 @@ import com.puttysoftware.lasertank.index.Material;
 
 public class Ice extends AbstractGround {
     public Ice() {
-	super();
 	this.setMaterial(Material.ICE);
 	this.addType(GameType.ICY);
     }
@@ -37,7 +36,7 @@ public class Ice extends AbstractGround {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICE;
     }
 
@@ -49,7 +48,7 @@ public class Ice extends AbstractGround {
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 	if (pushed instanceof HotBox) {
-	    final Ground g = new Ground();
+	    final var g = new Ground();
 	    LaserTankEE.getApplication().getGameManager().morph(g, x, y, z, g.getLayer());
 	    Sounds.play(Sound.DEFROST);
 	}

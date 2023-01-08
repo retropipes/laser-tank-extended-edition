@@ -56,17 +56,17 @@ class V4FileLevel {
 	    V4FileLevel.hint = new byte[V4FileLevel.HINT_SIZE];
 	    V4FileLevel.author = new byte[V4FileLevel.AUTHOR_SIZE];
 	    V4FileLevel.difficulty = new byte[V4FileLevel.DIFFICULTY_SIZE];
-	    final CurrentArenaData t = new CurrentArenaData();
+	    final var t = new CurrentArenaData();
 	    // Convert object byte map
-	    int bytesRead = file.read(V4FileLevel.objects, 0, V4FileLevel.OBJECTS_SIZE);
+	    var bytesRead = file.read(V4FileLevel.objects, 0, V4FileLevel.OBJECTS_SIZE);
 	    if (bytesRead != V4FileLevel.OBJECTS_SIZE) {
 		return null;
 	    }
-	    for (int x = 0; x < 16; x++) {
-		for (int y = 0; y < 16; y++) {
-		    final int z = x * 16 + y;
+	    for (var x = 0; x < 16; x++) {
+		for (var y = 0; y < 16; y++) {
+		    final var z = x * 16 + y;
 		    AbstractArenaObject ao = null;
-		    final byte b = V4FileLevel.objects[z];
+		    final var b = V4FileLevel.objects[z];
 		    switch (b) {
 		    case 0:
 			ao = new Ground();
@@ -213,7 +213,7 @@ class V4FileLevel {
 	    if (bytesRead != V4FileLevel.NAME_SIZE) {
 		return null;
 	    }
-	    final String levelName = Charset.forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
+	    final var levelName = Charset.forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
 		    .decode(ByteBuffer.wrap(V4FileLevel.name)).toString();
 	    a.setName(levelName);
 	    // Convert level hint
@@ -221,7 +221,7 @@ class V4FileLevel {
 	    if (bytesRead != V4FileLevel.HINT_SIZE) {
 		return null;
 	    }
-	    final String levelHint = Charset.forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
+	    final var levelHint = Charset.forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
 		    .decode(ByteBuffer.wrap(V4FileLevel.hint)).toString();
 	    a.setHint(levelHint);
 	    // Convert level author
@@ -229,8 +229,7 @@ class V4FileLevel {
 	    if (bytesRead != V4FileLevel.AUTHOR_SIZE) {
 		return null;
 	    }
-	    final String levelAuthor = Charset
-		    .forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
+	    final var levelAuthor = Charset.forName(GlobalStrings.loadUntranslated(UntranslatedString.DEFAULT_CHARSET))
 		    .decode(ByteBuffer.wrap(V4FileLevel.author)).toString();
 	    a.setAuthor(levelAuthor);
 	    // Convert level difficulty
@@ -238,7 +237,7 @@ class V4FileLevel {
 	    if (bytesRead != V4FileLevel.DIFFICULTY_SIZE) {
 		return null;
 	    }
-	    final int tempDiff = V4FileLevel.toInt(V4FileLevel.difficulty);
+	    final var tempDiff = V4FileLevel.toInt(V4FileLevel.difficulty);
 	    switch (tempDiff) {
 	    case 1:
 		a.setDifficulty(1);

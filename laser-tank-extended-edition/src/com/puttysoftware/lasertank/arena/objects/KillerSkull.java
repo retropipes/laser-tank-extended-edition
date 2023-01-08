@@ -14,11 +14,10 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class KillerSkull extends AbstractSpell {
     // Constructors
     public KillerSkull() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.KILLER_SKULL;
     }
 

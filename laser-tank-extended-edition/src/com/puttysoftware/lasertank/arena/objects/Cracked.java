@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAttribute;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -17,18 +16,17 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class Cracked extends AbstractAttribute {
     // Constructors
     public Cracked() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.CRACKED;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Damaged(), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CRACK);
 	return Direction.NONE;
@@ -36,7 +34,7 @@ public class Cracked extends AbstractAttribute {
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Damaged(), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CRACK);
     }

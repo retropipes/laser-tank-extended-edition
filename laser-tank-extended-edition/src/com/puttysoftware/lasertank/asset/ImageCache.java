@@ -29,8 +29,8 @@ class ImageCache {
     }
 
     private static void expandCache() {
-	final ImageCacheEntry[] tempCache = new ImageCacheEntry[ImageCache.cache.length + ImageCache.CACHE_INCREMENT];
-	for (int x = 0; x < ImageCache.CACHE_SIZE; x++) {
+	final var tempCache = new ImageCacheEntry[ImageCache.cache.length + ImageCache.CACHE_INCREMENT];
+	for (var x = 0; x < ImageCache.CACHE_SIZE; x++) {
 	    tempCache[x] = ImageCache.cache[x];
 	}
 	ImageCache.cache = tempCache;
@@ -44,22 +44,20 @@ class ImageCache {
 
     static BufferedImageIcon getCachedImage(final AbstractArenaObject obj, final boolean useText) {
 	String name;
-	final String custom = obj.getCustomText();
+	final var custom = obj.getCustomText();
 	if (useText && custom != null) {
 	    if (obj.isEnabled()) {
 		name = obj.getImageName() + custom;
 	    } else {
 		name = obj.getImageName() + custom + ImageCache.IMAGE_DISABLED;
 	    }
+	} else if (obj.isEnabled()) {
+	    name = obj.getImageName();
 	} else {
-	    if (obj.isEnabled()) {
-		name = obj.getImageName();
-	    } else {
-		name = obj.getImageName() + ImageCache.IMAGE_DISABLED;
-	    }
+	    name = obj.getImageName() + ImageCache.IMAGE_DISABLED;
 	}
 	if (!ImageCache.isInCache(name)) {
-	    final BufferedImageIcon bii = Images.getUncachedImage(obj, useText);
+	    final var bii = Images.getUncachedImage(obj, useText);
 	    ImageCache.addToCache(name, bii);
 	}
 	for (final ImageCacheEntry element : ImageCache.cache) {
@@ -74,7 +72,7 @@ class ImageCache {
 	if (ImageCache.cache == null) {
 	    ImageCache.cache = new ImageCacheEntry[ImageCache.CACHE_INCREMENT];
 	}
-	for (int x = 0; x < ImageCache.CACHE_SIZE; x++) {
+	for (var x = 0; x < ImageCache.CACHE_SIZE; x++) {
 	    if (name.equals(ImageCache.cache[x].getNameEntry())) {
 		return true;
 	    }

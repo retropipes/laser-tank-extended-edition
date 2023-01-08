@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Tunnel;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
@@ -20,16 +19,16 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
 
     // Static methods
     public static void checkTunnels() {
-	for (int x = 0; x < GameColorHelper.COUNT; x++) {
+	for (var x = 0; x < GameColorHelper.COUNT; x++) {
 	    AbstractTunnel.checkTunnelsOfColor(GameColorHelper.fromOrdinal(x));
 	}
     }
 
     private static void checkTunnelsOfColor(final GameColor color) {
-	final Application app = LaserTankEE.getApplication();
-	final int tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
-	final int ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
-	final int[] pgrmdest = app.getArenaManager().getArena().circularScanTunnel(0, 0, 0, AbstractTunnel.SCAN_RADIUS,
+	final var app = LaserTankEE.getApplication();
+	final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+	final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+	final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(0, 0, 0, AbstractTunnel.SCAN_RADIUS,
 		tx, ty, AbstractTunnel.getTunnelOfColor(color), false);
 	if (pgrmdest != null) {
 	    AbstractTunnel.tunnelsFull[color.ordinal()] = false;
@@ -65,10 +64,10 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	final Application app = LaserTankEE.getApplication();
-	final int tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
-	final int ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
-	final int[] pgrmdest = app.getArenaManager().getArena().circularScanTunnel(dirX, dirY, dirZ,
+	final var app = LaserTankEE.getApplication();
+	final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+	final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+	final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(dirX, dirY, dirZ,
 		AbstractTunnel.SCAN_RADIUS, tx, ty, AbstractTunnel.getTunnelOfColor(this.getColor()), true);
 	if (pgrmdest != null) {
 	    app.getGameManager().updatePositionAbsoluteNoEvents(pgrmdest[0], pgrmdest[1], pgrmdest[2]);
@@ -77,11 +76,11 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
 
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
-	final int tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
-	final int ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
-	final GameColor color = this.getColor();
-	final int[] pgrmdest = app.getArenaManager().getArena().circularScanTunnel(x, y, z, AbstractTunnel.SCAN_RADIUS,
+	final var app = LaserTankEE.getApplication();
+	final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+	final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+	final var color = this.getColor();
+	final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(x, y, z, AbstractTunnel.SCAN_RADIUS,
 		tx, ty, AbstractTunnel.getTunnelOfColor(this.getColor()), false);
 	if (pgrmdest != null) {
 	    AbstractTunnel.tunnelsFull[color.ordinal()] = false;

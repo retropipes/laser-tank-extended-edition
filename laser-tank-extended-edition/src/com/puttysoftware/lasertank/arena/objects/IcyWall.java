@@ -19,7 +19,6 @@ import com.puttysoftware.lasertank.index.Material;
 public class IcyWall extends AbstractWall {
     // Constructors
     public IcyWall() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
 	this.setMaterial(Material.ICE);
     }
@@ -39,27 +38,26 @@ public class IcyWall extends AbstractWall {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICY_WALL;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Defrost icy wall
-	    Sounds.play(Sound.DEFROST);
-	    AbstractArenaObject ao;
-	    if (this.hasPreviousState()) {
-		ao = this.getPreviousState();
-	    } else {
-		ao = new Wall();
-	    }
-	    LaserTankEE.getApplication().getGameManager().morph(ao, locX, locY, locZ, this.getLayer());
-	    return Direction.NONE;
-	} else {
+	if (laserType != LaserType.MISSILE) {
 	    // Stop laser
 	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	// Defrost icy wall
+	Sounds.play(Sound.DEFROST);
+	AbstractArenaObject ao;
+	if (this.hasPreviousState()) {
+	    ao = this.getPreviousState();
+	} else {
+	    ao = new Wall();
+	}
+	LaserTankEE.getApplication().getGameManager().morph(ao, locX, locY, locZ, this.getLayer());
+	return Direction.NONE;
     }
 }

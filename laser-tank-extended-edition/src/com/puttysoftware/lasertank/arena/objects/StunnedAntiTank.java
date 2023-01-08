@@ -28,13 +28,13 @@ public class StunnedAntiTank extends AbstractMovableObject {
 
     @Override
     public AbstractArenaObject clone() {
-	final StunnedAntiTank copy = (StunnedAntiTank) super.clone();
+	final var copy = (StunnedAntiTank) super.clone();
 	copy.stunnedLeft = this.stunnedLeft;
 	return copy;
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.STUNNED_ANTI_TANK;
     }
 
@@ -50,8 +50,8 @@ public class StunnedAntiTank extends AbstractMovableObject {
 	    Sounds.play(Sound.RETURN);
 	    this.activateTimer(1);
 	} else if (this.stunnedLeft == 0) {
-	    final int z = LaserTankEE.getApplication().getGameManager().getPlayerManager().getPlayerLocationZ();
-	    final AntiTank at = new AntiTank();
+	    final var z = LaserTankEE.getApplication().getGameManager().getPlayerManager().getPlayerLocationZ();
+	    final var at = new AntiTank();
 	    at.setSavedObject(this.getSavedObject());
 	    at.setDirection(this.getDirection());
 	    LaserTankEE.getApplication().getGameManager().morph(at, locX, locY, z, this.getLayer());

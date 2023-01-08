@@ -31,7 +31,7 @@ public class AntiTank extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ANTI_TANK;
     }
 
@@ -51,31 +51,32 @@ public class AntiTank extends AbstractMovableObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Direction baseDir = this.getDirection();
+	final var baseDir = this.getDirection();
 	if (laserType == LaserType.MISSILE || laserType == LaserType.POWER) {
 	    // Kill
-	    final Game gm = LaserTankEE.getApplication().getGameManager();
-	    final DeadAntiTank dat = new DeadAntiTank();
+	    final var gm = LaserTankEE.getApplication().getGameManager();
+	    final var dat = new DeadAntiTank();
 	    dat.setSavedObject(this.getSavedObject());
 	    dat.setDirection(baseDir);
 	    gm.morph(dat, locX, locY, locZ, this.getLayer());
 	    Sounds.play(Sound.ANTI_DIE);
 	    return Direction.NONE;
-	} else if (laserType == LaserType.STUNNER) {
+	}
+	if (laserType == LaserType.STUNNER) {
 	    // Stun
-	    final Game gm = LaserTankEE.getApplication().getGameManager();
-	    final StunnedAntiTank sat = new StunnedAntiTank();
+	    final var gm = LaserTankEE.getApplication().getGameManager();
+	    final var sat = new StunnedAntiTank();
 	    sat.setSavedObject(this.getSavedObject());
 	    sat.setDirection(baseDir);
 	    gm.morph(sat, locX, locY, locZ, this.getLayer());
 	    Sounds.play(Sound.STUN);
 	    return Direction.NONE;
 	} else {
-	    final Direction sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	    final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
 	    if (sourceDir == baseDir) {
 		// Kill
-		final Game gm = LaserTankEE.getApplication().getGameManager();
-		final DeadAntiTank dat = new DeadAntiTank();
+		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var dat = new DeadAntiTank();
 		dat.setSavedObject(this.getSavedObject());
 		dat.setDirection(baseDir);
 		gm.morph(dat, locX, locY, locZ, this.getLayer());
@@ -95,8 +96,8 @@ public class AntiTank extends AbstractMovableObject {
     @Override
     public void timerExpiredAction(final int locX, final int locY) {
 	if (this.getSavedObject().isOfType(GameType.ANTI_MOVER)) {
-	    final Direction moveDir = this.getSavedObject().getDirection();
-	    final int[] unres = DirectionHelper.unresolveRelative(moveDir);
+	    final var moveDir = this.getSavedObject().getDirection();
+	    final var unres = DirectionHelper.unresolveRelative(moveDir);
 	    if (Game.canObjectMove(locX, locY, unres[0], unres[1])) {
 		if (this.autoMove) {
 		    this.autoMove = false;

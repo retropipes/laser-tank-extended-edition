@@ -68,7 +68,6 @@ public class CurrentArena extends Arena {
 
     // Constructors
     public CurrentArena() throws IOException {
-	super();
 	this.arenaData = null;
 	this.clipboard = null;
 	this.levelCount = 0;
@@ -80,12 +79,12 @@ public class CurrentArena extends Arena {
 	this.moveShootAllowed = false;
 	this.levelInfoData = new ArrayList<>();
 	this.levelInfoList = new ArrayList<>();
-	final String randomID = IDGenerator.getRandomIDString(16);
+	final var randomID = IDGenerator.getRandomIDString(16);
 	this.basePath = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.TEMP_DIR)) + File.separator
 		+ GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME) + File.separator + randomID
 		+ GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_FOLDER);
-	final File base = new File(this.basePath);
-	final boolean res = base.mkdirs();
+	final var base = new File(this.basePath);
+	final var res = base.mkdirs();
 	if (!res) {
 	    throw new IOException(Strings.loadError(ErrorString.TEMP_DIR));
 	}
@@ -93,33 +92,32 @@ public class CurrentArena extends Arena {
 
     @Override
     public boolean addLevel() {
-	if (this.levelCount < Arena.MAX_LEVELS) {
-	    if (this.arenaData != null) {
-		try (DataIOWriter writer = this.getLevelWriter()) {
-		    // Save old level
-		    this.writeArenaLevel(writer);
-		    writer.close();
-		} catch (final IOException ioe) {
-		    throw new InvalidArenaException(ioe);
-		}
-	    }
-	    // Add all eras for the new level
-	    final int saveEra = this.activeEra;
-	    this.arenaData = new CurrentArenaData();
-	    for (int e = 0; e < Arena.ERA_COUNT; e++) {
-		this.switchEra(e);
-		this.arenaData = new CurrentArenaData();
-	    }
-	    this.switchEra(saveEra);
-	    // Clean up
-	    this.levelCount++;
-	    this.activeLevel = this.levelCount - 1;
-	    this.levelInfoData.add(new LevelInfo());
-	    this.levelInfoList.add(this.generateCurrentLevelInfo());
-	    return true;
-	} else {
+	if (this.levelCount >= Arena.MAX_LEVELS) {
 	    return false;
 	}
+	if (this.arenaData != null) {
+	    try (var writer = this.getLevelWriter()) {
+		// Save old level
+		this.writeArenaLevel(writer);
+		writer.close();
+	    } catch (final IOException ioe) {
+		throw new InvalidArenaException(ioe);
+	    }
+	}
+	// Add all eras for the new level
+	final var saveEra = this.activeEra;
+	this.arenaData = new CurrentArenaData();
+	for (var e = 0; e < Arena.ERA_COUNT; e++) {
+	    this.switchEra(e);
+	    this.arenaData = new CurrentArenaData();
+	}
+	this.switchEra(saveEra);
+	// Clean up
+	this.levelCount++;
+	this.activeLevel = this.levelCount - 1;
+	this.levelInfoData.add(new LevelInfo());
+	this.levelInfoList.add(this.generateCurrentLevelInfo());
+	return true;
     }
 
     @Override
@@ -227,7 +225,7 @@ public class CurrentArena extends Arena {
 
     @Override
     public void fillDefault() {
-	final AbstractArenaObject fill = Settings.getEditorDefaultFill();
+	final var fill = Settings.getEditorDefaultFill();
 	this.arenaData.fill(this, fill);
     }
 
@@ -277,7 +275,7 @@ public class CurrentArena extends Arena {
     }
 
     private String generateCurrentLevelInfo() {
-	final StringBuilder sb = new StringBuilder();
+	final var sb = new StringBuilder();
 	sb.append(Strings.loadDialog(DialogString.ARENA_LEVEL));
 	sb.append(Strings.loadCommon(CommonString.SPACE));
 	sb.append(this.getActiveLevelNumber() + 1);
@@ -296,9 +294,9 @@ public class CurrentArena extends Arena {
 
     @Override
     public void generateLevelInfoList() {
-	final int saveLevel = this.getActiveLevelNumber();
-	final ArrayList<String> tempStorage = new ArrayList<>();
-	for (int x = 0; x < this.levelCount; x++) {
+	final var saveLevel = this.getActiveLevelNumber();
+	final var tempStorage = new ArrayList<String>();
+	for (var x = 0; x < this.levelCount; x++) {
 	    this.switchLevel(x);
 	    tempStorage.add(this.generateCurrentLevelInfo());
 	}
@@ -443,9 +441,8 @@ public class CurrentArena extends Arena {
 	    this.arenaData = this.clipboard;
 	    this.levelCount++;
 	    return true;
-	} else {
-	    return false;
 	}
+	return false;
     }
 
     @Override
@@ -510,13 +507,13 @@ public class CurrentArena extends Arena {
 
     @Override
     public CurrentArena readArena() throws IOException {
-	final CurrentArena m = new CurrentArena();
+	final var m = new CurrentArena();
 	// Attach handlers
 	m.setPrefixHandler(this.prefixHandler);
 	m.setSuffixHandler(this.suffixHandler);
 	// Make base paths the same
 	m.basePath = this.basePath;
-	GameFormat formatVersion = GameFormatHelper.FORMAT_LATEST;
+	var formatVersion = GameFormatHelper.FORMAT_LATEST;
 	// Create metafile reader
 	try (DataIOReader metaReader = new XDataReader(
 		m.basePath + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_METAFILE)
@@ -536,7 +533,7 @@ public class CurrentArena extends Arena {
 	}
 	if (!GameFormatHelper.isLevelListStored(formatVersion)) {
 	    // Create data reader
-	    try (DataIOReader dataReader = m.getLevelReaderG5()) {
+	    try (var dataReader = m.getLevelReaderG5()) {
 		// Read data
 		m.readArenaLevel(dataReader, formatVersion);
 	    } catch (final IOException ioe) {
@@ -546,7 +543,7 @@ public class CurrentArena extends Arena {
 	    m.generateLevelInfoList();
 	} else {
 	    // Create data reader
-	    try (DataIOReader dataReader = m.getLevelReaderG6()) {
+	    try (var dataReader = m.getLevelReaderG6()) {
 		// Read data
 		m.readArenaLevel(dataReader, formatVersion);
 	    } catch (final IOException ioe) {
@@ -585,7 +582,7 @@ public class CurrentArena extends Arena {
 	this.levelCount = reader.readInt();
 	this.musicFilename = reader.readString();
 	this.moveShootAllowed = reader.readBoolean();
-	for (int l = 0; l < this.levelCount; l++) {
+	for (var l = 0; l < this.levelCount; l++) {
 	    this.levelInfoData.add(LevelInfo.readLevelInfo(reader));
 	    this.levelInfoList.add(reader.readString());
 	}
@@ -595,7 +592,7 @@ public class CurrentArena extends Arena {
     }
 
     private GameFormat readArenaMetafileVersion(final DataIOReader reader) throws IOException {
-	GameFormat formatVersion = GameFormatHelper.FORMAT_LATEST;
+	var formatVersion = GameFormatHelper.FORMAT_LATEST;
 	if (this.prefixHandler != null) {
 	    formatVersion = this.prefixHandler.readPrefix(reader);
 	}
@@ -610,35 +607,34 @@ public class CurrentArena extends Arena {
 
     @Override
     protected boolean removeActiveLevel() {
-	if (this.levelCount > 1) {
-	    if (this.activeLevel >= 0 && this.activeLevel <= this.levelCount) {
-		this.arenaData = null;
-		// Delete all files corresponding to current level
-		for (int e = 0; e < Arena.ERA_COUNT; e++) {
-		    final boolean res = this.getLevelFile(this.activeLevel, e).delete();
-		    if (!res) {
-			return false;
-		    }
+	if (this.levelCount <= 1) {
+	    return false;
+	}
+	if (this.activeLevel >= 0 && this.activeLevel <= this.levelCount) {
+	    this.arenaData = null;
+	    // Delete all files corresponding to current level
+	    for (var e = 0; e < Arena.ERA_COUNT; e++) {
+		final var res = this.getLevelFile(this.activeLevel, e).delete();
+		if (!res) {
+		    return false;
 		}
-		// Shift all higher-numbered levels down
-		for (int x = this.activeLevel; x < this.levelCount - 1; x++) {
-		    for (int e = 0; e < Arena.ERA_COUNT; e++) {
-			final File sourceLocation = this.getLevelFile(x + 1, e);
-			final File targetLocation = this.getLevelFile(x, e);
-			try {
-			    FileUtilities.moveFile(sourceLocation, targetLocation);
-			} catch (final IOException ioe) {
-			    throw new InvalidArenaException(ioe);
-			}
-		    }
-		}
-		this.levelCount--;
-		this.levelInfoData.remove(this.activeLevel);
-		this.levelInfoList.remove(this.activeLevel);
-		return true;
-	    } else {
-		return false;
 	    }
+	    // Shift all higher-numbered levels down
+	    for (var x = this.activeLevel; x < this.levelCount - 1; x++) {
+		for (var e = 0; e < Arena.ERA_COUNT; e++) {
+		    final var sourceLocation = this.getLevelFile(x + 1, e);
+		    final var targetLocation = this.getLevelFile(x, e);
+		    try {
+			FileUtilities.moveFile(sourceLocation, targetLocation);
+		    } catch (final IOException ioe) {
+			throw new InvalidArenaException(ioe);
+		    }
+		}
+	    }
+	    this.levelCount--;
+	    this.levelInfoData.remove(this.activeLevel);
+	    this.levelInfoList.remove(this.activeLevel);
+	    return true;
 	} else {
 	    return false;
 	}
@@ -765,7 +761,7 @@ public class CurrentArena extends Arena {
     protected void switchInternal(final int level, final int era) {
 	if (this.activeLevel != level || this.activeEra != era || this.arenaData == null) {
 	    if (this.arenaData != null) {
-		try (DataIOWriter writer = this.getLevelWriter()) {
+		try (var writer = this.getLevelWriter()) {
 		    // Save old level
 		    this.writeArenaLevel(writer);
 		    writer.close();
@@ -775,7 +771,7 @@ public class CurrentArena extends Arena {
 	    }
 	    this.activeLevel = level;
 	    this.activeEra = era;
-	    try (DataIOReader reader = this.getLevelReaderG6()) {
+	    try (var reader = this.getLevelReaderG6()) {
 		// Load new level
 		this.readArenaLevel(reader);
 		reader.close();
@@ -838,7 +834,7 @@ public class CurrentArena extends Arena {
 	    throw new InvalidArenaException(ioe);
 	}
 	// Create data writer
-	try (DataIOWriter dataWriter = this.getLevelWriter()) {
+	try (var dataWriter = this.getLevelWriter()) {
 	    // Write data
 	    this.writeArenaLevel(dataWriter);
 	} catch (final IOException ioe) {
@@ -859,7 +855,7 @@ public class CurrentArena extends Arena {
 	writer.writeInt(this.levelCount);
 	writer.writeString(this.musicFilename);
 	writer.writeBoolean(this.moveShootAllowed);
-	for (int l = 0; l < this.levelCount; l++) {
+	for (var l = 0; l < this.levelCount; l++) {
 	    this.levelInfoData.get(l).writeLevelInfo(writer);
 	    writer.writeString(this.levelInfoList.get(l));
 	}

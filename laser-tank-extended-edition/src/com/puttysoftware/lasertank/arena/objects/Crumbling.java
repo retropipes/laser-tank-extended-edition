@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAttribute;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -18,18 +17,17 @@ import com.puttysoftware.lasertank.index.Layer;
 public class Crumbling extends AbstractAttribute {
     // Constructors
     public Crumbling() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.CRUMBLING;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	// Destroy whatever we were attached to
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
@@ -39,7 +37,7 @@ public class Crumbling extends AbstractAttribute {
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	// Destroy whatever we were attached to
 	app.getGameManager().morph(new Empty(), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());

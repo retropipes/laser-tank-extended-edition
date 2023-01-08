@@ -21,7 +21,6 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class IcyCrystalBlock extends AbstractReactionWall {
     // Constructors
     public IcyCrystalBlock() {
-	super();
 	this.addType(GameType.PLAIN_WALL);
 	this.setMaterial(Material.ICE);
     }
@@ -41,7 +40,7 @@ public class IcyCrystalBlock extends AbstractReactionWall {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ICY_CRYSTAL_BLOCK;
     }
 
@@ -53,11 +52,10 @@ public class IcyCrystalBlock extends AbstractReactionWall {
 	    Sounds.play(Sound.BOOM);
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    // Stop laser
-	    Sounds.play(Sound.LASER_DIE);
-	    return Direction.NONE;
 	}
+	// Stop laser
+	Sounds.play(Sound.LASER_DIE);
+	return Direction.NONE;
     }
 
     @Override
@@ -68,18 +66,14 @@ public class IcyCrystalBlock extends AbstractReactionWall {
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
 		    this.getLayer());
 	    return true;
-	} else if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
+	}
+	if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
 	    // Heat up crystal block
 	    Sounds.play(Sound.MELT);
 	    LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
 		    locY + dirY, locZ, this.getLayer());
-	    return true;
 	} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
-	    // Do nothing
-	    return true;
-	} else {
-	    // Do nothing
-	    return true;
 	}
+	return true;
     }
 }

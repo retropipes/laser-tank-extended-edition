@@ -11,11 +11,10 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Bridge extends AbstractGround {
     // Constructors
     public Bridge() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.BRIDGE;
     }
 }

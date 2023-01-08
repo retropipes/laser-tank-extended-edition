@@ -20,15 +20,15 @@ public class ProtectionWrapper {
     }
 
     public static void protect(final File src, final File dst) {
-	try (FileInputStream in = new FileInputStream(src); FileOutputStream out = new FileOutputStream(dst)) {
-	    final char[] transform = ProtectionWrapper.getTransform();
+	try (var in = new FileInputStream(src); var out = new FileOutputStream(dst)) {
+	    final var transform = ProtectionWrapper.getTransform();
 	    if (transform == null) {
 		throw new ProtectionCancelException();
 	    }
-	    final byte[] buf = new byte[transform.length * ProtectionWrapper.BLOCK_MULTIPLIER];
+	    final var buf = new byte[transform.length * ProtectionWrapper.BLOCK_MULTIPLIER];
 	    int len;
 	    while ((len = in.read(buf)) > 0) {
-		for (int x = 0; x < buf.length; x++) {
+		for (var x = 0; x < buf.length; x++) {
 		    buf[x] += transform[x % transform.length];
 		}
 		out.write(buf, 0, len);
@@ -39,15 +39,15 @@ public class ProtectionWrapper {
     }
 
     public static void unprotect(final File src, final File dst) {
-	try (FileInputStream in = new FileInputStream(src); FileOutputStream out = new FileOutputStream(dst)) {
-	    final char[] transform = ProtectionWrapper.getTransform();
+	try (var in = new FileInputStream(src); var out = new FileOutputStream(dst)) {
+	    final var transform = ProtectionWrapper.getTransform();
 	    if (transform == null) {
 		throw new ProtectionCancelException();
 	    }
-	    final byte[] buf = new byte[transform.length * ProtectionWrapper.BLOCK_MULTIPLIER];
+	    final var buf = new byte[transform.length * ProtectionWrapper.BLOCK_MULTIPLIER];
 	    int len;
 	    while ((len = in.read(buf)) > 0) {
-		for (int x = 0; x < buf.length; x++) {
+		for (var x = 0; x < buf.length; x++) {
 		    buf[x] -= transform[x % transform.length];
 		}
 		out.write(buf, 0, len);

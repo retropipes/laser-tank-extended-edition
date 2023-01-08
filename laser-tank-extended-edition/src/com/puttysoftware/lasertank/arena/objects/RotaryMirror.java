@@ -17,7 +17,6 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class RotaryMirror extends AbstractReactionWall {
     // Constructors
     public RotaryMirror() {
-	super();
     }
 
     @Override
@@ -26,7 +25,7 @@ public class RotaryMirror extends AbstractReactionWall {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.ROTARY_MIRROR;
     }
 
@@ -38,9 +37,8 @@ public class RotaryMirror extends AbstractReactionWall {
 	    Sounds.play(Sound.BOOM);
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override

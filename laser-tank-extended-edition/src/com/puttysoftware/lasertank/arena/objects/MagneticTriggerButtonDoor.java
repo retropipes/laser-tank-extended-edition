@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.Material;
 public class MagneticTriggerButtonDoor extends AbstractTriggerButtonDoor {
     // Constructors
     public MagneticTriggerButtonDoor() {
-	super();
 	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_TRIGGER_DOOR;
     }
 }

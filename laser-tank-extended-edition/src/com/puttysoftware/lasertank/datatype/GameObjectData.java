@@ -14,17 +14,19 @@ public class GameObjectData {
     public static final int getImbuedRangeForce(final Material materialID) {
 	if (materialID == Material.PLASTIC) {
 	    return GameObjectData.PLASTIC_MINIMUM_REACTION_FORCE;
-	} else if (materialID == Material.METALLIC) {
+	}
+	if (materialID == Material.METALLIC) {
 	    return GameObjectData.METAL_MINIMUM_REACTION_FORCE;
 	} else {
 	    return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
 	}
     }
-    
+
     public static final int getMinimumReactionForce(final Material materialID) {
 	if (materialID == Material.PLASTIC) {
 	    return GameObjectData.PLASTIC_MINIMUM_REACTION_FORCE;
-	} else if (materialID == Material.METALLIC) {
+	}
+	if (materialID == Material.METALLIC) {
 	    return GameObjectData.METAL_MINIMUM_REACTION_FORCE;
 	} else {
 	    return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
@@ -55,7 +57,7 @@ public class GameObjectData {
     }
 
     public static int getFirstFrameNumber(final GameObjectID objectID) {
-	final int finalFrame = DataLoader.loadFrame(objectID);
+	final var finalFrame = DataLoader.loadFrame(objectID);
 	if (finalFrame > 1) {
 	    return 1;
 	}
@@ -99,7 +101,7 @@ public class GameObjectData {
     }
 
     public static boolean isAnimated(final GameObjectID objectID) {
-	final int finalFrame = DataLoader.loadFrame(objectID);
+	final var finalFrame = DataLoader.loadFrame(objectID);
 	if (finalFrame > 1) {
 	    return true;
 	}

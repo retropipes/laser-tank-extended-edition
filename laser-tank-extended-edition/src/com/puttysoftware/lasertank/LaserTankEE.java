@@ -60,7 +60,7 @@ public class LaserTankEE {
 
     public static void main(final String[] args) {
 	// Integrate with host platform
-	final Integration ni = new Integration();
+	final var ni = new Integration();
 	ni.configureLookAndFeel();
 	// Install error handler
 	Diane.installDefaultErrorHandler(LaserTankEE.PROGRAM_NAME);
@@ -92,7 +92,6 @@ public class LaserTankEE {
 
     private static class SettingsInvoker implements PreferencesHandler {
 	public SettingsInvoker() {
-	    super();
 	}
 
 	@Override

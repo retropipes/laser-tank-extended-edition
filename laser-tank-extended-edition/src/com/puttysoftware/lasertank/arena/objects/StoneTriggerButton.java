@@ -17,7 +17,7 @@ public class StoneTriggerButton extends AbstractTriggerButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.STONE_TRIGGER_BUTTON;
     }
 }

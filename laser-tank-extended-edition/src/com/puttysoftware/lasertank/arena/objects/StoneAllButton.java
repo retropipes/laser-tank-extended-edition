@@ -17,7 +17,7 @@ public class StoneAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.STONE_ALL_BUTTON;
     }
 }

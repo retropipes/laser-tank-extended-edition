@@ -15,11 +15,10 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class MagneticKey extends AbstractKey {
     // Constructors
     public MagneticKey() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_KEY;
     }
 

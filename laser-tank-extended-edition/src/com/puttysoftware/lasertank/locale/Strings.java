@@ -1,7 +1,6 @@
 package com.puttysoftware.lasertank.locale;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -45,11 +44,11 @@ public class Strings {
     public static String[] loadLocalizedLanguagesList() {
 	if (Strings.LOCALIZED_LANGUAGES_CACHE == null) {
 	    Strings.LOCALIZED_LANGUAGES_CACHE = new ArrayList<>();
-	    final String filename = Strings.LOCALIZED_LANGUAGES_FILE_NAME;
-	    final String llpath = Strings.LOAD_PATH + Strings.LANGUAGE_NAME + filename;
-	    try (final InputStream is = Strings.LOAD_CLASS.getResourceAsStream(llpath);
-		    final ResourceStreamReader rsr = new ResourceStreamReader(is, "UTF-8")) {
-		String line = Strings.loadCommon(CommonString.EMPTY);
+	    final var filename = Strings.LOCALIZED_LANGUAGES_FILE_NAME;
+	    final var llpath = Strings.LOAD_PATH + Strings.LANGUAGE_NAME + filename;
+	    try (final var is = Strings.LOAD_CLASS.getResourceAsStream(llpath);
+		    final var rsr = new ResourceStreamReader(is, "UTF-8")) {
+		var line = Strings.loadCommon(CommonString.EMPTY);
 		while (line != null) {
 		    // Read line
 		    line = rsr.readString();
@@ -64,7 +63,7 @@ public class Strings {
 		LaserTankEE.logErrorDirectly(ioe);
 	    }
 	}
-	final int size = Strings.LOCALIZED_LANGUAGES_CACHE.size();
+	final var size = Strings.LOCALIZED_LANGUAGES_CACHE.size();
 	return Strings.LOCALIZED_LANGUAGES_CACHE.toArray(new String[size]);
     }
 
@@ -79,16 +78,16 @@ public class Strings {
     }
 
     public static String loadCommon(final CommonString str, final Object... values) {
-	String string = str.getValue();
-	for (int v = 0; v < values.length; v++) {
+	var string = str.getValue();
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadDialog(final DialogString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.DIALOGS).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.DIALOGS).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
@@ -104,8 +103,8 @@ public class Strings {
     }
 
     public static String loadEditor(final EditorString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.EDITOR).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.EDITOR).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
@@ -116,64 +115,64 @@ public class Strings {
     }
 
     public static String loadError(final ErrorString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.ERRORS).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.ERRORS).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadGame(final GameString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.GAME).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.GAME).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadGeneric(final GenericString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.GENERIC).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.GENERIC).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadMenu(final MenuString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.MENUS).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.MENUS).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadMessage(final MessageString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.MESSAGES).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.MESSAGES).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadOverride(final OverrideString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.OVERRIDES).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.OVERRIDES).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadSettings(final SettingsString str, final Object... values) {
-	String string = Strings.loadFile(StringFile.SETTINGS).getString(Integer.toString(str.ordinal()));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.SETTINGS).getString(Integer.toString(str.ordinal()));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;
     }
 
     public static String loadEra(final int strID, final Object... values) {
-	String string = Strings.loadFile(StringFile.TIME).getString(Integer.toString(strID));
-	for (int v = 0; v < values.length; v++) {
+	var string = Strings.loadFile(StringFile.TIME).getString(Integer.toString(strID));
+	for (var v = 0; v < values.length; v++) {
 	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
 	}
 	return string;

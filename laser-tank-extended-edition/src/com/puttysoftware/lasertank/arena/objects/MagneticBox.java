@@ -5,9 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -27,28 +25,25 @@ public class MagneticBox extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_BOX;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final Application app = LaserTankEE.getApplication();
-	final AbstractArenaObject mo = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
-		this.getLayer());
+	final var app = LaserTankEE.getApplication();
+	final var mo = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 	if (laserType == LaserType.BLUE && mo != null && (mo.isOfType(GameType.CHARACTER) || !mo.isSolid())) {
 	    app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 	    this.playSoundHook();
 	} else if (mo != null && (mo.isOfType(GameType.CHARACTER) || !mo.isSolid())) {
 	    app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
 	    this.playSoundHook();
+	} else if (laserType == LaserType.MISSILE) {
+	    Sounds.play(Sound.BOOM);
 	} else {
-	    if (laserType == LaserType.MISSILE) {
-		Sounds.play(Sound.BOOM);
-	    } else {
-		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-	    }
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
 	return Direction.NONE;
     }

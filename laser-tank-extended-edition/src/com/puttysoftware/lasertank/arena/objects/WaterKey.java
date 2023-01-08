@@ -15,11 +15,10 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class WaterKey extends AbstractKey {
     // Constructors
     public WaterKey() {
-	super();
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.WATER_KEY;
     }
 

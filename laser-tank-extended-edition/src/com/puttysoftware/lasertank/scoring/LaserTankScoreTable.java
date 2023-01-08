@@ -57,10 +57,10 @@ public class LaserTankScoreTable {
     }
 
     public static LaserTankScoreTable load(final GameIODataReader gio) throws IOException {
-	final int len = gio.readInt();
-	final LaserTankScoreTable st = new LaserTankScoreTable(len);
-	for (int x = 0; x < len; x++) {
-	    final LaserTankScore sc = LaserTankScore.load(gio);
+	final var len = gio.readInt();
+	final var st = new LaserTankScoreTable(len);
+	for (var x = 0; x < len; x++) {
+	    final var sc = LaserTankScore.load(gio);
 	    st.add(sc);
 	}
 	return st;

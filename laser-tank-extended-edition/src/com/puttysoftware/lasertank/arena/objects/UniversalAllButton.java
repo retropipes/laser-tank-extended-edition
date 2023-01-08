@@ -17,7 +17,7 @@ public class UniversalAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.UNIVERSAL_ALL_BUTTON;
     }
 }

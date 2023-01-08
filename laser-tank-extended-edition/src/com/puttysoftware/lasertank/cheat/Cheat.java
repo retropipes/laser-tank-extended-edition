@@ -46,13 +46,9 @@ abstract class Cheat {
 	if (this == obj) {
 	    return true;
 	}
-	if (obj == null) {
+	if ((obj == null) || !(obj instanceof Cheat other)) {
 	    return false;
 	}
-	if (!(obj instanceof Cheat)) {
-	    return false;
-	}
-	final Cheat other = (Cheat) obj;
 	return Objects.equals(this.code, other.code) && this.cheatEffect == other.cheatEffect;
     }
 }

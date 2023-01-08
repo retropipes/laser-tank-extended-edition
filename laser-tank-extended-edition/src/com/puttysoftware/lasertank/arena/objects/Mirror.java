@@ -27,7 +27,7 @@ public class Mirror extends AbstractMovableObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MIRROR;
     }
 
@@ -39,9 +39,8 @@ public class Mirror extends AbstractMovableObject {
 	    Sounds.play(Sound.BOOM);
 	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override

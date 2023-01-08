@@ -48,7 +48,7 @@ public class FileExtensions {
     public static String getGameExtensionWithPeriod() {
 	return Strings.loadCommon(CommonString.NOTL_PERIOD) + FileExtensions.SAVED_GAME_EXTENSION;
     }
-    
+
     public static String getImageExtensionWithPeriod() {
 	return ".png";
     }

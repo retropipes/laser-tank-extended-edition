@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractGround;
@@ -19,33 +18,31 @@ import com.puttysoftware.lasertank.index.Material;
 public class DeepWater extends AbstractGround {
     // Constructors
     public DeepWater() {
-	super();
 	this.setMaterial(Material.WOODEN);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case ICE:
-	    final Ice i = new Ice();
+	return switch (materialID) {
+	case ICE -> {
+	    final var i = new Ice();
 	    i.setPreviousState(this);
-	    return i;
-	case FIRE:
-	    return new Water();
-	default:
-	    return this;
+	    yield i;
 	}
+	case FIRE -> new Water();
+	default -> this;
+	};
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.DEEP_WATER;
     }
 
     // Scriptability
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	// Get rid of pushed object
 	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
 	if (pushed.isOfType(GameType.BOX)) {

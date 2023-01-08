@@ -17,7 +17,7 @@ public class FirePressureButton extends AbstractPressureButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.FIRE_PRESSURE_BUTTON;
     }
 }

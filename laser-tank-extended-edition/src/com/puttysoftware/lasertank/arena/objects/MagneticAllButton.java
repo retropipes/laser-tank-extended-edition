@@ -17,7 +17,7 @@ public class MagneticAllButton extends AbstractAllButton {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.MAGNETIC_ALL_BUTTON;
     }
 }

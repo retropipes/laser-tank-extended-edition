@@ -87,11 +87,12 @@ public class Settings {
     }
 
     private static String getSettingsDirectory() {
-	final String osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
+	final var osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.MAC_OS_X)) != -1) {
 	    // Mac OS X
 	    return GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_SETTINGS_MAC);
-	} else if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
+	}
+	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_SETTINGS_WINDOWS);
 	} else {
@@ -101,11 +102,12 @@ public class Settings {
     }
 
     private static String getSettingsDirPrefix() {
-	final String osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
+	final var osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.MAC_OS_X)) != -1) {
 	    // Mac OS X
 	    return System.getenv(GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_UNIX_HOME));
-	} else if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
+	}
+	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return System.getenv(GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_WINDOWS_APPDATA));
 	} else {
@@ -115,7 +117,7 @@ public class Settings {
     }
 
     private static String getSettingsFile() {
-	final StringBuilder b = new StringBuilder();
+	final var b = new StringBuilder();
 	b.append(Settings.getSettingsDirPrefix());
 	b.append(Settings.getSettingsDirectory());
 	b.append(Settings.getSettingsFileName());
@@ -128,11 +130,12 @@ public class Settings {
     }
 
     private static String getSettingsFileName() {
-	final String osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
+	final var osName = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.OS_NAME));
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.MAC_OS_X)) != -1) {
 	    // Mac OS X
 	    return GlobalStrings.loadUntranslated(UntranslatedString.FILE_SETTINGS_MAC);
-	} else if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
+	}
+	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return GlobalStrings.loadUntranslated(UntranslatedString.FILE_SETTINGS_WINDOWS);
 	} else {
@@ -181,7 +184,7 @@ public class Settings {
     }
 
     public static void readSettings() {
-	try (BufferedInputStream buf = new BufferedInputStream(new FileInputStream(Settings.getSettingsFile()))) {
+	try (var buf = new BufferedInputStream(new FileInputStream(Settings.getSettingsFile()))) {
 	    // Read new preferences
 	    Settings.storeMgr.loadStore(buf);
 	} catch (final FileNotFoundException fnfe) {
@@ -279,7 +282,7 @@ public class Settings {
     }
 
     public static void setLanguageID(final int value) {
-	final int oldValue = Settings.getLanguageID();
+	final var oldValue = Settings.getLanguageID();
 	Settings.storeMgr.setInteger(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_LANGUAGE_ID),
 		value);
 	if (oldValue != value) {
@@ -331,7 +334,7 @@ public class Settings {
     }
 
     public static void writeSettings() {
-	try (BufferedOutputStream buf = new BufferedOutputStream(new FileOutputStream(Settings.getSettingsFile()))) {
+	try (var buf = new BufferedOutputStream(new FileOutputStream(Settings.getSettingsFile()))) {
 	    Settings.storeMgr.saveStore(buf);
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);

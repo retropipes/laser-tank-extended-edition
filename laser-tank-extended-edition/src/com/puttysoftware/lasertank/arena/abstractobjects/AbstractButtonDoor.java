@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.Application;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
@@ -19,14 +18,14 @@ public abstract class AbstractButtonDoor extends AbstractArenaObject {
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getArenaManager().getArena().fullScanButtonBind(x, y, z, this);
 	app.getEditor().redrawEditor();
     }
 
     @Override
     public void editorRemoveHook(final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.getArenaManager().getArena().fullScanFindButtonLostDoor(z, this);
 	app.getEditor().redrawEditor();
     }

@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.Material;
 public abstract class AbstractInventoryModifier extends AbstractGround {
     // Constructors
     protected AbstractInventoryModifier() {
-	super();
 	this.setMaterial(Material.NONE);
     }
 

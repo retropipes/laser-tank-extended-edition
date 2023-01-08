@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Stunner extends AbstractTransientObject {
     // Constructors
     public Stunner() {
-	super();
     }
 
     @Override
@@ -20,7 +19,7 @@ public class Stunner extends AbstractTransientObject {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.STUNNER;
     }
 }

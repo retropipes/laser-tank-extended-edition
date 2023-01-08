@@ -12,12 +12,11 @@ import com.puttysoftware.lasertank.index.Material;
 public class PlasticPressureButtonDoor extends AbstractPressureButtonDoor {
     // Constructors
     public PlasticPressureButtonDoor() {
-	super();
 	this.setMaterial(Material.PLASTIC);
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.PLASTIC_PRESSURE_DOOR;
     }
 }

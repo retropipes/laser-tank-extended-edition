@@ -18,7 +18,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.lasertank.arena.ArenaManager;
@@ -74,7 +73,7 @@ public class GUIManager extends Screen implements QuitHandler {
 	}
     }
 
-    private class FocusHandler implements WindowFocusListener {
+    private static class FocusHandler implements WindowFocusListener {
 	public FocusHandler() {
 	    // Do nothing
 	}
@@ -97,14 +96,13 @@ public class GUIManager extends Screen implements QuitHandler {
 
     // Constructors
     public GUIManager() {
-	super();
     }
 
     // Methods
     public boolean quitHandler() {
-	final ArenaManager mm = LaserTankEE.getApplication().getArenaManager();
-	boolean saved = true;
-	int status = JOptionPane.DEFAULT_OPTION;
+	final var mm = LaserTankEE.getApplication().getArenaManager();
+	var saved = true;
+	var status = JOptionPane.DEFAULT_OPTION;
 	if (mm.getDirty()) {
 	    status = ArenaManager.showSaveDialog();
 	    if (status == JOptionPane.YES_OPTION) {
@@ -129,20 +127,20 @@ public class GUIManager extends Screen implements QuitHandler {
 	this.logoLabel = new JLabel(Strings.loadCommon(CommonString.EMPTY), null, SwingConstants.CENTER);
 	this.logoLabel.setLabelFor(null);
 	this.logoLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
-	final BufferedImageIcon logo = Logos.getOpening();
+	final var logo = Logos.getOpening();
 	this.logoLabel.setIcon(logo);
 	this.theContent.add(this.logoLabel);
 	this.setTitle(GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
     }
 
     public void showGUI() {
-	final Application app = LaserTankEE.getApplication();
+	final var app = LaserTankEE.getApplication();
 	app.setInGUI();
     }
 
     @Override
     public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response) {
-	final boolean okToQuit = this.quitHandler();
+	final var okToQuit = this.quitHandler();
 	if (okToQuit) {
 	    response.performQuit();
 	} else {

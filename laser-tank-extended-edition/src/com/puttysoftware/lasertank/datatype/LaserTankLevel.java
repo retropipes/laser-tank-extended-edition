@@ -35,16 +35,16 @@ public class LaserTankLevel {
     private static final int LVL_AUTHOR_LEN = 31;
 
     private static void decodeObjectData(final byte[] rawData, final LaserTankLevelStorage storage) {
-	final int floorIndex = 0;
-	for (int x = 0; x < 16; x++) {
-	    for (int y = 0; y < 16; y++) {
-		final int z = x * 16 + y;
-		final byte oo = rawData[z];
+	final var floorIndex = 0;
+	for (var x = 0; x < 16; x++) {
+	    for (var y = 0; y < 16; y++) {
+		final var z = x * 16 + y;
+		final var oo = rawData[z];
 		GameObjectID objID;
 		Direction dirID;
 		int indexID;
 		Frame frameID;
-		final int attrID = 0; // No attribute
+		final var attrID = 0; // No attribute
 		dirID = Direction.NONE; // No direction
 		indexID = Index.NONE.ordinal(); // No index
 		frameID = Frame.NONE; // Not animated
@@ -224,13 +224,13 @@ public class LaserTankLevel {
     }
 
     public static LaserTankLevel load(final String filename) throws IOException {
-	try (GameIODataReader gio = new GameIODataReader(filename)) {
+	try (var gio = new GameIODataReader(filename)) {
 	    return LaserTankLevel.loadFromGameIOData(gio);
 	}
     }
 
     public static LaserTankLevel loadLegacy(final String filename) throws IOException {
-	try (GameIODataReader gio = new GameIODataReader(filename)) {
+	try (var gio = new GameIODataReader(filename)) {
 	    return LaserTankLevel.loadLegacyFromGameIOData(gio);
 	}
     }
@@ -238,9 +238,9 @@ public class LaserTankLevel {
     // Internal stuff
     private static LaserTankLevel loadFromGameIOData(final GameIODataReader gio) throws IOException {
 	// Create a level object
-	final LaserTankLevel levelData = new LaserTankLevel();
-	final int levelCount = gio.readInt();
-	for (int l = 0; l < levelCount; l++) {
+	final var levelData = new LaserTankLevel();
+	final var levelCount = gio.readInt();
+	for (var l = 0; l < levelCount; l++) {
 	    // Add a level
 	    levelData.addLevel();
 	    // Load name
@@ -259,8 +259,8 @@ public class LaserTankLevel {
 
     private static LaserTankLevel loadLegacyFromGameIOData(final GameIODataReader gio) throws IOException {
 	// Create a level object
-	final LaserTankLevel levelData = new LaserTankLevel();
-	int levelIndex = 0;
+	final var levelData = new LaserTankLevel();
+	var levelIndex = 0;
 	while (!gio.atEOF()) {
 	    // Add a level
 	    levelData.addLevel();
@@ -268,16 +268,16 @@ public class LaserTankLevel {
 	    LaserTankLevel.decodeObjectData(gio.readBytes(LaserTankLevel.LVL_OBJECT_DATA_LEN),
 		    levelData.objectData.get(levelIndex));
 	    // Load name
-	    final byte[] nameData = new byte[LaserTankLevel.LVL_NAME_LEN];
-	    final String loadName = gio.readWindowsString(nameData);
+	    final var nameData = new byte[LaserTankLevel.LVL_NAME_LEN];
+	    final var loadName = gio.readWindowsString(nameData);
 	    // Load author
-	    final byte[] authorData = new byte[LaserTankLevel.LVL_AUTHOR_LEN];
-	    final String loadAuthor = gio.readWindowsString(authorData);
+	    final var authorData = new byte[LaserTankLevel.LVL_AUTHOR_LEN];
+	    final var loadAuthor = gio.readWindowsString(authorData);
 	    // Load hint
-	    final byte[] hintData = new byte[LaserTankLevel.LVL_HINT_LEN];
-	    final String loadHint = gio.readWindowsString(hintData);
+	    final var hintData = new byte[LaserTankLevel.LVL_HINT_LEN];
+	    final var loadHint = gio.readWindowsString(hintData);
 	    // Load difficulty
-	    final Difficulty loadDifficulty = DifficultyHelper.fromOrdinal(gio.readUnsignedShortByteArrayAsInt());
+	    final var loadDifficulty = DifficultyHelper.fromOrdinal(gio.readUnsignedShortByteArrayAsInt());
 	    // Populate metadata
 	    levelData.setName(loadName, levelIndex);
 	    levelData.setAuthor(loadAuthor, levelIndex);
@@ -306,15 +306,13 @@ public class LaserTankLevel {
     private LaserTankLevel(final LaserTankLevel source) {
 	this.levelCount = source.levelCount;
 	this.metaData = new ArrayList<>();
-	for (var item : source.metaData) {
+	for (final var item : source.metaData) {
 	    this.metaData.add(new StringStorage(item));
 	}
 	this.difficulty = new ArrayList<>();
-	for (var item : source.difficulty) {
-	    this.difficulty.add(item);
-	}
+	this.difficulty.addAll(source.difficulty);
 	this.objectData = new ArrayList<>();
-	for (var item : source.objectData) {
+	for (final var item : source.objectData) {
 	    this.objectData.add(new LaserTankLevelStorage(item));
 	}
     }
@@ -376,14 +374,14 @@ public class LaserTankLevel {
     }
 
     public void save(final String filename) throws IOException {
-	try (GameIODataWriter gio = new GameIODataWriter(filename)) {
+	try (var gio = new GameIODataWriter(filename)) {
 	    this.saveToGameIOData(gio);
 	}
     }
 
     private void saveToGameIOData(final GameIODataWriter gio) throws IOException {
 	gio.writeInt(this.levelCount);
-	for (int l = 0; l < this.levelCount; l++) {
+	for (var l = 0; l < this.levelCount; l++) {
 	    gio.writeString(this.getName(l));
 	    gio.writeString(this.getAuthor(l));
 	    gio.writeString(this.getHint(l));

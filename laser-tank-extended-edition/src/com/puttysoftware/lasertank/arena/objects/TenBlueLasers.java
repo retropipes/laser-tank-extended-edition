@@ -7,14 +7,12 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractInventoryModifier;
-import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
 public class TenBlueLasers extends AbstractInventoryModifier {
     // Constructors
     public TenBlueLasers() {
-	super();
     }
 
     @Override
@@ -23,13 +21,13 @@ public class TenBlueLasers extends AbstractInventoryModifier {
     }
 
     @Override
-    public final GameObjectID getStringBaseID() {
+    public final GameObjectID getID() {
 	return GameObjectID.TEN_BLUE_LASERS;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	final Game gm = LaserTankEE.getApplication().getGameManager();
+	final var gm = LaserTankEE.getApplication().getGameManager();
 	TankInventory.addTenBlueLasers();
 	gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }

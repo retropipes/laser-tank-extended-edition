@@ -10,7 +10,6 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractMover extends AbstractGround {
     // Constructors
     protected AbstractMover() {
-	super();
     }
 
     @Override

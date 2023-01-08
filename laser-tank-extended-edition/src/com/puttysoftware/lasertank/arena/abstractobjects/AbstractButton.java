@@ -5,7 +5,8 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.Application;
+import java.util.Objects;
+
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
@@ -55,7 +56,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     @Override
     public AbstractButton clone() {
-	final AbstractButton copy = (AbstractButton) super.clone();
+	final var copy = (AbstractButton) super.clone();
 	copy.triggered = this.triggered;
 	copy.doorX = this.doorX;
 	copy.doorY = this.doorY;
@@ -64,8 +65,8 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-	final Application app = LaserTankEE.getApplication();
-	final int[] loc = app.getArenaManager().getArena().findObject(z, this.getButtonDoor());
+	final var app = LaserTankEE.getApplication();
+	final var loc = app.getArenaManager().getArena().findObject(z, this.getButtonDoor());
 	if (loc != null) {
 	    this.setDoorX(loc[0]);
 	    this.setDoorY(loc[1]);
@@ -82,18 +83,10 @@ public abstract class AbstractButton extends AbstractArenaObject {
 	if (this == obj) {
 	    return true;
 	}
-	if (!super.equals(obj)) {
+	if (!super.equals(obj) || !(obj instanceof AbstractButton other)) {
 	    return false;
 	}
-	if (!(obj instanceof AbstractButton)) {
-	    return false;
-	}
-	final AbstractButton other = (AbstractButton) obj;
-	if (this.buttonDoor == null) {
-	    if (other.buttonDoor != null) {
-		return false;
-	    }
-	} else if (!this.buttonDoor.equals(other.buttonDoor)) {
+	if (!Objects.equals(this.buttonDoor, other.buttonDoor)) {
 	    return false;
 	}
 	if (this.doorX != other.doorX) {
@@ -119,16 +112,12 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     @Override
     public int getCustomProperty(final int propID) {
-	switch (propID) {
-	case 1:
-	    return this.doorX;
-	case 2:
-	    return this.doorY;
-	case 3:
-	    return this.triggered ? 1 : 0;
-	default:
-	    return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-	}
+	return switch (propID) {
+	case 1 -> this.doorX;
+	case 2 -> this.doorY;
+	case 3 -> this.triggered ? 1 : 0;
+	default -> AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+	};
     }
 
     public int getDoorX() {
@@ -146,13 +135,12 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     @Override
     public int hashCode() {
-	final int prime = 31;
-	int result = super.hashCode();
+	final var prime = 31;
+	var result = super.hashCode();
 	result = prime * result + (this.buttonDoor == null ? 0 : this.buttonDoor.hashCode());
 	result = prime * result + this.doorX;
 	result = prime * result + this.doorY;
-	result = prime * result + (this.triggered ? 1231 : 1237);
-	return result;
+	return prime * result + (this.triggered ? 1231 : 1237);
     }
 
     public boolean isTriggered() {
@@ -184,7 +172,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 	    this.doorY = value;
 	    break;
 	case 3:
-	    this.triggered = value == 1 ? true : false;
+	    this.triggered = (value == 1) == true;
 	    break;
 	default:
 	    break;

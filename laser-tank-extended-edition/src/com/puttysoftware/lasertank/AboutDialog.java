@@ -34,8 +34,8 @@ public class AboutDialog extends Screen implements AboutHandler {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 	    try {
-		final AboutDialog ad = AboutDialog.this;
-		final String cmd = e.getActionCommand();
+		final var ad = AboutDialog.this;
+		final var cmd = e.getActionCommand();
 		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
 		    ad.hideScreen();
 		}
@@ -46,7 +46,7 @@ public class AboutDialog extends Screen implements AboutHandler {
     }
 
     // Fields
-    private String ver;
+    private final String ver;
 
     // Constructors
     AboutDialog(final String versionString) {
