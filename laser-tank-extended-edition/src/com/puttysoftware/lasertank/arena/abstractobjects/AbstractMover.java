@@ -13,10 +13,6 @@ public abstract class AbstractMover extends AbstractGround {
 	super();
     }
 
-    protected AbstractMover(final boolean hasFriction) {
-	super(hasFriction);
-    }
-
     @Override
     public int getLayer() {
 	return Layer.UPPER_GROUND.ordinal();

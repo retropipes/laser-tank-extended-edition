@@ -270,7 +270,7 @@ public class DataLoader {
 	}
     }
 
-    public static boolean loadShoot(final GameObjectID objID, final Direction dir) {
+    public static boolean loadShoot(final GameObjectID objID) {
 	var data = DataLoader.load(DataFile.SHOOT);
 	var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
@@ -279,22 +279,8 @@ public class DataLoader {
 	var value = data.getString(key);
 	if (value == "!") {
 	    return true;
-	} else if (value == "?") {
-	    return false;
-	} else if (value == "d") {
-	    var subkey = key + "_d" + dir.ordinal();
-	    if (!data.containsKey(subkey)) {
-		return false;
-	    }
-	    var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
-		return true;
-	    } else {
-		return false;
-	    }
-	} else {
-	    return false;
 	}
+	return false;
     }
 
     public static boolean loadSolid(final GameObjectID objID, final Direction dir) {

@@ -20,7 +20,6 @@ public class DeepWater extends AbstractGround {
     // Constructors
     public DeepWater() {
 	super();
-	this.setFrameNumber(1);
 	this.setMaterial(Material.WOODEN);
     }
 
@@ -41,11 +40,6 @@ public class DeepWater extends AbstractGround {
     @Override
     public final GameObjectID getStringBaseID() {
 	return GameObjectID.DEEP_WATER;
-    }
-
-    @Override
-    public boolean killsOnMove() {
-	return true;
     }
 
     // Scriptability

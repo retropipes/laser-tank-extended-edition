@@ -46,8 +46,8 @@ public class GameObjectData {
 	return DataLoader.loadMovable(objectID, Direction.NONE);
     }
 
-    public static boolean canShoot(final GameObjectID objectID, final Direction dir) {
-	return DataLoader.loadShoot(objectID, dir);
+    public static boolean canShoot(final GameObjectID objectID) {
+	return DataLoader.loadShoot(objectID);
     }
 
     public static int getBlockHeight(final GameObjectID objectID) {

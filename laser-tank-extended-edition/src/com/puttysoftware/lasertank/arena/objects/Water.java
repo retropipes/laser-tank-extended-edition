@@ -20,7 +20,6 @@ public class Water extends AbstractGround {
     // Constructors
     public Water() {
 	super();
-	this.setFrameNumber(1);
 	this.setMaterial(Material.WOODEN);
     }
 
@@ -41,11 +40,6 @@ public class Water extends AbstractGround {
     @Override
     public final GameObjectID getStringBaseID() {
 	return GameObjectID.WATER;
-    }
-
-    @Override
-    public boolean killsOnMove() {
-	return true;
     }
 
     // Scriptability

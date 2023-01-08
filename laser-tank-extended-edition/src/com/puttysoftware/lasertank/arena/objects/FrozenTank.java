@@ -12,7 +12,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class FrozenTank extends AbstractCharacter {
     public FrozenTank(final Direction dir, final int number) {
 	super(number);
-	this.setDirection(dir);
     }
 
     // Constructors

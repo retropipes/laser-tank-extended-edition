@@ -48,7 +48,7 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
 
     // Constructors
     protected AbstractTunnel() {
-	super(false, false, true);
+	super(false, false);
 	this.addType(GameType.TUNNEL);
     }
 

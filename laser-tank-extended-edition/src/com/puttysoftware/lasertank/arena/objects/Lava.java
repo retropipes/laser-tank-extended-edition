@@ -37,11 +37,6 @@ public class Lava extends AbstractGround {
 	return GameObjectID.LAVA;
     }
 
-    @Override
-    public boolean killsOnMove() {
-	return true;
-    }
-
     // Scriptability
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {

@@ -17,7 +17,6 @@ public class DeadAntiTank extends AbstractMovableObject {
     // Constructors
     public DeadAntiTank() {
 	super(false);
-	this.setDirection(Direction.NORTH);
     }
 
     @Override

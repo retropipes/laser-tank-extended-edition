@@ -13,7 +13,6 @@ public class Flag extends AbstractPassThroughObject {
     // Constructors
     public Flag() {
 	super();
-	this.setFrameNumber(1);
     }
 
     // Scriptability
@@ -35,10 +34,5 @@ public class Flag extends AbstractPassThroughObject {
     @Override
     public final GameObjectID getStringBaseID() {
 	return GameObjectID.FLAG;
-    }
-
-    @Override
-    public boolean solvesOnMove() {
-	return true;
     }
 }

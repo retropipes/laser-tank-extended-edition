@@ -11,12 +11,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractGround extends AbstractArenaObject {
     // Constructors
     protected AbstractGround() {
-	super(false, false, true);
-	this.addType(GameType.GROUND);
-    }
-
-    protected AbstractGround(final boolean hasFriction) {
-	super(false, false, hasFriction);
+	super(false, false);
 	this.addType(GameType.GROUND);
     }
 

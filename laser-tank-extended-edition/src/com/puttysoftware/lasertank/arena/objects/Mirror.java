@@ -18,8 +18,6 @@ public class Mirror extends AbstractMovableObject {
     // Constructors
     public Mirror() {
 	super(true);
-	this.setDirection(Direction.NORTHEAST);
-	this.setDiagonalOnly(true);
 	this.addType(GameType.MOVABLE_MIRROR);
     }
 

@@ -17,7 +17,7 @@ import com.puttysoftware.lasertank.index.Material;
 
 public class Ice extends AbstractGround {
     public Ice() {
-	super(false);
+	super();
 	this.setMaterial(Material.ICE);
 	this.addType(GameType.ICY);
     }

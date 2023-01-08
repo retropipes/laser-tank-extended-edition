@@ -19,8 +19,6 @@ public class MetallicMirror extends AbstractMovableObject {
     // Constructors
     public MetallicMirror() {
 	super(true);
-	this.setDirection(Direction.NORTHEAST);
-	this.setDiagonalOnly(true);
 	this.addType(GameType.MOVABLE_MIRROR);
 	this.setMaterial(Material.METALLIC);
     }

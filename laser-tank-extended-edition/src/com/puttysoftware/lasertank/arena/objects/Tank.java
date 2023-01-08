@@ -20,7 +20,6 @@ public class Tank extends AbstractCharacter {
     // Constructors
     public Tank(final int number) {
 	super(number);
-	this.setDirection(Direction.NORTH);
     }
 
     @Override

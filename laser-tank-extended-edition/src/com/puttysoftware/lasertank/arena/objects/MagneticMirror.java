@@ -19,8 +19,6 @@ public class MagneticMirror extends AbstractMovableObject {
     // Constructors
     public MagneticMirror() {
 	super(true);
-	this.setDirection(Direction.NORTHEAST);
-	this.setDiagonalOnly(true);
 	this.addType(GameType.MOVABLE_MIRROR);
 	this.setMaterial(Material.MAGNETIC);
     }

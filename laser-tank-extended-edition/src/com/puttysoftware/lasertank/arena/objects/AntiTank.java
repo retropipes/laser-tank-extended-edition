@@ -24,17 +24,10 @@ public class AntiTank extends AbstractMovableObject {
     // Constructors
     public AntiTank() {
 	super(true);
-	this.setDirection(Direction.NORTH);
-	this.setFrameNumber(1);
 	this.activateTimer(1);
 	this.canShoot = true;
 	this.autoMove = false;
 	this.addType(GameType.ANTI);
-    }
-
-    @Override
-    public boolean canShoot() {
-	return true;
     }
 
     @Override

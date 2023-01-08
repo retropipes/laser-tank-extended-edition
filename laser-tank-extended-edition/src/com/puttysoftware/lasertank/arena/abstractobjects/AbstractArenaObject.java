@@ -44,13 +44,11 @@ public abstract class AbstractArenaObject {
     // Properties
     private boolean solid;
     private boolean pushable;
-    private boolean friction;
     private BitSet type;
     private int timerValue;
     private boolean timerActive;
     private int frameNumber;
     private Direction direction;
-    private boolean diagonalOnly;
     private GameColor color;
     private Material material;
     private boolean imageEnabled;
@@ -60,13 +58,11 @@ public abstract class AbstractArenaObject {
     public AbstractArenaObject() {
 	this.solid = false;
 	this.pushable = false;
-	this.friction = true;
 	this.type = new BitSet(GameTypeHelper.COUNT);
 	this.timerValue = 0;
 	this.timerActive = false;
-	this.frameNumber = 0;
+	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
-	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
 	this.imageEnabled = true;
@@ -76,28 +72,24 @@ public abstract class AbstractArenaObject {
     AbstractArenaObject(final boolean isSolid) {
 	this.solid = isSolid;
 	this.pushable = false;
-	this.friction = true;
 	this.type = new BitSet(GameTypeHelper.COUNT);
 	this.timerValue = 0;
 	this.timerActive = false;
-	this.frameNumber = 0;
+	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
-	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
 	this.imageEnabled = true;
     }
 
-    AbstractArenaObject(final boolean isSolid, final boolean isPushable, final boolean hasFriction) {
+    AbstractArenaObject(final boolean isSolid, final boolean isPushable) {
 	this.solid = isSolid;
 	this.pushable = isPushable;
-	this.friction = hasFriction;
 	this.type = new BitSet(GameTypeHelper.COUNT);
 	this.timerValue = 0;
 	this.timerActive = false;
-	this.frameNumber = 0;
+	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
-	this.diagonalOnly = false;
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
 	this.imageEnabled = true;
@@ -124,8 +116,8 @@ public abstract class AbstractArenaObject {
 	return false;
     }
 
-    public boolean canShoot() {
-	return false;
+    public final boolean canShoot() {
+	return GameObjectData.canShoot(this.getStringBaseID());
     }
 
     /**
@@ -144,13 +136,11 @@ public abstract class AbstractArenaObject {
 	    final AbstractArenaObject copy = this.getClass().getConstructor().newInstance();
 	    copy.solid = this.solid;
 	    copy.pushable = this.pushable;
-	    copy.friction = this.friction;
 	    copy.type = (BitSet) this.type.clone();
 	    copy.timerValue = this.timerValue;
 	    copy.timerActive = this.timerActive;
 	    copy.frameNumber = this.frameNumber;
 	    copy.direction = this.direction;
-	    copy.diagonalOnly = this.diagonalOnly;
 	    copy.color = this.color;
 	    copy.material = this.material;
 	    return copy;
@@ -220,9 +210,6 @@ public abstract class AbstractArenaObject {
 	    return false;
 	}
 	final AbstractArenaObject other = (AbstractArenaObject) obj;
-	if (this.friction != other.friction) {
-	    return false;
-	}
 	if (this.pushable != other.pushable) {
 	    return false;
 	}
@@ -278,6 +265,14 @@ public abstract class AbstractArenaObject {
 	return this.frameNumber;
     }
 
+    public final int getFirstFrameNumber() {
+	return GameObjectData.getFirstFrameNumber(this.getStringBaseID());
+    }
+
+    public final int getLastFrameNumber() {
+	return GameObjectData.getLastFrameNumber(this.getStringBaseID());
+    }
+
     private final String getIdentifier() {
 	return this.getImageName();
     }
@@ -323,14 +318,13 @@ public abstract class AbstractArenaObject {
     }
 
     public final boolean hasFriction() {
-	return this.friction;
+	return GameObjectData.hasFriction(this.getStringBaseID());
     }
 
     @Override
     public int hashCode() {
 	final int prime = 31;
 	int result = 1;
-	result = prime * result + (this.friction ? 1231 : 1237);
 	result = prime * result + (this.pushable ? 1231 : 1237);
 	result = prime * result + (this.solid ? 1231 : 1237);
 	result = prime * result + (this.timerActive ? 1231 : 1237);
@@ -353,7 +347,7 @@ public abstract class AbstractArenaObject {
     }
 
     private final boolean isAnimated() {
-	return this.frameNumber > 0;
+	return GameObjectData.isAnimated(this.getStringBaseID());
     }
 
     public boolean isConditionallySolid() {
@@ -376,8 +370,8 @@ public abstract class AbstractArenaObject {
 	return this.solid;
     }
 
-    public boolean killsOnMove() {
-	return false;
+    public final boolean killsOnMove() {
+	return GameObjectData.killsOnMove(this.getStringBaseID());
     }
 
     public void laserDoneAction() {
@@ -495,6 +489,15 @@ public abstract class AbstractArenaObject {
      */
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
 	Sounds.play(Sound.BUMP_HEAD);
+    }
+
+    public void nextFrame() {
+	if (this.isAnimated()) {
+	    this.frameNumber++;
+	    if (this.frameNumber > this.getLastFrameNumber()) {
+		this.frameNumber = 1;
+	    }
+	}
     }
 
     // Scripting
@@ -780,20 +783,12 @@ public abstract class AbstractArenaObject {
 
     abstract public void setCustomProperty(int propID, int value);
 
-    public final void setDiagonalOnly(final boolean value) {
-	this.diagonalOnly = value;
-    }
-
     public final void setDirection(final Direction dir) {
 	this.direction = dir;
     }
 
     public void setEnabled(final boolean value) {
 	this.imageEnabled = value;
-    }
-
-    public final void setFrameNumber(final int frame) {
-	this.frameNumber = frame;
     }
 
     protected final void setMaterial(final Material materialID) {
@@ -808,8 +803,8 @@ public abstract class AbstractArenaObject {
 	this.savedObject = obj;
     }
 
-    public boolean solvesOnMove() {
-	return false;
+    public final boolean solvesOnMove() {
+	return this.getStringBaseID() == GameObjectID.FLAG;
     }
 
     public final void tickTimer(final int dirX, final int dirY, final GameAction actionType) {
