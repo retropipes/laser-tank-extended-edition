@@ -75,12 +75,8 @@ public class Strings {
 	return ResourceBundle.getBundle("locale." + Strings.LANGUAGE_NAME + file.getName()); //$NON-NLS-1$
     }
 
-    public static String loadCommon(final CommonString str, final Object... values) {
-	var string = str.getValue();
-	for (var v = 0; v < values.length; v++) {
-	    string = string.replace(Strings.REPLACE_PREFIX + Integer.toString(v), values[v].toString());
-	}
-	return string;
+    public static String loadCommon(final CommonString str) {
+	return str.getValue();
     }
 
     public static String loadDialog(final DialogString str, final Object... values) {

@@ -11,7 +11,6 @@ enum StringFile {
     GENERIC,
     MENUS,
     MESSAGES,
-    OBJECTS,
     OVERRIDES,
     SETTINGS,
     TIME,
