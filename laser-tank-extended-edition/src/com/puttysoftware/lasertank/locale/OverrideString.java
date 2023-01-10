@@ -1,12 +1,6 @@
 package com.puttysoftware.lasertank.locale;
 
 public enum OverrideString {
-    LOAD_LTG_FILE,
-    LTG_FILE_LOADED_SUCCESSFULLY,
-    LOADING_LTG_FILE_FAILED,
-    NO_LTG_FILE_LOADED,
-    NON_LTG_FILE,
-    LTG_INFO,
     BY,
     LOAD_OVERRIDE_FILE,
     OVERRIDE_FILE_LOADED_SUCCESSFULLY,
