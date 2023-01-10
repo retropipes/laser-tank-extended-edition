@@ -10,10 +10,12 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
+import com.puttysoftware.lasertank.locale.global.DataLoaderString;
+import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
 public class DataLoader {
     private static ResourceBundle load(final DataFile file) {
-	return ResourceBundle.getBundle("asset.data." + file.getName());
+	return ResourceBundle.getBundle(GlobalStrings.loadDataLoader(DataLoaderString.LOAD_PATH) + file.getName());
     }
 
     public static boolean loadAcceptTick(final GameObjectID objID, final GameAction action) {
@@ -23,7 +25,7 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
 	return action == GameActionHelper.fromStringValue(value);
@@ -38,11 +40,11 @@ public class DataLoader {
 	    return fallback;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return all;
 	}
-	if (value.contains(",")) {
-	    final var split = value.split(",");
+	if (value.contains(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR))) {
+	    final var split = value.split(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR));
 	    final var res = new Direction[split.length];
 	    for (var r = 0; r < res.length; r++) {
 		res[r] = DirectionHelper.fromStringValue(split[r]);
@@ -60,7 +62,7 @@ public class DataLoader {
 	    return 0;
 	}
 	final var value = data.getString(key);
-	if (value == "?") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 	    return 0;
 	}
 	return Integer.parseInt(value);
@@ -73,18 +75,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -99,7 +102,7 @@ public class DataLoader {
 	    return 0;
 	}
 	final var value = data.getString(key);
-	if (value == "?") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 	    return 0;
 	}
 	return Integer.parseInt(value);
@@ -113,11 +116,11 @@ public class DataLoader {
 	    return fallback;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return fallback;
 	}
-	if (value.contains(",")) {
-	    final var split = value.split(",");
+	if (value.contains(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR))) {
+	    final var split = value.split(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR));
 	    final var res = new int[split.length];
 	    for (var r = 0; r < res.length; r++) {
 		res[r] = Integer.parseInt(split[r]);
@@ -135,7 +138,7 @@ public class DataLoader {
 	    return 0;
 	}
 	final var value = data.getString(key);
-	if (value == "?") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 	    return 0;
 	}
 	return Integer.parseInt(value);
@@ -148,18 +151,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -174,7 +178,7 @@ public class DataLoader {
 	    return Material.NONE;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return Material.NONE;
 	}
 	return MaterialHelper.fromStringValue(value);
@@ -187,18 +191,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -213,18 +218,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -239,18 +245,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -265,7 +272,7 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
 	return false;
@@ -278,18 +285,19 @@ public class DataLoader {
 	    return false;
 	}
 	final var value = data.getString(key);
-	if (value == "!") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 	    return true;
 	}
-	if ((value == "?") || (value != "d")) {
+	if ((value == GlobalStrings.loadDataLoader(DataLoaderString.NONE))
+		|| (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION))) {
 	    return false;
 	} else {
-	    final var subkey = key + "_d" + dir.ordinal();
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return false;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "!") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
 		return true;
 	    } else {
 		return false;
@@ -304,16 +312,17 @@ public class DataLoader {
 	    return objID;
 	}
 	final var value = data.getString(key);
-	if (value == "?") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 	    return objID;
 	}
-	if (value == "m") {
-	    final var subkey = key + "_m" + materialID.ordinal();
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.VALUE_MATERIAL)) {
+	    final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.MATERIAL_SEPARATOR)
+		    + materialID.ordinal();
 	    if (!data.containsKey(subkey)) {
 		return objID;
 	    }
 	    final var subvalue = data.getString(subkey);
-	    if (subvalue == "?") {
+	    if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 		return objID;
 	    } else {
 		return GameObjectIDHelper.fromStringValue(subvalue);
@@ -330,7 +339,7 @@ public class DataLoader {
 	    return 0;
 	}
 	final var value = data.getString(key);
-	if (value == "?") {
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
 	    return 0;
 	}
 	return Integer.parseInt(value);

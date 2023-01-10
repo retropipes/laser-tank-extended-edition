@@ -10,6 +10,10 @@ public class GlobalStrings {
 	return ResourceBundle.getBundle("locale." + GlobalFileNames.getFileName(file));
     }
 
+    public static String loadDataLoader(final DataLoaderString str) {
+	return GlobalStrings.loadFile(GlobalFile.DATA_LOADER).getString(Integer.toString(str.ordinal()));
+    }
+
     public static String loadLanguage(final int strID) {
 	return GlobalStrings.loadFile(GlobalFile.LANGUAGES).getString(Integer.toString(strID));
     }
