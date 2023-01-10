@@ -51,10 +51,9 @@ public class RollingCrystalVertical extends AbstractMovableObject {
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going
 	    return DirectionHelper.resolveRelative(dirX, dirY);
-	} else {
-	    // Laser stops
-	    return Direction.NONE;
 	}
+	// Laser stops
+	return Direction.NONE;
     }
 
     @Override

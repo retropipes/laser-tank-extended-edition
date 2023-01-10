@@ -60,10 +60,9 @@ public class MirrorCrystalBlock extends AbstractReactionWall {
 	if (laserType == LaserType.BLUE) {
 	    // Pass laser through
 	    return DirectionHelper.resolveRelative(dirX, dirY);
-	} else {
-	    // Reflect laser
-	    return DirectionHelper.resolveRelativeInvert(dirX, dirY);
 	}
+	// Reflect laser
+	return DirectionHelper.resolveRelativeInvert(dirX, dirY);
     }
 
     @Override

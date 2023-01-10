@@ -13,7 +13,8 @@ public class LaserTankScoreAscendingSorter implements Comparator<LaserTankScore>
 	}
 	if (o2.shots < o1.shots) {
 	    return -1;
-	} else if (o2.moves > o1.moves) {
+	}
+	if (o2.moves > o1.moves) {
 	    return 1;
 	} else if (o2.moves < o1.moves) {
 	    return -1;

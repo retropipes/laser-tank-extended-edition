@@ -67,7 +67,7 @@ public class Logos {
 	    final var g2 = image.createGraphics();
 	    g2.setColor(Color.yellow);
 	    final var logoVer = Application.getLogoVersionString();
-	    if (drawing && (Logos.LOGO_DRAW_FONT == null)) {
+	    if (drawing && Logos.LOGO_DRAW_FONT == null) {
 		try (var is = Logos.class
 			.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
 				+ GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {

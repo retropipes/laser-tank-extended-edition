@@ -28,7 +28,7 @@ public abstract class AbstractDoor extends AbstractArenaObject {
 
     @Override
     public boolean equals(final Object obj) {
-	if ((obj == null) || (this.getClass() != obj.getClass())) {
+	if (obj == null || this.getClass() != obj.getClass()) {
 	    return false;
 	}
 	final var other = (AbstractDoor) obj;

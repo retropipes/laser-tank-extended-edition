@@ -12,7 +12,10 @@ public enum CommonString {
     COLON(":"), //$NON-NLS-1$
     CLOSE_PARENTHESES(")"), //$NON-NLS-1$
     OPEN_PARENTHESES("("), //$NON-NLS-1$
-    SPACE_DASH_SPACE(" - "); //$NON-NLS-1$
+    SPACE_DASH_SPACE(" - "), //$NON-NLS-1$
+    NULL("null"), //$NON-NLS-1$
+    LTG_ID("LTG1"), //$NON-NLS-1$
+    NEWLINE("\n"); //$NON-NLS-1$
 
     String internalValue;
 

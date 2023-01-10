@@ -60,10 +60,9 @@ public class CrystalBlock extends AbstractReactionWall {
 	if (laserType == LaserType.BLUE) {
 	    // Reflect laser
 	    return DirectionHelper.resolveRelativeInvert(dirX, dirY);
-	} else {
-	    // Pass laser through
-	    return DirectionHelper.resolveRelative(dirX, dirY);
 	}
+	// Pass laser through
+	return DirectionHelper.resolveRelative(dirX, dirY);
     }
 
     @Override

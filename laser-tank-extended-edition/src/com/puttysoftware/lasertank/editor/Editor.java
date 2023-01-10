@@ -229,9 +229,9 @@ public class Editor extends Screen {
 	}
     }
 
-    private static final String[] JUMP_LIST = new String[] { Integer.toString(0), Integer.toString(1),
-	    Integer.toString(2), Integer.toString(3), Integer.toString(4), Integer.toString(5), Integer.toString(6),
-	    Integer.toString(7), Integer.toString(8), Integer.toString(9) };
+    private static final String[] JUMP_LIST = { Integer.toString(0), Integer.toString(1), Integer.toString(2),
+	    Integer.toString(3), Integer.toString(4), Integer.toString(5), Integer.toString(6), Integer.toString(7),
+	    Integer.toString(8), Integer.toString(9) };
     // Declarations
     private JPanel secondaryPane, outerOutputPane, switcherPane;
     private EditorDraw outputPane;
@@ -285,7 +285,7 @@ public class Editor extends Screen {
     private boolean addLevelInternal() {
 	final var app = LaserTankEE.getApplication();
 	final var saveLevel = app.getArenaManager().getArena().getActiveLevelNumber();
-	var success = app.getArenaManager().getArena().addLevel();
+	final var success = app.getArenaManager().getArena().addLevel();
 	if (success) {
 	    this.fixLimits();
 	    app.getArenaManager().getArena().fillDefault();

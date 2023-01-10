@@ -501,7 +501,8 @@ public final class CurrentArenaData extends ArenaData {
 	}
 	if (dir == Direction.WEST) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.WEST);
-	} else if (dir == Direction.SOUTH) {
+	}
+	if (dir == Direction.SOUTH) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.SOUTH);
 	} else if (dir == Direction.NORTH) {
 	    return this.linearScanMagnetic(arena, centerX, centerY, floor, Direction.NORTH);
@@ -710,7 +711,7 @@ public final class CurrentArenaData extends ArenaData {
 			if (this.getCell(arena, y, x, z, w) == null) {
 			    if (w == Layer.LOWER_GROUND.ordinal()) {
 				this.setCell(arena, fill1, y, x, z, w);
-			    } else if ((w == Layer.LOWER_OBJECTS.ordinal() && was16) && (x >= 16 || y >= 16)) {
+			    } else if (w == Layer.LOWER_OBJECTS.ordinal() && was16 && (x >= 16 || y >= 16)) {
 				this.setCell(arena, fill2, y, x, z, w);
 			    } else {
 				this.setCell(arena, new Empty(), y, x, z, w);
@@ -784,7 +785,7 @@ public final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < this.getRows(); y++) {
 		for (z = 0; z < this.getFloors(); z++) {
 		    final var mo = this.getCell(arena, y, x, z, t.getLayer());
-		    if ((mo != null) && t.equals(mo)) {
+		    if (mo != null && t.equals(mo)) {
 			return new int[] { y, x, z };
 		    }
 		}
@@ -810,10 +811,9 @@ public final class CurrentArenaData extends ArenaData {
 		    break;
 		}
 		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
-		if (obj instanceof AbstractButton button) {
-		    if (source.boundButtonDoorEquals(button) && !button.isTriggered()) {
-			flag = true;
-		    }
+		if ((obj instanceof final AbstractButton button)
+			&& (source.boundButtonDoorEquals(button) && !button.isTriggered())) {
+		    flag = true;
 		}
 	    }
 	}
@@ -846,10 +846,9 @@ public final class CurrentArenaData extends ArenaData {
 		    break;
 		}
 		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
-		if (obj instanceof AbstractButton button) {
-		    if (source.boundButtonDoorEquals(button) && !button.isTriggered()) {
-			flag = false;
-		    }
+		if ((obj instanceof final AbstractButton button)
+			&& (source.boundButtonDoorEquals(button) && !button.isTriggered())) {
+		    flag = false;
 		}
 	    }
 	}
@@ -875,22 +874,19 @@ public final class CurrentArenaData extends ArenaData {
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		final var obj = this.getCell(arena, x, y, z, source.getLayer());
-		if (obj instanceof AbstractButton button) {
-		    if (source.getClass().equals(button.getButtonDoor().getClass())) {
-			button.setDoorX(dx);
-			button.setDoorY(dy);
-			button.setTriggered(false);
-		    }
+		if ((obj instanceof final AbstractButton button)
+			&& source.getClass().equals(button.getButtonDoor().getClass())) {
+		    button.setDoorX(dx);
+		    button.setDoorY(dy);
+		    button.setTriggered(false);
 		}
 	    }
 	}
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		final var obj = this.getCell(arena, x, y, z, source.getLayer());
-		if (obj instanceof AbstractButtonDoor door) {
-		    if (source.getClass().equals(door.getClass())) {
-			this.setCell(arena, new Ground(), x, y, z, source.getLayer());
-		    }
+		if ((obj instanceof final AbstractButtonDoor door) && source.getClass().equals(door.getClass())) {
+		    this.setCell(arena, new Ground(), x, y, z, source.getLayer());
 		}
 	    }
 	}
@@ -910,7 +906,7 @@ public final class CurrentArenaData extends ArenaData {
 		    continue;
 		}
 		final var obj = this.getCell(arena, x, y, zFix, button.getLayer());
-		if ((obj instanceof AbstractButton) && ((AbstractButton) obj).boundButtonDoorEquals(button)) {
+		if (obj instanceof AbstractButton && ((AbstractButton) obj).boundButtonDoorEquals(button)) {
 		    this.setCell(arena, new Ground(), x, y, zFix, button.getLayer());
 		}
 	    }
@@ -927,11 +923,9 @@ public final class CurrentArenaData extends ArenaData {
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 		final var obj = this.getCell(arena, x, y, zFix, door.getLayer());
-		if (obj instanceof AbstractButton button) {
-		    if (button.boundToSameButtonDoor(door)) {
-			button.setTriggered(true);
-			return;
-		    }
+		if ((obj instanceof final AbstractButton button) && button.boundToSameButtonDoor(door)) {
+		    button.setTriggered(true);
+		    return;
 		}
 	    }
 	}
@@ -1067,25 +1061,24 @@ public final class CurrentArenaData extends ArenaData {
 	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
-	    } else {
-		for (u = yFix - 1; u >= 0; u--) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final var obj = this.getCell(arena, xFix, u, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final var invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = xFix;
-				    this.foundY = u;
-				    return true;
-				}
+	    }
+	    for (u = yFix - 1; u >= 0; u--) {
+		for (w = 0; w < LayerHelper.COUNT; w++) {
+		    try {
+			final var obj = this.getCell(arena, xFix, u, zFix, w);
+			if (obj.isOfType(GameType.ANTI)) {
+			    final var invert = DirectionHelper.invert(obj.getDirection());
+			    if (d == invert) {
+				this.foundX = xFix;
+				this.foundY = u;
+				return true;
 			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			}
+			if (obj.isSolid()) {
 			    return false;
 			}
+		    } catch (final ArrayIndexOutOfBoundsException aioobe) {
+			return false;
 		    }
 		}
 	    }
@@ -1095,25 +1088,24 @@ public final class CurrentArenaData extends ArenaData {
 	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
-	    } else {
-		for (u = yFix + 1; u < 24; u++) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final var obj = this.getCell(arena, xFix, u, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final var invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = xFix;
-				    this.foundY = u;
-				    return true;
-				}
+	    }
+	    for (u = yFix + 1; u < 24; u++) {
+		for (w = 0; w < LayerHelper.COUNT; w++) {
+		    try {
+			final var obj = this.getCell(arena, xFix, u, zFix, w);
+			if (obj.isOfType(GameType.ANTI)) {
+			    final var invert = DirectionHelper.invert(obj.getDirection());
+			    if (d == invert) {
+				this.foundX = xFix;
+				this.foundY = u;
+				return true;
 			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			}
+			if (obj.isSolid()) {
 			    return false;
 			}
+		    } catch (final ArrayIndexOutOfBoundsException aioobe) {
+			return false;
 		    }
 		}
 	    }
@@ -1121,25 +1113,24 @@ public final class CurrentArenaData extends ArenaData {
 	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
-	    } else {
-		for (u = xFix - 1; u >= 0; u--) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final var obj = this.getCell(arena, u, yFix, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final var invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = u;
-				    this.foundY = yFix;
-				    return true;
-				}
+	    }
+	    for (u = xFix - 1; u >= 0; u--) {
+		for (w = 0; w < LayerHelper.COUNT; w++) {
+		    try {
+			final var obj = this.getCell(arena, u, yFix, zFix, w);
+			if (obj.isOfType(GameType.ANTI)) {
+			    final var invert = DirectionHelper.invert(obj.getDirection());
+			    if (d == invert) {
+				this.foundX = u;
+				this.foundY = yFix;
+				return true;
 			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			}
+			if (obj.isSolid()) {
 			    return false;
 			}
+		    } catch (final ArrayIndexOutOfBoundsException aioobe) {
+			return false;
 		    }
 		}
 	    }
@@ -1147,25 +1138,24 @@ public final class CurrentArenaData extends ArenaData {
 	    final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
-	    } else {
-		for (u = xFix + 1; u < 24; u++) {
-		    for (w = 0; w < LayerHelper.COUNT; w++) {
-			try {
-			    final var obj = this.getCell(arena, u, yFix, zFix, w);
-			    if (obj.isOfType(GameType.ANTI)) {
-				final var invert = DirectionHelper.invert(obj.getDirection());
-				if (d == invert) {
-				    this.foundX = u;
-				    this.foundY = yFix;
-				    return true;
-				}
+	    }
+	    for (u = xFix + 1; u < 24; u++) {
+		for (w = 0; w < LayerHelper.COUNT; w++) {
+		    try {
+			final var obj = this.getCell(arena, u, yFix, zFix, w);
+			if (obj.isOfType(GameType.ANTI)) {
+			    final var invert = DirectionHelper.invert(obj.getDirection());
+			    if (d == invert) {
+				this.foundX = u;
+				this.foundY = yFix;
+				return true;
 			    }
-			    if (obj.isSolid()) {
-				return false;
-			    }
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+			}
+			if (obj.isSolid()) {
 			    return false;
 			}
+		    } catch (final ArrayIndexOutOfBoundsException aioobe) {
+			return false;
 		    }
 		}
 	    }
@@ -1284,7 +1274,8 @@ public final class CurrentArenaData extends ArenaData {
 	}
 	if (GameFormatHelper.isValidG2(formatVersion)) {
 	    return CurrentArenaData.readDataG2(arena, reader, formatVersion);
-	} else if (GameFormatHelper.isValidG3(formatVersion)) {
+	}
+	if (GameFormatHelper.isValidG3(formatVersion)) {
 	    return CurrentArenaData.readDataG3(arena, reader, formatVersion);
 	} else if (GameFormatHelper.isValidG4(formatVersion)) {
 	    return CurrentArenaData.readDataG4(arena, reader, formatVersion);
@@ -1582,9 +1573,9 @@ public final class CurrentArenaData extends ArenaData {
 		for (y = 0; y < this.getRows(); y++) {
 		    for (w = 0; w < LayerHelper.COUNT; w++) {
 			final var mo = this.getCell(arena, y, x, floorFix, w);
-			if ((mo != null) && (z == Direction.NORTH.ordinal())) {
+			if (mo != null && z == Direction.NORTH.ordinal()) {
 			    // Handle objects waiting for a tunnel to open
-			    if (mo instanceof AbstractMovableObject gmo) {
+			    if (mo instanceof final AbstractMovableObject gmo) {
 				final var saved = gmo.getSavedObject();
 				if (saved instanceof AbstractTunnel) {
 				    final var color = saved.getColor();

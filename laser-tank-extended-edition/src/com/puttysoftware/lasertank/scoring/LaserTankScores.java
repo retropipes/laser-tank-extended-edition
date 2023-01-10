@@ -6,13 +6,16 @@
 package com.puttysoftware.lasertank.scoring;
 
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
+import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
 
 public class LaserTankScores {
     // Fields and Constants
-    private static final String NAME_PROMPT = "Enter a name for the score list:";
+    private static String NAME_PROMPT;
     public static final boolean SORT_ORDER_DESCENDING = false;
+    private static boolean stringsLoaded = false;
     protected LaserTankSortedScoreTable table;
     private String name;
     private String title;
@@ -21,7 +24,7 @@ public class LaserTankScores {
     // Constructors
     public LaserTankScores() {
 	this.table = new LaserTankSortedScoreTable();
-	this.name = "";
+	this.name = Strings.loadCommon(CommonString.EMPTY);
 	final var dialogTitle = Strings.loadDialog(DialogString.SCORES_HEADER);
 	this.title = dialogTitle;
 	this.viewerTitle = dialogTitle;
@@ -30,8 +33,8 @@ public class LaserTankScores {
     public LaserTankScores(final int length, final LaserTankScoreSortOrder laserTankScoreSortOrder,
 	    final String customTitle) {
 	this.table = new LaserTankSortedScoreTable(length, laserTankScoreSortOrder);
-	this.name = "";
-	if (customTitle == null || customTitle.equals("")) {
+	this.name = Strings.loadCommon(CommonString.EMPTY);
+	if (customTitle == null || customTitle.equals(Strings.loadCommon(CommonString.EMPTY))) {
 	    this.title = Strings.loadDialog(DialogString.SCORES_HEADER);
 	} else {
 	    this.title = customTitle;
@@ -41,6 +44,7 @@ public class LaserTankScores {
 
     // Methods
     public boolean add(final long newMoves, final long newShots) {
+	LaserTankScores.checkLoadStrings();
 	var success = true;
 	this.name = CommonDialogs.showTextInputDialog(LaserTankScores.NAME_PROMPT, this.title);
 	if (this.name != null) {
@@ -62,5 +66,12 @@ public class LaserTankScores {
 
     public void view() {
 	LaserTankScoreTableViewer.view(this.table, this.viewerTitle);
+    }
+
+    private static void checkLoadStrings() {
+	if (!LaserTankScores.stringsLoaded) {
+	    LaserTankScores.NAME_PROMPT = Strings.loadGame(GameString.NAME_PROMPT);
+	    LaserTankScores.stringsLoaded = true;
+	}
     }
 }

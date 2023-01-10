@@ -10,7 +10,7 @@ class CheatList extends ArrayList<Cheat> {
 	    return -1;
 	}
 	var counter = -1;
-	for (Cheat c : this) {
+	for (final Cheat c : this) {
 	    counter += 1;
 	    if (c.getCode().equals(code)) {
 		return counter;

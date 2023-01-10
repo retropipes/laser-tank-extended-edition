@@ -95,10 +95,9 @@ public class Settings {
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_SETTINGS_WINDOWS);
-	} else {
-	    // Other - assume UNIX-like
-	    return GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_SETTINGS_UNIX);
 	}
+	// Other - assume UNIX-like
+	return GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_SETTINGS_UNIX);
     }
 
     private static String getSettingsDirPrefix() {
@@ -110,10 +109,9 @@ public class Settings {
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return System.getenv(GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_WINDOWS_APPDATA));
-	} else {
-	    // Other - assume UNIX-like
-	    return System.getenv(GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_UNIX_HOME));
 	}
+	// Other - assume UNIX-like
+	return System.getenv(GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_UNIX_HOME));
     }
 
     private static String getSettingsFile() {
@@ -138,10 +136,9 @@ public class Settings {
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return GlobalStrings.loadUntranslated(UntranslatedString.FILE_SETTINGS_WINDOWS);
-	} else {
-	    // Other - assume UNIX-like
-	    return GlobalStrings.loadUntranslated(UntranslatedString.FILE_SETTINGS_UNIX);
 	}
+	// Other - assume UNIX-like
+	return GlobalStrings.loadUntranslated(UntranslatedString.FILE_SETTINGS_UNIX);
     }
 
     public static long getReplaySpeed() {

@@ -20,7 +20,7 @@ import com.puttysoftware.lasertank.settings.Settings;
 public class LaserTankEE {
     // Constants
     private static Application application;
-    private static String PROGRAM_NAME = "LaserTankEE";
+    private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
     private static String ERROR_MESSAGE = null;
     private static String ERROR_TITLE = null;
     private static String WARNING_MESSAGE = null;

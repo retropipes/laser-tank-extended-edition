@@ -9,6 +9,8 @@ import java.io.InputStream;
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.fileio.DataIOUtilities;
 import com.puttysoftware.diane.fileio.DataIOUtilities.ImageBMP;
+import com.puttysoftware.lasertank.locale.CommonString;
+import com.puttysoftware.lasertank.locale.Strings;
 
 public class LaserTankGraphics {
     public static class LTGLoadException extends IOException {
@@ -19,7 +21,7 @@ public class LaserTankGraphics {
     }
 
     // Constants
-    private static final String FILE_ID = "LTG1";
+    private static final String FILE_ID = Strings.loadCommon(CommonString.LTG_ID);
     private static final int FILE_ID_LEN = 5;
     private static final int NAME_LEN = 40;
     private static final int AUTHOR_LEN = 30;

@@ -51,5 +51,7 @@ public enum GameString {
     OUT_OF_HEAT_BOMBS,
     ICE_BOMBS,
     OUT_OF_ICE_BOMBS,
-    TIME_TRAVEL_ENABLED;
+    TIME_TRAVEL_ENABLED,
+    NOBODY,
+    NAME_PROMPT;
 }

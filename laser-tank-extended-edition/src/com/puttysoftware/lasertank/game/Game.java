@@ -943,7 +943,7 @@ public class Game extends Screen {
 		final var currDirection = DirectionHelper.unresolveRelative(shooter.getDirection());
 		final var x = currDirection[0];
 		final var y = currDirection[1];
-		if ((this.mlot == null) || !this.mlot.isAlive()) {
+		if (this.mlot == null || !this.mlot.isAlive()) {
 		    this.mlot = new MLOTask();
 		}
 		this.mlot.activateLasers(x, y, ox, oy, this.activeLaserType, shooter);
@@ -1000,7 +1000,7 @@ public class Game extends Screen {
 	// We are dead
 	this.dead = true;
 	// Stop the movement/laser/object loop
-	if ((this.mlot != null) && this.mlot.isAlive()) {
+	if (this.mlot != null && this.mlot.isAlive()) {
 	    this.abortMovementLaserObjectLoop();
 	}
 	this.mlot = null;
@@ -1573,7 +1573,7 @@ public class Game extends Screen {
 	    m.resetHistoryEngine();
 	}
 	app.getArenaManager().setDirty(true);
-	if ((this.mlot != null) && this.mlot.isAlive()) {
+	if (this.mlot != null && this.mlot.isAlive()) {
 	    this.abortMovementLaserObjectLoop();
 	}
 	this.moving = false;
@@ -1922,7 +1922,7 @@ public class Game extends Screen {
     void updatePositionRelative(final int x, final int y) {
 	if (!this.moving) {
 	    this.moving = true;
-	    if ((this.mlot == null) || !this.mlot.isAlive()) {
+	    if (this.mlot == null || !this.mlot.isAlive()) {
 		this.mlot = new MLOTask();
 	    }
 	    this.mlot.activateMovement(x, y);
@@ -1943,7 +1943,7 @@ public class Game extends Screen {
     }
 
     public void updatePositionRelativeFrozen() {
-	if ((this.mlot == null) || !this.mlot.isAlive()) {
+	if (this.mlot == null || !this.mlot.isAlive()) {
 	    this.mlot = new MLOTask();
 	}
 	final var dir = this.getTank().getDirection();
@@ -2007,7 +2007,7 @@ public class Game extends Screen {
 
     public synchronized void updatePushedPosition(final int x, final int y, final int pushX, final int pushY,
 	    final AbstractMovableObject o) {
-	if ((this.mlot == null) || !this.mlot.isAlive()) {
+	if (this.mlot == null || !this.mlot.isAlive()) {
 	    this.mlot = new MLOTask();
 	}
 	this.mlot.activateObjects(x, y, pushX, pushY, o);

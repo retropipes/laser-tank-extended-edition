@@ -36,10 +36,9 @@ class ScoreTracker {
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return ScoreTracker.WIN_DIR;
-	} else {
-	    // Other - assume UNIX-like
-	    return ScoreTracker.UNIX_DIR;
 	}
+	// Other - assume UNIX-like
+	return ScoreTracker.UNIX_DIR;
     }
 
     private static String getScoreDirPrefix() {
@@ -51,10 +50,9 @@ class ScoreTracker {
 	if (osName.indexOf(GlobalStrings.loadUntranslated(UntranslatedString.WINDOWS)) != -1) {
 	    // Windows
 	    return System.getenv(ScoreTracker.WIN_PREFIX);
-	} else {
-	    // Other - assume UNIX-like
-	    return System.getenv(ScoreTracker.UNIX_PREFIX);
 	}
+	// Other - assume UNIX-like
+	return System.getenv(ScoreTracker.UNIX_PREFIX);
     }
 
     private static File getScoresFile(final String filename) {

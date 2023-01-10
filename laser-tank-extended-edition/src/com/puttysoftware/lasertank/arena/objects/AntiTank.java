@@ -71,20 +71,19 @@ public class AntiTank extends AbstractMovableObject {
 	    gm.morph(sat, locX, locY, locZ, this.getLayer());
 	    Sounds.play(Sound.STUN);
 	    return Direction.NONE;
+	}
+	final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	if (sourceDir == baseDir) {
+	    // Kill
+	    final var gm = LaserTankEE.getApplication().getGameManager();
+	    final var dat = new DeadAntiTank();
+	    dat.setSavedObject(this.getSavedObject());
+	    dat.setDirection(baseDir);
+	    gm.morph(dat, locX, locY, locZ, this.getLayer());
+	    Sounds.play(Sound.ANTI_DIE);
+	    return Direction.NONE;
 	} else {
-	    final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
-	    if (sourceDir == baseDir) {
-		// Kill
-		final var gm = LaserTankEE.getApplication().getGameManager();
-		final var dat = new DeadAntiTank();
-		dat.setSavedObject(this.getSavedObject());
-		dat.setDirection(baseDir);
-		gm.morph(dat, locX, locY, locZ, this.getLayer());
-		Sounds.play(Sound.ANTI_DIE);
-		return Direction.NONE;
-	    } else {
-		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-	    }
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
     }
 

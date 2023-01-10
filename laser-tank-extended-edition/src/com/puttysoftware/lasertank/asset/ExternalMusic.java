@@ -5,6 +5,9 @@
  */
 package com.puttysoftware.lasertank.asset;
 
+import com.puttysoftware.lasertank.locale.CommonString;
+import com.puttysoftware.lasertank.locale.Strings;
+
 public class ExternalMusic {
     // Fields
     private String name;
@@ -12,8 +15,8 @@ public class ExternalMusic {
 
     // Constructor
     public ExternalMusic() {
-	this.name = "";
-	this.path = "";
+	this.name = Strings.loadCommon(CommonString.EMPTY);
+	this.path = Strings.loadCommon(CommonString.EMPTY);
     }
 
     // Methods

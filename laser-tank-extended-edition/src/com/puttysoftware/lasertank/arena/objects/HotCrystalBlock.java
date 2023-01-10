@@ -61,8 +61,8 @@ public class HotCrystalBlock extends AbstractReactionWall {
 		    this.getLayer());
 	    return true;
 	}
-	if ((RangeTypeHelper.material(rangeType) == Material.FIRE)
-		|| (RangeTypeHelper.material(rangeType) != Material.ICE)) {
+	if (RangeTypeHelper.material(rangeType) == Material.FIRE
+		|| RangeTypeHelper.material(rangeType) != Material.ICE) {
 	} else {
 	    // Freeze crystal block
 	    Sounds.play(Sound.FREEZE);

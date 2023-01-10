@@ -6,6 +6,7 @@
 package com.puttysoftware.lasertank.scoring;
 
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
 
@@ -26,12 +27,12 @@ public final class LaserTankScoreTableViewer {
 	int x;
 	int y;
 	for (x = 0; x < table.getLength(); x += LaserTankScoreTableViewer.ENTRIES_PER_PAGE) {
-	    msg = "";
+	    msg = Strings.loadCommon(CommonString.EMPTY);
 	    for (y = 1; y <= LaserTankScoreTableViewer.ENTRIES_PER_PAGE; y++) {
 		try {
 		    msgBuilder.append(Strings.loadDialog(DialogString.SCORE_ENTRY, table.getEntryName(x + y - 1),
 			    table.getEntryMoves(x + y - 1), table.getEntryShots(x + y - 1)));
-		    msgBuilder.append("\n");
+		    msgBuilder.append(Strings.loadCommon(CommonString.NEWLINE));
 		} catch (final ArrayIndexOutOfBoundsException ae) {
 		    // Do nothing
 		}

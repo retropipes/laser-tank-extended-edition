@@ -75,7 +75,7 @@ public class CurrentArena extends Arena {
 	this.activeEra = 0;
 	this.prefixHandler = null;
 	this.suffixHandler = null;
-	this.musicFilename = "null";
+	this.musicFilename = Strings.loadCommon(CommonString.NULL);
 	this.moveShootAllowed = false;
 	this.levelInfoData = new ArrayList<>();
 	this.levelInfoList = new ArrayList<>();
@@ -564,7 +564,7 @@ public class CurrentArena extends Arena {
 
     private void readArenaMetafileG3(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
 	this.levelCount = reader.readInt();
-	this.musicFilename = "null";
+	this.musicFilename = Strings.loadCommon(CommonString.NULL);
 	if (this.suffixHandler != null) {
 	    this.suffixHandler.readSuffix(reader, formatVersion);
 	}
@@ -607,37 +607,33 @@ public class CurrentArena extends Arena {
 
     @Override
     protected boolean removeActiveLevel() {
-	if (this.levelCount <= 1) {
+	if ((this.levelCount <= 1) || (this.activeLevel < 0) || (this.activeLevel > this.levelCount)) {
 	    return false;
 	}
-	if (this.activeLevel >= 0 && this.activeLevel <= this.levelCount) {
-	    this.arenaData = null;
-	    // Delete all files corresponding to current level
+	this.arenaData = null;
+	// Delete all files corresponding to current level
+	for (var e = 0; e < Arena.ERA_COUNT; e++) {
+	    final var res = this.getLevelFile(this.activeLevel, e).delete();
+	    if (!res) {
+		return false;
+	    }
+	}
+	// Shift all higher-numbered levels down
+	for (var x = this.activeLevel; x < this.levelCount - 1; x++) {
 	    for (var e = 0; e < Arena.ERA_COUNT; e++) {
-		final var res = this.getLevelFile(this.activeLevel, e).delete();
-		if (!res) {
-		    return false;
+		final var sourceLocation = this.getLevelFile(x + 1, e);
+		final var targetLocation = this.getLevelFile(x, e);
+		try {
+		    FileUtilities.moveFile(sourceLocation, targetLocation);
+		} catch (final IOException ioe) {
+		    throw new InvalidArenaException(ioe);
 		}
 	    }
-	    // Shift all higher-numbered levels down
-	    for (var x = this.activeLevel; x < this.levelCount - 1; x++) {
-		for (var e = 0; e < Arena.ERA_COUNT; e++) {
-		    final var sourceLocation = this.getLevelFile(x + 1, e);
-		    final var targetLocation = this.getLevelFile(x, e);
-		    try {
-			FileUtilities.moveFile(sourceLocation, targetLocation);
-		    } catch (final IOException ioe) {
-			throw new InvalidArenaException(ioe);
-		    }
-		}
-	    }
-	    this.levelCount--;
-	    this.levelInfoData.remove(this.activeLevel);
-	    this.levelInfoList.remove(this.activeLevel);
-	    return true;
-	} else {
-	    return false;
 	}
+	this.levelCount--;
+	this.levelInfoData.remove(this.activeLevel);
+	this.levelInfoList.remove(this.activeLevel);
+	return true;
     }
 
     @Override

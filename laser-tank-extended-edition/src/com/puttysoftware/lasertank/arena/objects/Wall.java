@@ -57,9 +57,8 @@ public class Wall extends AbstractWall {
 	    iw.setPreviousState(this);
 	    LaserTankEE.getApplication().getGameManager().morph(iw, locX, locY, locZ, this.getLayer());
 	    return Direction.NONE;
-	} else {
-	    // Stop laser
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	// Stop laser
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 }

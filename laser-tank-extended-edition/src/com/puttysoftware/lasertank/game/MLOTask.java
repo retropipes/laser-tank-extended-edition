@@ -314,14 +314,14 @@ final class MLOTask extends Thread {
 	final var tempArray1 = this.objectTrackers.toArray(new MovingObjectTracker[this.objectTrackers.size()]);
 	this.objectTrackers.clear();
 	for (final MovingObjectTracker tracker : tempArray1) {
-	    if ((tracker != null) && tracker.isTracking()) {
+	    if (tracker != null && tracker.isTracking()) {
 		this.objectTrackers.add(tracker);
 	    }
 	}
 	final var tempArray2 = this.laserTrackers.toArray(new MovingLaserTracker[this.laserTrackers.size()]);
 	this.laserTrackers.clear();
 	for (final MovingLaserTracker tracker : tempArray2) {
-	    if ((tracker != null) && tracker.isTracking()) {
+	    if (tracker != null && tracker.isTracking()) {
 		this.laserTrackers.add(tracker);
 	    }
 	}
@@ -383,7 +383,7 @@ final class MLOTask extends Thread {
 			break;
 		    }
 		    var actionType = GameAction.NONE;
-		    if (this.move && (!this.magnet && Math.abs(this.sx) <= 1 && Math.abs(this.sy) <= 1)) {
+		    if (this.move && !this.magnet && Math.abs(this.sx) <= 1 && Math.abs(this.sy) <= 1) {
 			actionType = GameAction.MOVE;
 		    } else {
 			actionType = GameAction.USE_TOOL;

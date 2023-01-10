@@ -118,7 +118,8 @@ public class DirectionHelper {
 	}
 	if (dirX == 0 && dirY == -1) {
 	    return Direction.NORTH;
-	} else if (dirX == 0 && dirY == 1) {
+	}
+	if (dirX == 0 && dirY == 1) {
 	    return Direction.SOUTH;
 	} else if (dirX == -1 && dirY == 0) {
 	    return Direction.WEST;
@@ -143,11 +144,10 @@ public class DirectionHelper {
 	if (dirX == 0 && dirY == 0) {
 	    return Direction.NONE;
 	}
-	if ((dirX == 0 && dirY == -1) || (dirX == 0 && dirY == 1)) {
+	if ((dirX == 0 && (dirY == -1 || dirY == 1))) {
 	    return Direction.VERTICAL;
-	} else if (dirX == -1 && dirY == 0) {
-	    return Direction.HORIZONTAL;
-	} else if (dirX == 1 && dirY == 0) {
+	}
+	if ((dirX == -1 && dirY == 0) || (dirX == 1 && dirY == 0)) {
 	    return Direction.HORIZONTAL;
 	} else if (dirX == 1 && dirY == 1) {
 	    return Direction.SOUTHEAST;
@@ -170,7 +170,8 @@ public class DirectionHelper {
 	}
 	if (dirX == 0 && dirY == -1) {
 	    return Direction.SOUTH;
-	} else if (dirX == 0 && dirY == 1) {
+	}
+	if (dirX == 0 && dirY == 1) {
 	    return Direction.NORTH;
 	} else if (dirX == -1 && dirY == 0) {
 	    return Direction.EAST;

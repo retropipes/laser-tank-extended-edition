@@ -59,7 +59,8 @@ public class LoadTask extends Thread {
 	}
 	try {
 	    final var arenaFile = new File(this.filename);
-	    final var tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
+	    final var tempLock = new File(
+		    Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
 	    var gameArena = ArenaManager.createArena();
 	    if (this.arenaProtected) {
 		// Attempt to unprotect the file

@@ -203,13 +203,7 @@ public abstract class AbstractArenaObject {
 	if (this == obj) {
 	    return true;
 	}
-	if ((obj == null) || !(obj instanceof AbstractArenaObject other)) {
-	    return false;
-	}
-	if (this.pushable != other.pushable) {
-	    return false;
-	}
-	if (this.solid != other.solid) {
+	if (obj == null || !(obj instanceof final AbstractArenaObject other) || (this.pushable != other.pushable) || (this.solid != other.solid)) {
 	    return false;
 	}
 	if (!Objects.equals(this.type, other.type)) {
@@ -271,7 +265,8 @@ public abstract class AbstractArenaObject {
 	}
 	if (!this.hasDirection() && this.isAnimated()) {
 	    return ObjectImageResolver.getImageName(this.getID(), this.frameNumber);
-	} else if (this.hasDirection() && !this.isAnimated()) {
+	}
+	if (this.hasDirection() && !this.isAnimated()) {
 	    return ObjectImageResolver.getImageName(this.getID(), this.direction);
 	} else {
 	    return ObjectImageResolver.getImageName(this.getID());
@@ -388,10 +383,9 @@ public abstract class AbstractArenaObject {
 			    locY + dirY, locZ, this.getLayer());
 		    final var nextObj2 = LaserTankEE.getApplication().getArenaManager().getArena()
 			    .getCell(locX + dirX * 2, locY + dirY * 2, locZ, this.getLayer());
-		    if (this instanceof AbstractMovableObject gmo && nextObj instanceof AbstractMovableObject
+		    if (this instanceof final AbstractMovableObject gmo && nextObj instanceof AbstractMovableObject gmo2
 			    && nextObj.canMove()
 			    && (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
-			final var gmo2 = (AbstractMovableObject) nextObj;
 			LaserTankEE.getApplication().getGameManager().updatePushedPositionLater(locX, locY, dirX, dirY,
 				gmo, locX + dirX, locY + dirY, gmo2, laserType,
 				forceUnits - Math.max(1, this.getMinimumReactionForce()));
@@ -415,9 +409,8 @@ public abstract class AbstractArenaObject {
 	}
 	if (GameObjectData.isReflective(this.getID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
 	    return this.direction;
-	} else {
-	    return DirectionHelper.resolveRelative(dirX, dirY);
 	}
+	return DirectionHelper.resolveRelative(dirX, dirY);
     }
 
     /**
@@ -443,25 +436,29 @@ public abstract class AbstractArenaObject {
 	if (oldlaser == Direction.NORTH) {
 	    if (currdir == Direction.NORTHWEST) {
 		return Direction.WEST;
-	    } else if (currdir == Direction.NORTHEAST) {
+	    }
+	    if (currdir == Direction.NORTHEAST) {
 		return Direction.EAST;
 	    }
 	} else if (oldlaser == Direction.SOUTH) {
 	    if (currdir == Direction.SOUTHWEST) {
 		return Direction.WEST;
-	    } else if (currdir == Direction.SOUTHEAST) {
+	    }
+	    if (currdir == Direction.SOUTHEAST) {
 		return Direction.EAST;
 	    }
 	} else if (oldlaser == Direction.WEST) {
 	    if (currdir == Direction.SOUTHWEST) {
 		return Direction.SOUTH;
-	    } else if (currdir == Direction.NORTHWEST) {
+	    }
+	    if (currdir == Direction.NORTHWEST) {
 		return Direction.NORTH;
 	    }
 	} else if (oldlaser == Direction.EAST) {
 	    if (currdir == Direction.SOUTHEAST) {
 		return Direction.SOUTH;
-	    } else if (currdir == Direction.NORTHEAST) {
+	    }
+	    if (currdir == Direction.NORTHEAST) {
 		return Direction.NORTH;
 	    }
 	}
@@ -560,7 +557,8 @@ public abstract class AbstractArenaObject {
 	    LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
 		    locY + dirY, locZ, this.getLayer());
 	    return true;
-	} else if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
+	}
+	if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
 		&& this.changesToOnExposure(Material.FIRE) != null) {
 	    // Melt icy object
 	    Sounds.play(Sound.DEFROST);
@@ -596,13 +594,12 @@ public abstract class AbstractArenaObject {
 	    reader.readInt();
 	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
 	    return this.readArenaObjectHookG2(reader, formatVersion);
-	} else {
-	    this.direction = Direction.values()[reader.readInt()];
-	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
-	    for (var x = 0; x < cc; x++) {
-		final var cx = reader.readInt();
-		this.setCustomProperty(x + 1, cx);
-	    }
+	}
+	this.direction = Direction.values()[reader.readInt()];
+	this.color = GameColorHelper.fromOrdinal(reader.readInt());
+	for (var x = 0; x < cc; x++) {
+	    final var cx = reader.readInt();
+	    this.setCustomProperty(x + 1, cx);
 	}
 	return this;
     }
@@ -619,15 +616,14 @@ public abstract class AbstractArenaObject {
 	    // Discard material
 	    reader.readInt();
 	    return this.readArenaObjectHookG3(reader, formatVersion);
-	} else {
-	    this.direction = Direction.values()[reader.readInt()];
-	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
-	    // Discard material
-	    reader.readInt();
-	    for (var x = 0; x < cc; x++) {
-		final var cx = reader.readInt();
-		this.setCustomProperty(x + 1, cx);
-	    }
+	}
+	this.direction = Direction.values()[reader.readInt()];
+	this.color = GameColorHelper.fromOrdinal(reader.readInt());
+	// Discard material
+	reader.readInt();
+	for (var x = 0; x < cc; x++) {
+	    final var cx = reader.readInt();
+	    this.setCustomProperty(x + 1, cx);
 	}
 	return this;
     }
@@ -642,13 +638,12 @@ public abstract class AbstractArenaObject {
 	    this.direction = Direction.values()[reader.readInt()];
 	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
 	    return this.readArenaObjectHookG4(reader, formatVersion);
-	} else {
-	    this.direction = Direction.values()[reader.readInt()];
-	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
-	    for (var x = 0; x < cc; x++) {
-		final var cx = reader.readInt();
-		this.setCustomProperty(x + 1, cx);
-	    }
+	}
+	this.direction = Direction.values()[reader.readInt()];
+	this.color = GameColorHelper.fromOrdinal(reader.readInt());
+	for (var x = 0; x < cc; x++) {
+	    final var cx = reader.readInt();
+	    this.setCustomProperty(x + 1, cx);
 	}
 	return this;
     }
@@ -663,13 +658,12 @@ public abstract class AbstractArenaObject {
 	    this.direction = Direction.values()[reader.readInt()];
 	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
 	    return this.readArenaObjectHookG5(reader, formatVersion);
-	} else {
-	    this.direction = Direction.values()[reader.readInt()];
-	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
-	    for (var x = 0; x < cc; x++) {
-		final var cx = reader.readInt();
-		this.setCustomProperty(x + 1, cx);
-	    }
+	}
+	this.direction = Direction.values()[reader.readInt()];
+	this.color = GameColorHelper.fromOrdinal(reader.readInt());
+	for (var x = 0; x < cc; x++) {
+	    final var cx = reader.readInt();
+	    this.setCustomProperty(x + 1, cx);
 	}
 	return this;
     }
@@ -684,13 +678,12 @@ public abstract class AbstractArenaObject {
 	    this.direction = Direction.values()[reader.readInt()];
 	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
 	    return this.readArenaObjectHookG6(reader, formatVersion);
-	} else {
-	    this.direction = Direction.values()[reader.readInt()];
-	    this.color = GameColorHelper.fromOrdinal(reader.readInt());
-	    for (var x = 0; x < cc; x++) {
-		final var cx = reader.readInt();
-		this.setCustomProperty(x + 1, cx);
-	    }
+	}
+	this.direction = Direction.values()[reader.readInt()];
+	this.color = GameColorHelper.fromOrdinal(reader.readInt());
+	for (var x = 0; x < cc; x++) {
+	    final var cx = reader.readInt();
+	    this.setCustomProperty(x + 1, cx);
 	}
 	return this;
     }

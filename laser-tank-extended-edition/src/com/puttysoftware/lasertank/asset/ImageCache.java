@@ -13,7 +13,7 @@ class ImageCache {
     private static ImageCacheEntry[] cache;
     private final static int CACHE_INCREMENT = 20;
     private static int CACHE_SIZE = 0;
-    private static String IMAGE_DISABLED = "_disabled";
+    private static String IMAGE_DISABLED = "_disabled"; //$NON-NLS-1$
 
     private static void addToCache(final String name, final BufferedImageIcon bii) {
 	if (ImageCache.cache == null) {

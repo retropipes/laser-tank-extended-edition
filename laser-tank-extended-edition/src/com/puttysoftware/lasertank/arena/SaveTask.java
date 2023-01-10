@@ -58,7 +58,8 @@ public class SaveTask extends Thread {
 	    }
 	}
 	final var arenaFile = new File(this.filename);
-	final var tempLock = new File(Arena.getArenaTempFolder() + "lock.tmp");
+	final var tempLock = new File(
+		Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
 	try {
 	    // Set prefix handler
 	    app.getArenaManager().getArena().setPrefixHandler(new PrefixHandler());

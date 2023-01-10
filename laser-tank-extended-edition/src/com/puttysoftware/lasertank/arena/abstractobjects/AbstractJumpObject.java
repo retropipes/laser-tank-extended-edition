@@ -52,13 +52,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 	if (this == obj) {
 	    return true;
 	}
-	if (!super.equals(obj) || !(obj instanceof AbstractJumpObject other)) {
-	    return false;
-	}
-	if (this.jumpCols != other.jumpCols) {
-	    return false;
-	}
-	if (this.jumpRows != other.jumpRows) {
+	if (!super.equals(obj) || !(obj instanceof final AbstractJumpObject other) || (this.jumpCols != other.jumpCols) || (this.jumpRows != other.jumpRows)) {
 	    return false;
 	}
 	return true;
@@ -68,30 +62,26 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 	if (this.flip) {
 	    if (this.dir2Y == 0) {
 		return this.jumpRows * this.dir1Y;
-	    } else {
-		return this.jumpRows * this.dir2Y;
 	    }
+	    return this.jumpRows * this.dir2Y;
 	}
 	if (this.dir2X == 0) {
 	    return this.jumpCols * this.dir1X;
-	} else {
-	    return this.jumpCols * this.dir2X;
 	}
+	return this.jumpCols * this.dir2X;
     }
 
     public int getActualJumpRows() {
 	if (this.flip) {
 	    if (this.dir2X == 0) {
 		return this.jumpCols * this.dir1X;
-	    } else {
-		return this.jumpCols * this.dir2X;
 	    }
+	    return this.jumpCols * this.dir2X;
 	}
 	if (this.dir2Y == 0) {
 	    return this.jumpRows * this.dir1Y;
-	} else {
-	    return this.jumpRows * this.dir2Y;
 	}
+	return this.jumpRows * this.dir2Y;
     }
 
     @Override
@@ -130,7 +120,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
     }
 
     public final void jumpSound(final boolean success) {
-	if (!success || (this.jumpRows == 0 && this.jumpCols == 0)) {
+	if (!success || this.jumpRows == 0 && this.jumpCols == 0) {
 	    Sounds.play(Sound.LASER_DIE);
 	} else {
 	    Sounds.play(Sound.JUMPING);
@@ -147,30 +137,29 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 	    this.pushCrushAction(locX, locY, locZ);
 	    return Direction.NONE;
 	}
-	if (this.jumpShot) {
-	    this.jumpShot = false;
-	    this.dir2X = (int) Math.signum(px - locX);
-	    this.dir2Y = (int) Math.signum(py - locY);
-	    if (this.dir1X != 0 && this.dir2X != 0 || this.dir1Y != 0 && this.dir2Y != 0) {
-		Sounds.play(Sound.LASER_DIE);
-		return Direction.NONE;
-	    } else {
-		if (this.dir1X == 0 && this.dir2X == 1 && this.dir1Y == -1 && this.dir2Y == 0
-			|| this.dir1X == 0 && this.dir2X == -1 && this.dir1Y == 1 && this.dir2Y == 0
-			|| this.dir1X == 1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == -1
-			|| this.dir1X == -1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == 1) {
-		    this.flip = true;
-		} else {
-		    this.flip = false;
-		}
-		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-	    }
-	} else {
+	if (!this.jumpShot) {
 	    this.jumpShot = true;
 	    this.dir1X = (int) Math.signum(px - locX);
 	    this.dir1Y = (int) Math.signum(py - locY);
 	    Sounds.play(Sound.PREPARE);
 	    return Direction.NONE;
+	}
+	this.jumpShot = false;
+	this.dir2X = (int) Math.signum(px - locX);
+	this.dir2Y = (int) Math.signum(py - locY);
+	if (this.dir1X != 0 && this.dir2X != 0 || this.dir1Y != 0 && this.dir2Y != 0) {
+	    Sounds.play(Sound.LASER_DIE);
+	    return Direction.NONE;
+	} else {
+	    if (this.dir1X == 0 && this.dir2X == 1 && this.dir1Y == -1 && this.dir2Y == 0
+		    || this.dir1X == 0 && this.dir2X == -1 && this.dir1Y == 1 && this.dir2Y == 0
+		    || this.dir1X == 1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == -1
+		    || this.dir1X == -1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == 1) {
+		this.flip = true;
+	    } else {
+		this.flip = false;
+	    }
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
     }
 

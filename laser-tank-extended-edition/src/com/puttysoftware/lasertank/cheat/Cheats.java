@@ -34,20 +34,19 @@ public final class Cheats {
 	    return null;
 	}
 	final var index = this.cheatCache.indexOf(userInput.toLowerCase());
-	if (index != -1) {
-	    final var value = CommonDialogs.showConfirmDialog(Strings.loadGame(GameString.CHEAT_ACTION),
-		    Strings.loadDialog(DialogString.CHEATS));
-	    if (value == JOptionPane.YES_OPTION) {
-		return Strings.loadGame(GameString.ENABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
-			+ userInput.toLowerCase();
-	    } else {
-		return Strings.loadGame(GameString.DISABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
-			+ userInput.toLowerCase();
-	    }
-	} else {
+	if (index == -1) {
 	    CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.INVALID_CHEAT),
 		    Strings.loadDialog(DialogString.CHEATS));
 	    return null;
+	}
+	final var value = CommonDialogs.showConfirmDialog(Strings.loadGame(GameString.CHEAT_ACTION),
+		Strings.loadDialog(DialogString.CHEATS));
+	if (value == JOptionPane.YES_OPTION) {
+	    return Strings.loadGame(GameString.ENABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
+		    + userInput.toLowerCase();
+	} else {
+	    return Strings.loadGame(GameString.DISABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
+		    + userInput.toLowerCase();
 	}
     }
 
@@ -57,8 +56,8 @@ public final class Cheats {
 
     // Methods
     private void loadCheatCache() {
-	final var instant = ResourceBundle.getBundle("locale.cheats_instant");
-	final var toggle = ResourceBundle.getBundle("locale.cheats_toggle");
+	final var instant = ResourceBundle.getBundle("locale.cheats_instant"); //$NON-NLS-1$
+	final var toggle = ResourceBundle.getBundle("locale.cheats_toggle"); //$NON-NLS-1$
 	final var iLimit = Cheat.instantCount();
 	for (var i = 0; i < iLimit; i++) {
 	    final var code = instant.getString(Integer.toString(i));

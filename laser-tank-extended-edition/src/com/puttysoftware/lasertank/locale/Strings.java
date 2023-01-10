@@ -151,7 +151,7 @@ public class Strings {
 	}
 	return string;
     }
-    
+
     public static String loadObjectCustomText(final GameObjectID objID, final Object... values) {
 	var string = Strings.loadFile(StringFile.OBJECT_CUSTOM_TEXT).getString(Integer.toString(objID.ordinal()));
 	for (var v = 0; v < values.length; v++) {

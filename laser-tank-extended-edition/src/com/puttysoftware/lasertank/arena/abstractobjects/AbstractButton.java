@@ -83,13 +83,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 	if (this == obj) {
 	    return true;
 	}
-	if (!super.equals(obj) || !(obj instanceof AbstractButton other)) {
-	    return false;
-	}
-	if (!Objects.equals(this.buttonDoor, other.buttonDoor)) {
-	    return false;
-	}
-	if (this.doorX != other.doorX) {
+	if (!super.equals(obj) || !(obj instanceof final AbstractButton other) || !Objects.equals(this.buttonDoor, other.buttonDoor) || (this.doorX != other.doorX)) {
 	    return false;
 	}
 	if (this.doorY != other.doorY) {
@@ -172,7 +166,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 	    this.doorY = value;
 	    break;
 	case 3:
-	    this.triggered = (value == 1) == true;
+	    this.triggered = (value == 1);
 	    break;
 	default:
 	    break;

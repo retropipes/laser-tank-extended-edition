@@ -174,7 +174,8 @@ public class ArenaManager {
 	try {
 	    return this.loadArenaImpl(
 		    ArenaManager.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
-			    + File.separator + "Common" + File.separator + "Levels");
+			    + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.COMMON_DIR)
+			    + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.LEVELS_DIR));
 	} catch (final URISyntaxException e) {
 	    return this.loadArena();
 	}
@@ -234,8 +235,7 @@ public class ArenaManager {
     public boolean saveArena(final boolean protect) {
 	final var app = LaserTankEE.getApplication();
 	if (app.isInGameMode()) {
-	    if ((this.lastUsedGameFile == null)
-		    || this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
+	    if (this.lastUsedGameFile == null || this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 		return this.saveArenaAs(protect);
 	    }
 	    final var extension = ArenaManager.getExtension(this.lastUsedGameFile);
@@ -250,7 +250,7 @@ public class ArenaManager {
 	    ArenaManager.saveFile(this.lastUsedGameFile, true, false);
 	} else {
 	    if (protect) {
-		if ((this.lastUsedArenaFile == null)
+		if (this.lastUsedArenaFile == null
 			|| this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 		    return this.saveArenaAs(protect);
 		}
@@ -264,7 +264,7 @@ public class ArenaManager {
 		    this.lastUsedArenaFile += FileExtensions.getProtectedArenaExtensionWithPeriod();
 		}
 	    } else {
-		if ((this.lastUsedArenaFile == null)
+		if (this.lastUsedArenaFile == null
 			|| this.lastUsedArenaFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 		    return this.saveArenaAs(protect);
 		}
@@ -295,7 +295,7 @@ public class ArenaManager {
 	    fd.setVisible(true);
 	    file = fd.getFile();
 	    dir = fd.getDirectory();
-	    if ((file == null) || (dir == null)) {
+	    if (file == null || dir == null) {
 		break;
 	    }
 	    extension = ArenaManager.getExtension(file);
@@ -327,15 +327,13 @@ public class ArenaManager {
 			} else {
 			    filename += FileExtensions.getProtectedArenaExtensionWithPeriod();
 			}
-		    } else {
-			if (extension != null) {
-			    if (!extension.equals(FileExtensions.getArenaExtension())) {
-				filename = ArenaManager.getNameWithoutExtension(file)
-					+ FileExtensions.getArenaExtensionWithPeriod();
-			    }
-			} else {
-			    filename += FileExtensions.getArenaExtensionWithPeriod();
+		    } else if (extension != null) {
+			if (!extension.equals(FileExtensions.getArenaExtension())) {
+			    filename = ArenaManager.getNameWithoutExtension(file)
+				    + FileExtensions.getArenaExtensionWithPeriod();
 			}
+		    } else {
+			filename += FileExtensions.getArenaExtensionWithPeriod();
 		    }
 		    this.lastUsedArenaFile = filename;
 		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);

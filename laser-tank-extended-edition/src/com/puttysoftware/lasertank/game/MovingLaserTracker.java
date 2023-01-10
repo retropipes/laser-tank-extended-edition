@@ -71,9 +71,8 @@ final class MovingLaserTracker {
 	final var nextSolid = next.isConditionallySolid();
 	if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
 	    return true;
-	} else {
-	    return false;
 	}
+	return false;
     }
 
     private static AbstractTransientObject createLaserForType(final LaserType type) {

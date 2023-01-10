@@ -16,7 +16,7 @@ enum StringFile {
     SETTINGS,
     TIME,
     OBJECT_CUSTOM_TEXT;
-    
+
     public String getName() {
 	return this.toString().toLowerCase(Locale.ENGLISH);
     }

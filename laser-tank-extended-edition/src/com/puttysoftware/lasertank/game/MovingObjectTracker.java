@@ -16,14 +16,10 @@ import com.puttysoftware.lasertank.index.Layer;
 final class MovingObjectTracker {
     private static boolean checkSolid(final AbstractArenaObject next) {
 	final var nextSolid = next.isConditionallySolid();
-	if (!nextSolid) {
+	if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
 	    return true;
 	}
-	if (next.isOfType(GameType.CHARACTER)) {
-	    return true;
-	} else {
-	    return false;
-	}
+	return false;
     }
 
     // Fields
@@ -234,8 +230,8 @@ final class MovingObjectTracker {
 		} else if (this.movingObj.isOfType(GameType.ICY)) {
 		    // Handle icy objects
 		    this.objectCheck = true;
-		} else if ((this.belowUpper.isOfType(GameType.ANTI_MOVER) && this.movingObj.isOfType(GameType.ANTI))
-			|| (this.belowUpper.isOfType(GameType.BOX_MOVER) && this.movingObj.isOfType(GameType.BOX))) {
+		} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && this.movingObj.isOfType(GameType.ANTI)
+			|| this.belowUpper.isOfType(GameType.BOX_MOVER) && this.movingObj.isOfType(GameType.BOX)) {
 		    // Handle anti-tank on anti-tank mover
 		    final var dir = this.belowUpper.getDirection();
 		    final var unres = DirectionHelper.unresolveRelative(dir);
@@ -321,7 +317,7 @@ final class MovingObjectTracker {
 	    final var pz = plMgr.getPlayerLocationZ();
 	    if (this.objectMoving) {
 		// Make objects pushed into ice move 2 squares first time
-		if ((this.objectCheck && this.objectNewlyActivated)
+		if (this.objectCheck && this.objectNewlyActivated
 			&& (!this.belowLower.hasFriction() || !this.belowUpper.hasFriction())) {
 		    this.doObjectOnce();
 		    this.objectCheck = !this.belowLower.hasFriction() || !this.belowUpper.hasFriction();
@@ -329,7 +325,7 @@ final class MovingObjectTracker {
 	    } else {
 		this.objectCheck = false;
 		// Check for moving object stopped on thin ice
-		if ((this.movingObj != null) && (gm.isDelayedDecayActive() && gm.isRemoteDecayActive())) {
+		if (this.movingObj != null && gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
 		    gm.doRemoteDelayedDecay(this.movingObj);
 		    this.belowUpper.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);
 		    this.belowLower.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);
