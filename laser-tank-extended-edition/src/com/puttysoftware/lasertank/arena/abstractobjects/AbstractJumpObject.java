@@ -11,6 +11,7 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
+import com.puttysoftware.lasertank.locale.Strings;
 
 public abstract class AbstractJumpObject extends AbstractMovableObject {
     // Fields
@@ -109,11 +110,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 
     @Override
     public String getCustomText() {
-	final var sb = new StringBuilder();
-	sb.append(this.jumpCols);
-	sb.append(",");
-	sb.append(this.jumpRows);
-	return sb.toString();
+	return Strings.loadObjectCustomText(this.getID(), this.jumpRows, this.jumpCols);
     }
 
     public final int getJumpCols() {

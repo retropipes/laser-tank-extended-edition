@@ -21,7 +21,8 @@ public class Images {
     public static final int MAX_WINDOW_SIZE = 700;
     private static Class<?> LOAD_CLASS = Images.class;
     private static Font DRAW_FONT = null;
-    private static final String DRAW_FONT_FALLBACK = "Times-BOLD-14";
+    private static String DRAW_FONT_FALLBACK;
+    private static boolean stringsLoaded = false;
     private static final int DRAW_HORZ = 10;
     private static final int DRAW_VERT = 22;
     private static final float DRAW_SIZE = 14;
@@ -61,36 +62,31 @@ public class Images {
     }
 
     static BufferedImageIcon getUncachedImage(final AbstractArenaObject obj, final boolean useText) {
+	Images.checkLoadStrings();
 	try {
 	    final var normalName = obj.getImageName();
 	    final var path = GlobalStrings.loadUntranslated(UntranslatedString.OBJECTS_PATH) + normalName
 		    + FileExtensions.getImageExtensionWithPeriod();
-	    try {
-		final var url = Images.LOAD_CLASS.getResource(path);
-		final var image = ImageIO.read(url);
-		final var customText = obj.getCustomText();
-		if (useText && customText != null) {
-		    if (Images.DRAW_FONT == null) {
-			try (var is = Images.class
-				.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
-					+ GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
-			    final var baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
-			    Images.DRAW_FONT = baseFont.deriveFont(Images.DRAW_SIZE);
-			} catch (final Exception ex) {
-			    Images.DRAW_FONT = Font.decode(Images.DRAW_FONT_FALLBACK);
-			}
+	    final var url = Images.LOAD_CLASS.getResource(path);
+	    final var image = ImageIO.read(url);
+	    final var customText = obj.getCustomText();
+	    if (useText && customText != null) {
+		if (Images.DRAW_FONT == null) {
+		    try (var is = Images.class
+			    .getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
+				    + GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
+			final var baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
+			Images.DRAW_FONT = baseFont.deriveFont(Images.DRAW_SIZE);
+		    } catch (final Exception ex) {
+			Images.DRAW_FONT = Font.decode(Images.DRAW_FONT_FALLBACK);
 		    }
-		    final var g2 = image.createGraphics();
-		    g2.setFont(Images.DRAW_FONT);
-		    g2.setColor(obj.getCustomTextColor());
-		    g2.drawString(customText, Images.DRAW_HORZ, Images.DRAW_VERT);
 		}
-		return new BufferedImageIcon(image);
-	    } catch (final IllegalArgumentException iae) {
-		System.err.println("Image load failed for: " + path);
-		System.exit(3);
-		return null; // Execution will never get here
+		final var g2 = image.createGraphics();
+		g2.setFont(Images.DRAW_FONT);
+		g2.setColor(obj.getCustomTextColor());
+		g2.drawString(customText, Images.DRAW_HORZ, Images.DRAW_VERT);
 	    }
+	    return new BufferedImageIcon(image);
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);
 	}
@@ -104,6 +100,13 @@ public class Images {
 	    result = Images.getCompositeImageDirectly(result, img);
 	}
 	return result;
+    }
+
+    private static void checkLoadStrings() {
+	if (!Images.stringsLoaded) {
+	    Images.DRAW_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.DRAW_FONT_FALLBACK);
+	    Images.stringsLoaded = true;
+	}
     }
 
     private Images() {

@@ -70,7 +70,7 @@ public enum UntranslatedString {
     DRAW_FONT_FALLBACK,
     LOGO_CONTROL,
     LOGO_OPENING,
-    IMAGE_TANK_SOUTH,
+    EXTENSION_IMAGES,
     IMAGE_TANK_WEST,
     IMAGE_FLAG_1,
     IMAGE_FLAG_2,

@@ -7,7 +7,7 @@ import com.puttysoftware.lasertank.index.Index;
 
 public class GlobalStrings {
     private static ResourceBundle loadFile(final GlobalFile file) {
-	return ResourceBundle.getBundle("locale." + GlobalFileNames.getFileName(file));
+	return ResourceBundle.getBundle("locale." + GlobalFileNames.getFileName(file)); //$NON-NLS-1$
     }
 
     public static String loadDataLoader(final DataLoaderString str) {

@@ -50,7 +50,8 @@ public class FileExtensions {
     }
 
     public static String getImageExtensionWithPeriod() {
-	return ".png";
+	return Strings.loadCommon(CommonString.NOTL_PERIOD)
+		+ GlobalStrings.loadUntranslated(UntranslatedString.EXTENSION_IMAGES);
     }
 
     public static String getOldLevelExtension() {

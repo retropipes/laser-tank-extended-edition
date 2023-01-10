@@ -1,5 +1,7 @@
 package com.puttysoftware.lasertank.locale;
 
+import java.util.Locale;
+
 enum StringFile {
     DIALOGS,
     DIFFICULTY,
@@ -12,5 +14,10 @@ enum StringFile {
     OBJECTS,
     OVERRIDES,
     SETTINGS,
-    TIME;
+    TIME,
+    OBJECT_CUSTOM_TEXT;
+    
+    public String getName() {
+	return this.toString().toLowerCase(Locale.ENGLISH);
+    }
 }
