@@ -19,10 +19,13 @@ import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 public class Logos {
-    private static final String DEFAULT_LOAD_PATH = "/locale/";
+    private static String DEFAULT_LOAD_PATH;
     private static Class<?> LOAD_CLASS = Logos.class;
     private static Font LOGO_DRAW_FONT = null;
-    private static final String LOGO_DRAW_FONT_FALLBACK = "Times-BOLD-24";
+    private static String LOGO_DRAW_FONT_FALLBACK;
+    private static String LOGO_OPENING;
+    private static String LOGO_CONTROL;
+    private static boolean stringsLoaded = false;
     private static final int LOGO_FALLBACK_DRAW_HORZ = 100;
     private static final int LOGO_FALLBACK_DRAW_HORZ_MAX = 16;
     private static final int LOGO_FALLBACK_DRAW_HORZ_PCO = 8;
@@ -34,26 +37,30 @@ public class Logos {
     private static BufferedImageIcon openingCache, controlCache;
 
     public static BufferedImageIcon getOpening() {
+	Logos.checkLoadStrings();
 	if (Logos.openingCache == null) {
-	    Logos.openingCache = Logos.getLogo("opening.png", true);
+	    Logos.openingCache = Logos.getLogo(Logos.LOGO_OPENING, true);
 	}
 	return Logos.openingCache;
     }
 
     public static BufferedImageIcon getControl() {
+	Logos.checkLoadStrings();
 	if (Logos.controlCache == null) {
-	    Logos.controlCache = Logos.getLogo("control.png", false);
+	    Logos.controlCache = Logos.getLogo(Logos.LOGO_CONTROL, false);
 	}
 	return Logos.controlCache;
     }
 
     public static void activeLanguageChanged() {
+	Logos.checkLoadStrings();
 	// Invalidate caches
 	Logos.openingCache = null;
 	Logos.controlCache = null;
     }
 
     private static BufferedImageIcon getLogo(final String name, final boolean drawing) {
+	Logos.checkLoadStrings();
 	try {
 	    final var url = Logos.LOAD_CLASS.getResource(Logos.DEFAULT_LOAD_PATH + Strings.getLanguageName() + name);
 	    final var image = ImageIO.read(url);
@@ -83,6 +90,16 @@ public class Logos {
 	    return new BufferedImageIcon(image);
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);
+	}
+    }
+
+    private static void checkLoadStrings() {
+	if (!Logos.stringsLoaded) {
+	    Logos.DEFAULT_LOAD_PATH = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_PATH);
+	    Logos.LOGO_DRAW_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.DRAW_FONT_FALLBACK);
+	    Logos.LOGO_CONTROL = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_CONTROL);
+	    Logos.LOGO_OPENING = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_OPENING);
+	    Logos.stringsLoaded = true;
 	}
     }
 

@@ -229,7 +229,9 @@ public class Editor extends Screen {
 	}
     }
 
-    private static final String[] JUMP_LIST = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+    private static final String[] JUMP_LIST = new String[] { Integer.toString(0), Integer.toString(1),
+	    Integer.toString(2), Integer.toString(3), Integer.toString(4), Integer.toString(5), Integer.toString(6),
+	    Integer.toString(7), Integer.toString(8), Integer.toString(9) };
     // Declarations
     private JPanel secondaryPane, outerOutputPane, switcherPane;
     private EditorDraw outputPane;
