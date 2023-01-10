@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import com.puttysoftware.diane.fileio.GameIODataReader;
 import com.puttysoftware.diane.fileio.GameIODataWriter;
-import com.puttysoftware.lasertank.locale.GameString;
+import com.puttysoftware.lasertank.locale.GenericString;
 import com.puttysoftware.lasertank.locale.Strings;
 
 public final class LaserTankScore {
@@ -29,7 +29,7 @@ public final class LaserTankScore {
     public LaserTankScore() {
 	this.moves = 0L;
 	this.shots = 0L;
-	this.name = Strings.loadGame(GameString.NOBODY);
+	this.name = Strings.loadGeneric(GenericString.NOBODY);
     }
 
     public LaserTankScore(final long newMoves, final long newShots, final String newName) {
