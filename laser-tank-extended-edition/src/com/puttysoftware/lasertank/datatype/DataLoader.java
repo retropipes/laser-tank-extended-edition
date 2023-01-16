@@ -141,7 +141,7 @@ public class DataLoader {
 	return Integer.parseInt(value);
     }
 
-    public static boolean loadLethal(final GameObjectID objID, final Direction dir) {
+    public static boolean loadLethal(final GameObjectID objID, final int index) {
 	final var data = DataLoader.load(DataFile.LETHAL);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
@@ -155,7 +155,7 @@ public class DataLoader {
 		|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
 	    return false;
 	}
-	final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+	final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.INDEX_SEPARATOR) + index;
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}

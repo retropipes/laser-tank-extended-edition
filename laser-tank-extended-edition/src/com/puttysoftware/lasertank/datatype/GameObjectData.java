@@ -114,8 +114,8 @@ public class GameObjectData {
 	return DataLoader.loadSolid(objectID, Direction.NONE);
     }
 
-    public static boolean killsOnMove(final GameObjectID objectID) {
-	return DataLoader.loadLethal(objectID, Direction.NONE);
+    public static boolean killsOnMove(final GameObjectID objectID, final int index) {
+	return DataLoader.loadLethal(objectID, index);
     }
 
     public static boolean rotates(final GameObjectID objectID, final Direction dir) {

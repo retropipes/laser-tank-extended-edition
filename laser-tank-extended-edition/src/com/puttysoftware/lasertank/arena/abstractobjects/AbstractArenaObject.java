@@ -80,6 +80,7 @@ public abstract class AbstractArenaObject {
     private Direction direction;
     private GameColor color;
     private Material material;
+    private int index;
     private boolean imageEnabled;
     private AbstractArenaObject savedObject;
     private AbstractArenaObject previousState;
@@ -94,6 +95,7 @@ public abstract class AbstractArenaObject {
 	this.color = GameColor.NONE;
 	this.material = Material.NONE;
 	this.imageEnabled = true;
+	this.index = 0;
     }
 
     public final boolean acceptTick(final GameAction actionType) {
@@ -351,7 +353,7 @@ public abstract class AbstractArenaObject {
     }
 
     public final boolean killsOnMove() {
-	return GameObjectData.killsOnMove(this.getID());
+	return GameObjectData.killsOnMove(this.getID(), this.index);
     }
 
     public void laserDoneAction() {
