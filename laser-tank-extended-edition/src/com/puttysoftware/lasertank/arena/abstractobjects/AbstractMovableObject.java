@@ -15,7 +15,6 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
@@ -53,11 +52,6 @@ public abstract class AbstractMovableObject extends AbstractArenaObject {
     @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.LOWER_OBJECTS.ordinal();
     }
 
     @Override

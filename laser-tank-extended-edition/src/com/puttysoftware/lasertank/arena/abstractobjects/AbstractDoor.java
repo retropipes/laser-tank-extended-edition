@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 
 public abstract class AbstractDoor extends AbstractArenaObject {
     // Fields
@@ -41,11 +40,6 @@ public abstract class AbstractDoor extends AbstractArenaObject {
     @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.LOWER_OBJECTS.ordinal();
     }
 
     @Override

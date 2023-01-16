@@ -8,17 +8,11 @@ package com.puttysoftware.lasertank.arena.objects;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractPassThroughObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 
 public class UpperGroundEmpty extends AbstractPassThroughObject {
     // Constructors
     public UpperGroundEmpty() {
 	this.addType(GameType.EMPTY_SPACE);
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.UPPER_GROUND.ordinal();
     }
 
     @Override

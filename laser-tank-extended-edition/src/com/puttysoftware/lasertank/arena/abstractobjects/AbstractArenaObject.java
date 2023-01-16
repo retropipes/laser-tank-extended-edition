@@ -277,7 +277,9 @@ public abstract class AbstractArenaObject {
 	return GameObjectData.getValidDirections(this.getID())[0];
     }
 
-    abstract public int getLayer();
+    public final int getLayer() {
+	return GameObjectData.getLayer(getID());
+    }
 
     public final Material getMaterial() {
 	return this.material;

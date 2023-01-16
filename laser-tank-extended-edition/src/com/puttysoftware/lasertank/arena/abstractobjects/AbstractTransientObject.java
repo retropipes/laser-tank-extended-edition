@@ -5,8 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.index.Layer;
-
 public abstract class AbstractTransientObject extends AbstractArenaObject {
     // Constructors
     protected AbstractTransientObject() {
@@ -19,11 +17,6 @@ public abstract class AbstractTransientObject extends AbstractArenaObject {
     }
 
     public abstract int getForceUnitsImbued();
-
-    @Override
-    public int getLayer() {
-	return Layer.VIRTUAL.ordinal();
-    }
 
     // Methods
     @Override

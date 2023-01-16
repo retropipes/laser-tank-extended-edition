@@ -5,15 +5,8 @@
  */
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
-import com.puttysoftware.lasertank.index.Layer;
-
 public abstract class AbstractMover extends AbstractGround {
     // Constructors
     protected AbstractMover() {
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.UPPER_GROUND.ordinal();
     }
 }

@@ -9,7 +9,6 @@ import java.util.Objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 
 public abstract class AbstractButton extends AbstractArenaObject {
     // Fields
@@ -120,11 +119,6 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     public int getDoorY() {
 	return this.doorY;
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.LOWER_OBJECTS.ordinal();
     }
 
     @Override

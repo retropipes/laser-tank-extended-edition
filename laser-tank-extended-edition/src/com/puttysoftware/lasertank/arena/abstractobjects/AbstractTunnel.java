@@ -10,7 +10,6 @@ import com.puttysoftware.lasertank.arena.objects.Tunnel;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 
 public abstract class AbstractTunnel extends AbstractArenaObject {
     // Fields
@@ -54,11 +53,6 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
     @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.LOWER_OBJECTS.ordinal();
     }
 
     // Scriptability

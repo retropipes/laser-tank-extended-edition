@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 
 public abstract class AbstractTeleport extends AbstractArenaObject {
     // Constructors
@@ -21,11 +20,6 @@ public abstract class AbstractTeleport extends AbstractArenaObject {
     }
 
     public abstract int getDestinationFloor();
-
-    @Override
-    public int getLayer() {
-	return Layer.LOWER_OBJECTS.ordinal();
-    }
 
     @Override
     public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);

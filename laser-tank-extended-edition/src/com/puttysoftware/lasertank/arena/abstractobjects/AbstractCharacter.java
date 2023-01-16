@@ -13,7 +13,6 @@ import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
 public abstract class AbstractCharacter extends AbstractArenaObject {
@@ -63,11 +62,6 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
     @Override
     public Color getCustomTextColor() {
 	return Color.white;
-    }
-
-    @Override
-    public int getLayer() {
-	return Layer.UPPER_OBJECTS.ordinal();
     }
 
     // Methods
