@@ -468,6 +468,16 @@ public abstract class AbstractArenaObject {
 	Sounds.play(Sound.BUMP_HEAD);
     }
 
+    public final void nextIndex() {
+	var validIndexes = GameObjectData.getValidIndexes(getID());
+	if (validIndexes.length > 0) {
+	    var lastIndex = validIndexes[validIndexes.length - 1];
+	    if (lastIndex != 0 && this.index < lastIndex) {
+		this.index++;
+	    }
+	}
+    }
+
     public final void nextFrame() {
 	if (this.isAnimated()) {
 	    this.frameNumber++;

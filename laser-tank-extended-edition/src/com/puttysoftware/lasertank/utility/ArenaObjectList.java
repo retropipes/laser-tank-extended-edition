@@ -48,7 +48,7 @@ public class ArenaObjectList {
 	    new UniversalTriggerButtonDoor(), new BoxMover(), new JumpBox(), new ReverseJumpBox(), new MirrorMover(),
 	    new HotCrystalBlock(), new IcyCrystalBlock(), new Cracked(), new Crumbling(), new Damaged(), new Weakened(),
 	    new Cloak(), new Darkness(), new PowerBolt(), new RollingCrystalHorizontal(), new RollingCrystalVertical(),
-	    new KillerSkull() };
+	    new KillerSkull(), new Bomb() };
 
     public static void enableAllObjects() {
 	for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
