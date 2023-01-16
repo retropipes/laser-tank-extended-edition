@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank;
+package com.puttysoftware.lasertank.utility;
 
 import java.util.Random;
 

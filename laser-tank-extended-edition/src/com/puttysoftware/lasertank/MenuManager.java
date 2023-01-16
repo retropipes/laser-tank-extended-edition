@@ -15,6 +15,7 @@ import javax.swing.JMenuItem;
 
 import com.puttysoftware.diane.gui.GUIPrinter;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.accelerator.Accelerators;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -363,11 +364,7 @@ public class MenuManager {
     // Constructors
     public MenuManager() {
 	this.menuBar = new JMenuBar();
-	if (Settings.useClassicAccelerators()) {
-	    this.accel = new ClassicAccelerators();
-	} else {
-	    this.accel = new ModernAccelerators();
-	}
+	this.accel = Accelerators.getInstance(Settings.useClassicAccelerators());
     }
 
     // Methods
@@ -1081,12 +1078,11 @@ public class MenuManager {
     }
 
     void toggleAccelerators() {
-	if (this.accel instanceof ClassicAccelerators) {
-	    this.accel = new ModernAccelerators();
+	if (Settings.useClassicAccelerators()) {
 	    Settings.setClassicAccelerators(false);
 	} else {
-	    this.accel = new ClassicAccelerators();
 	    Settings.setClassicAccelerators(true);
 	}
+	this.accel = Accelerators.getInstance(Settings.useClassicAccelerators());
     }
 }

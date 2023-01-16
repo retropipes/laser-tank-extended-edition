@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank;
+package com.puttysoftware.lasertank.accelerator;
 
 import javax.swing.KeyStroke;
 
@@ -18,5 +18,13 @@ public abstract class Accelerators {
 
     Accelerators() {
 	// Do nothing
+    }
+
+    public static Accelerators getInstance(final boolean useClassic) {
+	if (useClassic) {
+	    return new ClassicAccelerators();
+	} else {
+	    return new ModernAccelerators();
+	}
     }
 }

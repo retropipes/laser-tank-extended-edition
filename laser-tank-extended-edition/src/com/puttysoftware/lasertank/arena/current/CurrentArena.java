@@ -14,7 +14,6 @@ import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.diane.fileio.XDataReader;
 import com.puttysoftware.diane.fileio.XDataWriter;
 import com.puttysoftware.diane.fileio.utility.FileUtilities;
-import com.puttysoftware.lasertank.IDGenerator;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaData;
@@ -40,6 +39,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.utility.IDGenerator;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 public class CurrentArena extends Arena {
