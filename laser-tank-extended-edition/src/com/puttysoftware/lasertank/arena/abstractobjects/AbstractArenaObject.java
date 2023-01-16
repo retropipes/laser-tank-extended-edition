@@ -769,7 +769,7 @@ public abstract class AbstractArenaObject {
     }
 
     public final boolean solvesOnMove() {
-	return this.getID() == GameObjectID.FLAG;
+	return GameObjectData.solvesOnMove(getID());
     }
 
     public final void tickTimer(final int dirX, final int dirY, final GameAction actionType) {

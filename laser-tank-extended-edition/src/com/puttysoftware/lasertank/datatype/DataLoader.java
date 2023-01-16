@@ -4,7 +4,6 @@ import java.util.ResourceBundle;
 
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameActionHelper;
-import com.puttysoftware.lasertank.helper.GameObjectIDHelper;
 import com.puttysoftware.lasertank.helper.MaterialHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
@@ -232,32 +231,6 @@ public class DataLoader {
 	}
     }
 
-    public static boolean loadRotate(final GameObjectID objID, final Direction dir) {
-	final var data = DataLoader.load(DataFile.ROTATE);
-	final var key = String.valueOf(objID);
-	if (!data.containsKey(key)) {
-	    return false;
-	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
-		|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
-	    return false;
-	}
-	final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
-	if (!data.containsKey(subkey)) {
-	    return false;
-	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	} else {
-	    return false;
-	}
-    }
-
     public static boolean loadShoot(final GameObjectID objID) {
 	final var data = DataLoader.load(DataFile.SHOOT);
 	final var key = String.valueOf(objID);
@@ -294,32 +267,6 @@ public class DataLoader {
 	    return true;
 	} else {
 	    return false;
-	}
-    }
-
-    public static GameObjectID loadTransform(final GameObjectID objID, final Material materialID) {
-	final var data = DataLoader.load(DataFile.TRANSFORM);
-	final var key = String.valueOf(objID);
-	if (!data.containsKey(key)) {
-	    return objID;
-	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return objID;
-	}
-	if (value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_MATERIAL)) {
-	    return GameObjectIDHelper.fromStringValue(value);
-	}
-	final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.MATERIAL_SEPARATOR)
-		+ materialID.ordinal();
-	if (!data.containsKey(subkey)) {
-	    return objID;
-	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return objID;
-	} else {
-	    return GameObjectIDHelper.fromStringValue(subvalue);
 	}
     }
 

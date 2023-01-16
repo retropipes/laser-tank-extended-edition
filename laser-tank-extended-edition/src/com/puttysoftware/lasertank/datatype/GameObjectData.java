@@ -54,14 +54,6 @@ public class GameObjectData {
 	return DataLoader.loadHeight(objectID);
     }
 
-    public static int getFirstFrameNumber(final GameObjectID objectID) {
-	final var finalFrame = DataLoader.loadFrame(objectID);
-	if (finalFrame > 1) {
-	    return 1;
-	}
-	return 0;
-    }
-
     public static int getLastFrameNumber(final GameObjectID objectID) {
 	return DataLoader.loadFrame(objectID);
     }
@@ -72,10 +64,6 @@ public class GameObjectData {
 
     public static Material getMaterial(final GameObjectID objectID) {
 	return DataLoader.loadMaterial(objectID);
-    }
-
-    public static GameObjectID getTransform(final GameObjectID objectID, final Material materialID) {
-	return DataLoader.loadTransform(objectID, materialID);
     }
 
     public static Direction[] getValidDirections(final GameObjectID objectID) {
@@ -116,10 +104,6 @@ public class GameObjectData {
 
     public static boolean killsOnMove(final GameObjectID objectID, final int index) {
 	return DataLoader.loadLethal(objectID, index);
-    }
-
-    public static boolean rotates(final GameObjectID objectID, final Direction dir) {
-	return DataLoader.loadRotate(objectID, dir);
     }
 
     public static boolean solvesOnMove(final GameObjectID objectID) {

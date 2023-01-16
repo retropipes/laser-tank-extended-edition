@@ -11,13 +11,11 @@ enum DataFile {
     MOVABLE,
     SHOOT,
     WEIGHT,
-    TRANSFORM,
     MATERIAL,
     HEIGHT,
     LAYER,
     LETHAL,
     REFLECT,
-    ROTATE,
     ACCEPT_TICK;
 
     public String getName() {
