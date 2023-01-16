@@ -18,7 +18,6 @@ public class HotBox extends AbstractMovableObject {
     public HotBox() {
 	super();
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.FIRE);
     }
 
     @Override

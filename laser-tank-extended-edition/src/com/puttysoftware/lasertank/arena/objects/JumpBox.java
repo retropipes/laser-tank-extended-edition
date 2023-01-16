@@ -17,7 +17,6 @@ public class JumpBox extends AbstractJumpObject {
     // Constructors
     public JumpBox() {
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.STONE);
     }
 
     @Override

@@ -18,7 +18,6 @@ public class PlasticBox extends AbstractMovableObject {
     public PlasticBox() {
 	super();
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.PLASTIC);
     }
 
     @Override

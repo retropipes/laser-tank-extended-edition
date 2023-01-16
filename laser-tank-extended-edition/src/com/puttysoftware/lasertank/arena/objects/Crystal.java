@@ -15,7 +15,6 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class Crystal extends AbstractReactionWall {
@@ -67,7 +66,6 @@ public class Crystal extends AbstractReactionWall {
     // Constructors
     public Crystal() {
 	this.addType(GameType.BARREL);
-	this.setMaterial(Material.WOODEN);
 	this.destroyed = false;
     }
 

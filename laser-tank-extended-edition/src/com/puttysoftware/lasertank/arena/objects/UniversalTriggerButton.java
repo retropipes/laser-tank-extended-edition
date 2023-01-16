@@ -7,13 +7,11 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTriggerButton;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class UniversalTriggerButton extends AbstractTriggerButton {
     // Constructors
     public UniversalTriggerButton() {
 	super(new UniversalTriggerButtonDoor(), true);
-	this.setMaterial(Material.NONE);
     }
 
     @Override

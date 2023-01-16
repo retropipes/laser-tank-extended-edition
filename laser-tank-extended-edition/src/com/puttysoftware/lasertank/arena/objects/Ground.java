@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.index.Material;
 public class Ground extends AbstractGround {
     // Constructors
     public Ground() {
-	this.setMaterial(Material.METALLIC);
     }
 
     @Override

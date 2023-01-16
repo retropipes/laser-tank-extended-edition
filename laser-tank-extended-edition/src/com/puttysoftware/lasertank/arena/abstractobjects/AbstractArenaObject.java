@@ -79,7 +79,6 @@ public abstract class AbstractArenaObject {
     private int frameNumber;
     private Direction direction;
     private GameColor color;
-    private Material material;
     private int index;
     private boolean imageEnabled;
     private AbstractArenaObject savedObject;
@@ -93,7 +92,6 @@ public abstract class AbstractArenaObject {
 	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
 	this.color = GameColor.NONE;
-	this.material = Material.NONE;
 	this.imageEnabled = true;
 	this.index = 0;
     }
@@ -143,7 +141,6 @@ public abstract class AbstractArenaObject {
 	    copy.frameNumber = this.frameNumber;
 	    copy.direction = this.direction;
 	    copy.color = this.color;
-	    copy.material = this.material;
 	    return copy;
 	} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
 		| InvocationTargetException | NoSuchMethodException | SecurityException e) {
@@ -215,9 +212,6 @@ public abstract class AbstractArenaObject {
 	if (this.color != other.color) {
 	    return false;
 	}
-	if (this.material != other.material) {
-	    return false;
-	}
 	return true;
     }
 
@@ -282,11 +276,11 @@ public abstract class AbstractArenaObject {
     }
 
     public final Material getMaterial() {
-	return this.material;
+	return GameObjectData.getMaterial(getID());
     }
 
     public final int getMinimumReactionForce() {
-	return GameObjectData.getMinimumReactionForce(this.material);
+	return GameObjectData.getMinimumReactionForce(this.getMaterial());
     }
 
     public final AbstractArenaObject getPreviousState() {
@@ -315,8 +309,7 @@ public abstract class AbstractArenaObject {
 	result = prime * result + this.timerValue;
 	result = prime * result + (this.type == null ? 0 : this.type.hashCode());
 	result = prime * result + this.direction.hashCode();
-	result = prime * result + this.color.ordinal();
-	return prime * result + this.material.ordinal();
+	return prime * result + this.color.ordinal();
     }
 
     public final boolean hasPreviousState() {
@@ -475,7 +468,7 @@ public abstract class AbstractArenaObject {
 	Sounds.play(Sound.BUMP_HEAD);
     }
 
-    public void nextFrame() {
+    public final void nextFrame() {
 	if (this.isAnimated()) {
 	    this.frameNumber++;
 	    if (this.frameNumber > this.getLastFrameNumber()) {
@@ -767,10 +760,6 @@ public abstract class AbstractArenaObject {
 	this.imageEnabled = value;
     }
 
-    protected final void setMaterial(final Material materialID) {
-	this.material = materialID;
-    }
-
     public final void setPreviousState(final AbstractArenaObject obj) {
 	this.previousState = obj;
     }
@@ -808,15 +797,6 @@ public abstract class AbstractArenaObject {
 
     public final void toggleDirectionInvert() {
 	this.direction = DirectionHelper.previousOrthogonal(this.direction);
-    }
-
-    public final void toggleFrameNumber() {
-	if (this.isAnimated()) {
-	    this.frameNumber++;
-	    if (this.frameNumber > 3) {
-		this.frameNumber = 1;
-	    }
-	}
     }
 
     public final void writeArenaObject(final DataIOWriter writer) throws IOException {

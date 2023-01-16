@@ -20,7 +20,6 @@ public class HotWall extends AbstractWall {
     // Constructors
     public HotWall() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.FIRE);
     }
 
     @Override

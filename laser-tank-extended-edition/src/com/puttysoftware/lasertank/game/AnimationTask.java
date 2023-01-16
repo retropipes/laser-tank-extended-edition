@@ -35,7 +35,7 @@ class AnimationTask extends Thread {
 			for (var w = 0; w < maxW; w++) {
 			    synchronized (CurrentArenaData.LOCK_OBJECT) {
 				final var oldFN = a.getCell(x, y, pz, w).getFrameNumber();
-				a.getCell(x, y, pz, w).toggleFrameNumber();
+				a.getCell(x, y, pz, w).nextFrame();
 				final var newFN = a.getCell(x, y, pz, w).getFrameNumber();
 				if (oldFN != newFN) {
 				    a.markAsDirty(x, y, pz);

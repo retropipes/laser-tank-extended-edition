@@ -7,13 +7,11 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractPressureButton;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class PlasticPressureButton extends AbstractPressureButton {
     // Constructors
     public PlasticPressureButton() {
 	super(new PlasticPressureButtonDoor(), false);
-	this.setMaterial(Material.PLASTIC);
     }
 
     @Override

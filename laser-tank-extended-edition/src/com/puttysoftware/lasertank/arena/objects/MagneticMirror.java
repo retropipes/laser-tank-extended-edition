@@ -13,14 +13,12 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MagneticMirror extends AbstractMovableObject {
     // Constructors
     public MagneticMirror() {
 	super();
 	this.addType(GameType.MOVABLE_MIRROR);
-	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override

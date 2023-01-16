@@ -8,13 +8,11 @@ package com.puttysoftware.lasertank.arena.objects;
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractWall;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MagneticWall extends AbstractWall {
     // Constructors
     public MagneticWall() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override

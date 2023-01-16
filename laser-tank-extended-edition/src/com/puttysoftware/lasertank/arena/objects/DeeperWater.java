@@ -18,7 +18,6 @@ import com.puttysoftware.lasertank.index.Material;
 public class DeeperWater extends AbstractGround {
     // Constructors
     public DeeperWater() {
-	this.setMaterial(Material.WOODEN);
     }
 
     @Override

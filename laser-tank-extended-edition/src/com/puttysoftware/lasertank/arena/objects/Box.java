@@ -18,7 +18,6 @@ public class Box extends AbstractMovableObject {
     public Box() {
 	super();
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.STONE);
     }
 
     @Override

@@ -13,13 +13,11 @@ import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class Bricks extends AbstractReactionWall {
     // Constructors
     public Bricks() {
-	this.setMaterial(Material.PLASTIC);
     }
 
     @Override

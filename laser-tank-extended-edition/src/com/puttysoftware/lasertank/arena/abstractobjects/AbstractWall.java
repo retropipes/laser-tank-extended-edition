@@ -6,14 +6,12 @@
 package com.puttysoftware.lasertank.arena.abstractobjects;
 
 import com.puttysoftware.lasertank.index.GameType;
-import com.puttysoftware.lasertank.index.Material;
 
 public abstract class AbstractWall extends AbstractArenaObject {
     // Constructors
     protected AbstractWall() {
 	super();
 	this.addType(GameType.WALL);
-	this.setMaterial(Material.STONE);
     }
 
     @Override

@@ -20,7 +20,6 @@ public class Wall extends AbstractWall {
     // Constructors
     public Wall() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.METALLIC);
     }
 
     @Override

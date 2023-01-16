@@ -7,12 +7,10 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTriggerButtonDoor;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MagneticTriggerButtonDoor extends AbstractTriggerButtonDoor {
     // Constructors
     public MagneticTriggerButtonDoor() {
-	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override

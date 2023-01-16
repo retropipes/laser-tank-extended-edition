@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MagneticBox extends AbstractMovableObject {
     // Constructors
@@ -21,7 +20,6 @@ public class MagneticBox extends AbstractMovableObject {
 	super();
 	this.addType(GameType.BOX);
 	this.addType(GameType.MAGNETIC_BOX);
-	this.setMaterial(Material.MAGNETIC);
     }
 
     @Override

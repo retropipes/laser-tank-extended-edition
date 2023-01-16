@@ -7,12 +7,10 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAllButtonDoor;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MetallicAllButtonDoor extends AbstractAllButtonDoor {
     // Constructors
     public MetallicAllButtonDoor() {
-	this.setMaterial(Material.METALLIC);
     }
 
     @Override

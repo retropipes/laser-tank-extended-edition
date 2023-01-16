@@ -20,7 +20,6 @@ public class IcyWall extends AbstractWall {
     // Constructors
     public IcyWall() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.ICE);
     }
 
     @Override

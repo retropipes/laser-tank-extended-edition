@@ -18,7 +18,6 @@ public class MetallicBox extends AbstractMovableObject {
     public MetallicBox() {
 	super();
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.METALLIC);
     }
 
     @Override

@@ -19,7 +19,6 @@ public class IcyBox extends AbstractMovableObject {
 	super();
 	this.addType(GameType.BOX);
 	this.addType(GameType.ICY);
-	this.setMaterial(Material.ICE);
     }
 
     @Override

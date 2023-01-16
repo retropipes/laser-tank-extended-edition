@@ -17,7 +17,6 @@ import com.puttysoftware.lasertank.index.Material;
 public class ThinIce extends AbstractGround {
     // Constructors
     public ThinIce() {
-	this.setMaterial(Material.ICE);
     }
 
     @Override

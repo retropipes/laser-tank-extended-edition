@@ -22,7 +22,6 @@ public class IcyCrystalBlock extends AbstractReactionWall {
     // Constructors
     public IcyCrystalBlock() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.ICE);
     }
 
     @Override

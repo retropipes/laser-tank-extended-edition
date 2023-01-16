@@ -17,7 +17,6 @@ public class ReverseJumpBox extends AbstractJumpObject {
     // Constructors
     public ReverseJumpBox() {
 	this.addType(GameType.BOX);
-	this.setMaterial(Material.STONE);
     }
 
     @Override

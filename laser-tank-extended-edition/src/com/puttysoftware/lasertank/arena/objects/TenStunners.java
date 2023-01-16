@@ -6,11 +6,11 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractInventoryModifier;
+import com.puttysoftware.lasertank.arena.abstractobjects.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
-public class TenStunners extends AbstractInventoryModifier {
+public class TenStunners extends AbstractGround {
     // Constructors
     public TenStunners() {
     }

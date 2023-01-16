@@ -17,7 +17,6 @@ import com.puttysoftware.lasertank.index.Material;
 public class Lava extends AbstractGround {
     // Constructors
     public Lava() {
-	this.setMaterial(Material.FIRE);
     }
 
     @Override

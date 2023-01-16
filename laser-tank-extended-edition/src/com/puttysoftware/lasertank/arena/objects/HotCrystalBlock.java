@@ -22,7 +22,6 @@ public class HotCrystalBlock extends AbstractReactionWall {
     // Constructors
     public HotCrystalBlock() {
 	this.addType(GameType.PLAIN_WALL);
-	this.setMaterial(Material.FIRE);
     }
 
     @Override

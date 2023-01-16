@@ -15,14 +15,12 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class ProximityCrystal extends AbstractReactionWall {
     // Constructors
     public ProximityCrystal() {
 	this.addType(GameType.BARREL);
-	this.setMaterial(Material.WOODEN);
     }
 
     @Override
