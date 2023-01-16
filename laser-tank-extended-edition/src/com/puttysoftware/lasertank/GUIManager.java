@@ -14,12 +14,12 @@ import java.awt.event.WindowFocusListener;
 import java.awt.event.WindowListener;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
+import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.asset.Logos;
 import com.puttysoftware.lasertank.locale.CommonString;
@@ -102,12 +102,12 @@ public class GUIManager extends Screen implements QuitHandler {
     public boolean quitHandler() {
 	final var mm = LaserTankEE.getApplication().getArenaManager();
 	var saved = true;
-	var status = JOptionPane.DEFAULT_OPTION;
+	var status = CommonDialogs.DEFAULT_OPTION;
 	if (mm.getDirty()) {
 	    status = ArenaManager.showSaveDialog();
-	    if (status == JOptionPane.YES_OPTION) {
+	    if (status == CommonDialogs.YES_OPTION) {
 		saved = mm.saveArena(mm.isArenaProtected());
-	    } else if (status == JOptionPane.CANCEL_OPTION) {
+	    } else if (status == CommonDialogs.CANCEL_OPTION) {
 		saved = false;
 	    } else {
 		mm.setDirty(false);

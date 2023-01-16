@@ -7,8 +7,6 @@ package com.puttysoftware.lasertank.cheat;
 
 import java.util.ResourceBundle;
 
-import javax.swing.JOptionPane;
-
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
@@ -41,7 +39,7 @@ public final class Cheats {
 	}
 	final var value = CommonDialogs.showConfirmDialog(Strings.loadGame(GameString.CHEAT_ACTION),
 		Strings.loadDialog(DialogString.CHEATS));
-	if (value == JOptionPane.YES_OPTION) {
+	if (value == CommonDialogs.YES_OPTION) {
 	    return Strings.loadGame(GameString.ENABLE_CHEAT) + Strings.loadCommon(CommonString.SPACE)
 		    + userInput.toLowerCase();
 	} else {

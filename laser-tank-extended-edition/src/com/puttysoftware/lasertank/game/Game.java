@@ -26,7 +26,6 @@ import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
@@ -64,7 +63,6 @@ import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.GameString;
-import com.puttysoftware.lasertank.locale.MenuString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
@@ -523,13 +521,13 @@ public class Game extends Screen {
 		var status = 0;
 		if (app.getArenaManager().getDirty()) {
 		    status = ArenaManager.showSaveDialog();
-		    if (status == JOptionPane.YES_OPTION) {
+		    if (status == CommonDialogs.YES_OPTION) {
 			success = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
 			if (success) {
 			    app.getGameManager().exitGame();
 			    app.getGUIManager().showGUI();
 			}
-		    } else if (status == JOptionPane.NO_OPTION) {
+		    } else if (status == CommonDialogs.NO_OPTION) {
 			app.getGameManager().exitGame();
 			app.getGUIManager().showGUI();
 		    } else {
@@ -1007,15 +1005,15 @@ public class Game extends Screen {
 	Sounds.play(Sound.DEAD);
 	final var choice = CustomDialogs.showDeadDialog();
 	switch (choice) {
-	case JOptionPane.CANCEL_OPTION:
+	case CommonDialogs.CANCEL_OPTION:
 	    // End
 	    this.exitGame();
 	    break;
-	case JOptionPane.YES_OPTION:
+	case CommonDialogs.YES_OPTION:
 	    // Undo
 	    this.undoLastMove();
 	    break;
-	case JOptionPane.NO_OPTION:
+	case CommonDialogs.NO_OPTION:
 	    // Restart
 	    try {
 		this.resetCurrentLevel();
@@ -1265,7 +1263,7 @@ public class Game extends Screen {
 		LaserTankEE.getApplication().getGUIManager().showGUI();
 	    }
 	} else {
-	    CommonDialogs.showDialog(Strings.loadMenu(MenuString.ERROR_NO_ARENA_OPENED));
+	    CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 	}
     }
 

@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
 import javax.swing.JToggleButton;
@@ -43,7 +42,7 @@ import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.EditorString;
-import com.puttysoftware.lasertank.locale.MenuString;
+import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
@@ -377,7 +376,7 @@ public class Editor extends Screen {
     private boolean confirmNonUndoable() {
 	final var confirm = CommonDialogs.showConfirmDialog(Strings.loadEditor(EditorString.CONFIRM_CANNOT_BE_UNDONE),
 		Strings.loadEditor(EditorString.EDITOR));
-	if (confirm == JOptionPane.YES_OPTION) {
+	if (confirm == CommonDialogs.YES_OPTION) {
 	    this.clearHistory();
 	    return true;
 	}
@@ -407,7 +406,7 @@ public class Editor extends Screen {
 	    this.rebuildGUI();
 	    app.getMenuManager().updateMenuItemState();
 	} else {
-	    CommonDialogs.showDialog(Strings.loadMenu(MenuString.ERROR_NO_ARENA_OPENED));
+	    CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 	}
     }
 
@@ -571,15 +570,15 @@ public class Editor extends Screen {
 	try {
 	    final var app = LaserTankEE.getApplication();
 	    var success = false;
-	    var status = JOptionPane.DEFAULT_OPTION;
+	    var status = CommonDialogs.DEFAULT_OPTION;
 	    if (app.getArenaManager().getDirty()) {
 		status = ArenaManager.showSaveDialog();
-		if (status == JOptionPane.YES_OPTION) {
+		if (status == CommonDialogs.YES_OPTION) {
 		    success = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
 		    if (success) {
 			this.exitEditor();
 		    }
-		} else if (status == JOptionPane.NO_OPTION) {
+		} else if (status == CommonDialogs.NO_OPTION) {
 		    app.getArenaManager().setDirty(false);
 		    this.exitEditor();
 		}
@@ -598,9 +597,9 @@ public class Editor extends Screen {
 	var status = 0;
 	if (app.getArenaManager().getDirty()) {
 	    status = ArenaManager.showSaveDialog();
-	    if (status == JOptionPane.YES_OPTION) {
+	    if (status == CommonDialogs.YES_OPTION) {
 		saved = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
-	    } else if (status == JOptionPane.CANCEL_OPTION) {
+	    } else if (status == CommonDialogs.CANCEL_OPTION) {
 		saved = false;
 	    } else {
 		app.getArenaManager().setDirty(false);

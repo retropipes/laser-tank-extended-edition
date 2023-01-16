@@ -12,7 +12,6 @@ import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import com.puttysoftware.diane.gui.GUIPrinter;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
@@ -22,7 +21,9 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.datatype.LaserTankPlayback;
 import com.puttysoftware.lasertank.index.Era;
+import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
+import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.MenuString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -63,9 +64,9 @@ public class MenuManager {
 			var status = 0;
 			if (app.getArenaManager().getDirty()) {
 			    status = ArenaManager.showSaveDialog();
-			    if (status == JOptionPane.YES_OPTION) {
+			    if (status == CommonDialogs.YES_OPTION) {
 				saved = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
-			    } else if (status == JOptionPane.CANCEL_OPTION) {
+			    } else if (status == CommonDialogs.CANCEL_OPTION) {
 				saved = false;
 			    } else {
 				app.getArenaManager().setDirty(false);
@@ -80,19 +81,19 @@ public class MenuManager {
 		    if (app.getArenaManager().getLoaded()) {
 			app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
 		    } else {
-			CommonDialogs.showDialog(Strings.loadMenu(MenuString.ERROR_NO_ARENA_OPENED));
+			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS))) {
 		    if (app.getArenaManager().getLoaded()) {
 			app.getArenaManager().saveArenaAs(false);
 		    } else {
-			CommonDialogs.showDialog(Strings.loadMenu(MenuString.ERROR_NO_ARENA_OPENED));
+			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS_PROTECTED))) {
 		    if (app.getArenaManager().getLoaded()) {
 			app.getArenaManager().saveArenaAs(true);
 		    } else {
-			CommonDialogs.showDialog(Strings.loadMenu(MenuString.ERROR_NO_ARENA_OPENED));
+			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SETTINGS))) {
 		    // Show preferences dialog
@@ -121,9 +122,9 @@ public class MenuManager {
 		    app.getMenuManager().toggleAccelerators();
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL))) {
 		    final var result = CommonDialogs.showConfirmDialog(
-			    Strings.loadMenu(MenuString.CONFIRM_RESET_CURRENT_LEVEL),
+			    Strings.loadDialog(DialogString.CONFIRM_RESET_CURRENT_LEVEL),
 			    GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
-		    if (result == JOptionPane.YES_OPTION) {
+		    if (result == CommonDialogs.YES_OPTION) {
 			game.abortAndWaitForMLOLoop();
 			game.resetCurrentLevel();
 		    }
@@ -237,9 +238,10 @@ public class MenuManager {
 		    editor.fixLimits();
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY))) {
 		    // Clear undo/redo history, confirm first
-		    final var res = CommonDialogs.showConfirmDialog(Strings.loadMenu(MenuString.CONFIRM_CLEAR_HISTORY),
+		    final var res = CommonDialogs.showConfirmDialog(
+			    Strings.loadDialog(DialogString.CONFIRM_CLEAR_HISTORY),
 			    Strings.loadEditor(EditorString.EDITOR));
-		    if (res == JOptionPane.YES_OPTION) {
+		    if (res == CommonDialogs.YES_OPTION) {
 			editor.clearHistory();
 		    }
 		} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_GO_TO_LEVEL))) {
