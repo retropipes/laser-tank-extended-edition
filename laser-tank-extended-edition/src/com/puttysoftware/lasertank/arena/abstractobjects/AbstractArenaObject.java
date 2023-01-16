@@ -32,9 +32,39 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
-import com.puttysoftware.lasertank.utility.ObjectImageResolver;
+import com.puttysoftware.lasertank.locale.global.DataLoaderString;
+import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
 public abstract class AbstractArenaObject {
+    private static class ObjectImageResolver {
+	public static String getImageName(final GameObjectID objID) {
+	    return Integer.toString(objID.ordinal());
+	}
+
+	public static String getImageName(final GameObjectID objID, final int frameID) {
+	    return Integer.toString(objID.ordinal()) + GlobalStrings.loadDataLoader(DataLoaderString.SUB_SEPARATOR)
+		    + Integer.toString(frameID);
+	}
+
+	public static String getImageName(final GameObjectID objID, final Direction dir) {
+	    return Integer.toString(objID.ordinal())
+		    + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR)
+		    + DirectionHelper.toStringValue(dir);
+	}
+
+	public static String getImageName(final GameObjectID objID, final Direction dir, final int frameID) {
+	    return Integer.toString(objID.ordinal())
+		    + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR)
+		    + DirectionHelper.toStringValue(dir) + GlobalStrings.loadDataLoader(DataLoaderString.SUB_SEPARATOR)
+		    + Integer.toString(frameID);
+	}
+
+	// Private constructor
+	private ObjectImageResolver() {
+	    // Do nothing
+	}
+    }
+
     static final int DEFAULT_CUSTOM_VALUE = 0;
     protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
 
