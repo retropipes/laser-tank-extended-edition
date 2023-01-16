@@ -17,7 +17,7 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class Mirror extends AbstractMovableObject {
     // Constructors
     public Mirror() {
-	super(true);
+	super();
 	this.addType(GameType.MOVABLE_MIRROR);
     }
 

@@ -11,7 +11,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractTeleport extends AbstractArenaObject {
     // Constructors
     protected AbstractTeleport() {
-	super(false);
+	super();
 	this.addType(GameType.TELEPORT);
     }
 

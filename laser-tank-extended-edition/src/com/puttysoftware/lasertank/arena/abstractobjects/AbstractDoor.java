@@ -14,7 +14,7 @@ public abstract class AbstractDoor extends AbstractArenaObject {
 
     // Constructors
     protected AbstractDoor(final AbstractKey mgk) {
-	super(true);
+	super();
 	this.key = mgk;
 	this.addType(GameType.DOOR);
     }

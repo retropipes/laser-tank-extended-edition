@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class MetallicBox extends AbstractMovableObject {
     // Constructors
     public MetallicBox() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.setMaterial(Material.METALLIC);
     }

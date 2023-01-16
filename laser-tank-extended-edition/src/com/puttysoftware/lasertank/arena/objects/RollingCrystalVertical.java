@@ -18,7 +18,7 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class RollingCrystalVertical extends AbstractMovableObject {
     // Constructors
     public RollingCrystalVertical() {
-	super(true);
+	super();
 	this.addType(GameType.BARREL);
 	this.addType(GameType.ICY);
     }

@@ -22,7 +22,7 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
 
     // Constructors
     protected AbstractCharacter(final int number) {
-	super(true);
+	super();
 	this.setSavedObject(new Empty());
 	this.activateTimer(1);
 	this.addType(GameType.CHARACTER);

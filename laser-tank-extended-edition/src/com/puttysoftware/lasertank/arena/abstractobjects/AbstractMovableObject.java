@@ -24,16 +24,11 @@ public abstract class AbstractMovableObject extends AbstractArenaObject {
     private boolean waitingOnTunnel;
 
     // Constructors
-    protected AbstractMovableObject(final boolean pushable) {
-	super(true, pushable);
+    protected AbstractMovableObject() {
+	super();
 	this.setSavedObject(new Empty());
 	this.waitingOnTunnel = false;
 	this.addType(GameType.MOVABLE);
-    }
-
-    @Override
-    public boolean canMove() {
-	return this.isPushable();
     }
 
     @Override

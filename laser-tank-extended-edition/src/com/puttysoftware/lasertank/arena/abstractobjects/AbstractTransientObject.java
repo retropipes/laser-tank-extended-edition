@@ -10,7 +10,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractTransientObject extends AbstractArenaObject {
     // Constructors
     protected AbstractTransientObject() {
-	super(true);
+	super();
     }
 
     @Override

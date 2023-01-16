@@ -14,7 +14,7 @@ import com.puttysoftware.lasertank.index.GameType;
 public class RollingCrystal extends AbstractMovableObject {
     // Constructors
     public RollingCrystal() {
-	super(true);
+	super();
 	this.addType(GameType.BALL);
 	this.addType(GameType.ICY);
     }

@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class DeadAntiTank extends AbstractMovableObject {
     // Constructors
     public DeadAntiTank() {
-	super(false);
+	super();
     }
 
     @Override

@@ -43,8 +43,6 @@ public abstract class AbstractArenaObject {
     }
 
     // Properties
-    private boolean solid;
-    private boolean pushable;
     private BitSet type;
     private int timerValue;
     private boolean timerActive;
@@ -56,36 +54,8 @@ public abstract class AbstractArenaObject {
     private AbstractArenaObject savedObject;
     private AbstractArenaObject previousState;
 
-    public AbstractArenaObject() {
-	this.solid = false;
-	this.pushable = false;
-	this.type = new BitSet(GameTypeHelper.COUNT);
-	this.timerValue = 0;
-	this.timerActive = false;
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = GameColor.NONE;
-	this.material = Material.NONE;
-	this.imageEnabled = true;
-    }
-
     // Constructors
-    AbstractArenaObject(final boolean isSolid) {
-	this.solid = isSolid;
-	this.pushable = false;
-	this.type = new BitSet(GameTypeHelper.COUNT);
-	this.timerValue = 0;
-	this.timerActive = false;
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = GameColor.NONE;
-	this.material = Material.NONE;
-	this.imageEnabled = true;
-    }
-
-    AbstractArenaObject(final boolean isSolid, final boolean isPushable) {
-	this.solid = isSolid;
-	this.pushable = isPushable;
+    public AbstractArenaObject() {
 	this.type = new BitSet(GameTypeHelper.COUNT);
 	this.timerValue = 0;
 	this.timerActive = false;
@@ -113,8 +83,8 @@ public abstract class AbstractArenaObject {
 	return null;
     }
 
-    public boolean canMove() {
-	return false;
+    public final boolean canMove() {
+	return GameObjectData.canMove(this.getID());
     }
 
     public final boolean canShoot() {
@@ -135,8 +105,6 @@ public abstract class AbstractArenaObject {
     public AbstractArenaObject clone() {
 	try {
 	    final AbstractArenaObject copy = this.getClass().getConstructor().newInstance();
-	    copy.solid = this.solid;
-	    copy.pushable = this.pushable;
 	    copy.type = (BitSet) this.type.clone();
 	    copy.timerValue = this.timerValue;
 	    copy.timerActive = this.timerActive;
@@ -203,7 +171,7 @@ public abstract class AbstractArenaObject {
 	if (this == obj) {
 	    return true;
 	}
-	if (obj == null || !(obj instanceof final AbstractArenaObject other) || (this.pushable != other.pushable) || (this.solid != other.solid)) {
+	if (obj == null || !(obj instanceof final AbstractArenaObject other)) {
 	    return false;
 	}
 	if (!Objects.equals(this.type, other.type)) {
@@ -309,8 +277,6 @@ public abstract class AbstractArenaObject {
     public int hashCode() {
 	final var prime = 31;
 	var result = 1;
-	result = prime * result + (this.pushable ? 1231 : 1237);
-	result = prime * result + (this.solid ? 1231 : 1237);
 	result = prime * result + (this.timerActive ? 1231 : 1237);
 	result = prime * result + this.timerValue;
 	result = prime * result + (this.type == null ? 0 : this.type.hashCode());
@@ -335,7 +301,7 @@ public abstract class AbstractArenaObject {
     }
 
     public boolean isConditionallySolid() {
-	return this.solid;
+	return this.isSolid();
     }
 
     public boolean isEnabled() {
@@ -347,11 +313,11 @@ public abstract class AbstractArenaObject {
     }
 
     public final boolean isPushable() {
-	return this.pushable;
+	return GameObjectData.isPushable(this.getID());
     }
 
     public final boolean isSolid() {
-	return this.solid;
+	return GameObjectData.isSolid(this.getID());
     }
 
     public final boolean killsOnMove() {

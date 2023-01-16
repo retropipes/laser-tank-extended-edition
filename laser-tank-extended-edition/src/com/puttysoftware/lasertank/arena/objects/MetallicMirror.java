@@ -18,7 +18,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class MetallicMirror extends AbstractMovableObject {
     // Constructors
     public MetallicMirror() {
-	super(true);
+	super();
 	this.addType(GameType.MOVABLE_MIRROR);
 	this.setMaterial(Material.METALLIC);
     }

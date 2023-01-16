@@ -26,7 +26,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 
     // Constructors
     protected AbstractJumpObject() {
-	super(true);
+	super();
 	this.jumpRows = 0;
 	this.jumpCols = 0;
 	this.jumpShot = false;

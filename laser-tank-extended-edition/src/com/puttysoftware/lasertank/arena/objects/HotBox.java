@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class HotBox extends AbstractMovableObject {
     // Constructors
     public HotBox() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.setMaterial(Material.FIRE);
     }

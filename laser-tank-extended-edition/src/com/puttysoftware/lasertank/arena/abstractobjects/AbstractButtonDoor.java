@@ -12,7 +12,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractButtonDoor extends AbstractArenaObject {
     // Constructors
     protected AbstractButtonDoor() {
-	super(true);
+	super();
 	this.addType(GameType.BUTTON_DOOR);
     }
 

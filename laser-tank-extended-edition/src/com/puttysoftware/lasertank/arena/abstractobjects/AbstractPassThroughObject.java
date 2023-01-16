@@ -11,7 +11,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractPassThroughObject extends AbstractArenaObject {
     // Constructors
     protected AbstractPassThroughObject() {
-	super(false);
+	super();
 	this.addType(GameType.PASS_THROUGH);
     }
 

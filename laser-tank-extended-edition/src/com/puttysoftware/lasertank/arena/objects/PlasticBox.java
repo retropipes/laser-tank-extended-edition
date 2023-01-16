@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class PlasticBox extends AbstractMovableObject {
     // Constructors
     public PlasticBox() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.setMaterial(Material.PLASTIC);
     }

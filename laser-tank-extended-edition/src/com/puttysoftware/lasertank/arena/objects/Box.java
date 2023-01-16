@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class Box extends AbstractMovableObject {
     // Constructors
     public Box() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.setMaterial(Material.STONE);
     }

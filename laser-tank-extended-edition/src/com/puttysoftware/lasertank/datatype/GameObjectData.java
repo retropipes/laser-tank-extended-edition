@@ -86,10 +86,6 @@ public class GameObjectData {
 	return DataLoader.loadIndex(objectID);
     }
 
-    public static int getWeight(final GameObjectID objectID) {
-	return DataLoader.loadWeight(objectID);
-    }
-
     public static boolean hasDirection(final GameObjectID objectID) {
 	return DataLoader.loadDirection(objectID).length > 1;
     }

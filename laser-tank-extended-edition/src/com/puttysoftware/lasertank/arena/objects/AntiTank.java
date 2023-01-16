@@ -23,7 +23,7 @@ public class AntiTank extends AbstractMovableObject {
 
     // Constructors
     public AntiTank() {
-	super(true);
+	super();
 	this.activateTimer(1);
 	this.canShoot = true;
 	this.autoMove = false;

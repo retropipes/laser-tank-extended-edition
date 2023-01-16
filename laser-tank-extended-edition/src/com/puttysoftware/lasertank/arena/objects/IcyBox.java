@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class IcyBox extends AbstractMovableObject {
     // Constructors
     public IcyBox() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.addType(GameType.ICY);
 	this.setMaterial(Material.ICE);

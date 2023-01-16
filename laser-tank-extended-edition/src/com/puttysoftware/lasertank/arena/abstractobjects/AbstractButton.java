@@ -20,7 +20,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 
     // Constructors
     protected AbstractButton(final AbstractButtonDoor bd, final boolean isUniversal) {
-	super(false);
+	super();
 	this.triggered = false;
 	this.doorX = -1;
 	this.doorY = -1;

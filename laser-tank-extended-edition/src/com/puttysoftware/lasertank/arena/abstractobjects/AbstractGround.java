@@ -11,7 +11,7 @@ import com.puttysoftware.lasertank.index.Layer;
 public abstract class AbstractGround extends AbstractArenaObject {
     // Constructors
     protected AbstractGround() {
-	super(false, false);
+	super();
 	this.addType(GameType.GROUND);
     }
 

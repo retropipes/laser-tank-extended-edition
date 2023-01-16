@@ -18,7 +18,7 @@ import com.puttysoftware.lasertank.index.Material;
 public class MagneticBox extends AbstractMovableObject {
     // Constructors
     public MagneticBox() {
-	super(true);
+	super();
 	this.addType(GameType.BOX);
 	this.addType(GameType.MAGNETIC_BOX);
 	this.setMaterial(Material.MAGNETIC);

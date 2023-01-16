@@ -20,7 +20,7 @@ public class StunnedAntiTank extends AbstractMovableObject {
 
     // Constructors
     public StunnedAntiTank() {
-	super(true);
+	super();
 	this.activateTimer(1);
 	this.stunnedLeft = StunnedAntiTank.STUNNED_START;
 	this.addType(GameType.ANTI);
