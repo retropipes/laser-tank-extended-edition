@@ -770,6 +770,10 @@ public abstract class AbstractArenaObject {
 	this.imageEnabled = value;
     }
 
+    protected void useIndex() {
+	this.index = 1;
+    }
+
     public final void setPreviousState(final AbstractArenaObject obj) {
 	this.previousState = obj;
     }

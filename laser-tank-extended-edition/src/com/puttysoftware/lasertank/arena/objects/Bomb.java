@@ -11,6 +11,7 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Bomb extends AbstractGround {
     // Constructors
     public Bomb() {
+	this.useIndex();
     }
 
     @Override
