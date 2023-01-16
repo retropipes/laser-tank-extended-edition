@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractGround;
+import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class Bridge extends AbstractGround {

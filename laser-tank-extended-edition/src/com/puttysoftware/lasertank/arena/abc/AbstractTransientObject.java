@@ -3,15 +3,12 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
-
-public abstract class AbstractTeleport extends AbstractArenaObject {
+public abstract class AbstractTransientObject extends AbstractArenaObject {
     // Constructors
-    protected AbstractTeleport() {
+    protected AbstractTransientObject() {
 	super();
-	this.addType(GameType.TELEPORT);
     }
 
     @Override
@@ -19,10 +16,13 @@ public abstract class AbstractTeleport extends AbstractArenaObject {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
-    public abstract int getDestinationFloor();
+    public abstract int getForceUnitsImbued();
 
+    // Methods
     @Override
-    public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
+    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+	// Do nothing
+    }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {

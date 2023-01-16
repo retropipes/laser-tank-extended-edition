@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTriggerButtonDoor;
+import com.puttysoftware.lasertank.arena.abc.AbstractTriggerButtonDoor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class MagneticTriggerButtonDoor extends AbstractTriggerButtonDoor {

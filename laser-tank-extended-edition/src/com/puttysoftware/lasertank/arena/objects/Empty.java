@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractPassThroughObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractPassThroughObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 

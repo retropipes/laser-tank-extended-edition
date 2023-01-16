@@ -5,8 +5,8 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractGround;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 

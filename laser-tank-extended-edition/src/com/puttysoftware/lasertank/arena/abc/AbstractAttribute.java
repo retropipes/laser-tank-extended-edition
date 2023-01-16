@@ -3,13 +3,13 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractPressureButtonDoor extends AbstractButtonDoor {
+public abstract class AbstractAttribute extends AbstractPassThroughObject {
     // Constructors
-    protected AbstractPressureButtonDoor() {
-	this.addType(GameType.PRESSURE_BUTTON_DOOR);
+    protected AbstractAttribute() {
+	this.addType(GameType.ATTRIBUTE);
     }
 }

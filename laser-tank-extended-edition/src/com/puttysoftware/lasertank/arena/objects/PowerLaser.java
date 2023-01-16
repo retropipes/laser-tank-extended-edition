@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTransientObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class PowerLaser extends AbstractTransientObject {

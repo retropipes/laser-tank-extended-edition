@@ -10,8 +10,8 @@ import java.util.ConcurrentModificationException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.FrozenTank;
 import com.puttysoftware.lasertank.arena.objects.Ground;

@@ -6,8 +6,8 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractMovableObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractReactionWall;
+import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractReactionWall;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;

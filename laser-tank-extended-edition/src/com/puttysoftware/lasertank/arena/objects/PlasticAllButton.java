@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAllButton;
+import com.puttysoftware.lasertank.arena.abc.AbstractAllButton;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class PlasticAllButton extends AbstractAllButton {

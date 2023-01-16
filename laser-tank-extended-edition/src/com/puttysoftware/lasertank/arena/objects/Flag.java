@@ -5,8 +5,8 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractPassThroughObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractPassThroughObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class Flag extends AbstractPassThroughObject {

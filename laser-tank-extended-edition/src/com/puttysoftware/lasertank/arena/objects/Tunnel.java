@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTunnel;
+import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 

@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractAllButtonDoor;
+import com.puttysoftware.lasertank.arena.abc.AbstractAllButtonDoor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class PlasticAllButtonDoor extends AbstractAllButtonDoor {

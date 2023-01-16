@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractPressureButton;
+import com.puttysoftware.lasertank.arena.abc.AbstractPressureButton;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class MagneticPressureButton extends AbstractPressureButton {

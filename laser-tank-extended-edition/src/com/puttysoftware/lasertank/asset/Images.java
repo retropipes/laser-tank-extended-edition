@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;

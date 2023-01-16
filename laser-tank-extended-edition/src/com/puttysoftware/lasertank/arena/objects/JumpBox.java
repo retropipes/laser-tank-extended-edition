@@ -7,8 +7,8 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import java.awt.Color;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractJumpObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;

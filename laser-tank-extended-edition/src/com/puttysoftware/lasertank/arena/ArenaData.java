@@ -4,11 +4,11 @@ import java.io.IOException;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractButton;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractButtonDoor;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractTunnel;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractButton;
+import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
+import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
+import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;

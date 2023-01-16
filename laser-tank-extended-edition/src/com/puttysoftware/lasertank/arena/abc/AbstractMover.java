@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
 public abstract class AbstractMover extends AbstractGround {
     // Constructors

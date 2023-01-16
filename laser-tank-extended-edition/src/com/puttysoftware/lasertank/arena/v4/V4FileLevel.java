@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.Box;

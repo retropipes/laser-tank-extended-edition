@@ -3,12 +3,20 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
-public abstract class AbstractTransientObject extends AbstractArenaObject {
+import com.puttysoftware.lasertank.index.GameType;
+
+public abstract class AbstractWall extends AbstractArenaObject {
     // Constructors
-    protected AbstractTransientObject() {
+    protected AbstractWall() {
 	super();
+	this.addType(GameType.WALL);
+    }
+
+    @Override
+    public boolean doLasersPassThrough() {
+	return false;
     }
 
     @Override
@@ -16,9 +24,6 @@ public abstract class AbstractTransientObject extends AbstractArenaObject {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
-    public abstract int getForceUnitsImbued();
-
-    // Methods
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
 	// Do nothing

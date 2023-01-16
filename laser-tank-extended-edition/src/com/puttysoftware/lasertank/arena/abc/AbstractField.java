@@ -3,20 +3,24 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractKey extends AbstractArenaObject {
+public abstract class AbstractField extends AbstractArenaObject {
     // Constructors
-    protected AbstractKey() {
-	this.addType(GameType.KEY);
+    protected AbstractField() {
+	super();
+	this.addType(GameType.FIELD);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
+
+    @Override
+    public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
 
     @Override
     public void setCustomProperty(final int propID, final int value) {

@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.editor;
 
-import com.puttysoftware.lasertank.arena.abstractobjects.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
 
 class EditorUndoRedoEngine {
     // Inner classes

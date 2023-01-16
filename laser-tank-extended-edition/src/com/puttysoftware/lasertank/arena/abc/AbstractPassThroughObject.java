@@ -3,20 +3,15 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractWall extends AbstractArenaObject {
+public abstract class AbstractPassThroughObject extends AbstractArenaObject {
     // Constructors
-    protected AbstractWall() {
+    protected AbstractPassThroughObject() {
 	super();
-	this.addType(GameType.WALL);
-    }
-
-    @Override
-    public boolean doLasersPassThrough() {
-	return false;
+	this.addType(GameType.PASS_THROUGH);
     }
 
     @Override

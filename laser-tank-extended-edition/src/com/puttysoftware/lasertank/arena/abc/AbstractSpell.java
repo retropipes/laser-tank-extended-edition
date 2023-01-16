@@ -3,25 +3,19 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abstractobjects;
+package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractPassThroughObject extends AbstractArenaObject {
+public abstract class AbstractSpell extends AbstractArenaObject {
     // Constructors
-    protected AbstractPassThroughObject() {
-	super();
-	this.addType(GameType.PASS_THROUGH);
+    protected AbstractSpell() {
+	this.addType(GameType.SPELL);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
 	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
     }
 
     @Override
