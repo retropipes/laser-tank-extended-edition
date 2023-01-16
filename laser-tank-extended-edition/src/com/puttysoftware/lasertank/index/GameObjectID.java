@@ -125,5 +125,11 @@ public enum GameObjectID {
     WATER_DOOR,
     WATER_KEY,
     WEAKENED,
-    ANY_MOVER
+    ANY_MOVER,
+    BOMB,
+    ACID,
+    STRONG_ACID,
+    STRONGER_ACID,
+    STRONGEST_ACID,
+    ACID_BRIDGE;
 }

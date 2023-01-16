@@ -8,24 +8,13 @@ package com.puttysoftware.lasertank.arena.objects;
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class Bomb extends AbstractGround {
+public class AcidBridge extends AbstractGround {
     // Constructors
-    public Bomb() {
-	this.useIndex();
-    }
-
-    @Override
-    public boolean doLasersPassThrough() {
-	return true;
+    public AcidBridge() {
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.BOMB;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	this.nextIndex();
+	return GameObjectID.ACID_BRIDGE;
     }
 }
