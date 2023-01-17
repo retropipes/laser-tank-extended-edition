@@ -28,7 +28,7 @@ public class StrongerAcid extends AbstractGround {
 	    i.setPreviousState(this);
 	    yield i;
 	}
-	case FIRE -> new DeepWater();
+	case FIRE -> new StrongAcid();
 	default -> this;
 	};
     }
@@ -46,9 +46,9 @@ public class StrongerAcid extends AbstractGround {
 	    // Get rid of pushed object
 	    app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
 	    if (pushed.getMaterial() == Material.WOODEN) {
-		app.getGameManager().morph(new Bridge(), x, y, z, this.getLayer());
+		app.getGameManager().morph(new AcidBridge(), x, y, z, this.getLayer());
 	    } else {
-		app.getGameManager().morph(new DeepWater(), x, y, z, this.getLayer());
+		app.getGameManager().morph(new StrongAcid(), x, y, z, this.getLayer());
 	    }
 	} else {
 	    app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());

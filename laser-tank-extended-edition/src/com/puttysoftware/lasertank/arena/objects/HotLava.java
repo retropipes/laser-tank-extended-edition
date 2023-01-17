@@ -12,46 +12,37 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
-public class StrongestAcid extends AbstractGround {
+public class HotLava extends AbstractGround {
     // Constructors
-    public StrongestAcid() {
+    public HotLava() {
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
 	return switch (materialID) {
-	case ICE -> {
-	    final var i = new Ice();
-	    i.setPreviousState(this);
-	    yield i;
-	}
-	case FIRE -> new StrongerAcid();
+	case ICE -> new Lava();
 	default -> this;
 	};
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STRONGEST_ACID;
+	return GameObjectID.HOT_LAVA;
     }
 
     // Scriptability
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 	final var app = LaserTankEE.getApplication();
-	// Get rid of pushed object
-	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-	if (pushed.isOfType(GameType.BOX)) {
-	    if (pushed.getMaterial() == Material.WOODEN) {
-		app.getGameManager().morph(new AcidBridge(), x, y, z, this.getLayer());
-	    } else {
-		app.getGameManager().morph(new StrongerAcid(), x, y, z, this.getLayer());
-	    }
+	if (pushed instanceof IcyBox) {
+	    app.getGameManager().morph(new Ground(), x, y, z, this.getLayer());
+	    Sounds.play(Sound.COOL_OFF);
+	    return true;
 	}
-	Sounds.play(Sound.SINK);
+	app.getGameManager().morph(new Lava(), x, y, z, pushed.getLayer());
+	Sounds.play(Sound.MELT);
 	return false;
     }
 }
