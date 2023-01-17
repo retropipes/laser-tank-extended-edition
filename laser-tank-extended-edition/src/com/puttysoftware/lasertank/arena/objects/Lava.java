@@ -22,7 +22,7 @@ public class Lava extends AbstractGround {
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
 	return switch (materialID) {
-	case ICE -> new Ground();
+	case ICE -> new LavaBridge();
 	default -> this;
 	};
     }
@@ -37,7 +37,7 @@ public class Lava extends AbstractGround {
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 	final var app = LaserTankEE.getApplication();
 	if (pushed instanceof IcyBox) {
-	    app.getGameManager().morph(new Ground(), x, y, z, this.getLayer());
+	    app.getGameManager().morph(new LavaBridge(), x, y, z, this.getLayer());
 	    Sounds.play(Sound.COOL_OFF);
 	    return true;
 	}

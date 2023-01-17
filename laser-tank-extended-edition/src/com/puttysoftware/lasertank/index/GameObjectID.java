@@ -134,5 +134,6 @@ public enum GameObjectID {
     ACID_BRIDGE,
     HOT_LAVA,
     HOTTER_LAVA,
-    HOTTEST_LAVA;
+    HOTTEST_LAVA,
+    LAVA_BRIDGE;
 }
