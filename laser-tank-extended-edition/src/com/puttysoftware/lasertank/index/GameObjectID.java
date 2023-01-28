@@ -148,5 +148,7 @@ public enum GameObjectID {
     HOT_BRICKS,
     ICY_BRICKS,
     HEAT_LASER,
-    ICE_LASER;
+    ICE_LASER,
+    LIGHT_LASER,
+    SHADOW_LASER;
 }

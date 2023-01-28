@@ -15,11 +15,13 @@ import com.puttysoftware.lasertank.arena.objects.GreenLaser;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.HeatLaser;
 import com.puttysoftware.lasertank.arena.objects.IceLaser;
+import com.puttysoftware.lasertank.arena.objects.LightLaser;
 import com.puttysoftware.lasertank.arena.objects.Missile;
 import com.puttysoftware.lasertank.arena.objects.PowerLaser;
 import com.puttysoftware.lasertank.arena.objects.PowerTurret;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.arena.objects.RedLaser;
+import com.puttysoftware.lasertank.arena.objects.ShadowLaser;
 import com.puttysoftware.lasertank.arena.objects.Stunner;
 import com.puttysoftware.lasertank.arena.objects.VioletLaser;
 import com.puttysoftware.lasertank.arena.objects.Wall;
@@ -90,6 +92,8 @@ final class MovingLaserTracker {
 	case VIOLET -> new VioletLaser();
 	case HEAT -> new HeatLaser();
 	case ICE -> new IceLaser();
+	case LIGHT -> new LightLaser();
+	case SHADOW -> new ShadowLaser();
 	default -> null;
 	};
     }

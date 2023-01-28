@@ -10,5 +10,7 @@ public enum LaserType {
     POWER,
     VIOLET,
     HEAT,
-    ICE
+    ICE,
+    LIGHT,
+    SHADOW
 }
