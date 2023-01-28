@@ -49,7 +49,8 @@ public class ArenaObjectList {
 	    new HotCrystalBlock(), new IcyCrystalBlock(), new Cracked(), new Crumbling(), new Damaged(), new Weakened(),
 	    new Cloak(), new Darkness(), new PowerBolt(), new RollingCrystalHorizontal(), new RollingCrystalVertical(),
 	    new KillerSkull(), new Bomb(), new Acid(), new StrongAcid(), new StrongerAcid(), new StrongestAcid(),
-	    new AcidBridge(), new HotLava(), new HotterLava(), new HottestLava() };
+	    new AcidBridge(), new HotLava(), new HotterLava(), new HottestLava(), new ToughBricks(),
+	    new TougherBricks(), new ToughestBricks() };
 
     public static void enableAllObjects() {
 	for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {

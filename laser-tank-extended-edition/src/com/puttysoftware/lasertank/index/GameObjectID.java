@@ -135,5 +135,8 @@ public enum GameObjectID {
     HOT_LAVA,
     HOTTER_LAVA,
     HOTTEST_LAVA,
-    LAVA_BRIDGE;
+    LAVA_BRIDGE,
+    TOUGH_BRICKS,
+    TOUGHER_BRICKS,
+    TOUGHEST_BRICKS;
 }
