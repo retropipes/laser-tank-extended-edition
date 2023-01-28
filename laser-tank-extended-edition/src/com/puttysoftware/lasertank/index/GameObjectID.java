@@ -146,5 +146,7 @@ public enum GameObjectID {
     MAGNETIC_REPEL_WALL,
     VIOLET_LASER,
     HOT_BRICKS,
-    ICY_BRICKS;
+    ICY_BRICKS,
+    HEAT_LASER,
+    ICE_LASER;
 }

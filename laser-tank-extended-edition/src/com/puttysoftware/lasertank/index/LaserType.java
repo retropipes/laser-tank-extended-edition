@@ -8,5 +8,7 @@ public enum LaserType {
     STUNNER,
     BLUE,
     POWER,
-    VIOLET
+    VIOLET,
+    HEAT,
+    ICE
 }
