@@ -196,5 +196,6 @@ public enum GameObjectID {
     TRAPPED_ANY,
     TRAP,
     TRAP_ALL,
-    TRAP_ANY;
+    TRAP_ANY,
+    WILD_WALL;
 }

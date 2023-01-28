@@ -51,7 +51,7 @@ public class ArenaObjectList {
 	    new RollingCrystalHorizontal(), new RollingCrystalVertical(), new KillerSkull(), new Bomb(), new Acid(),
 	    new StrongAcid(), new StrongerAcid(), new StrongestAcid(), new AcidBridge(), new HotLava(),
 	    new HotterLava(), new HottestLava(), new ToughBricks(), new TougherBricks(), new ToughestBricks(),
-	    new ShadowCrystalBlock(), new MagneticRepelWall(), new HotBricks(), new IcyBricks() };
+	    new ShadowCrystalBlock(), new MagneticRepelWall(), new HotBricks(), new IcyBricks(), new WildWall() };
 
     public static void enableAllObjects() {
 	for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
