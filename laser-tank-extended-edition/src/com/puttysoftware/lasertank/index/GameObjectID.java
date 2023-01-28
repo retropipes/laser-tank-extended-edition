@@ -144,5 +144,7 @@ public enum GameObjectID {
     MOLTEN_TANK,
     POWER_TURRET,
     MAGNETIC_REPEL_WALL,
-    VIOLET_LASER;
+    VIOLET_LASER,
+    HOT_BRICKS,
+    ICY_BRICKS;
 }
