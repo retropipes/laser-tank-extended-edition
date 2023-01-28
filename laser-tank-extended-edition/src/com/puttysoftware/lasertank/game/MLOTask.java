@@ -15,6 +15,7 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.FrozenTank;
 import com.puttysoftware.lasertank.arena.objects.Ground;
+import com.puttysoftware.lasertank.arena.objects.MoltenTank;
 import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.arena.objects.Wall;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -65,6 +66,19 @@ final class MLOTask extends Thread {
 	final var ft = new FrozenTank(dir, tank.getNumber());
 	ft.setSavedObject(tank.getSavedObject());
 	gm.morph(ft, px, py, pz, ft.getLayer());
+	gm.updateTank();
+    }
+
+    private static void meltTank() {
+	final var gm = LaserTankEE.getApplication().getGameManager();
+	final var tank = gm.getTank();
+	final var dir = tank.getDirection();
+	final var px = gm.getPlayerManager().getPlayerLocationX();
+	final var py = gm.getPlayerManager().getPlayerLocationY();
+	final var pz = gm.getPlayerManager().getPlayerLocationZ();
+	final var mt = new MoltenTank(dir, tank.getNumber());
+	mt.setSavedObject(tank.getSavedObject());
+	gm.morph(mt, px, py, pz, mt.getLayer());
 	gm.updateTank();
     }
 
@@ -147,6 +161,20 @@ final class MLOTask extends Thread {
 	final var tracker = new MovingLaserTracker();
 	tracker.activateLasers(zx, zy, zox, zoy, zlt, zshooter);
 	this.laserTrackers.add(tracker);
+    }
+
+    void activateMoltenMovement(final int zx, final int zy) {
+	final var gm = LaserTankEE.getApplication().getGameManager();
+	// Melt the tank - stepped into a Melt Field
+	MLOTask.meltTank();
+	gm.updateScore(1, 0, 0);
+	this.sx = zx;
+	this.sy = zy;
+	Game.updateUndo(false, false, false, false, false, false, false, false, false, false);
+	this.move = true;
+	if (!gm.isReplaying()) {
+	    gm.updateReplay(GameAction.MOVE, zx, zy);
+	}
     }
 
     void activateMovement(final int zx, final int zy) {

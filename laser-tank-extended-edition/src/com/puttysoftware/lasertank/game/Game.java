@@ -1964,6 +1964,30 @@ public class Game extends Screen {
 	}
     }
 
+    public void updatePositionRelativeMolten() {
+	if (this.mlot == null || !this.mlot.isAlive()) {
+	    this.mlot = new MLOTask();
+	}
+	final var dir = this.getTank().getDirection();
+	final var unres = DirectionHelper.unresolveRelative(dir);
+	final var x = unres[0];
+	final var y = unres[1];
+	this.mlot.activateMoltenMovement(x, y);
+	if (!this.mlot.isAlive()) {
+	    this.mlot.start();
+	}
+	if (this.replaying) {
+	    // Wait
+	    while (this.moving) {
+		try {
+		    Thread.sleep(100);
+		} catch (final InterruptedException ie) {
+		    // Ignore
+		}
+	    }
+	}
+    }
+
     public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
 	    final int z2, final AbstractMovableObject pushedInto, final AbstractArenaObject source) {
 	final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
