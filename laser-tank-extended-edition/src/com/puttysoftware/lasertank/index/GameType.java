@@ -36,5 +36,6 @@ public enum GameType {
     MOVABLE_MIRROR,
     ATTRIBUTE,
     CLOAK,
-    SPELL
+    SPELL,
+    REPELS_MAGNETS
 }

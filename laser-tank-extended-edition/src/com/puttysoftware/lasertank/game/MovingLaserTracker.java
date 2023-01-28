@@ -15,9 +15,11 @@ import com.puttysoftware.lasertank.arena.objects.GreenLaser;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.Missile;
 import com.puttysoftware.lasertank.arena.objects.PowerLaser;
+import com.puttysoftware.lasertank.arena.objects.PowerTurret;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.arena.objects.RedLaser;
 import com.puttysoftware.lasertank.arena.objects.Stunner;
+import com.puttysoftware.lasertank.arena.objects.VioletLaser;
 import com.puttysoftware.lasertank.arena.objects.Wall;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -83,6 +85,7 @@ final class MovingLaserTracker {
 	case MISSILE -> new Missile();
 	case STUNNER -> new Stunner();
 	case POWER -> new PowerLaser();
+	case VIOLET -> new VioletLaser();
 	default -> null;
 	};
     }
@@ -161,7 +164,12 @@ final class MovingLaserTracker {
 	    this.res = true;
 	} else if (this.lt == LaserType.RED) {
 	    if (!gm.getCheatStatus(Game.CHEAT_INVINCIBLE)) {
-		Sounds.play(Sound.ANTI_FIRE);
+		if (this.shooter instanceof PowerTurret) {
+		    this.lt = LaserType.VIOLET;
+		    Sounds.play(Sound.POWER_LASER);
+		} else {
+		    Sounds.play(Sound.FIRE_LASER);
+		}
 		this.laser = true;
 		this.res = true;
 	    }

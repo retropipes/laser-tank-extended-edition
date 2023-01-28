@@ -27,7 +27,7 @@ public class ArenaObjectList {
 	    new Tank(9), new Flag(), new Wall(), new AntiTank(), new DeadAntiTank(), new CrystalBlock(), new Bricks(),
 	    new Tunnel(), new Mirror(), new RotaryMirror(), new Box(), new AntiTankMover(), new AnyMover(),
 	    new TenMissiles(), new MagneticBox(), new MagneticMirror(), new MirrorCrystalBlock(), new TenStunners(),
-	    new TenBoosts(), new TenMagnets(), new MagneticWall(), new FrostField(), new StairsDown(), new StairsUp(),
+	    new TenBoosts(), new TenMagnets(), new MagneticAttractWall(), new FrostField(), new StairsDown(), new StairsUp(),
 	    new TenBlueLasers(), new IcyBox(), new WaterDoor(), new WaterKey(), new MagneticDoor(), new MagneticKey(),
 	    new RedDoor(), new RedKey(), new ProximityCrystal(), new Crystal(), new RollingCrystal(), new TenBombs(),
 	    new TenHeatBombs(), new TenIceBombs(), new IcyWall(), new HotWall(), new Lava(), new HotBox(),
