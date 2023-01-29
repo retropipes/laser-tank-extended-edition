@@ -153,5 +153,10 @@ public enum GameObjectID {
     SHADOW_LASER,
     TRAPPED,
     TRAP,
-    WILD_WALL;
+    WILD_WALL,
+    BOMBABLE,
+    BREAKABLE,
+    FAKE,
+    INVISIBLE,
+    FADING;
 }
