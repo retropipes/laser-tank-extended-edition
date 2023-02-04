@@ -56,7 +56,7 @@ public class ArenaObjectList {
 	    new Box3(), new Box4(), new HotBox2(), new HotBox3(), new HotBox4(), new IcyBox2(), new IcyBox3(),
 	    new IcyBox4(), new MagneticBox2(), new MagneticBox3(), new MagneticBox4(), new MetallicBox2(),
 	    new MetallicBox3(), new MetallicBox4(), new PlasticBox2(), new PlasticBox3(), new PlasticBox4(),
-	    new BoxTeleport(), new InvisibleBoxTeleport() };
+	    new BoxTeleport(), new InvisibleBoxTeleport(), new Tree(), new Axe() };
 
     public static void enableAllObjects() {
 	for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
