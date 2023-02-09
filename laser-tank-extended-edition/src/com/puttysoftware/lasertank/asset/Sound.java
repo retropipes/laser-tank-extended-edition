@@ -34,6 +34,7 @@ public enum Sound implements DianeSoundIndex {
     COOL_OFF,
     CRACK,
     CRUSH,
+    CUT,
     DEFROST,
     DOOR_CLOSES,
     DOOR_OPENS,
