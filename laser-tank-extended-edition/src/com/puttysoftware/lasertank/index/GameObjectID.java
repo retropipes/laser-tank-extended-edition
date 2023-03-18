@@ -197,5 +197,22 @@ public enum GameObjectID {
     QUICK_SAND,
     QUICKER_SAND,
     QUICKEST_SAND,
-    SAND_BRIDGE;
+    SAND_BRIDGE,
+    TIME_WARPER,
+    BLUE_DOOR,
+    BLUE_KEY,
+    ICY_DOOR,
+    ICY_KEY,
+    GREEN_DOOR,
+    GREEN_KEY,
+    LIGHT_DOOR,
+    LIGHT_KEY,
+    SHADOW_DOOR,
+    SHADOW_KEY,
+    VIOLET_DOOR,
+    VIOLET_KEY,
+    POWER_DOOR,
+    POWER_KEY,
+    CUT_TREE,
+    DRUNK_TRAP;
 }
