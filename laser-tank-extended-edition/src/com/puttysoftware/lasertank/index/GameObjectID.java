@@ -188,5 +188,9 @@ public enum GameObjectID {
     BOX_TELEPORT,
     INVISIBLE_BOX_TELEPORT,
     TREE,
-    AXE;
+    AXE,
+    PIT,
+    SPRING,
+    SUPER_PIT,
+    SUPER_SPRING;
 }

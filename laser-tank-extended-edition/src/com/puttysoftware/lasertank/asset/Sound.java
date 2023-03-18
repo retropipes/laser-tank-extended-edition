@@ -56,7 +56,9 @@ public enum Sound implements DianeSoundIndex {
     STUNNED,
     STUNNER,
     UNLOCK,
-    UP;
+    UP,
+    FALL,
+    SPRING;
 
     @Override
     public String getName() {
