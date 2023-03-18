@@ -12,15 +12,15 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Tunnel extends AbstractTunnel {
     // Constructors
     public Tunnel() {
-	this.setColor(GameColor.GRAY);
+        this.setColor(GameColor.GRAY);
     }
 
     public Tunnel(final GameColor color) {
-	this.setColor(color);
+        this.setColor(color);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TUNNEL;
+        return GameObjectID.TUNNEL;
     }
 }
