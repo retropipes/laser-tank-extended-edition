@@ -56,7 +56,7 @@ public class ArenaObjectList {
 			new IcyBox4(), new MagneticBox2(), new MagneticBox3(), new MagneticBox4(), new MetallicBox2(),
 			new MetallicBox3(), new MetallicBox4(), new PlasticBox2(), new PlasticBox3(), new PlasticBox4(),
 			new BoxTeleport(), new InvisibleBoxTeleport(), new Tree(), new Axe(), new Pit(), new Spring(),
-			new SuperPit(), new SuperSpring() };
+			new SuperPit(), new SuperSpring(), new Sand(), new QuickSand(), new QuickerSand(), new QuickestSand(), new SandBridge() };
 
 	public static void enableAllObjects() {
 		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {

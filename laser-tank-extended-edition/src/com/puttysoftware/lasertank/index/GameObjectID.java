@@ -192,5 +192,10 @@ public enum GameObjectID {
     PIT,
     SPRING,
     SUPER_PIT,
-    SUPER_SPRING;
+    SUPER_SPRING,
+    SAND,
+    QUICK_SAND,
+    QUICKER_SAND,
+    QUICKEST_SAND,
+    SAND_BRIDGE;
 }
