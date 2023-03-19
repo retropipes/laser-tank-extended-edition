@@ -35,7 +35,7 @@ import com.puttysoftware.lasertank.index.RangeType;
 import com.puttysoftware.lasertank.locale.global.DataLoaderString;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
-public abstract class AbstractArenaObject {
+public class AbstractArenaObject {
 	private static class ObjectImageResolver {
 		public static String getImageName(final GameObjectID objID) {
 			return Integer.toString(objID.ordinal());
@@ -83,6 +83,7 @@ public abstract class AbstractArenaObject {
 	private boolean imageEnabled;
 	private AbstractArenaObject savedObject;
 	private AbstractArenaObject previousState;
+	private GameObjectID gameObjectID;
 
 	// Constructors
 	public AbstractArenaObject() {
@@ -94,6 +95,18 @@ public abstract class AbstractArenaObject {
 		this.color = GameColor.NONE;
 		this.imageEnabled = true;
 		this.index = 0;
+	}
+
+	public AbstractArenaObject(final GameObjectID goid) {
+		this.type = new BitSet(GameTypeHelper.COUNT);
+		this.timerValue = 0;
+		this.timerActive = false;
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = this.getInitialDirection();
+		this.color = GameColor.NONE;
+		this.imageEnabled = true;
+		this.index = 0;
+		this.gameObjectID = goid;
 	}
 
 	public final boolean acceptTick(final GameAction actionType) {
@@ -293,7 +306,9 @@ public abstract class AbstractArenaObject {
 		return this.savedObject;
 	}
 
-	abstract public GameObjectID getID();
+	public GameObjectID getID() {
+		return this.gameObjectID;
+	}
 
 	private final boolean hasDirection() {
 		return this.direction != Direction.NONE;
