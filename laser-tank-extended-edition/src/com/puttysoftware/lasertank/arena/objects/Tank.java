@@ -12,23 +12,23 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class Tank extends AbstractCharacter {
     public Tank(final Direction dir, final int number) {
-	super(number);
-	this.setDirection(dir);
+        super(number);
+        this.setDirection(dir);
     }
 
     // Constructors
     public Tank(final int number) {
-	super(number);
+        super(number);
     }
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-	final var me = LaserTankEE.getApplication().getEditor();
-	me.setPlayerLocation();
+        final var me = LaserTankEE.getApplication().getEditor();
+        me.setPlayerLocation();
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TANK;
+        return GameObjectID.TANK;
     }
 }

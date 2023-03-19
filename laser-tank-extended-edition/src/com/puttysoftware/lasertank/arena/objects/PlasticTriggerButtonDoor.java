@@ -15,6 +15,6 @@ public class PlasticTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.PLASTIC_TRIGGER_DOOR;
+        return GameObjectID.PLASTIC_TRIGGER_DOOR;
     }
 }

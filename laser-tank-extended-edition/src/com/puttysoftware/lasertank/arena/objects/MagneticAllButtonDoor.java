@@ -15,6 +15,6 @@ public class MagneticAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_ALL_DOOR;
+        return GameObjectID.MAGNETIC_ALL_DOOR;
     }
 }

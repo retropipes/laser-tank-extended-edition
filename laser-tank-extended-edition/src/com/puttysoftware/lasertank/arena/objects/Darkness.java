@@ -15,6 +15,6 @@ public class Darkness extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.DARKNESS;
+        return GameObjectID.DARKNESS;
     }
 }

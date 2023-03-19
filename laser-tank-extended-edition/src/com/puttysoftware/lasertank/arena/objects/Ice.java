@@ -16,41 +16,41 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Ice extends AbstractGround {
-    public Ice() {
-	this.addType(GameType.ICY);
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    } else {
-		return new Ground();
-	    }
-	default:
-	    return this;
+	public Ice() {
+		this.addType(GameType.ICY);
 	}
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ICE;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.PUSH_MIRROR);
-    }
-
-    @Override
-    public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	if (pushed instanceof HotBox) {
-	    final var g = new Ground();
-	    LaserTankEE.getApplication().getGameManager().morph(g, x, y, z, g.getLayer());
-	    Sounds.play(Sound.DEFROST);
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		switch (materialID) {
+			case FIRE:
+				if (this.hasPreviousState()) {
+					return this.getPreviousState();
+				} else {
+					return new Ground();
+				}
+			default:
+				return this;
+		}
 	}
-	return true;
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ICE;
+	}
+
+	@Override
+	public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+		Sounds.play(Sound.PUSH_MIRROR);
+	}
+
+	@Override
+	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+		if (pushed instanceof HotBox) {
+			final var g = new Ground();
+			LaserTankEE.getApplication().getGameManager().morph(g, x, y, z, g.getLayer());
+			Sounds.play(Sound.DEFROST);
+		}
+		return true;
+	}
 }

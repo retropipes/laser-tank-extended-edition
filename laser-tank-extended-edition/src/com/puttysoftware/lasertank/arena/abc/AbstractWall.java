@@ -10,27 +10,27 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractWall extends AbstractArenaObject {
     // Constructors
     protected AbstractWall() {
-	super();
-	this.addType(GameType.WALL);
+        super();
+        this.addType(GameType.WALL);
     }
 
     @Override
     public boolean doLasersPassThrough() {
-	return false;
+        return false;
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

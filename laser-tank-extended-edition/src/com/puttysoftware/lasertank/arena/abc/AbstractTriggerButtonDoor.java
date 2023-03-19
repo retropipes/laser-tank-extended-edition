@@ -10,6 +10,6 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractTriggerButtonDoor extends AbstractButtonDoor {
     // Constructors
     protected AbstractTriggerButtonDoor() {
-	this.addType(GameType.TRIGGER_BUTTON_DOOR);
+        this.addType(GameType.TRIGGER_BUTTON_DOOR);
     }
 }

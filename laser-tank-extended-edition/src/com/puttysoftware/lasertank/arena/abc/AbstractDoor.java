@@ -13,43 +13,43 @@ public abstract class AbstractDoor extends AbstractArenaObject {
 
     // Constructors
     protected AbstractDoor(final AbstractKey mgk) {
-	super();
-	this.key = mgk;
-	this.addType(GameType.DOOR);
+        super();
+        this.key = mgk;
+        this.addType(GameType.DOOR);
     }
 
     @Override
     public AbstractDoor clone() {
-	final var copy = (AbstractDoor) super.clone();
-	copy.key = (AbstractKey) this.key.clone();
-	return copy;
+        final var copy = (AbstractDoor) super.clone();
+        copy.key = (AbstractKey) this.key.clone();
+        return copy;
     }
 
     @Override
     public boolean equals(final Object obj) {
-	if (obj == null || this.getClass() != obj.getClass()) {
-	    return false;
-	}
-	final var other = (AbstractDoor) obj;
-	if (this.key != other.key && (this.key == null || !this.key.equals(other.key))) {
-	    return false;
-	}
-	return true;
+        if (obj == null || this.getClass() != obj.getClass()) {
+            return false;
+        }
+        final var other = (AbstractDoor) obj;
+        if (this.key != other.key && (this.key == null || !this.key.equals(other.key))) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public int hashCode() {
-	final var hash = 7;
-	return 71 * hash + (this.key != null ? this.key.hashCode() : 0);
+        final var hash = 7;
+        return 71 * hash + (this.key != null ? this.key.hashCode() : 0);
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

@@ -16,29 +16,29 @@ import com.puttysoftware.lasertank.index.Material;
 public class JumpBox extends AbstractJumpObject {
     // Constructors
     public JumpBox() {
-	this.addType(GameType.BOX);
+        this.addType(GameType.BOX);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var ib = new IcyBox();
-	    ib.setPreviousState(this);
-	    yield ib;
-	}
-	case FIRE -> new HotBox();
-	default -> this;
-	};
+        return switch (materialID) {
+            case ICE -> {
+                final var ib = new IcyBox();
+                ib.setPreviousState(this);
+                yield ib;
+            }
+            case FIRE -> new HotBox();
+            default -> this;
+        };
     }
 
     @Override
     public final Color getCustomTextColor() {
-	return Color.black;
+        return Color.black;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.JUMP_BOX;
+        return GameObjectID.JUMP_BOX;
     }
 }

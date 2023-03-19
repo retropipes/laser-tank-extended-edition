@@ -19,14 +19,14 @@ public class MagneticKey extends AbstractKey {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_KEY;
+        return GameObjectID.MAGNETIC_KEY;
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.GRAB);
-	TankInventory.addOneGreenKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.GRAB);
+        TankInventory.addOneGreenKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

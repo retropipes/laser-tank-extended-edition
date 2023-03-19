@@ -19,6 +19,6 @@ enum DataFile {
     ACCEPT_TICK;
 
     public String getName() {
-	return this.toString().toLowerCase(Locale.ENGLISH);
+        return this.toString().toLowerCase(Locale.ENGLISH);
     }
 }

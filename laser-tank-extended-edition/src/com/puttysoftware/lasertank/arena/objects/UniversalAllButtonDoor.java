@@ -15,6 +15,6 @@ public class UniversalAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.UNIVERSAL_ALL_DOOR;
+        return GameObjectID.UNIVERSAL_ALL_DOOR;
     }
 }

@@ -15,6 +15,6 @@ public class OneWay extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ONE_WAY;
+        return GameObjectID.ONE_WAY;
     }
 }

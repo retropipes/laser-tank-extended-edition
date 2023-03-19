@@ -12,12 +12,12 @@ import com.puttysoftware.lasertank.index.GameType;
 public class MagneticRepelWall extends AbstractWall {
     // Constructors
     public MagneticRepelWall() {
-	this.addType(GameType.PLAIN_WALL);
-	this.addType(GameType.REPELS_MAGNETS);
+        this.addType(GameType.PLAIN_WALL);
+        this.addType(GameType.REPELS_MAGNETS);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_REPEL_WALL;
+        return GameObjectID.MAGNETIC_REPEL_WALL;
     }
 }

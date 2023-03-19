@@ -15,40 +15,40 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class IceBridge extends AbstractGround {
-    // Constructors
-    public IceBridge() {
-	this.addType(GameType.ICY);
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    } else {
-		return new Bridge();
-	    }
-	default:
-	    return this;
+	// Constructors
+	public IceBridge() {
+		this.addType(GameType.ICY);
 	}
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ICE_BRIDGE;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.PUSH_MIRROR);
-    }
-
-    @Override
-    public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	if (pushed instanceof HotBox) {
-	    pushed.setSavedObject(new Bridge());
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		switch (materialID) {
+			case FIRE:
+				if (this.hasPreviousState()) {
+					return this.getPreviousState();
+				} else {
+					return new Bridge();
+				}
+			default:
+				return this;
+		}
 	}
-	return true;
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ICE_BRIDGE;
+	}
+
+	@Override
+	public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+		Sounds.play(Sound.PUSH_MIRROR);
+	}
+
+	@Override
+	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+		if (pushed instanceof HotBox) {
+			pushed.setSavedObject(new Bridge());
+		}
+		return true;
+	}
 }

@@ -19,14 +19,14 @@ public class WaterKey extends AbstractKey {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.WATER_KEY;
+        return GameObjectID.WATER_KEY;
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.GRAB);
-	TankInventory.addOneBlueKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.GRAB);
+        TankInventory.addOneBlueKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

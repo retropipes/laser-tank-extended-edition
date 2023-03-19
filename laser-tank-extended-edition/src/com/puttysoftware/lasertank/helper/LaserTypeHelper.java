@@ -9,11 +9,11 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class LaserTypeHelper {
-    public static RangeType rangeType(final LaserType thing) {
-	return switch (thing) {
-	case STUNNER -> RangeType.ICE_BOMB;
-	case MISSILE -> RangeType.HEAT_BOMB;
-	default -> RangeType.BOMB;
-	};
-    }
+	public static RangeType rangeType(final LaserType thing) {
+		return switch (thing) {
+			case STUNNER -> RangeType.ICE_BOMB;
+			case MISSILE -> RangeType.HEAT_BOMB;
+			default -> RangeType.BOMB;
+		};
+	}
 }

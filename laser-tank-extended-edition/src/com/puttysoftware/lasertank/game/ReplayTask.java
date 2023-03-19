@@ -9,24 +9,24 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.settings.Settings;
 
 class ReplayTask extends Thread {
-    // Constructors
-    public ReplayTask() {
-	// Do nothing
-    }
-
-    @Override
-    public void run() {
-	final var gm = LaserTankEE.getApplication().getGameManager();
-	var result = true;
-	while (result) {
-	    result = gm.replayLastMove();
-	    // Delay, for animation purposes
-	    try {
-		Thread.sleep(Settings.getReplaySpeed());
-	    } catch (final InterruptedException ie) {
-		// Ignore
-	    }
+	// Constructors
+	public ReplayTask() {
+		// Do nothing
 	}
-	gm.replayDone();
-    }
+
+	@Override
+	public void run() {
+		final var gm = LaserTankEE.getApplication().getGameManager();
+		var result = true;
+		while (result) {
+			result = gm.replayLastMove();
+			// Delay, for animation purposes
+			try {
+				Thread.sleep(Settings.getReplaySpeed());
+			} catch (final InterruptedException ie) {
+				// Ignore
+			}
+		}
+		gm.replayDone();
+	}
 }

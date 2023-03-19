@@ -15,6 +15,6 @@ public class UniversalTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.UNIVERSAL_TRIGGER_DOOR;
+        return GameObjectID.UNIVERSAL_TRIGGER_DOOR;
     }
 }

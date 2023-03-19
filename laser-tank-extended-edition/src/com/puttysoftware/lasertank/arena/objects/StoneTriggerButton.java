@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class StoneTriggerButton extends AbstractTriggerButton {
     // Constructors
     public StoneTriggerButton() {
-	super(new StoneTriggerButtonDoor(), false);
+        super(new StoneTriggerButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STONE_TRIGGER_BUTTON;
+        return GameObjectID.STONE_TRIGGER_BUTTON;
     }
 }

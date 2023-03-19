@@ -14,34 +14,34 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class IcyBox2 extends AbstractMovableObject {
-    // Constructors
-    public IcyBox2() {
-	super();
-	this.addType(GameType.BOX);
-	this.addType(GameType.ICY);
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    } else {
-		return new Box2();
-	    }
-	default:
-	    return this;
+	// Constructors
+	public IcyBox2() {
+		super();
+		this.addType(GameType.BOX);
+		this.addType(GameType.ICY);
 	}
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ICY_BOX_2;
-    }
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		switch (materialID) {
+			case FIRE:
+				if (this.hasPreviousState()) {
+					return this.getPreviousState();
+				} else {
+					return new Box2();
+				}
+			default:
+				return this;
+		}
+	}
 
-    @Override
-    public void playSoundHook() {
-	Sounds.play(Sound.PUSH_BOX);
-    }
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ICY_BOX_2;
+	}
+
+	@Override
+	public void playSoundHook() {
+		Sounds.play(Sound.PUSH_BOX);
+	}
 }

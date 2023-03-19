@@ -10,22 +10,22 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractGround extends AbstractArenaObject {
     // Constructors
     protected AbstractGround() {
-	super();
-	this.addType(GameType.GROUND);
+        super();
+        this.addType(GameType.GROUND);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

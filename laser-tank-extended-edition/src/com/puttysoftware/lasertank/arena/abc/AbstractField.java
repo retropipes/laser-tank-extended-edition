@@ -10,13 +10,13 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractField extends AbstractArenaObject {
     // Constructors
     protected AbstractField() {
-	super();
-	this.addType(GameType.FIELD);
+        super();
+        this.addType(GameType.FIELD);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
@@ -24,6 +24,6 @@ public abstract class AbstractField extends AbstractArenaObject {
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

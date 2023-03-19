@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class MagneticAllButton extends AbstractAllButton {
     // Constructors
     public MagneticAllButton() {
-	super(new MagneticAllButtonDoor(), false);
+        super(new MagneticAllButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_ALL_BUTTON;
+        return GameObjectID.MAGNETIC_ALL_BUTTON;
     }
 }

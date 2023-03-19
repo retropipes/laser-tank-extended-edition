@@ -17,18 +17,18 @@ public class TenHeatBombs extends AbstractGround {
 
     @Override
     public boolean doLasersPassThrough() {
-	return true;
+        return true;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TEN_HEAT_BOMBS;
+        return GameObjectID.TEN_HEAT_BOMBS;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	final var gm = LaserTankEE.getApplication().getGameManager();
-	TankInventory.addTenHeatBombs();
-	gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        final var gm = LaserTankEE.getApplication().getGameManager();
+        TankInventory.addTenHeatBombs();
+        gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

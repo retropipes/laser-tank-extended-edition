@@ -21,11 +21,11 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
 
     // Constructors
     protected AbstractCharacter(final int number) {
-	super();
-	this.setSavedObject(new Empty());
-	this.activateTimer(1);
-	this.addType(GameType.CHARACTER);
-	this.characterNumber = number;
+        super();
+        this.setSavedObject(new Empty());
+        this.activateTimer(1);
+        this.addType(GameType.CHARACTER);
+        this.characterNumber = number;
     }
 
     /*
@@ -35,38 +35,39 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
      */
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (!super.equals(obj) || !(obj instanceof final AbstractCharacter other) || (this.characterNumber != other.characterNumber)) {
-	    return false;
-	}
-	return true;
+        if (this == obj) {
+            return true;
+        }
+        if (!super.equals(obj) || !(obj instanceof final AbstractCharacter other)
+                || (this.characterNumber != other.characterNumber)) {
+            return false;
+        }
+        return true;
     }
 
     @Override
     public int getCustomFormat() {
-	return AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE;
+        return AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE;
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public String getCustomText() {
-	return Integer.toString(this.characterNumber);
+        return Integer.toString(this.characterNumber);
     }
 
     @Override
     public Color getCustomTextColor() {
-	return Color.white;
+        return Color.white;
     }
 
     // Methods
     public int getNumber() {
-	return this.characterNumber;
+        return this.characterNumber;
     }
 
     /*
@@ -76,66 +77,66 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
      */
     @Override
     public int hashCode() {
-	final var prime = 31;
-	final var result = super.hashCode();
-	return prime * result + this.characterNumber;
+        final var prime = 31;
+        final var result = super.hashCode();
+        return prime * result + this.characterNumber;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     protected AbstractArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
-	    throws IOException {
-	this.setSavedObject(ArenaObjectList.readArenaObjectG2(reader, formatVersion));
-	return this;
+            throws IOException {
+        this.setSavedObject(ArenaObjectList.readArenaObjectG2(reader, formatVersion));
+        return this;
     }
 
     @Override
     protected AbstractArenaObject readArenaObjectHookG3(final DataIOReader reader, final GameFormat formatVersion)
-	    throws IOException {
-	this.setSavedObject(ArenaObjectList.readArenaObjectG3(reader, formatVersion));
-	return this;
+            throws IOException {
+        this.setSavedObject(ArenaObjectList.readArenaObjectG3(reader, formatVersion));
+        return this;
     }
 
     @Override
     protected AbstractArenaObject readArenaObjectHookG4(final DataIOReader reader, final GameFormat formatVersion)
-	    throws IOException {
-	this.setSavedObject(ArenaObjectList.readArenaObjectG4(reader, formatVersion));
-	return this;
+            throws IOException {
+        this.setSavedObject(ArenaObjectList.readArenaObjectG4(reader, formatVersion));
+        return this;
     }
 
     @Override
     protected AbstractArenaObject readArenaObjectHookG5(final DataIOReader reader, final GameFormat formatVersion)
-	    throws IOException {
-	this.setSavedObject(ArenaObjectList.readArenaObjectG5(reader, formatVersion));
-	return this;
+            throws IOException {
+        this.setSavedObject(ArenaObjectList.readArenaObjectG5(reader, formatVersion));
+        return this;
     }
 
     @Override
     protected AbstractArenaObject readArenaObjectHookG6(final DataIOReader reader, final GameFormat formatVersion)
-	    throws IOException {
-	this.setSavedObject(ArenaObjectList.readArenaObjectG6(reader, formatVersion));
-	return this;
+            throws IOException {
+        this.setSavedObject(ArenaObjectList.readArenaObjectG6(reader, formatVersion));
+        return this;
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void timerExpiredAction(final int x, final int y) {
-	if (this.getSavedObject() instanceof AbstractMovableObject) {
-	    this.getSavedObject().timerExpiredAction(x, y);
-	}
-	this.activateTimer(1);
+        if (this.getSavedObject() instanceof AbstractMovableObject) {
+            this.getSavedObject().timerExpiredAction(x, y);
+        }
+        this.activateTimer(1);
     }
 
     @Override
     protected void writeArenaObjectHook(final DataIOWriter writer) throws IOException {
-	this.getSavedObject().writeArenaObject(writer);
+        this.getSavedObject().writeArenaObject(writer);
     }
 }

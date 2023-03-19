@@ -15,6 +15,6 @@ public class AcidBridge extends AbstractGround {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ACID_BRIDGE;
+        return GameObjectID.ACID_BRIDGE;
     }
 }

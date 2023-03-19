@@ -15,11 +15,11 @@ public class Stunner extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 0;
+        return 0;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STUNNER;
+        return GameObjectID.STUNNER;
     }
 }

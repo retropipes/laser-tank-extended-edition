@@ -15,6 +15,6 @@ public class Breakable extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.BREAKABLE;
+        return GameObjectID.BREAKABLE;
     }
 }

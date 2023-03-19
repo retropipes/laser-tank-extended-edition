@@ -21,31 +21,31 @@ public class ThinIce extends AbstractGround {
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new Ice();
-	    i.setPreviousState(this);
-	    yield i;
-	}
-	case FIRE -> new Water();
-	default -> this;
-	};
+        return switch (materialID) {
+            case ICE -> {
+                final var i = new Ice();
+                i.setPreviousState(this);
+                yield i;
+            }
+            case FIRE -> new Water();
+            default -> this;
+        };
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.THIN_ICE;
+        return GameObjectID.THIN_ICE;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.PUSH_MIRROR);
-	LaserTankEE.getApplication().getGameManager().remoteDelayedDecayTo(new Water());
+        Sounds.play(Sound.PUSH_MIRROR);
+        LaserTankEE.getApplication().getGameManager().remoteDelayedDecayTo(new Water());
     }
 
     @Override
     public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	LaserTankEE.getApplication().getGameManager().remoteDelayedDecayTo(new Water());
-	return true;
+        LaserTankEE.getApplication().getGameManager().remoteDelayedDecayTo(new Water());
+        return true;
     }
 }

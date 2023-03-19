@@ -15,6 +15,6 @@ public class StoneAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STONE_ALL_DOOR;
+        return GameObjectID.STONE_ALL_DOOR;
     }
 }

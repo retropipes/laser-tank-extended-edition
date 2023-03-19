@@ -14,18 +14,18 @@ import com.puttysoftware.lasertank.index.GameType;
 public class RollingCrystal extends AbstractMovableObject {
     // Constructors
     public RollingCrystal() {
-	super();
-	this.addType(GameType.BALL);
-	this.addType(GameType.ICY);
+        super();
+        this.addType(GameType.BALL);
+        this.addType(GameType.ICY);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ROLLING_CRYSTAL;
+        return GameObjectID.ROLLING_CRYSTAL;
     }
 
     @Override
     public void playSoundHook() {
-	Sounds.play(Sound.ROLL);
+        Sounds.play(Sound.ROLL);
     }
 }

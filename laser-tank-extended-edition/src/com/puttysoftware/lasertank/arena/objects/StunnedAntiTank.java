@@ -14,50 +14,50 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
 
 public class StunnedAntiTank extends AbstractMovableObject {
-    private static final int STUNNED_START = 10;
-    // Fields
-    private int stunnedLeft;
+	private static final int STUNNED_START = 10;
+	// Fields
+	private int stunnedLeft;
 
-    // Constructors
-    public StunnedAntiTank() {
-	super();
-	this.activateTimer(1);
-	this.stunnedLeft = StunnedAntiTank.STUNNED_START;
-	this.addType(GameType.ANTI);
-    }
-
-    @Override
-    public AbstractArenaObject clone() {
-	final var copy = (StunnedAntiTank) super.clone();
-	copy.stunnedLeft = this.stunnedLeft;
-	return copy;
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.STUNNED_ANTI_TANK;
-    }
-
-    @Override
-    public void playSoundHook() {
-	Sounds.play(Sound.PUSH_ANTI_TANK);
-    }
-
-    @Override
-    public void timerExpiredAction(final int locX, final int locY) {
-	this.stunnedLeft--;
-	if (this.stunnedLeft == 1) {
-	    Sounds.play(Sound.RETURN);
-	    this.activateTimer(1);
-	} else if (this.stunnedLeft == 0) {
-	    final var z = LaserTankEE.getApplication().getGameManager().getPlayerManager().getPlayerLocationZ();
-	    final var at = new AntiTank();
-	    at.setSavedObject(this.getSavedObject());
-	    at.setDirection(this.getDirection());
-	    LaserTankEE.getApplication().getGameManager().morph(at, locX, locY, z, this.getLayer());
-	} else {
-	    Sounds.play(Sound.STUNNED);
-	    this.activateTimer(1);
+	// Constructors
+	public StunnedAntiTank() {
+		super();
+		this.activateTimer(1);
+		this.stunnedLeft = StunnedAntiTank.STUNNED_START;
+		this.addType(GameType.ANTI);
 	}
-    }
+
+	@Override
+	public AbstractArenaObject clone() {
+		final var copy = (StunnedAntiTank) super.clone();
+		copy.stunnedLeft = this.stunnedLeft;
+		return copy;
+	}
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.STUNNED_ANTI_TANK;
+	}
+
+	@Override
+	public void playSoundHook() {
+		Sounds.play(Sound.PUSH_ANTI_TANK);
+	}
+
+	@Override
+	public void timerExpiredAction(final int locX, final int locY) {
+		this.stunnedLeft--;
+		if (this.stunnedLeft == 1) {
+			Sounds.play(Sound.RETURN);
+			this.activateTimer(1);
+		} else if (this.stunnedLeft == 0) {
+			final var z = LaserTankEE.getApplication().getGameManager().getPlayerManager().getPlayerLocationZ();
+			final var at = new AntiTank();
+			at.setSavedObject(this.getSavedObject());
+			at.setDirection(this.getDirection());
+			LaserTankEE.getApplication().getGameManager().morph(at, locX, locY, z, this.getLayer());
+		} else {
+			Sounds.play(Sound.STUNNED);
+			this.activateTimer(1);
+		}
+	}
 }

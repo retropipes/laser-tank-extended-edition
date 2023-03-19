@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class IceTriggerButton extends AbstractTriggerButton {
     // Constructors
     public IceTriggerButton() {
-	super(new IceTriggerButtonDoor(), false);
+        super(new IceTriggerButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ICE_TRIGGER_BUTTON;
+        return GameObjectID.ICE_TRIGGER_BUTTON;
     }
 }

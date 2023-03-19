@@ -16,42 +16,42 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class StrongAcid extends AbstractGround {
-    // Constructors
-    public StrongAcid() {
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new Ice();
-	    i.setPreviousState(this);
-	    yield i;
+	// Constructors
+	public StrongAcid() {
 	}
-	case FIRE -> new Acid();
-	default -> this;
-	};
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.STRONG_ACID;
-    }
-
-    // Scriptability
-    @Override
-    public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final var app = LaserTankEE.getApplication();
-	// Get rid of pushed object
-	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-	if (pushed.isOfType(GameType.BOX)) {
-	    if (pushed.getMaterial() == Material.WOODEN) {
-		app.getGameManager().morph(new AcidBridge(), x, y, z, this.getLayer());
-	    } else {
-		app.getGameManager().morph(new Acid(), x, y, z, this.getLayer());
-	    }
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> {
+				final var i = new Ice();
+				i.setPreviousState(this);
+				yield i;
+			}
+			case FIRE -> new Acid();
+			default -> this;
+		};
 	}
-	Sounds.play(Sound.SINK);
-	return false;
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.STRONG_ACID;
+	}
+
+	// Scriptability
+	@Override
+	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+		final var app = LaserTankEE.getApplication();
+		// Get rid of pushed object
+		app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+		if (pushed.isOfType(GameType.BOX)) {
+			if (pushed.getMaterial() == Material.WOODEN) {
+				app.getGameManager().morph(new AcidBridge(), x, y, z, this.getLayer());
+			} else {
+				app.getGameManager().morph(new Acid(), x, y, z, this.getLayer());
+			}
+		}
+		Sounds.play(Sound.SINK);
+		return false;
+	}
 }

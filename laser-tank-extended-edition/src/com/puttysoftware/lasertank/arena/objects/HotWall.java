@@ -17,34 +17,34 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class HotWall extends AbstractWall {
-    // Constructors
-    public HotWall() {
-	this.addType(GameType.PLAIN_WALL);
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new Wall();
-	default -> this;
-	};
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.HOT_WALL;
-    }
-
-    @Override
-    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.STUNNER) {
-	    // Cool off hot wall
-	    Sounds.play(Sound.COOL_OFF);
-	    LaserTankEE.getApplication().getGameManager().morph(new Wall(), locX, locY, locZ, this.getLayer());
-	    return Direction.NONE;
+	// Constructors
+	public HotWall() {
+		this.addType(GameType.PLAIN_WALL);
 	}
-	// Stop laser
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-    }
+
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> new Wall();
+			default -> this;
+		};
+	}
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.HOT_WALL;
+	}
+
+	@Override
+	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final LaserType laserType, final int forceUnits) {
+		if (laserType == LaserType.STUNNER) {
+			// Cool off hot wall
+			Sounds.play(Sound.COOL_OFF);
+			LaserTankEE.getApplication().getGameManager().morph(new Wall(), locX, locY, locZ, this.getLayer());
+			return Direction.NONE;
+		}
+		// Stop laser
+		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
 }

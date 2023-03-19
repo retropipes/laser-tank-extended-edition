@@ -16,34 +16,34 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class ToughestBricks extends AbstractReactionWall {
-    // Constructors
-    public ToughestBricks() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.TOUGHEST_BRICKS;
-    }
-
-    @Override
-    public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-	    final int dirY, final LaserType laserType, final int forceUnits) {
-	Sounds.play(Sound.BREAK_BRICKS);
-	LaserTankEE.getApplication().getGameManager().morph(new TougherBricks(), locX, locY, locZ, this.getLayer());
-	if (laserType == LaserType.POWER) {
-	    // Laser keeps going
-	    return DirectionHelper.resolveRelative(dirX, dirY);
+	// Constructors
+	public ToughestBricks() {
 	}
-	// Laser stops
-	return Direction.NONE;
-    }
 
-    @Override
-    public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final RangeType rangeType, final int forceUnits) {
-	Sounds.play(Sound.BREAK_BRICKS);
-	LaserTankEE.getApplication().getGameManager().morph(new TougherBricks(), locX + dirX, locY + dirY, locZ,
-		this.getLayer());
-	return true;
-    }
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.TOUGHEST_BRICKS;
+	}
+
+	@Override
+	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
+			final int dirY, final LaserType laserType, final int forceUnits) {
+		Sounds.play(Sound.BREAK_BRICKS);
+		LaserTankEE.getApplication().getGameManager().morph(new TougherBricks(), locX, locY, locZ, this.getLayer());
+		if (laserType == LaserType.POWER) {
+			// Laser keeps going
+			return DirectionHelper.resolveRelative(dirX, dirY);
+		}
+		// Laser stops
+		return Direction.NONE;
+	}
+
+	@Override
+	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final RangeType rangeType, final int forceUnits) {
+		Sounds.play(Sound.BREAK_BRICKS);
+		LaserTankEE.getApplication().getGameManager().morph(new TougherBricks(), locX + dirX, locY + dirY, locZ,
+				this.getLayer());
+		return true;
+	}
 }

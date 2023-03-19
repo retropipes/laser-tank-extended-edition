@@ -15,11 +15,11 @@ public class ShadowLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 1;
+        return 1;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.SHADOW_LASER;
+        return GameObjectID.SHADOW_LASER;
     }
 }

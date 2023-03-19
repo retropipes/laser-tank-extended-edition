@@ -18,12 +18,12 @@ public class FrostField extends AbstractField {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FROST_FIELD;
+        return GameObjectID.FROST_FIELD;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.FREEZE);
-	LaserTankEE.getApplication().getGameManager().updatePositionRelativeFrozen();
+        Sounds.play(Sound.FREEZE);
+        LaserTankEE.getApplication().getGameManager().updatePositionRelativeFrozen();
     }
 }

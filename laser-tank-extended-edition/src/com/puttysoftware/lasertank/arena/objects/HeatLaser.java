@@ -15,11 +15,11 @@ public class HeatLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 1;
+        return 1;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.HEAT_LASER;
+        return GameObjectID.HEAT_LASER;
     }
 }

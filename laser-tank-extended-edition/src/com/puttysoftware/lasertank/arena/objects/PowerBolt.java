@@ -18,13 +18,13 @@ public class PowerBolt extends AbstractField {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.POWER_BOLT;
+        return GameObjectID.POWER_BOLT;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.POWERFUL);
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
-	LaserTankEE.getApplication().getGameManager().setPowerfulTank();
+        Sounds.play(Sound.POWERFUL);
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        LaserTankEE.getApplication().getGameManager().setPowerfulTank();
     }
 }

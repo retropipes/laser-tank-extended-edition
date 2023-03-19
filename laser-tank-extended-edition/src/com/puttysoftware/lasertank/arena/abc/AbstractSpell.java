@@ -10,16 +10,16 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractSpell extends AbstractArenaObject {
     // Constructors
     protected AbstractSpell() {
-	this.addType(GameType.SPELL);
+        this.addType(GameType.SPELL);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

@@ -11,21 +11,21 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class Bomb extends AbstractGround {
     // Constructors
     public Bomb() {
-	this.useIndex();
+        this.useIndex();
     }
 
     @Override
     public boolean doLasersPassThrough() {
-	return true;
+        return true;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.BOMB;
+        return GameObjectID.BOMB;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	this.nextIndex();
+        this.nextIndex();
     }
 }

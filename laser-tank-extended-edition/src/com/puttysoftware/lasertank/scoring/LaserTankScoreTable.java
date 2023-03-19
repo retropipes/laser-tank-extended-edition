@@ -17,52 +17,52 @@ public class LaserTankScoreTable {
 
     // Constructors
     public LaserTankScoreTable() {
-	this(10);
+        this(10);
     }
 
     public LaserTankScoreTable(final int length) {
-	this.table = new ArrayList<>(length);
-	int x;
-	for (x = 0; x < length; x++) {
-	    this.table.set(x, new LaserTankScore());
-	}
+        this.table = new ArrayList<>(length);
+        int x;
+        for (x = 0; x < length; x++) {
+            this.table.set(x, new LaserTankScore());
+        }
     }
 
     // Methods
     public String getEntryName(final int pos) {
-	return this.table.get(pos).getName();
+        return this.table.get(pos).getName();
     }
 
     public long getEntryMoves(final int pos) {
-	return this.table.get(pos).getMoves();
+        return this.table.get(pos).getMoves();
     }
 
     public long getEntryShots(final int pos) {
-	return this.table.get(pos).getShots();
+        return this.table.get(pos).getShots();
     }
 
     public int getLength() {
-	return this.table.size();
+        return this.table.size();
     }
 
     public void add(final LaserTankScore laserTankScore) {
-	this.table.add(laserTankScore);
+        this.table.add(laserTankScore);
     }
 
     public void save(final GameIODataWriter gio) throws IOException {
-	gio.writeInt(this.getLength());
-	for (final LaserTankScore sc : this.table) {
-	    sc.save(gio);
-	}
+        gio.writeInt(this.getLength());
+        for (final LaserTankScore sc : this.table) {
+            sc.save(gio);
+        }
     }
 
     public static LaserTankScoreTable load(final GameIODataReader gio) throws IOException {
-	final var len = gio.readInt();
-	final var st = new LaserTankScoreTable(len);
-	for (var x = 0; x < len; x++) {
-	    final var sc = LaserTankScore.load(gio);
-	    st.add(sc);
-	}
-	return st;
+        final var len = gio.readInt();
+        final var st = new LaserTankScoreTable(len);
+        for (var x = 0; x < len; x++) {
+            final var sc = LaserTankScore.load(gio);
+            st.add(sc);
+        }
+        return st;
     }
 }

@@ -64,12 +64,12 @@ public enum Sound implements DianeSoundIndex {
 
     @Override
     public String getName() {
-	return this.toString().toLowerCase(Locale.ENGLISH);
+        return this.toString().toLowerCase(Locale.ENGLISH);
     }
 
     @Override
     public URL getURL() {
-	return Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
-		+ GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
+        return Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
+                + GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
     }
 }

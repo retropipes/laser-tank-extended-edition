@@ -15,6 +15,6 @@ public class FireAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FIRE_ALL_DOOR;
+        return GameObjectID.FIRE_ALL_DOOR;
     }
 }

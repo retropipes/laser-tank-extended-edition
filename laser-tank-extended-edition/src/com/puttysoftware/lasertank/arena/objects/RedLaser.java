@@ -15,11 +15,11 @@ public class RedLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 1;
+        return 1;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.RED_LASER;
+        return GameObjectID.RED_LASER;
     }
 }

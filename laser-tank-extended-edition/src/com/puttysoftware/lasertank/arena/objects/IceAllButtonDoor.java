@@ -15,6 +15,6 @@ public class IceAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ICE_ALL_DOOR;
+        return GameObjectID.ICE_ALL_DOOR;
     }
 }

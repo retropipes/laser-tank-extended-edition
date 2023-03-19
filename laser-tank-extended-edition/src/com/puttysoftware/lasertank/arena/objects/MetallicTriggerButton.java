@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class MetallicTriggerButton extends AbstractTriggerButton {
     // Constructors
     public MetallicTriggerButton() {
-	super(new MetallicTriggerButtonDoor(), false);
+        super(new MetallicTriggerButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.METALLIC_TRIGGER_BUTTON;
+        return GameObjectID.METALLIC_TRIGGER_BUTTON;
     }
 }

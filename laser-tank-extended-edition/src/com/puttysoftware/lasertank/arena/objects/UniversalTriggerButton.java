@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class UniversalTriggerButton extends AbstractTriggerButton {
     // Constructors
     public UniversalTriggerButton() {
-	super(new UniversalTriggerButtonDoor(), true);
+        super(new UniversalTriggerButtonDoor(), true);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.UNIVERSAL_TRIGGER_BUTTON;
+        return GameObjectID.UNIVERSAL_TRIGGER_BUTTON;
     }
 }

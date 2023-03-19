@@ -15,6 +15,6 @@ public class MetallicAllButtonDoor extends AbstractAllButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.METALLIC_ALL_DOOR;
+        return GameObjectID.METALLIC_ALL_DOOR;
     }
 }

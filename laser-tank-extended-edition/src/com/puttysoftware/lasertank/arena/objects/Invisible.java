@@ -15,6 +15,6 @@ public class Invisible extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.INVISIBLE;
+        return GameObjectID.INVISIBLE;
     }
 }

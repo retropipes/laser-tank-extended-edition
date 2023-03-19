@@ -11,25 +11,25 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Ground extends AbstractGround {
-    // Constructors
-    public Ground() {
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new Ice();
-	    i.setPreviousState(this);
-	    yield i;
+	// Constructors
+	public Ground() {
 	}
-	case FIRE -> new Lava();
-	default -> this;
-	};
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.GROUND;
-    }
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> {
+				final var i = new Ice();
+				i.setPreviousState(this);
+				yield i;
+			}
+			case FIRE -> new Lava();
+			default -> this;
+		};
+	}
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.GROUND;
+	}
 }

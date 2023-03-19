@@ -15,11 +15,11 @@ public class VioletLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 5;
+        return 5;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.VIOLET_LASER;
+        return GameObjectID.VIOLET_LASER;
     }
 }

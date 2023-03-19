@@ -18,19 +18,19 @@ public class StairsDown extends AbstractTeleport {
 
     @Override
     public int getDestinationFloor() {
-	final var app = LaserTankEE.getApplication();
-	return app.getGameManager().getPlayerManager().getPlayerLocationZ() - 1;
+        final var app = LaserTankEE.getApplication();
+        return app.getGameManager().getPlayerManager().getPlayerLocationZ() - 1;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STAIRS_DOWN;
+        return GameObjectID.STAIRS_DOWN;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	final var app = LaserTankEE.getApplication();
-	app.getGameManager().updatePositionAbsoluteNoEvents(this.getDestinationFloor());
-	Sounds.play(Sound.DOWN);
+        final var app = LaserTankEE.getApplication();
+        app.getGameManager().updatePositionAbsoluteNoEvents(this.getDestinationFloor());
+        Sounds.play(Sound.DOWN);
     }
 }

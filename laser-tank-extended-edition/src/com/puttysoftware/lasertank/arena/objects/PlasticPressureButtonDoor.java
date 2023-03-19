@@ -15,6 +15,6 @@ public class PlasticPressureButtonDoor extends AbstractPressureButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.PLASTIC_PRESSURE_DOOR;
+        return GameObjectID.PLASTIC_PRESSURE_DOOR;
     }
 }

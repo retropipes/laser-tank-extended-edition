@@ -18,12 +18,12 @@ public class MeltField extends AbstractField {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MELT_FIELD;
+        return GameObjectID.MELT_FIELD;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.MELT);
-	LaserTankEE.getApplication().getGameManager().updatePositionRelativeMolten();
+        Sounds.play(Sound.MELT);
+        LaserTankEE.getApplication().getGameManager().updatePositionRelativeMolten();
     }
 }

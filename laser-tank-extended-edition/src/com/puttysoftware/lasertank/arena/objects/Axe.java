@@ -15,6 +15,6 @@ public class Axe extends AbstractGround {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.AXE;
+        return GameObjectID.AXE;
     }
 }

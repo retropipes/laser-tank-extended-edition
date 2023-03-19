@@ -15,11 +15,11 @@ public class Missile extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 2;
+        return 2;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MISSILE;
+        return GameObjectID.MISSILE;
     }
 }

@@ -17,21 +17,21 @@ public class Flag extends AbstractPassThroughObject {
     // Scriptability
     @Override
     public boolean defersSetProperties() {
-	return false;
+        return false;
     }
 
     @Override
     public AbstractArenaObject editorPropertiesHook() {
-	return null;
+        return null;
     }
 
     @Override
     public int getCustomFormat() {
-	return 0;
+        return 0;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FLAG;
+        return GameObjectID.FLAG;
     }
 }

@@ -16,42 +16,42 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Water extends AbstractGround {
-    // Constructors
-    public Water() {
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new Ice();
-	    i.setPreviousState(this);
-	    yield i;
+	// Constructors
+	public Water() {
 	}
-	case FIRE -> new Ground();
-	default -> this;
-	};
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.WATER;
-    }
-
-    // Scriptability
-    @Override
-    public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final var app = LaserTankEE.getApplication();
-	// Get rid of pushed object
-	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-	if (pushed.isOfType(GameType.BOX)) {
-	    if (pushed.getMaterial() == Material.ICE) {
-		app.getGameManager().morph(new IceBridge(), x, y, z, this.getLayer());
-	    } else {
-		app.getGameManager().morph(new Bridge(), x, y, z, this.getLayer());
-	    }
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> {
+				final var i = new Ice();
+				i.setPreviousState(this);
+				yield i;
+			}
+			case FIRE -> new Ground();
+			default -> this;
+		};
 	}
-	Sounds.play(Sound.SINK);
-	return false;
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.WATER;
+	}
+
+	// Scriptability
+	@Override
+	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+		final var app = LaserTankEE.getApplication();
+		// Get rid of pushed object
+		app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+		if (pushed.isOfType(GameType.BOX)) {
+			if (pushed.getMaterial() == Material.ICE) {
+				app.getGameManager().morph(new IceBridge(), x, y, z, this.getLayer());
+			} else {
+				app.getGameManager().morph(new Bridge(), x, y, z, this.getLayer());
+			}
+		}
+		Sounds.play(Sound.SINK);
+		return false;
+	}
 }

@@ -15,6 +15,6 @@ public class FireTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FIRE_TRIGGER_DOOR;
+        return GameObjectID.FIRE_TRIGGER_DOOR;
     }
 }

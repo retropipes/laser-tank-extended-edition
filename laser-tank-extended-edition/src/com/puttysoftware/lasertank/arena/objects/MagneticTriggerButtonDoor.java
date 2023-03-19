@@ -15,6 +15,6 @@ public class MagneticTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_TRIGGER_DOOR;
+        return GameObjectID.MAGNETIC_TRIGGER_DOOR;
     }
 }

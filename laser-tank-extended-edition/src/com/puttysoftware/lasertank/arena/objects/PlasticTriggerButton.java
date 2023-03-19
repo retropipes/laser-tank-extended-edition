@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class PlasticTriggerButton extends AbstractTriggerButton {
     // Constructors
     public PlasticTriggerButton() {
-	super(new PlasticTriggerButtonDoor(), false);
+        super(new PlasticTriggerButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.PLASTIC_TRIGGER_BUTTON;
+        return GameObjectID.PLASTIC_TRIGGER_BUTTON;
     }
 }

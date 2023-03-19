@@ -15,11 +15,11 @@ public class LightLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 1;
+        return 1;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.LIGHT_LASER;
+        return GameObjectID.LIGHT_LASER;
     }
 }

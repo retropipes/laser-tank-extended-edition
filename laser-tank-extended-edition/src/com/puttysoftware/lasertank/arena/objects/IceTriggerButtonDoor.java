@@ -15,6 +15,6 @@ public class IceTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ICE_TRIGGER_DOOR;
+        return GameObjectID.ICE_TRIGGER_DOOR;
     }
 }

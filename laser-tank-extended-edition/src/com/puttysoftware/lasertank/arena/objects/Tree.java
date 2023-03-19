@@ -15,6 +15,6 @@ public class Tree extends AbstractGround {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TREE;
+        return GameObjectID.TREE;
     }
 }

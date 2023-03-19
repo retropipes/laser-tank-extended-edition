@@ -15,11 +15,11 @@ public class PowerLaser extends AbstractTransientObject {
 
     @Override
     public int getForceUnitsImbued() {
-	return 5;
+        return 5;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.POWER_LASER;
+        return GameObjectID.POWER_LASER;
     }
 }

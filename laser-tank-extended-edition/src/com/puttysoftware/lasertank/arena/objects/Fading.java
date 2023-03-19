@@ -15,6 +15,6 @@ public class Fading extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FADING;
+        return GameObjectID.FADING;
     }
 }

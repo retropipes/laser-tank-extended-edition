@@ -14,25 +14,25 @@ import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.index.GameFormat;
 
 public class SuffixHandler implements DataIOSuffixHandler {
-    @Override
-    public void readSuffix(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
-	if (GameFormatHelper.isValidG1(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG1(reader);
-	} else if (GameFormatHelper.isValidG2(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG2(reader);
-	} else if (GameFormatHelper.isValidG3(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG3(reader);
-	} else if (GameFormatHelper.isValidG4(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG4(reader);
-	} else if (GameFormatHelper.isValidG5(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG5(reader);
-	} else if (GameFormatHelper.isValidG6(formatVersion)) {
-	    LaserTankEE.getApplication().getGameManager().loadGameHookG6(reader);
+	@Override
+	public void readSuffix(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
+		if (GameFormatHelper.isValidG1(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG1(reader);
+		} else if (GameFormatHelper.isValidG2(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG2(reader);
+		} else if (GameFormatHelper.isValidG3(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG3(reader);
+		} else if (GameFormatHelper.isValidG4(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG4(reader);
+		} else if (GameFormatHelper.isValidG5(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG5(reader);
+		} else if (GameFormatHelper.isValidG6(formatVersion)) {
+			LaserTankEE.getApplication().getGameManager().loadGameHookG6(reader);
+		}
 	}
-    }
 
-    @Override
-    public void writeSuffix(final DataIOWriter writer) throws IOException {
-	LaserTankEE.getApplication().getGameManager().saveGameHook(writer);
-    }
+	@Override
+	public void writeSuffix(final DataIOWriter writer) throws IOException {
+		LaserTankEE.getApplication().getGameManager().saveGameHook(writer);
+	}
 }

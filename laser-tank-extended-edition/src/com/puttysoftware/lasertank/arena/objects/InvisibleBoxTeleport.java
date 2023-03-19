@@ -15,6 +15,6 @@ public class InvisibleBoxTeleport extends AbstractGround {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.INVISIBLE_BOX_TELEPORT;
+        return GameObjectID.INVISIBLE_BOX_TELEPORT;
     }
 }

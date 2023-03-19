@@ -11,16 +11,16 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class MoltenTank extends AbstractCharacter {
     public MoltenTank(final Direction dir, final int number) {
-	super(number);
+        super(number);
     }
 
     // Constructors
     public MoltenTank(final int number) {
-	super(number);
+        super(number);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MOLTEN_TANK;
+        return GameObjectID.MOLTEN_TANK;
     }
 }

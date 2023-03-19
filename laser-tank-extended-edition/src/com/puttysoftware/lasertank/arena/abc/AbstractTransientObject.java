@@ -8,12 +8,12 @@ package com.puttysoftware.lasertank.arena.abc;
 public abstract class AbstractTransientObject extends AbstractArenaObject {
     // Constructors
     protected AbstractTransientObject() {
-	super();
+        super();
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     public abstract int getForceUnitsImbued();
@@ -21,11 +21,11 @@ public abstract class AbstractTransientObject extends AbstractArenaObject {
     // Methods
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

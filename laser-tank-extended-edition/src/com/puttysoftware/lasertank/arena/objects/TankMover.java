@@ -12,11 +12,11 @@ import com.puttysoftware.lasertank.index.GameType;
 public class TankMover extends AbstractMover {
     // Constructors
     public TankMover() {
-	this.addType(GameType.MOVER);
+        this.addType(GameType.MOVER);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TANK_MOVER;
+        return GameObjectID.TANK_MOVER;
     }
 }

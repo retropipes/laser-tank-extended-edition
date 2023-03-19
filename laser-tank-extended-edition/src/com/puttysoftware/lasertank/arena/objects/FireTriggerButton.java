@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class FireTriggerButton extends AbstractTriggerButton {
     // Constructors
     public FireTriggerButton() {
-	super(new FireTriggerButtonDoor(), false);
+        super(new FireTriggerButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FIRE_TRIGGER_BUTTON;
+        return GameObjectID.FIRE_TRIGGER_BUTTON;
     }
 }

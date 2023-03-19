@@ -15,34 +15,34 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Lava extends AbstractGround {
-    // Constructors
-    public Lava() {
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new LavaBridge();
-	default -> this;
-	};
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.LAVA;
-    }
-
-    // Scriptability
-    @Override
-    public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
-	final var app = LaserTankEE.getApplication();
-	if (pushed instanceof IcyBox) {
-	    app.getGameManager().morph(new LavaBridge(), x, y, z, this.getLayer());
-	    Sounds.play(Sound.COOL_OFF);
-	    return true;
+	// Constructors
+	public Lava() {
 	}
-	app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-	Sounds.play(Sound.MELT);
-	return false;
-    }
+
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> new LavaBridge();
+			default -> this;
+		};
+	}
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.LAVA;
+	}
+
+	// Scriptability
+	@Override
+	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+		final var app = LaserTankEE.getApplication();
+		if (pushed instanceof IcyBox) {
+			app.getGameManager().morph(new LavaBridge(), x, y, z, this.getLayer());
+			Sounds.play(Sound.COOL_OFF);
+			return true;
+		}
+		app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+		Sounds.play(Sound.MELT);
+		return false;
+	}
 }

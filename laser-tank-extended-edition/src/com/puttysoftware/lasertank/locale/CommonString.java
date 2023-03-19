@@ -25,10 +25,10 @@ public enum CommonString {
     String internalValue;
 
     CommonString(final String v) {
-	this.internalValue = v;
+        this.internalValue = v;
     }
 
     String getValue() {
-	return this.internalValue;
+        return this.internalValue;
     }
 }

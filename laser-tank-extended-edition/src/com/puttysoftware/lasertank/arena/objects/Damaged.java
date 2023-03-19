@@ -20,22 +20,22 @@ public class Damaged extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.DAMAGED;
+        return GameObjectID.DAMAGED;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	final var app = LaserTankEE.getApplication();
-	app.getGameManager().morph(new Crumbling(), locX, locY, locZ, this.getLayer());
-	Sounds.play(Sound.CRACK);
-	return Direction.NONE;
+            final LaserType laserType, final int forceUnits) {
+        final var app = LaserTankEE.getApplication();
+        app.getGameManager().morph(new Crumbling(), locX, locY, locZ, this.getLayer());
+        Sounds.play(Sound.CRACK);
+        return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	final var app = LaserTankEE.getApplication();
-	app.getGameManager().morph(new Crumbling(), locX, locY, locZ, this.getLayer());
-	Sounds.play(Sound.CRACK);
+        final var app = LaserTankEE.getApplication();
+        app.getGameManager().morph(new Crumbling(), locX, locY, locZ, this.getLayer());
+        Sounds.play(Sound.CRACK);
     }
 }

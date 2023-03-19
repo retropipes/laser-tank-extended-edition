@@ -15,6 +15,6 @@ public class StoneTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STONE_TRIGGER_DOOR;
+        return GameObjectID.STONE_TRIGGER_DOOR;
     }
 }

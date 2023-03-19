@@ -15,6 +15,6 @@ public class Bombable extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.BOMBABLE;
+        return GameObjectID.BOMBABLE;
     }
 }

@@ -15,6 +15,6 @@ public class LavaBridge extends AbstractGround {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.LAVA_BRIDGE;
+        return GameObjectID.LAVA_BRIDGE;
     }
 }

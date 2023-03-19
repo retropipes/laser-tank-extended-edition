@@ -10,6 +10,6 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractAttribute extends AbstractPassThroughObject {
     // Constructors
     protected AbstractAttribute() {
-	this.addType(GameType.ATTRIBUTE);
+        this.addType(GameType.ATTRIBUTE);
     }
 }

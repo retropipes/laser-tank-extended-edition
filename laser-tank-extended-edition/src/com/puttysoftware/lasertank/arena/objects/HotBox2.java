@@ -16,25 +16,25 @@ import com.puttysoftware.lasertank.index.Material;
 public class HotBox2 extends AbstractMovableObject {
     // Constructors
     public HotBox2() {
-	super();
-	this.addType(GameType.BOX);
+        super();
+        this.addType(GameType.BOX);
     }
 
     @Override
     public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new Box2();
-	default -> this;
-	};
+        return switch (materialID) {
+            case ICE -> new Box2();
+            default -> this;
+        };
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.HOT_BOX_2;
+        return GameObjectID.HOT_BOX_2;
     }
 
     @Override
     public void playSoundHook() {
-	Sounds.play(Sound.PUSH_BOX);
+        Sounds.play(Sound.PUSH_BOX);
     }
 }

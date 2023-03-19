@@ -14,32 +14,32 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class PlasticBox extends AbstractMovableObject {
-    // Constructors
-    public PlasticBox() {
-	super();
-	this.addType(GameType.BOX);
-    }
-
-    @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var ib = new IcyBox();
-	    ib.setPreviousState(this);
-	    yield ib;
+	// Constructors
+	public PlasticBox() {
+		super();
+		this.addType(GameType.BOX);
 	}
-	case FIRE -> new HotBox();
-	default -> this;
-	};
-    }
 
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.PLASTIC_BOX;
-    }
+	@Override
+	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+		return switch (materialID) {
+			case ICE -> {
+				final var ib = new IcyBox();
+				ib.setPreviousState(this);
+				yield ib;
+			}
+			case FIRE -> new HotBox();
+			default -> this;
+		};
+	}
 
-    @Override
-    public void playSoundHook() {
-	Sounds.play(Sound.PUSH_BOX);
-    }
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.PLASTIC_BOX;
+	}
+
+	@Override
+	public void playSoundHook() {
+		Sounds.play(Sound.PUSH_BOX);
+	}
 }

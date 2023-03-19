@@ -15,24 +15,24 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class RedDoor extends AbstractDoor {
     // Constructors
     public RedDoor() {
-	super(new RedKey());
+        super(new RedKey());
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.RED_DOOR;
+        return GameObjectID.RED_DOOR;
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-	return TankInventory.getRedKeysLeft() < 1;
+        return TankInventory.getRedKeysLeft() < 1;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.UNLOCK);
-	TankInventory.useRedKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.UNLOCK);
+        TankInventory.useRedKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

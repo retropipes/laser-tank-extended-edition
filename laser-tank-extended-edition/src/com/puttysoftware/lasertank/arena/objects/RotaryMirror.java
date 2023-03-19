@@ -15,39 +15,39 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class RotaryMirror extends AbstractReactionWall {
-    // Constructors
-    public RotaryMirror() {
-    }
-
-    @Override
-    public boolean doLasersPassThrough() {
-	return true;
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ROTARY_MIRROR;
-    }
-
-    @Override
-    public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-	    final int dirY, final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Destroy mirror
-	    Sounds.play(Sound.BOOM);
-	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
-	    return Direction.NONE;
+	// Constructors
+	public RotaryMirror() {
 	}
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-    }
 
-    @Override
-    public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final RangeType rangeType, final int forceUnits) {
-	// Rotate mirror
-	this.toggleDirection();
-	Sounds.play(Sound.ROTATE);
-	LaserTankEE.getApplication().getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
-	return true;
-    }
+	@Override
+	public boolean doLasersPassThrough() {
+		return true;
+	}
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ROTARY_MIRROR;
+	}
+
+	@Override
+	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
+			final int dirY, final LaserType laserType, final int forceUnits) {
+		if (laserType == LaserType.MISSILE) {
+			// Destroy mirror
+			Sounds.play(Sound.BOOM);
+			LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+			return Direction.NONE;
+		}
+		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
+
+	@Override
+	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final RangeType rangeType, final int forceUnits) {
+		// Rotate mirror
+		this.toggleDirection();
+		Sounds.play(Sound.ROTATE);
+		LaserTankEE.getApplication().getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		return true;
+	}
 }

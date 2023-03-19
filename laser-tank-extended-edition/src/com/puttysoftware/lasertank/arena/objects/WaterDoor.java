@@ -15,24 +15,24 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class WaterDoor extends AbstractDoor {
     // Constructors
     public WaterDoor() {
-	super(new WaterKey());
+        super(new WaterKey());
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.WATER_DOOR;
+        return GameObjectID.WATER_DOOR;
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-	return TankInventory.getBlueKeysLeft() < 1;
+        return TankInventory.getBlueKeysLeft() < 1;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.UNLOCK);
-	TankInventory.useBlueKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.UNLOCK);
+        TankInventory.useBlueKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

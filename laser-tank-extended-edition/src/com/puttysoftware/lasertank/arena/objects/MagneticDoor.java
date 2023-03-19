@@ -15,24 +15,24 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class MagneticDoor extends AbstractDoor {
     // Constructors
     public MagneticDoor() {
-	super(new MagneticKey());
+        super(new MagneticKey());
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_DOOR;
+        return GameObjectID.MAGNETIC_DOOR;
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-	return TankInventory.getGreenKeysLeft() < 1;
+        return TankInventory.getGreenKeysLeft() < 1;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.UNLOCK);
-	TankInventory.useGreenKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.UNLOCK);
+        TankInventory.useGreenKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

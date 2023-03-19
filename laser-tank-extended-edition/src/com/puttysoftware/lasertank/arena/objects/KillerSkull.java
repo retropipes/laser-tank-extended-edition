@@ -18,14 +18,14 @@ public class KillerSkull extends AbstractSpell {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.KILLER_SKULL;
+        return GameObjectID.KILLER_SKULL;
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.KILL);
-	LaserTankEE.getApplication().getArenaManager().getArena().fullScanKillTanks();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.KILL);
+        LaserTankEE.getApplication().getArenaManager().getArena().fullScanKillTanks();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

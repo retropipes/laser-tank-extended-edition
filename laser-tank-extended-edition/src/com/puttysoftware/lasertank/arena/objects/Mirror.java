@@ -17,34 +17,34 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class Mirror extends AbstractMovableObject {
     // Constructors
     public Mirror() {
-	super();
-	this.addType(GameType.MOVABLE_MIRROR);
+        super();
+        this.addType(GameType.MOVABLE_MIRROR);
     }
 
     @Override
     public boolean doLasersPassThrough() {
-	return true;
+        return true;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MIRROR;
+        return GameObjectID.MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Destroy mirror
-	    Sounds.play(Sound.BOOM);
-	    LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
-	    return Direction.NONE;
-	}
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+            final LaserType laserType, final int forceUnits) {
+        if (laserType == LaserType.MISSILE) {
+            // Destroy mirror
+            Sounds.play(Sound.BOOM);
+            LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+            return Direction.NONE;
+        }
+        return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override
     public void playSoundHook() {
-	Sounds.play(Sound.PUSH_MIRROR);
+        Sounds.play(Sound.PUSH_MIRROR);
     }
 }

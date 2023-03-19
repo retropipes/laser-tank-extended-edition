@@ -11,36 +11,36 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractButtonDoor extends AbstractArenaObject {
     // Constructors
     protected AbstractButtonDoor() {
-	super();
-	this.addType(GameType.BUTTON_DOOR);
+        super();
+        this.addType(GameType.BUTTON_DOOR);
     }
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-	final var app = LaserTankEE.getApplication();
-	app.getArenaManager().getArena().fullScanButtonBind(x, y, z, this);
-	app.getEditor().redrawEditor();
+        final var app = LaserTankEE.getApplication();
+        app.getArenaManager().getArena().fullScanButtonBind(x, y, z, this);
+        app.getEditor().redrawEditor();
     }
 
     @Override
     public void editorRemoveHook(final int x, final int y, final int z) {
-	final var app = LaserTankEE.getApplication();
-	app.getArenaManager().getArena().fullScanFindButtonLostDoor(z, this);
-	app.getEditor().redrawEditor();
+        final var app = LaserTankEE.getApplication();
+        app.getArenaManager().getArena().fullScanFindButtonLostDoor(z, this);
+        app.getEditor().redrawEditor();
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

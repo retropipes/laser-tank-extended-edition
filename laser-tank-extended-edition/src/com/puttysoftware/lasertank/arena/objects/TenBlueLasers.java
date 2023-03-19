@@ -10,25 +10,25 @@ import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
-public class TenBlueLasers extends AbstractGround  {
+public class TenBlueLasers extends AbstractGround {
     // Constructors
     public TenBlueLasers() {
     }
 
     @Override
     public boolean doLasersPassThrough() {
-	return true;
+        return true;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TEN_BLUE_LASERS;
+        return GameObjectID.TEN_BLUE_LASERS;
     }
 
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	final var gm = LaserTankEE.getApplication().getGameManager();
-	TankInventory.addTenBlueLasers();
-	gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        final var gm = LaserTankEE.getApplication().getGameManager();
+        TankInventory.addTenBlueLasers();
+        gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

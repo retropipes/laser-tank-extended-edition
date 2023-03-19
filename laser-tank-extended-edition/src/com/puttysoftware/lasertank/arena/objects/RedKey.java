@@ -19,14 +19,14 @@ public class RedKey extends AbstractKey {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.RED_KEY;
+        return GameObjectID.RED_KEY;
     }
 
     // Scriptability
     @Override
     public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.GRAB);
-	TankInventory.addOneRedKey();
-	LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        Sounds.play(Sound.GRAB);
+        TankInventory.addOneRedKey();
+        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

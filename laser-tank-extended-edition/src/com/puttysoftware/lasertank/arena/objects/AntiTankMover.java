@@ -12,11 +12,11 @@ import com.puttysoftware.lasertank.index.GameType;
 public class AntiTankMover extends AbstractMover {
     // Constructors
     public AntiTankMover() {
-	this.addType(GameType.ANTI_MOVER);
+        this.addType(GameType.ANTI_MOVER);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ANTI_TANK_MOVER;
+        return GameObjectID.ANTI_TANK_MOVER;
     }
 }

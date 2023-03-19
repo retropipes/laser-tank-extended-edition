@@ -10,13 +10,13 @@ import com.puttysoftware.lasertank.index.GameType;
 public abstract class AbstractTeleport extends AbstractArenaObject {
     // Constructors
     protected AbstractTeleport() {
-	super();
-	this.addType(GameType.TELEPORT);
+        super();
+        this.addType(GameType.TELEPORT);
     }
 
     @Override
     public int getCustomProperty(final int propID) {
-	return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
     public abstract int getDestinationFloor();
@@ -26,6 +26,6 @@ public abstract class AbstractTeleport extends AbstractArenaObject {
 
     @Override
     public void setCustomProperty(final int propID, final int value) {
-	// Do nothing
+        // Do nothing
     }
 }

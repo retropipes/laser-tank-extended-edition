@@ -11,11 +11,11 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class MetallicPressureButton extends AbstractPressureButton {
     // Constructors
     public MetallicPressureButton() {
-	super(new MetallicPressureButtonDoor(), false);
+        super(new MetallicPressureButtonDoor(), false);
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.METALLIC_PRESSURE_BUTTON;
+        return GameObjectID.METALLIC_PRESSURE_BUTTON;
     }
 }

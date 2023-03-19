@@ -15,6 +15,6 @@ public class MetallicTriggerButtonDoor extends AbstractTriggerButtonDoor {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.METALLIC_TRIGGER_DOOR;
+        return GameObjectID.METALLIC_TRIGGER_DOOR;
     }
 }

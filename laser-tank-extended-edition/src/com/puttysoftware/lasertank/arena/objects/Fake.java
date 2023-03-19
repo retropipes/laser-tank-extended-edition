@@ -15,6 +15,6 @@ public class Fake extends AbstractAttribute {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.FAKE;
+        return GameObjectID.FAKE;
     }
 }
