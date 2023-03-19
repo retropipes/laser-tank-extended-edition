@@ -51,11 +51,6 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
     }
 
     @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
     public String getCustomText() {
         return Integer.toString(this.characterNumber);
     }
@@ -80,11 +75,6 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
         final var prime = 31;
         final var result = super.hashCode();
         return prime * result + this.characterNumber;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        // Do nothing
     }
 
     @Override
@@ -120,11 +110,6 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG6(reader, formatVersion));
         return this;
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
     }
 
     @Override

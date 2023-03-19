@@ -5,21 +5,17 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractTeleport;
+import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
+import com.puttysoftware.lasertank.index.GameType;
 
-public class StairsUp extends AbstractTeleport {
+public class StairsUp extends AbstractArenaObject {
     // Constructors
     public StairsUp() {
-    }
-
-    @Override
-    public int getDestinationFloor() {
-        final var app = LaserTankEE.getApplication();
-        return app.getGameManager().getPlayerManager().getPlayerLocationZ() + 1;
+        super();
+        this.addType(GameType.TELEPORT);
     }
 
     @Override
@@ -28,9 +24,7 @@ public class StairsUp extends AbstractTeleport {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        final var app = LaserTankEE.getApplication();
-        app.getGameManager().updatePositionAbsoluteNoEvents(this.getDestinationFloor());
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.UP);
     }
 }

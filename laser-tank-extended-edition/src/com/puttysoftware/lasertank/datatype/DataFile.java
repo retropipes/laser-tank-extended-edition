@@ -16,7 +16,8 @@ enum DataFile {
     LAYER,
     LETHAL,
     REFLECT,
-    ACCEPT_TICK;
+    ACCEPT_TICK,
+    NAVIGATE;
 
     public String getName() {
         return this.toString().toLowerCase(Locale.ENGLISH);

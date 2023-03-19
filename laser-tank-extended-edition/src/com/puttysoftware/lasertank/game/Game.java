@@ -1988,6 +1988,14 @@ public class Game extends Screen {
 		}
 	}
 
+	public void updatePositionRelativeNoEvents(final int z) {
+		final var dx = this.plMgr.getPlayerLocationX();
+		final var dy = this.plMgr.getPlayerLocationY();
+		final int pz = this.plMgr.getPlayerLocationZ();
+		final int dz = pz + z;
+		this.updatePositionAbsoluteNoEvents(dx, dy, dz);
+	}
+
 	public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
 			final int z2, final AbstractMovableObject pushedInto, final AbstractArenaObject source) {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);

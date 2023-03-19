@@ -38,18 +38,8 @@ public abstract class AbstractDoor extends AbstractArenaObject {
     }
 
     @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
     public int hashCode() {
         final var hash = 7;
         return 71 * hash + (this.key != null ? this.key.hashCode() : 0);
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
     }
 }

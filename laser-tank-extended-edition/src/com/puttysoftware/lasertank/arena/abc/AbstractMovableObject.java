@@ -97,11 +97,6 @@ public abstract class AbstractMovableObject extends AbstractArenaObject {
 	public abstract void playSoundHook();
 
 	@Override
-	public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-		// Do nothing
-	}
-
-	@Override
 	protected AbstractArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		this.setSavedObject(ArenaObjectList.readArenaObjectG2(reader, formatVersion));

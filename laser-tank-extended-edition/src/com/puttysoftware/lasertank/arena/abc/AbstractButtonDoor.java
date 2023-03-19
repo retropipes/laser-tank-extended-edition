@@ -28,19 +28,4 @@ public abstract class AbstractButtonDoor extends AbstractArenaObject {
         app.getArenaManager().getArena().fullScanFindButtonLostDoor(z, this);
         app.getEditor().redrawEditor();
     }
-
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        // Do nothing
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

@@ -23,7 +23,7 @@ public class KillerSkull extends AbstractSpell {
 
     // Scriptability
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.KILL);
         LaserTankEE.getApplication().getArenaManager().getArena().fullScanKillTanks();
         LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());

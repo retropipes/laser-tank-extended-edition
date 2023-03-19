@@ -13,17 +13,4 @@ public abstract class AbstractField extends AbstractArenaObject {
         super();
         this.addType(GameType.FIELD);
     }
-
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

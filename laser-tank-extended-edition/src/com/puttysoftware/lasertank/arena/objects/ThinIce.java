@@ -38,7 +38,7 @@ public class ThinIce extends AbstractGround {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.PUSH_MIRROR);
         LaserTankEE.getApplication().getGameManager().remoteDelayedDecayTo(new Water());
     }

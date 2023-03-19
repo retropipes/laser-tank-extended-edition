@@ -12,14 +12,4 @@ public abstract class AbstractKey extends AbstractArenaObject {
     protected AbstractKey() {
         this.addType(GameType.KEY);
     }
-
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

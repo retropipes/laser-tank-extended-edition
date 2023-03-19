@@ -13,19 +13,4 @@ public abstract class AbstractPassThroughObject extends AbstractArenaObject {
         super();
         this.addType(GameType.PASS_THROUGH);
     }
-
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        // Do nothing
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

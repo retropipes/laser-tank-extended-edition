@@ -141,11 +141,6 @@ public abstract class AbstractButton extends AbstractArenaObject {
 	}
 
 	@Override
-	public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-		// Do nothing
-	}
-
-	@Override
 	public abstract boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z);
 
 	@Override

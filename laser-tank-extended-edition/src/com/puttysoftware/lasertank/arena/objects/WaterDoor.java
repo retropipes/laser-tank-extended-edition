@@ -30,7 +30,7 @@ public class WaterDoor extends AbstractDoor {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.UNLOCK);
         TankInventory.useBlueKey();
         LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());

@@ -59,7 +59,7 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
 
 	// Scriptability
 	@Override
-	public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+	public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 		final var app = LaserTankEE.getApplication();
 		final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
 		final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();

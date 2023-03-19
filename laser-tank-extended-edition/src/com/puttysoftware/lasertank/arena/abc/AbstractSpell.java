@@ -12,14 +12,4 @@ public abstract class AbstractSpell extends AbstractArenaObject {
     protected AbstractSpell() {
         this.addType(GameType.SPELL);
     }
-
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

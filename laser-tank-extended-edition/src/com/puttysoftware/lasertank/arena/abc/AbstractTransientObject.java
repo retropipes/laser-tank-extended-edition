@@ -11,21 +11,7 @@ public abstract class AbstractTransientObject extends AbstractArenaObject {
         super();
     }
 
-    @Override
-    public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
-
     public abstract int getForceUnitsImbued();
 
     // Methods
-    @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
-        // Do nothing
-    }
-
-    @Override
-    public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
 }

@@ -48,7 +48,7 @@ public class Cloak extends AbstractAttribute {
     }
 
     @Override
-    public void postMoveAction(final int locX, final int locY, final int locZ) {
+    public void postMoveActionHook(final int locX, final int locY, final int locZ) {
         final var app = LaserTankEE.getApplication();
         app.getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CHANGE);

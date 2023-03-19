@@ -30,7 +30,7 @@ public class RedDoor extends AbstractDoor {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.UNLOCK);
         TankInventory.useRedKey();
         LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());

@@ -22,7 +22,7 @@ public class MeltField extends AbstractField {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.MELT);
         LaserTankEE.getApplication().getGameManager().updatePositionRelativeMolten();
     }

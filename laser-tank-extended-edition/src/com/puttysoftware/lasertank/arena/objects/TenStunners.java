@@ -26,7 +26,7 @@ public class TenStunners extends AbstractGround {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         final var gm = LaserTankEE.getApplication().getGameManager();
         TankInventory.addTenStunners();
         gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());

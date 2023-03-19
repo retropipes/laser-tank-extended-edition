@@ -109,4 +109,8 @@ public class GameObjectData {
     public static boolean solvesOnMove(final GameObjectID objectID) {
         return objectID == GameObjectID.FLAG;
     }
+
+    public static int navigatesToOnMove(final GameObjectID objectID) {
+        return DataLoader.loadNavigate(objectID);
+    }
 }

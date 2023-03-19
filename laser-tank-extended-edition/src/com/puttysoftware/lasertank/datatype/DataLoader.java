@@ -205,6 +205,19 @@ public class DataLoader {
 		}
 	}
 
+	public static int loadNavigate(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.NAVIGATE);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return 0;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+			return 0;
+		}
+		return Integer.parseInt(value);
+	}
+
 	public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
 		final var data = DataLoader.load(DataFile.REFLECT);
 		final var key = String.valueOf(objID);

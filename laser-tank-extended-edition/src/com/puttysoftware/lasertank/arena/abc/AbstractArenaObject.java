@@ -227,7 +227,9 @@ public abstract class AbstractArenaObject {
 		return 0;
 	}
 
-	abstract public int getCustomProperty(int propID);
+	public int getCustomProperty(final int propID) {
+        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+    }
 
 	public String getCustomText() {
 		return null;
@@ -488,7 +490,17 @@ public abstract class AbstractArenaObject {
 	}
 
 	// Scripting
-	public abstract void postMoveAction(final int dirX, final int dirY, int dirZ);
+	public final void postMoveAction(final int dirX, final int dirY, int dirZ) {
+		var n = GameObjectData.navigatesToOnMove(this.getID());
+		if (n != 0) {
+			LaserTankEE.getApplication().getGameManager().updatePositionAbsoluteNoEvents(n);
+		}
+		this.postMoveActionHook(dirX, dirY, dirZ);
+	}
+	
+	protected void postMoveActionHook(final int dirX, final int dirY, int dirZ) {
+		// Do nothing
+	}
 
 	/**
 	 *
@@ -760,7 +772,9 @@ public abstract class AbstractArenaObject {
 		this.color = col;
 	}
 
-	abstract public void setCustomProperty(int propID, int value);
+	public void setCustomProperty(final int propID, final int value) {
+        // Do nothing
+    }
 
 	public final void setDirection(final Direction dir) {
 		this.direction = dir;

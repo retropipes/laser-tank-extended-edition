@@ -25,7 +25,7 @@ public class Bomb extends AbstractGround {
     }
 
     @Override
-    public void postMoveAction(final int dirX, final int dirY, final int dirZ) {
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         this.nextIndex();
     }
 }
