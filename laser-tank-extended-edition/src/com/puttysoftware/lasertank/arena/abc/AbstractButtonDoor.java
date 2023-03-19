@@ -8,7 +8,7 @@ package com.puttysoftware.lasertank.arena.abc;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractButtonDoor extends AbstractArenaObject {
+public abstract class AbstractButtonDoor extends ArenaObject {
     // Constructors
     protected AbstractButtonDoor() {
         super();

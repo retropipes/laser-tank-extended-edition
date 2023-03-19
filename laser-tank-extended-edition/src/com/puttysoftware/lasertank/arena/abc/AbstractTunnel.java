@@ -13,7 +13,7 @@ import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractTunnel extends AbstractArenaObject {
+public abstract class AbstractTunnel extends ArenaObject {
 	// Fields
 	private final static boolean[] tunnelsFull = new boolean[GameColorHelper.COUNT];
 	private final static int SCAN_RADIUS = 24;
@@ -54,7 +54,7 @@ public abstract class AbstractTunnel extends AbstractArenaObject {
 
 	@Override
 	public int getCustomProperty(final int propID) {
-		return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+		return ArenaObject.DEFAULT_CUSTOM_VALUE;
 	}
 
 	// Scriptability

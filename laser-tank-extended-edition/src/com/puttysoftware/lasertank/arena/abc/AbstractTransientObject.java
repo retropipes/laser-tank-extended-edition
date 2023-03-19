@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-public abstract class AbstractTransientObject extends AbstractArenaObject {
+public abstract class AbstractTransientObject extends ArenaObject {
     // Constructors
     protected AbstractTransientObject() {
         super();

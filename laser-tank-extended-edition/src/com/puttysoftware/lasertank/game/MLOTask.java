@@ -10,7 +10,7 @@ import java.util.ConcurrentModificationException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.FrozenTank;
@@ -36,7 +36,7 @@ final class MLOTask extends Thread {
 		LaserTankEE.getApplication().getGameManager().scheduleAutoMove();
 	}
 
-	private static boolean checkSolid(final AbstractArenaObject next) {
+	private static boolean checkSolid(final ArenaObject next) {
 		final var gm = LaserTankEE.getApplication().getGameManager();
 		// Check cheats
 		if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
@@ -157,7 +157,7 @@ final class MLOTask extends Thread {
 	}
 
 	void activateLasers(final int zx, final int zy, final int zox, final int zoy, final LaserType zlt,
-			final AbstractArenaObject zshooter) {
+			final ArenaObject zshooter) {
 		final var tracker = new MovingLaserTracker();
 		tracker.activateLasers(zx, zy, zox, zoy, zlt, zshooter);
 		this.laserTrackers.add(tracker);
@@ -285,10 +285,10 @@ final class MLOTask extends Thread {
 		final var pz = plMgr.getPlayerLocationZ();
 		final var pw = Layer.UPPER_OBJECTS.ordinal();
 		final var m = app.getArenaManager().getArena();
-		AbstractArenaObject lgo = null;
-		AbstractArenaObject ugo = null;
-		AbstractArenaObject loo = null;
-		AbstractArenaObject uoo = null;
+		ArenaObject lgo = null;
+		ArenaObject ugo = null;
+		ArenaObject loo = null;
+		ArenaObject uoo = null;
 		try {
 			try {
 				lgo = m.getCell(px + this.sx, py + this.sy, pz, Layer.LOWER_GROUND.ordinal());
@@ -319,8 +319,8 @@ final class MLOTask extends Thread {
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
 		final var m = app.getArenaManager().getArena();
-		AbstractArenaObject lgo = null;
-		AbstractArenaObject ugo = null;
+		ArenaObject lgo = null;
+		ArenaObject ugo = null;
 		try {
 			try {
 				lgo = m.getCell(px, py, pz, Layer.LOWER_GROUND.ordinal());
@@ -378,7 +378,7 @@ final class MLOTask extends Thread {
 			final var plMgr = gm.getPlayerManager();
 			final var pz = plMgr.getPlayerLocationZ();
 			this.loopCheck = true;
-			var objs = new AbstractArenaObject[4];
+			var objs = new ArenaObject[4];
 			objs[Layer.LOWER_GROUND.ordinal()] = new Wall();
 			objs[Layer.UPPER_GROUND.ordinal()] = new Wall();
 			objs[Layer.LOWER_OBJECTS.ordinal()] = new Wall();
@@ -496,7 +496,7 @@ final class MLOTask extends Thread {
 		}
 	}
 
-	private AbstractArenaObject[] doMovementOnce() {
+	private ArenaObject[] doMovementOnce() {
 		final var gm = LaserTankEE.getApplication().getGameManager();
 		final var plMgr = gm.getPlayerManager();
 		var px = plMgr.getPlayerLocationX();
@@ -507,10 +507,10 @@ final class MLOTask extends Thread {
 		final var m = app.getArenaManager().getArena();
 		this.proceed = true;
 		this.mover = false;
-		AbstractArenaObject lgo = null;
-		AbstractArenaObject ugo = null;
-		AbstractArenaObject loo = null;
-		AbstractArenaObject uoo = null;
+		ArenaObject lgo = null;
+		ArenaObject ugo = null;
+		ArenaObject loo = null;
+		ArenaObject uoo = null;
 		try {
 			try {
 				lgo = m.getCell(px + this.sx, py + this.sy, pz, Layer.LOWER_GROUND.ordinal());
@@ -633,7 +633,7 @@ final class MLOTask extends Thread {
 			this.proceed = false;
 		}
 		gm.redrawArena();
-		return new AbstractArenaObject[] { lgo, ugo, loo, uoo };
+		return new ArenaObject[] { lgo, ugo, loo, uoo };
 	}
 
 	void haltMovingObjects() {

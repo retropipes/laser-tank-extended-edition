@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.current;
 
 import com.puttysoftware.diane.storage.ObjectStorage;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 
 class CurrentArenaStorage extends ObjectStorage {
     // Constructor
@@ -15,11 +15,11 @@ class CurrentArenaStorage extends ObjectStorage {
     }
 
     // Methods
-    public AbstractArenaObject getArenaDataCell(final int... loc) {
-        return (AbstractArenaObject) this.getCell(loc);
+    public ArenaObject getArenaDataCell(final int... loc) {
+        return (ArenaObject) this.getCell(loc);
     }
 
-    public void setArenaDataCell(final AbstractArenaObject obj, final int... loc) {
+    public void setArenaDataCell(final ArenaObject obj, final int... loc) {
         this.setCell(obj, loc);
     }
 }

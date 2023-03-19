@@ -15,7 +15,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
@@ -634,7 +634,7 @@ public final class CurrentArenaData extends ArenaData {
 				if (v >= 0 && v < ArenaData.MIN_ROWS && u >= 0 && u < ArenaData.MIN_COLUMNS) {
 					final var obj = this.getCell(arena, v, u, zFix, w);
 					final var savedObj = obj.getSavedObject();
-					AbstractArenaObject test;
+					ArenaObject test;
 					if (obj.isOfType(GameType.CHARACTER)) {
 						test = savedObj;
 					} else {
@@ -683,7 +683,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	// Methods
 	@Override
-	public void fill(final Arena arena, final AbstractArenaObject fill) {
+	public void fill(final Arena arena, final ArenaObject fill) {
 		int y, x, z, w;
 		for (x = 0; x < this.getColumns(); x++) {
 			for (y = 0; y < this.getRows(); y++) {
@@ -701,7 +701,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void fillNulls(final Arena arena, final AbstractArenaObject fill1, final AbstractArenaObject fill2,
+	public void fillNulls(final Arena arena, final ArenaObject fill1, final ArenaObject fill2,
 			final boolean was16) {
 		int y, x, z, w;
 		for (x = 0; x < this.getColumns(); x++) {
@@ -724,7 +724,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void fillSTSNulls(final AbstractArenaObject fill) {
+	public void fillSTSNulls(final ArenaObject fill) {
 		int y, x, z, w;
 		for (x = 0; x < this.getColumns(); x++) {
 			for (y = 0; y < this.getRows(); y++) {
@@ -758,7 +758,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public int[] findObject(final Arena arena, final int z, final AbstractArenaObject target) {
+	public int[] findObject(final Arena arena, final int z, final ArenaObject target) {
 		// Perform the scan
 		for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
@@ -969,7 +969,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public AbstractArenaObject getCell(final Arena arena, final int row, final int col, final int floor,
+	public ArenaObject getCell(final Arena arena, final int row, final int col, final int floor,
 			final int layer) {
 		var fR = row;
 		var fC = col;
@@ -1002,7 +1002,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public AbstractArenaObject getVirtualCell(final Arena arena, final int row, final int col, final int floor,
+	public ArenaObject getVirtualCell(final Arena arena, final int row, final int col, final int floor,
 			final int layer) {
 		var fR = row;
 		var fC = col;
@@ -1058,7 +1058,7 @@ public final class CurrentArenaData extends ArenaData {
 		}
 		int u, w;
 		if (d == Direction.NORTH) {
-			final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1085,7 +1085,7 @@ public final class CurrentArenaData extends ArenaData {
 			return false;
 		}
 		if (d == Direction.SOUTH) {
-			final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1110,7 +1110,7 @@ public final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.WEST) {
-			final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1135,7 +1135,7 @@ public final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.EAST) {
-			final AbstractArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1416,7 +1416,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void resize(final Arena arena, final int zIn, final AbstractArenaObject nullFill) {
+	public void resize(final Arena arena, final int zIn, final ArenaObject nullFill) {
 		final var x = ArenaData.MIN_ROWS;
 		final var y = ArenaData.MIN_COLUMNS;
 		var z = zIn;
@@ -1451,7 +1451,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void resizeSavedState(final int z, final AbstractArenaObject nullFill) {
+	public void resizeSavedState(final int z, final ArenaObject nullFill) {
 		final var x = ArenaData.MIN_ROWS;
 		final var y = ArenaData.MIN_COLUMNS;
 		// Allocate temporary storage array
@@ -1484,7 +1484,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (y = 0; y < this.getRows(); y++) {
 				for (z = 0; z < this.getFloors(); z++) {
 					for (w = 0; w < LayerHelper.COUNT; w++) {
-						this.setCell(arena, (AbstractArenaObject) this.savedState.getCell(x, y, z, w), y, x, z, w);
+						this.setCell(arena, (ArenaObject) this.savedState.getCell(x, y, z, w), y, x, z, w);
 					}
 				}
 			}
@@ -1513,7 +1513,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void setCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col, final int floor,
+	public void setCell(final Arena arena, final ArenaObject mo, final int row, final int col, final int floor,
 			final int layer) {
 		var fR = row;
 		var fC = col;
@@ -1541,7 +1541,7 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void setVirtualCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col,
+	public void setVirtualCell(final Arena arena, final ArenaObject mo, final int row, final int col,
 			final int floor, final int layer) {
 		var fR = row;
 		var fC = col;
@@ -1651,7 +1651,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (y = 0; y < this.getRows(); y++) {
 				for (z = 0; z < this.getFloors(); z++) {
 					for (w = 0; w < LayerHelper.COUNT; w++) {
-						((AbstractArenaObject) this.savedState.getCell(y, x, z, w)).writeArenaObject(writer);
+						((ArenaObject) this.savedState.getCell(y, x, z, w)).writeArenaObject(writer);
 					}
 				}
 			}

@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.asset;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 
 class ImageCache {
 	// Fields
@@ -42,7 +42,7 @@ class ImageCache {
 		ImageCache.CACHE_SIZE = 0;
 	}
 
-	static BufferedImageIcon getCachedImage(final AbstractArenaObject obj, final boolean useText) {
+	static BufferedImageIcon getCachedImage(final ArenaObject obj, final boolean useText) {
 		String name;
 		final var custom = obj.getCustomText();
 		if (useText && custom != null) {

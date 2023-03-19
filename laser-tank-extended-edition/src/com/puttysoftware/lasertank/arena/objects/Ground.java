@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
@@ -16,7 +16,7 @@ public class Ground extends AbstractGround {
 	}
 
 	@Override
-	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+	public ArenaObject changesToOnExposure(final Material materialID) {
 		return switch (materialID) {
 			case ICE -> {
 				final var i = new Ice();

@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
 import com.puttysoftware.lasertank.arena.objects.BlueLaser;
 import com.puttysoftware.lasertank.arena.objects.Empty;
@@ -45,7 +45,7 @@ final class MovingLaserTracker {
 		final var app = LaserTankEE.getApplication();
 		final var m = app.getArenaManager().getArena();
 		var zproceed = true;
-		AbstractArenaObject zo = null;
+		ArenaObject zo = null;
 		try {
 			try {
 				zo = m.getCell(px + sx, py + sy, pz, Layer.LOWER_OBJECTS.ordinal());
@@ -68,7 +68,7 @@ final class MovingLaserTracker {
 		return false;
 	}
 
-	private static boolean checkSolid(final AbstractArenaObject next) {
+	private static boolean checkSolid(final ArenaObject next) {
 		final var gm = LaserTankEE.getApplication().getGameManager();
 		// Check cheats
 		if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
@@ -131,7 +131,7 @@ final class MovingLaserTracker {
 	}
 
 	// Fields
-	private AbstractArenaObject shooter;
+	private ArenaObject shooter;
 	private int ox, oy;
 	private LaserType lt;
 	private boolean res;
@@ -145,7 +145,7 @@ final class MovingLaserTracker {
 	}
 
 	void activateLasers(final int zx, final int zy, final int zox, final int zoy, final LaserType zlt,
-			final AbstractArenaObject zshooter) {
+			final ArenaObject zshooter) {
 		final var gm = LaserTankEE.getApplication().getGameManager();
 		this.shooter = zshooter;
 		this.ox = zox;
@@ -247,8 +247,8 @@ final class MovingLaserTracker {
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
 		final var m = app.getArenaManager().getArena();
-		AbstractArenaObject lol = null;
-		AbstractArenaObject lou = null;
+		ArenaObject lol = null;
+		ArenaObject lou = null;
 		try {
 			lol = m.getCell(this.ox + this.cumX, this.oy + this.cumY, pz, Layer.LOWER_OBJECTS.ordinal());
 			lou = m.getCell(this.ox + this.cumX, this.oy + this.cumY, pz, Layer.UPPER_OBJECTS.ordinal());

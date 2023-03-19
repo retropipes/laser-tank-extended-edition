@@ -11,7 +11,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
@@ -31,7 +31,7 @@ public class Images {
 		ImageCache.flushCache();
 	}
 
-	public static BufferedImageIcon getCompositeImage(final AbstractArenaObject obj1, final AbstractArenaObject obj2,
+	public static BufferedImageIcon getCompositeImage(final ArenaObject obj1, final ArenaObject obj2,
 			final boolean useText) {
 		final var icon1 = Images.getImage(obj1, useText);
 		final var icon2 = Images.getImage(obj2, useText);
@@ -57,11 +57,11 @@ public class Images {
 		return 32;
 	}
 
-	public static BufferedImageIcon getImage(final AbstractArenaObject obj, final boolean useText) {
+	public static BufferedImageIcon getImage(final ArenaObject obj, final boolean useText) {
 		return ImageCache.getCachedImage(obj, useText);
 	}
 
-	static BufferedImageIcon getUncachedImage(final AbstractArenaObject obj, final boolean useText) {
+	static BufferedImageIcon getUncachedImage(final ArenaObject obj, final boolean useText) {
 		Images.checkLoadStrings();
 		try {
 			final var normalName = obj.getImageName();
@@ -92,10 +92,10 @@ public class Images {
 		}
 	}
 
-	public static BufferedImageIcon getVirtualCompositeImage(final AbstractArenaObject obj1,
-			final AbstractArenaObject obj2, final AbstractArenaObject... otherObjs) {
+	public static BufferedImageIcon getVirtualCompositeImage(final ArenaObject obj1,
+			final ArenaObject obj2, final ArenaObject... otherObjs) {
 		var result = Images.getCompositeImage(obj1, obj2, true);
-		for (final AbstractArenaObject otherObj : otherObjs) {
+		for (final ArenaObject otherObj : otherObjs) {
 			final var img = Images.getImage(otherObj, true);
 			result = Images.getCompositeImageDirectly(result, img);
 		}

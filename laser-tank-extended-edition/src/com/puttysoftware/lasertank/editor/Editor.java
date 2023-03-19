@@ -32,7 +32,7 @@ import com.puttysoftware.diane.gui.picker.AnonymousPicturePicker;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.Tank;
@@ -236,13 +236,13 @@ public class Editor extends Screen {
 	private EditorDraw outputPane;
 	private JToggleButton lowerGround, upperGround, lowerObjects, upperObjects;
 	private JLabel messageLabel;
-	private AbstractArenaObject savedArenaObject;
+	private ArenaObject savedArenaObject;
 	private JScrollBar vertScroll, horzScroll;
 	private final EventHandler mhandler;
 	private final StartEventHandler shandler;
 	private final LevelSettings lSettings;
 	private AnonymousPicturePicker picker;
-	private AbstractArenaObject[] objects;
+	private ArenaObject[] objects;
 	private BufferedImageIcon[] editorAppearances;
 	private boolean[] objectsEnabled;
 	private EditorUndoRedoEngine engine;
@@ -1053,12 +1053,12 @@ public class Editor extends Screen {
 		}
 	}
 
-	private void updateRedoHistory(final AbstractArenaObject obj, final int x, final int y, final int z, final int w,
+	private void updateRedoHistory(final ArenaObject obj, final int x, final int y, final int z, final int w,
 			final int u) {
 		this.engine.updateRedoHistory(obj, x, y, z, w, u);
 	}
 
-	private void updateUndoHistory(final AbstractArenaObject obj, final int x, final int y, final int z, final int w,
+	private void updateUndoHistory(final ArenaObject obj, final int x, final int y, final int z, final int w,
 			final int u) {
 		this.engine.updateUndoHistory(obj, x, y, z, w, u);
 	}

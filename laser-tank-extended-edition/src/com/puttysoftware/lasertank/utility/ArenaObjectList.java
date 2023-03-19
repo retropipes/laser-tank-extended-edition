@@ -11,7 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.*;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
@@ -21,7 +21,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 
 public class ArenaObjectList {
 	// Fields
-	private static final AbstractArenaObject[] allObjects = { new UpperGroundEmpty(), new Empty(),
+	private static final ArenaObject[] allObjects = { new UpperGroundEmpty(), new Empty(),
 			new UpperObjectsEmpty(), new Ground(), new TankMover(), new Ice(), new Water(), new ThinIce(), new Bridge(),
 			new Tank(1), new Flag(), new Wall(), new AntiTank(), new DeadAntiTank(), new CrystalBlock(), new Bricks(),
 			new Tunnel(), new Mirror(), new RotaryMirror(), new Box(), new AntiTankMover(), new AnyMover(),
@@ -60,7 +60,7 @@ public class ArenaObjectList {
 			new SandBridge() };
 
 	public static void enableAllObjects() {
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			allObject.setEnabled(true);
 		}
 	}
@@ -109,9 +109,9 @@ public class ArenaObjectList {
 		return allEditorAppearancesOnLayer;
 	}
 
-	public static AbstractArenaObject[] getAllObjectsOnLayer(final int layer, final boolean useDisable) {
+	public static ArenaObject[] getAllObjectsOnLayer(final int layer, final boolean useDisable) {
 		if (useDisable) {
-			for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+			for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 				if (allObject.getLayer() == layer) {
 					allObject.setEnabled(true);
 				} else {
@@ -120,21 +120,21 @@ public class ArenaObjectList {
 			}
 			return ArenaObjectList.allObjects;
 		}
-		final var tempAllObjectsOnLayer = new AbstractArenaObject[ArenaObjectList.allObjects.length];
+		final var tempAllObjectsOnLayer = new ArenaObject[ArenaObjectList.allObjects.length];
 		var objectCount = 0;
 		for (var x = 0; x < ArenaObjectList.allObjects.length; x++) {
 			if (ArenaObjectList.allObjects[x].getLayer() == layer) {
 				tempAllObjectsOnLayer[x] = ArenaObjectList.allObjects[x];
 			}
 		}
-		for (final AbstractArenaObject element : tempAllObjectsOnLayer) {
+		for (final ArenaObject element : tempAllObjectsOnLayer) {
 			if (element != null) {
 				objectCount++;
 			}
 		}
-		final var allObjectsOnLayer = new AbstractArenaObject[objectCount];
+		final var allObjectsOnLayer = new ArenaObject[objectCount];
 		objectCount = 0;
-		for (final AbstractArenaObject element : tempAllObjectsOnLayer) {
+		for (final ArenaObject element : tempAllObjectsOnLayer) {
 			if (element != null) {
 				allObjectsOnLayer[objectCount] = element;
 				objectCount++;
@@ -155,17 +155,17 @@ public class ArenaObjectList {
 		return allObjectEnabledStatuses;
 	}
 
-	public static AbstractArenaObject readArenaObjectG2(final DataIOReader reader, final GameFormat formatVersion)
+	public static ArenaObject readArenaObjectG2(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
-		AbstractArenaObject o = null;
+		ArenaObject o = null;
 		var UID = Strings.loadCommon(CommonString.SPACE);
 		if (!GameFormatHelper.isValidG1(formatVersion) && !GameFormatHelper.isValidG2(formatVersion)) {
 			return null;
 		}
 		UID = reader.readString();
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			try {
-				final AbstractArenaObject instance = allObject.getClass().getConstructor().newInstance();
+				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
 				if (!GameFormatHelper.isValidG1(formatVersion) && !GameFormatHelper.isValidG2(formatVersion)) {
 					return null;
 				}
@@ -181,17 +181,17 @@ public class ArenaObjectList {
 		return null;
 	}
 
-	public static AbstractArenaObject readArenaObjectG3(final DataIOReader reader, final GameFormat formatVersion)
+	public static ArenaObject readArenaObjectG3(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
-		AbstractArenaObject o = null;
+		ArenaObject o = null;
 		var UID = Strings.loadCommon(CommonString.SPACE);
 		if (!GameFormatHelper.isValidG3(formatVersion)) {
 			return null;
 		}
 		UID = reader.readString();
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			try {
-				final AbstractArenaObject instance = allObject.getClass().getConstructor().newInstance();
+				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
 				if (!GameFormatHelper.isValidG3(formatVersion)) {
 					return null;
 				}
@@ -207,17 +207,17 @@ public class ArenaObjectList {
 		return null;
 	}
 
-	public static AbstractArenaObject readArenaObjectG4(final DataIOReader reader, final GameFormat formatVersion)
+	public static ArenaObject readArenaObjectG4(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
-		AbstractArenaObject o = null;
+		ArenaObject o = null;
 		var UID = Strings.loadCommon(CommonString.SPACE);
 		if (!GameFormatHelper.isValidG4(formatVersion)) {
 			return null;
 		}
 		UID = reader.readString();
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			try {
-				final AbstractArenaObject instance = allObject.getClass().getConstructor().newInstance();
+				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
 				if (!GameFormatHelper.isValidG4(formatVersion)) {
 					return null;
 				}
@@ -233,17 +233,17 @@ public class ArenaObjectList {
 		return null;
 	}
 
-	public static AbstractArenaObject readArenaObjectG5(final DataIOReader reader, final GameFormat formatVersion)
+	public static ArenaObject readArenaObjectG5(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
-		AbstractArenaObject o = null;
+		ArenaObject o = null;
 		var UID = Strings.loadCommon(CommonString.SPACE);
 		if (!GameFormatHelper.isValidG5(formatVersion)) {
 			return null;
 		}
 		UID = reader.readString();
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			try {
-				final AbstractArenaObject instance = allObject.getClass().getConstructor().newInstance();
+				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
 				if (!GameFormatHelper.isValidG5(formatVersion)) {
 					return null;
 				}
@@ -259,17 +259,17 @@ public class ArenaObjectList {
 		return null;
 	}
 
-	public static AbstractArenaObject readArenaObjectG6(final DataIOReader reader, final GameFormat formatVersion)
+	public static ArenaObject readArenaObjectG6(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
-		AbstractArenaObject o = null;
+		ArenaObject o = null;
 		var UID = Strings.loadCommon(CommonString.SPACE);
 		if (!GameFormatHelper.isValidG6(formatVersion)) {
 			return null;
 		}
 		UID = reader.readString();
-		for (final AbstractArenaObject allObject : ArenaObjectList.allObjects) {
+		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
 			try {
-				final AbstractArenaObject instance = allObject.getClass().getConstructor().newInstance();
+				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
 				if (!GameFormatHelper.isValidG6(formatVersion)) {
 					return null;
 				}

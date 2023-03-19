@@ -13,7 +13,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.index.EditorLayout;
@@ -49,7 +49,7 @@ public class Settings {
 		return (Settings.getActionDelay() + 1) * 5;
 	}
 
-	public static AbstractArenaObject getEditorDefaultFill() {
+	public static ArenaObject getEditorDefaultFill() {
 		return new Ground();
 	}
 

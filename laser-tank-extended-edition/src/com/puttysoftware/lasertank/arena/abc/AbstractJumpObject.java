@@ -42,7 +42,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 	}
 
 	@Override
-	public AbstractArenaObject editorPropertiesHook() {
+	public ArenaObject editorPropertiesHook() {
 		LaserTankEE.getApplication().getEditor().editJumpBox(this);
 		return this;
 	}
@@ -95,7 +95,7 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 		return switch (propID) {
 			case 1 -> this.jumpRows;
 			case 2 -> this.jumpCols;
-			default -> AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+			default -> ArenaObject.DEFAULT_CUSTOM_VALUE;
 		};
 	}
 

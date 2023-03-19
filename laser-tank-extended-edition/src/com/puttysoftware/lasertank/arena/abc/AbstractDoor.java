@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractDoor extends AbstractArenaObject {
+public abstract class AbstractDoor extends ArenaObject {
     // Fields
     private AbstractKey key;
 

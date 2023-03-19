@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -27,7 +27,7 @@ public class StunnedAntiTank extends AbstractMovableObject {
 	}
 
 	@Override
-	public AbstractArenaObject clone() {
+	public ArenaObject clone() {
 		final var copy = (StunnedAntiTank) super.clone();
 		copy.stunnedLeft = this.stunnedLeft;
 		return copy;

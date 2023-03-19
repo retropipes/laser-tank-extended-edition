@@ -15,7 +15,7 @@ import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
-public abstract class AbstractCharacter extends AbstractArenaObject {
+public abstract class AbstractCharacter extends ArenaObject {
     // Fields
     private final int characterNumber;
 
@@ -47,7 +47,7 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
 
     @Override
     public int getCustomFormat() {
-        return AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE;
+        return ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE;
     }
 
     @Override
@@ -78,35 +78,35 @@ public abstract class AbstractCharacter extends AbstractArenaObject {
     }
 
     @Override
-    protected AbstractArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
+    protected ArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG2(reader, formatVersion));
         return this;
     }
 
     @Override
-    protected AbstractArenaObject readArenaObjectHookG3(final DataIOReader reader, final GameFormat formatVersion)
+    protected ArenaObject readArenaObjectHookG3(final DataIOReader reader, final GameFormat formatVersion)
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG3(reader, formatVersion));
         return this;
     }
 
     @Override
-    protected AbstractArenaObject readArenaObjectHookG4(final DataIOReader reader, final GameFormat formatVersion)
+    protected ArenaObject readArenaObjectHookG4(final DataIOReader reader, final GameFormat formatVersion)
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG4(reader, formatVersion));
         return this;
     }
 
     @Override
-    protected AbstractArenaObject readArenaObjectHookG5(final DataIOReader reader, final GameFormat formatVersion)
+    protected ArenaObject readArenaObjectHookG5(final DataIOReader reader, final GameFormat formatVersion)
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG5(reader, formatVersion));
         return this;
     }
 
     @Override
-    protected AbstractArenaObject readArenaObjectHookG6(final DataIOReader reader, final GameFormat formatVersion)
+    protected ArenaObject readArenaObjectHookG6(final DataIOReader reader, final GameFormat formatVersion)
             throws IOException {
         this.setSavedObject(ArenaObjectList.readArenaObjectG6(reader, formatVersion));
         return this;

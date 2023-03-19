@@ -11,7 +11,7 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.Box;
@@ -65,7 +65,7 @@ class V4FileLevel {
 			for (var x = 0; x < 16; x++) {
 				for (var y = 0; y < 16; y++) {
 					final var z = x * 16 + y;
-					AbstractArenaObject ao = null;
+					ArenaObject ao = null;
 					final var b = V4FileLevel.objects[z];
 					switch (b) {
 						case 0:

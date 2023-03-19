@@ -20,7 +20,7 @@ import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
@@ -230,7 +230,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public int[] findObject(final int z, final AbstractArenaObject target) {
+	public int[] findObject(final int z, final ArenaObject target) {
 		return this.arenaData.findObject(this, z, target);
 	}
 
@@ -332,7 +332,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public AbstractArenaObject getCell(final int row, final int col, final int floor, final int layer) {
+	public ArenaObject getCell(final int row, final int col, final int floor, final int layer) {
 		return this.arenaData.getCell(this, row, col, floor, layer);
 	}
 
@@ -426,7 +426,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public AbstractArenaObject getVirtualCell(final int row, final int col, final int floor, final int layer) {
+	public ArenaObject getVirtualCell(final int row, final int col, final int floor, final int layer) {
 		return this.arenaData.getVirtualCell(this, row, col, floor, layer);
 	}
 
@@ -642,7 +642,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void resize(final int z, final AbstractArenaObject nullFill) {
+	public void resize(final int z, final ArenaObject nullFill) {
 		this.arenaData.resize(this, z, nullFill);
 	}
 
@@ -663,7 +663,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void setCell(final AbstractArenaObject mo, final int row, final int col, final int floor, final int layer) {
+	public void setCell(final ArenaObject mo, final int row, final int col, final int floor, final int layer) {
 		this.arenaData.setCell(this, mo, row, col, floor, layer);
 	}
 
@@ -738,7 +738,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void setVirtualCell(final AbstractArenaObject mo, final int row, final int col, final int floor,
+	public void setVirtualCell(final ArenaObject mo, final int row, final int col, final int floor,
 			final int layer) {
 		this.arenaData.setVirtualCell(this, mo, row, col, floor, layer);
 	}

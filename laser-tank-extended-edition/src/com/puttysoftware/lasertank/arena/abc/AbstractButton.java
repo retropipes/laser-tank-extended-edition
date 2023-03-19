@@ -10,7 +10,7 @@ import java.util.Objects;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractButton extends AbstractArenaObject {
+public abstract class AbstractButton extends ArenaObject {
 	// Fields
 	private boolean triggered;
 	private int doorX, doorY;
@@ -110,7 +110,7 @@ public abstract class AbstractButton extends AbstractArenaObject {
 			case 1 -> this.doorX;
 			case 2 -> this.doorY;
 			case 3 -> this.triggered ? 1 : 0;
-			default -> AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+			default -> ArenaObject.DEFAULT_CUSTOM_VALUE;
 		};
 	}
 

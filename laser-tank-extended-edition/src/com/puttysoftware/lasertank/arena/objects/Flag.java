@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractPassThroughObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
@@ -21,7 +21,7 @@ public class Flag extends AbstractPassThroughObject {
     }
 
     @Override
-    public AbstractArenaObject editorPropertiesHook() {
+    public ArenaObject editorPropertiesHook() {
         return null;
     }
 

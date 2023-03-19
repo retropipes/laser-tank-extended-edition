@@ -8,7 +8,7 @@ package com.puttysoftware.lasertank.arena;
 import java.io.File;
 import java.io.IOException;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
@@ -109,7 +109,7 @@ public abstract class Arena {
 
     public abstract void fillDefault();
 
-    public abstract int[] findObject(int z, AbstractArenaObject target);
+    public abstract int[] findObject(int z, ArenaObject target);
 
     public abstract int[] findPlayer(final int number);
 
@@ -140,7 +140,7 @@ public abstract class Arena {
 
     public abstract String getBasePath();
 
-    public abstract AbstractArenaObject getCell(final int row, final int col, final int floor, final int layer);
+    public abstract ArenaObject getCell(final int row, final int col, final int floor, final int layer);
 
     public abstract int getColumns();
 
@@ -166,7 +166,7 @@ public abstract class Arena {
 
     public abstract int getStartRow(final int pi);
 
-    public abstract AbstractArenaObject getVirtualCell(final int row, final int col, final int floor, final int layer);
+    public abstract ArenaObject getVirtualCell(final int row, final int col, final int floor, final int layer);
 
     public abstract HistoryStatus getWhatWas();
 
@@ -227,7 +227,7 @@ public abstract class Arena {
 
     public abstract void resetHistoryEngine();
 
-    public abstract void resize(int z, AbstractArenaObject nullFill);
+    public abstract void resize(int z, ArenaObject nullFill);
 
     public abstract void restore();
 
@@ -235,7 +235,7 @@ public abstract class Arena {
 
     public abstract void setAuthor(String newAuthor);
 
-    public abstract void setCell(final AbstractArenaObject mo, final int row, final int col, final int floor,
+    public abstract void setCell(final ArenaObject mo, final int row, final int col, final int floor,
             final int layer);
 
     public abstract void setData(ArenaData newData, int count);
@@ -264,7 +264,7 @@ public abstract class Arena {
 
     public abstract void setSuffixHandler(DataIOSuffixHandler xsh);
 
-    public abstract void setVirtualCell(final AbstractArenaObject mo, final int row, final int col, final int floor,
+    public abstract void setVirtualCell(final ArenaObject mo, final int row, final int col, final int floor,
             final int layer);
 
     public abstract void switchEra(final int era);

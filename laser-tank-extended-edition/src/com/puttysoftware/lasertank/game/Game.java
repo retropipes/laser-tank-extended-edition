@@ -37,7 +37,7 @@ import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
 import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.objects.Empty;
@@ -672,7 +672,7 @@ public class Game extends Screen {
 	private JLabel otherRangesLeft;
 	private JLabel levelInfo;
 	private boolean delayedDecayActive;
-	private AbstractArenaObject delayedDecayObject;
+	private ArenaObject delayedDecayObject;
 	boolean laserActive;
 	boolean moving;
 	private boolean remoteDecay;
@@ -924,7 +924,7 @@ public class Game extends Screen {
 		app.getGUIManager().showGUI();
 	}
 
-	public boolean fireLaser(final int ox, final int oy, final AbstractArenaObject shooter) {
+	public boolean fireLaser(final int ox, final int oy, final ArenaObject shooter) {
 		if (this.otherAmmoMode == Game.OTHER_AMMO_MODE_MISSILES && this.activeLaserType == LaserType.MISSILE
 				&& TankInventory.getMissilesLeft() == 0 && !this.getCheatStatus(Game.CHEAT_MISSILES)) {
 			CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_MISSILES));
@@ -980,7 +980,7 @@ public class Game extends Screen {
 		final var py = this.plMgr.getPlayerLocationY();
 		final var pz = this.plMgr.getPlayerLocationZ();
 		a.circularScanRange(px, py, pz, 1, this.otherRangeMode,
-				AbstractArenaObject.getImbuedRangeForce(RangeTypeHelper.material(this.otherRangeMode)));
+				ArenaObject.getImbuedRangeForce(RangeTypeHelper.material(this.otherRangeMode)));
 		LaserTankEE.getApplication().getArenaManager().getArena().tickTimers(pz, GameAction.USE_RANGE);
 		this.updateScoreText();
 	}
@@ -1164,7 +1164,7 @@ public class Game extends Screen {
 				this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ());
 	}
 
-	public void morph(final AbstractArenaObject morphInto, final int x, final int y, final int z, final int w) {
+	public void morph(final ArenaObject morphInto, final int x, final int y, final int z, final int w) {
 		final var app = LaserTankEE.getApplication();
 		final var m = app.getArenaManager().getArena();
 		try {
@@ -1480,7 +1480,7 @@ public class Game extends Screen {
 		this.outputPane.repaint();
 	}
 
-	public void remoteDelayedDecayTo(final AbstractArenaObject obj) {
+	public void remoteDelayedDecayTo(final ArenaObject obj) {
 		this.delayedDecayActive = true;
 		this.delayedDecayObject = obj;
 		this.remoteDecay = true;
@@ -1997,7 +1997,7 @@ public class Game extends Screen {
 	}
 
 	public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
-			final int z2, final AbstractMovableObject pushedInto, final AbstractArenaObject source) {
+			final int z2, final AbstractMovableObject pushedInto, final ArenaObject source) {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
 		final var app = LaserTankEE.getApplication();
 		final var m = app.getArenaManager().getArena();

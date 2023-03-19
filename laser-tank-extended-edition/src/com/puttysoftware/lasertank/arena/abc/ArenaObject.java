@@ -35,7 +35,7 @@ import com.puttysoftware.lasertank.index.RangeType;
 import com.puttysoftware.lasertank.locale.global.DataLoaderString;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
-public class AbstractArenaObject {
+public class ArenaObject {
 	private static class ObjectImageResolver {
 		public static String getImageName(final GameObjectID objID) {
 			return Integer.toString(objID.ordinal());
@@ -81,12 +81,12 @@ public class AbstractArenaObject {
 	private GameColor color;
 	private int index;
 	private boolean imageEnabled;
-	private AbstractArenaObject savedObject;
-	private AbstractArenaObject previousState;
+	private ArenaObject savedObject;
+	private ArenaObject previousState;
 	private GameObjectID gameObjectID;
 
 	// Constructors
-	public AbstractArenaObject() {
+	public ArenaObject() {
 		this.type = new BitSet(GameTypeHelper.COUNT);
 		this.timerValue = 0;
 		this.timerActive = false;
@@ -97,7 +97,7 @@ public class AbstractArenaObject {
 		this.index = 0;
 	}
 
-	public AbstractArenaObject(final GameObjectID goid) {
+	public ArenaObject(final GameObjectID goid) {
 		this.type = new BitSet(GameTypeHelper.COUNT);
 		this.timerValue = 0;
 		this.timerActive = false;
@@ -122,7 +122,7 @@ public class AbstractArenaObject {
 		this.type.set(newType.ordinal());
 	}
 
-	public AbstractArenaObject attributeGameRenderHook() {
+	public ArenaObject attributeGameRenderHook() {
 		return null;
 	}
 
@@ -139,15 +139,15 @@ public class AbstractArenaObject {
 	 * @param materialID
 	 * @return
 	 */
-	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+	public ArenaObject changesToOnExposure(final Material materialID) {
 		return this;
 	}
 
 	// Methods
 	@Override
-	public AbstractArenaObject clone() {
+	public ArenaObject clone() {
 		try {
-			final AbstractArenaObject copy = this.getClass().getConstructor().newInstance();
+			final ArenaObject copy = this.getClass().getConstructor().newInstance();
 			copy.type = (BitSet) this.type.clone();
 			copy.timerValue = this.timerValue;
 			copy.timerActive = this.timerActive;
@@ -190,7 +190,7 @@ public class AbstractArenaObject {
 		// Do nothing
 	}
 
-	public AbstractArenaObject editorPropertiesHook() {
+	public ArenaObject editorPropertiesHook() {
 		if (this.hasDirection()) {
 			this.toggleDirection();
 			return this;
@@ -213,7 +213,7 @@ public class AbstractArenaObject {
 		if (this == obj) {
 			return true;
 		}
-		if (obj == null || !(obj instanceof final AbstractArenaObject other)) {
+		if (obj == null || !(obj instanceof final ArenaObject other)) {
 			return false;
 		}
 		if (!Objects.equals(this.type, other.type)) {
@@ -241,7 +241,7 @@ public class AbstractArenaObject {
 	}
 
 	public int getCustomProperty(final int propID) {
-        return AbstractArenaObject.DEFAULT_CUSTOM_VALUE;
+        return ArenaObject.DEFAULT_CUSTOM_VALUE;
     }
 
 	public String getCustomText() {
@@ -298,11 +298,11 @@ public class AbstractArenaObject {
 		return GameObjectData.getMinimumReactionForce(this.getMaterial());
 	}
 
-	public final AbstractArenaObject getPreviousState() {
+	public final ArenaObject getPreviousState() {
 		return this.previousState;
 	}
 
-	public final AbstractArenaObject getSavedObject() {
+	public final ArenaObject getSavedObject() {
 		return this.savedObject;
 	}
 
@@ -613,13 +613,13 @@ public class AbstractArenaObject {
 		return false;
 	}
 
-	public final AbstractArenaObject readArenaObjectG2(final DataIOReader reader, final String ident,
+	public final ArenaObject readArenaObjectG2(final DataIOReader reader, final String ident,
 			final GameFormat formatVersion) throws IOException {
 		if (!ident.equals(this.getIdentifier())) {
 			return null;
 		}
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			this.direction = Direction.values()[reader.readInt()];
 			reader.readInt();
 			this.color = GameColorHelper.fromOrdinal(reader.readInt());
@@ -634,13 +634,13 @@ public class AbstractArenaObject {
 		return this;
 	}
 
-	public final AbstractArenaObject readArenaObjectG3(final DataIOReader reader, final String ident,
+	public final ArenaObject readArenaObjectG3(final DataIOReader reader, final String ident,
 			final GameFormat formatVersion) throws IOException {
 		if (!ident.equals(this.getIdentifier())) {
 			return null;
 		}
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			this.direction = Direction.values()[reader.readInt()];
 			this.color = GameColorHelper.fromOrdinal(reader.readInt());
 			// Discard material
@@ -658,13 +658,13 @@ public class AbstractArenaObject {
 		return this;
 	}
 
-	public final AbstractArenaObject readArenaObjectG4(final DataIOReader reader, final String ident,
+	public final ArenaObject readArenaObjectG4(final DataIOReader reader, final String ident,
 			final GameFormat formatVersion) throws IOException {
 		if (!ident.equals(this.getIdentifier())) {
 			return null;
 		}
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			this.direction = Direction.values()[reader.readInt()];
 			this.color = GameColorHelper.fromOrdinal(reader.readInt());
 			return this.readArenaObjectHookG4(reader, formatVersion);
@@ -678,13 +678,13 @@ public class AbstractArenaObject {
 		return this;
 	}
 
-	public final AbstractArenaObject readArenaObjectG5(final DataIOReader reader, final String ident,
+	public final ArenaObject readArenaObjectG5(final DataIOReader reader, final String ident,
 			final GameFormat formatVersion) throws IOException {
 		if (!ident.equals(this.getIdentifier())) {
 			return null;
 		}
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			this.direction = Direction.values()[reader.readInt()];
 			this.color = GameColorHelper.fromOrdinal(reader.readInt());
 			return this.readArenaObjectHookG5(reader, formatVersion);
@@ -698,13 +698,13 @@ public class AbstractArenaObject {
 		return this;
 	}
 
-	public final AbstractArenaObject readArenaObjectG6(final DataIOReader reader, final String ident,
+	public final ArenaObject readArenaObjectG6(final DataIOReader reader, final String ident,
 			final GameFormat formatVersion) throws IOException {
 		if (!ident.equals(this.getIdentifier())) {
 			return null;
 		}
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			this.direction = Direction.values()[reader.readInt()];
 			this.color = GameColorHelper.fromOrdinal(reader.readInt());
 			return this.readArenaObjectHookG6(reader, formatVersion);
@@ -725,7 +725,7 @@ public class AbstractArenaObject {
 	 * @return
 	 * @throws IOException
 	 */
-	protected AbstractArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
+	protected ArenaObject readArenaObjectHookG2(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		// Dummy implementation, subclasses can override
 		return this;
@@ -738,7 +738,7 @@ public class AbstractArenaObject {
 	 * @return
 	 * @throws IOException
 	 */
-	protected AbstractArenaObject readArenaObjectHookG3(final DataIOReader reader, final GameFormat formatVersion)
+	protected ArenaObject readArenaObjectHookG3(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		// Dummy implementation, subclasses can override
 		return this;
@@ -751,7 +751,7 @@ public class AbstractArenaObject {
 	 * @return
 	 * @throws IOException
 	 */
-	protected AbstractArenaObject readArenaObjectHookG4(final DataIOReader reader, final GameFormat formatVersion)
+	protected ArenaObject readArenaObjectHookG4(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		// Dummy implementation, subclasses can override
 		return this;
@@ -764,7 +764,7 @@ public class AbstractArenaObject {
 	 * @return
 	 * @throws IOException
 	 */
-	protected AbstractArenaObject readArenaObjectHookG5(final DataIOReader reader, final GameFormat formatVersion)
+	protected ArenaObject readArenaObjectHookG5(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		// Dummy implementation, subclasses can override
 		return this;
@@ -777,7 +777,7 @@ public class AbstractArenaObject {
 	 * @return
 	 * @throws IOException
 	 */
-	protected AbstractArenaObject readArenaObjectHookG6(final DataIOReader reader, final GameFormat formatVersion)
+	protected ArenaObject readArenaObjectHookG6(final DataIOReader reader, final GameFormat formatVersion)
 			throws IOException {
 		// Dummy implementation, subclasses can override
 		return this;
@@ -803,11 +803,11 @@ public class AbstractArenaObject {
 		this.index = 1;
 	}
 
-	public final void setPreviousState(final AbstractArenaObject obj) {
+	public final void setPreviousState(final ArenaObject obj) {
 		this.previousState = obj;
 	}
 
-	public final void setSavedObject(final AbstractArenaObject obj) {
+	public final void setSavedObject(final ArenaObject obj) {
 		this.savedObject = obj;
 	}
 
@@ -845,7 +845,7 @@ public class AbstractArenaObject {
 	public final void writeArenaObject(final DataIOWriter writer) throws IOException {
 		writer.writeString(this.getIdentifier());
 		final var cc = this.getCustomFormat();
-		if (cc == AbstractArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
+		if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 			writer.writeInt(this.direction.ordinal());
 			writer.writeInt(this.color.ordinal());
 			this.writeArenaObjectHook(writer);

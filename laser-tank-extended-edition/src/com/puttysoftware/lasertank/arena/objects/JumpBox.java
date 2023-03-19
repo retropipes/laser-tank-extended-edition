@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import java.awt.Color;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.GameType;
@@ -20,7 +20,7 @@ public class JumpBox extends AbstractJumpObject {
     }
 
     @Override
-    public AbstractArenaObject changesToOnExposure(final Material materialID) {
+    public ArenaObject changesToOnExposure(final Material materialID) {
         return switch (materialID) {
             case ICE -> {
                 final var ib = new IcyBox();

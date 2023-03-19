@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.arena.abc;
 
 import com.puttysoftware.lasertank.index.GameType;
 
-public abstract class AbstractWall extends AbstractArenaObject {
+public abstract class AbstractWall extends ArenaObject {
     // Constructors
     protected AbstractWall() {
         super();

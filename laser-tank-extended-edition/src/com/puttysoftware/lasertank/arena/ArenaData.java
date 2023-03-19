@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
@@ -63,16 +63,16 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract void clearVirtualGrid(final Arena arena);
 
-    public abstract void fill(final Arena arena, final AbstractArenaObject fillWith);
+    public abstract void fill(final Arena arena, final ArenaObject fillWith);
 
-    public abstract void fillNulls(final Arena arena, final AbstractArenaObject fill1, final AbstractArenaObject fill2,
+    public abstract void fillNulls(final Arena arena, final ArenaObject fill1, final ArenaObject fill2,
             final boolean was16);
 
-    public abstract void fillSTSNulls(final AbstractArenaObject fillWith);
+    public abstract void fillSTSNulls(final ArenaObject fillWith);
 
     public abstract void fillVirtual();
 
-    public abstract int[] findObject(final Arena arena, final int z, final AbstractArenaObject target);
+    public abstract int[] findObject(final Arena arena, final int z, final ArenaObject target);
 
     public abstract int[] findPlayer(final Arena arena, final int number);
 
@@ -92,7 +92,7 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract void fullScanKillTanks(final Arena arena);
 
-    public abstract AbstractArenaObject getCell(final Arena arena, final int row, final int col, final int floor,
+    public abstract ArenaObject getCell(final Arena arena, final int row, final int col, final int floor,
             final int layer);
 
     public abstract int getColumns();
@@ -101,7 +101,7 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract int getRows();
 
-    public abstract AbstractArenaObject getVirtualCell(final Arena arena, final int row, final int col, final int floor,
+    public abstract ArenaObject getVirtualCell(final Arena arena, final int row, final int col, final int floor,
             final int layer);
 
     public abstract HistoryStatus getWhatWas();
@@ -173,9 +173,9 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract void resetHistoryEngine();
 
-    public abstract void resize(final Arena arena, final int zIn, final AbstractArenaObject nullFill);
+    public abstract void resize(final Arena arena, final int zIn, final ArenaObject nullFill);
 
-    public abstract void resizeSavedState(final int z, final AbstractArenaObject nullFill);
+    public abstract void resizeSavedState(final int z, final ArenaObject nullFill);
 
     public abstract void restore(final Arena arena);
 
@@ -183,12 +183,12 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract void setAllDirtyFlags();
 
-    public abstract void setCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col,
+    public abstract void setCell(final Arena arena, final ArenaObject mo, final int row, final int col,
             final int floor, final int layer);
 
     public abstract void setDirtyFlags(final int floor);
 
-    public abstract void setVirtualCell(final Arena arena, final AbstractArenaObject mo, final int row, final int col,
+    public abstract void setVirtualCell(final Arena arena, final ArenaObject mo, final int row, final int col,
             final int floor, final int layer);
 
     public abstract void tickTimers(final Arena arena, final int floor, final GameAction actionType);

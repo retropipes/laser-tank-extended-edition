@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -14,7 +14,7 @@ import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
 
 final class MovingObjectTracker {
-	private static boolean checkSolid(final AbstractArenaObject next) {
+	private static boolean checkSolid(final ArenaObject next) {
 		final var nextSolid = next.isConditionallySolid();
 		if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
 			return true;
@@ -26,8 +26,8 @@ final class MovingObjectTracker {
 	private boolean objectMoving;
 	private int objCumX, objCumY, objIncX, objIncY;
 	private int objMultX, objMultY;
-	private AbstractArenaObject belowUpper;
-	private AbstractArenaObject belowLower;
+	private ArenaObject belowUpper;
+	private ArenaObject belowLower;
 	private AbstractMovableObject movingObj;
 	private boolean objectCheck;
 	private boolean objectNewlyActivated;

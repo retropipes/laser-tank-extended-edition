@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractAttribute;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -22,7 +22,7 @@ public class Cloak extends AbstractAttribute {
     }
 
     @Override
-    public AbstractArenaObject attributeGameRenderHook() {
+    public ArenaObject attributeGameRenderHook() {
         return new Empty();
     }
 

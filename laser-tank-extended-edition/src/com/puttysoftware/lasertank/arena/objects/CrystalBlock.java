@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractArenaObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractReactionWall;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -26,7 +26,7 @@ public class CrystalBlock extends AbstractReactionWall {
 	}
 
 	@Override
-	public AbstractArenaObject changesToOnExposure(final Material materialID) {
+	public ArenaObject changesToOnExposure(final Material materialID) {
 		return switch (materialID) {
 			case ICE -> {
 				final var icb = new IcyCrystalBlock();
