@@ -8,6 +8,7 @@ import com.puttysoftware.lasertank.helper.MaterialHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameObjectID;
+import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.locale.global.DataLoaderString;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -281,6 +282,28 @@ public class DataLoader {
 		} else {
 			return false;
 		}
+	}
+
+	public static GameType[] loadTypes(final GameObjectID objID) {
+		final var fallback = new GameType[] { GameType.NONE };
+		final var data = DataLoader.load(DataFile.TYPES);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return fallback;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return fallback;
+		}
+		if (!value.contains(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR))) {
+			return new GameType[] { GameType.values()[Integer.parseInt(value)] };
+		}
+		final var split = value.split(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR));
+		final var res = new GameType[split.length];
+		for (var r = 0; r < res.length; r++) {
+			res[r] = GameType.values()[Integer.parseInt(split[r])];
+		}
+		return res;
 	}
 
 	public static int loadWeight(final GameObjectID objID) {

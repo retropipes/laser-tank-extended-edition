@@ -1,7 +1,5 @@
 package com.puttysoftware.lasertank.datatype;
 
-import java.util.Locale;
-
 enum DataFile {
     SOLID,
     DIRECTION,
@@ -17,9 +15,10 @@ enum DataFile {
     LETHAL,
     REFLECT,
     ACCEPT_TICK,
-    NAVIGATE;
+    NAVIGATE,
+    TYPES;
 
     public String getName() {
-        return this.toString().toLowerCase(Locale.ENGLISH);
+        return Integer.toString(this.ordinal());
     }
 }
