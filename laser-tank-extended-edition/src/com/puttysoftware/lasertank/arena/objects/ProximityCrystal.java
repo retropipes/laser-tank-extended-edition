@@ -20,7 +20,6 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class ProximityCrystal extends AbstractReactionWall {
 	// Constructors
 	public ProximityCrystal() {
-		this.addType(GameType.BARREL);
 	}
 
 	@Override

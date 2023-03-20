@@ -5,11 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractSpell extends ArenaObject {
     // Constructors
     protected AbstractSpell() {
-        this.addType(GameType.SPELL);
     }
 }

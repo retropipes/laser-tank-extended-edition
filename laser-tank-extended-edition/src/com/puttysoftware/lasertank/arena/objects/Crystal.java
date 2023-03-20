@@ -65,7 +65,6 @@ public class Crystal extends AbstractReactionWall {
 
 	// Constructors
 	public Crystal() {
-		this.addType(GameType.BARREL);
 		this.destroyed = false;
 	}
 

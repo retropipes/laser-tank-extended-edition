@@ -5,11 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractAllButtonDoor extends AbstractButtonDoor {
     // Constructors
     protected AbstractAllButtonDoor() {
-        this.addType(GameType.ALL_BUTTON_DOOR);
     }
 }

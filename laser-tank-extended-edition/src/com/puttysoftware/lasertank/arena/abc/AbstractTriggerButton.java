@@ -9,13 +9,11 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractTriggerButton extends AbstractButton {
 	// Constructors
 	protected AbstractTriggerButton(final AbstractTriggerButtonDoor tbd, final boolean isUniversal) {
 		super(tbd, isUniversal);
-		this.addType(GameType.TRIGGER_BUTTON);
 	}
 
 	@Override

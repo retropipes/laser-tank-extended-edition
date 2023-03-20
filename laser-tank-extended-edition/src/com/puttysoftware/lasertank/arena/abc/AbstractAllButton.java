@@ -8,13 +8,11 @@ package com.puttysoftware.lasertank.arena.abc;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractAllButton extends AbstractButton {
 	// Constructors
 	protected AbstractAllButton(final AbstractAllButtonDoor abd, final boolean isUniversal) {
 		super(abd, isUniversal);
-		this.addType(GameType.ALL_BUTTON);
 	}
 
 	@Override

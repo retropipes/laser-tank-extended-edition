@@ -5,11 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractKey extends ArenaObject {
     // Constructors
     protected AbstractKey() {
-        this.addType(GameType.KEY);
     }
 }

@@ -9,13 +9,11 @@ import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 
 public class StairsUp extends ArenaObject {
     // Constructors
     public StairsUp() {
         super();
-        this.addType(GameType.TELEPORT);
     }
 
     @Override

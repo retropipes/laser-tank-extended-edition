@@ -19,7 +19,6 @@ public class MagneticBox3 extends AbstractMovableObject {
 	public MagneticBox3() {
 		super();
 		this.addType(GameType.BOX);
-		this.addType(GameType.MAGNETIC_BOX);
 	}
 
 	@Override

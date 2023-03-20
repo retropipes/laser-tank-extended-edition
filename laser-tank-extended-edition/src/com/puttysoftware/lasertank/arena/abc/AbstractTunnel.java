@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.index.GameColor;
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractTunnel extends ArenaObject {
 	// Fields
@@ -49,7 +48,6 @@ public abstract class AbstractTunnel extends ArenaObject {
 	// Constructors
 	protected AbstractTunnel() {
 		super();
-		this.addType(GameType.TUNNEL);
 	}
 
 	@Override

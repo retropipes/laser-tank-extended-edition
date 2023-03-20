@@ -12,14 +12,12 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class WildWall extends AbstractWall {
 	// Constructors
 	public WildWall() {
-		this.addType(GameType.PLAIN_WALL);
 	}
 
 	@Override

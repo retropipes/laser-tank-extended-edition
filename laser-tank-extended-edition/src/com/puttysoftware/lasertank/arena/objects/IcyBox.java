@@ -18,7 +18,6 @@ public class IcyBox extends AbstractMovableObject {
 	public IcyBox() {
 		super();
 		this.addType(GameType.BOX);
-		this.addType(GameType.ICY);
 	}
 
 	@Override

@@ -5,11 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractAttribute extends AbstractPassThroughObject {
     // Constructors
     protected AbstractAttribute() {
-        this.addType(GameType.ATTRIBUTE);
     }
 }

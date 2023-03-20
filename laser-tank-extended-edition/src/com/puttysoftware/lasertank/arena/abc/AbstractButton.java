@@ -8,7 +8,6 @@ package com.puttysoftware.lasertank.arena.abc;
 import java.util.Objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractButton extends ArenaObject {
 	// Fields
@@ -25,7 +24,6 @@ public abstract class AbstractButton extends ArenaObject {
 		this.doorY = -1;
 		this.buttonDoor = bd;
 		this.universal = isUniversal;
-		this.addType(GameType.BUTTON);
 	}
 
 	public boolean boundButtonDoorEquals(final AbstractButton other) {

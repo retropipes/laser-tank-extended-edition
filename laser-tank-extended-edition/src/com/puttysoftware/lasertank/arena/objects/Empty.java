@@ -7,12 +7,10 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abc.AbstractPassThroughObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 
 public class Empty extends AbstractPassThroughObject {
     // Constructors
     public Empty() {
-        this.addType(GameType.EMPTY_SPACE);
     }
 
     @Override

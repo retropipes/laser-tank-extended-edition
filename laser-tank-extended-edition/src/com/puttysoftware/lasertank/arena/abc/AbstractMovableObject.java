@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameFormat;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
@@ -27,7 +26,6 @@ public abstract class AbstractMovableObject extends ArenaObject {
 		super();
 		this.setSavedObject(new Empty());
 		this.waitingOnTunnel = false;
-		this.addType(GameType.MOVABLE);
 	}
 
 	@Override

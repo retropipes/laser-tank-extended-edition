@@ -120,8 +120,8 @@ final class MovingObjectTracker {
 				final var oldObjIncY = this.objIncY;
 				if (this.belowUpper == null || this.belowLower == null) {
 					this.objectCheck = false;
-				} else if (jumper.isOfType(GameType.ICY)) {
-					// Handle icy objects
+				} else if (!jumper.hasFriction()) {
+					// Handle frictionless objects
 					this.objectCheck = true;
 				} else if (this.belowUpper.movesHostiles(this.belowUpper.getDirection()) && jumper.isHostile()) {
 					// Handle anti-tank on anti-tank mover
@@ -227,8 +227,8 @@ final class MovingObjectTracker {
 				final var oldObjIncY = this.objIncY;
 				if (this.belowUpper == null || this.belowLower == null) {
 					this.objectCheck = false;
-				} else if (this.movingObj.isOfType(GameType.ICY)) {
-					// Handle icy objects
+				} else if (!this.movingObj.hasFriction()) {
+					// Handle frictionless objects
 					this.objectCheck = true;
 				} else if (this.belowUpper.movesHostiles(this.belowUpper.getDirection()) && this.movingObj.isHostile()
 						|| this.belowUpper.movesBoxes(this.belowUpper.getDirection()) && this.movingObj.isOfType(GameType.BOX)) {

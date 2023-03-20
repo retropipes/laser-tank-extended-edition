@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.abc;
 
-import com.puttysoftware.lasertank.index.GameType;
 
 public abstract class AbstractDoor extends ArenaObject {
     // Fields
@@ -15,7 +14,6 @@ public abstract class AbstractDoor extends ArenaObject {
     protected AbstractDoor(final AbstractKey mgk) {
         super();
         this.key = mgk;
-        this.addType(GameType.DOOR);
     }
 
     @Override

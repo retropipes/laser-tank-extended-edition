@@ -9,7 +9,6 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.locale.Strings;
 
@@ -30,7 +29,6 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 		this.jumpRows = 0;
 		this.jumpCols = 0;
 		this.jumpShot = false;
-		this.addType(GameType.JUMP_OBJECT);
 	}
 
 	@Override

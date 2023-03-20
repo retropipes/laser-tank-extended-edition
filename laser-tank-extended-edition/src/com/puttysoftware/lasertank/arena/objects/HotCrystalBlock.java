@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -21,7 +20,6 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class HotCrystalBlock extends AbstractReactionWall {
 	// Constructors
 	public HotCrystalBlock() {
-		this.addType(GameType.PLAIN_WALL);
 	}
 
 	@Override
