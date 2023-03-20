@@ -7,7 +7,6 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -43,7 +42,7 @@ public class IceBridge extends AbstractGround {
 	}
 
 	@Override
-	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof HotBox) {
 			pushed.setSavedObject(new Bridge());
 		}

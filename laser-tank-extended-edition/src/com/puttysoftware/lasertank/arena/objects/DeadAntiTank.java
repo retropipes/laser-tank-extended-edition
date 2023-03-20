@@ -6,14 +6,14 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
-public class DeadAntiTank extends AbstractMovableObject {
+public class DeadAntiTank extends ArenaObject {
     // Constructors
     public DeadAntiTank() {
         super();
@@ -35,10 +35,5 @@ public class DeadAntiTank extends AbstractMovableObject {
         Sounds.play(Sound.BOOM);
         LaserTankEE.getApplication().getGameManager().morph(this.getSavedObject(), locX, locY, locZ, this.getLayer());
         return Direction.NONE;
-    }
-
-    @Override
-    public void playSoundHook() {
-        // Do nothing
     }
 }

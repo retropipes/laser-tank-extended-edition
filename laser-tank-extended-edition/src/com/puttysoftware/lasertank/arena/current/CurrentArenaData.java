@@ -18,9 +18,6 @@ import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.DeadAntiTank;
 import com.puttysoftware.lasertank.arena.objects.Empty;
@@ -440,7 +437,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public void checkForEnemies(final Arena arena, final int floorIn, final int enemyLocXIn, final int enemyLocYIn,
-			final AbstractCharacter enemy) {
+			final ArenaObject enemy) {
 		final var template = new AntiTank();
 		var enemyLocX = enemyLocXIn;
 		var enemyLocY = enemyLocYIn;
@@ -609,7 +606,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public int[] circularScanTunnel(final Arena arena, final int xIn, final int yIn, final int zIn, final int r,
-			final int tx, final int ty, final AbstractTunnel target, final boolean moved) {
+			final int tx, final int ty, final ArenaObject target, final boolean moved) {
 		var xFix = xIn;
 		var yFix = yIn;
 		var zFix = zIn;
@@ -1566,7 +1563,7 @@ public final class CurrentArenaData extends ArenaData {
 		}
 		int x, y, z, w;
 		// Tick all ArenaObject timers
-		AbstractTunnel.checkTunnels();
+		ArenaObject.checkTunnels();
 		for (z = Direction.NORTH.ordinal(); z <= Direction.NORTHWEST.ordinal(); z += 2) {
 			for (x = 0; x < this.getColumns(); x++) {
 				for (y = 0; y < this.getRows(); y++) {
@@ -1574,15 +1571,15 @@ public final class CurrentArenaData extends ArenaData {
 						final var mo = this.getCell(arena, y, x, floorFix, w);
 						if (mo != null && z == Direction.NORTH.ordinal()) {
 							// Handle objects waiting for a tunnel to open
-							if (mo instanceof final AbstractMovableObject gmo) {
+							if (mo instanceof final ArenaObject gmo) {
 								final var saved = gmo.getSavedObject();
-								if (saved instanceof AbstractTunnel) {
+								if (saved instanceof ArenaObject) {
 									final var color = saved.getColor();
-									if (gmo.waitingOnTunnel() && !AbstractTunnel.tunnelsFull(color)) {
+									if (gmo.waitingOnTunnel() && !ArenaObject.tunnelsFull(color)) {
 										gmo.setWaitingOnTunnel(false);
 										saved.pushIntoAction(gmo, y, x, floorFix);
 									}
-									if (AbstractTunnel.tunnelsFull(color)) {
+									if (ArenaObject.tunnelsFull(color)) {
 										gmo.setWaitingOnTunnel(true);
 									}
 								}

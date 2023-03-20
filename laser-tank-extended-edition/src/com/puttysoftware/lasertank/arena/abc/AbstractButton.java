@@ -139,10 +139,10 @@ public abstract class AbstractButton extends ArenaObject {
 	}
 
 	@Override
-	public abstract boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z);
+	public abstract boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z);
 
 	@Override
-	public abstract void pushOutAction(final AbstractMovableObject pushed, final int x, final int y, final int z);
+	public abstract void pushOutAction(final ArenaObject pushed, final int x, final int y, final int z);
 
 	@Override
 	public void setCustomProperty(final int propID, final int value) {

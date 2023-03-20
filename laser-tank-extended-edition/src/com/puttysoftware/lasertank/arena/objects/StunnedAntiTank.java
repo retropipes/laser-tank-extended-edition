@@ -7,12 +7,11 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class StunnedAntiTank extends AbstractMovableObject {
+public class StunnedAntiTank extends ArenaObject {
 	private static final int STUNNED_START = 10;
 	// Fields
 	private int stunnedLeft;
@@ -37,8 +36,8 @@ public class StunnedAntiTank extends AbstractMovableObject {
 	}
 
 	@Override
-	public void playSoundHook() {
-		Sounds.play(Sound.PUSH_ANTI_TANK);
+	public Sound laserEnteredSound() {
+		return Sound.PUSH_ANTI_TANK;
 	}
 
 	@Override

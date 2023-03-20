@@ -7,8 +7,6 @@ import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;
@@ -39,7 +37,7 @@ public abstract class ArenaData implements Cloneable {
     }
 
     public abstract void checkForEnemies(final Arena arena, final int floorIn, final int enemyLocXIn,
-            final int enemyLocYIn, final AbstractCharacter enemy);
+            final int enemyLocYIn, final ArenaObject enemy);
 
     public abstract int checkForMagnetic(final Arena arena, final int floor, final int centerX, final int centerY,
             final Direction dir);
@@ -53,7 +51,7 @@ public abstract class ArenaData implements Cloneable {
     public abstract boolean circularScanTank(final Arena arena, final int x, final int y, final int z, final int r);
 
     public abstract int[] circularScanTunnel(final Arena arena, final int x, final int y, final int z, final int maxR,
-            final int tx, final int ty, final AbstractTunnel target, final boolean moved);
+            final int tx, final int ty, final ArenaObject target, final boolean moved);
 
     public abstract void clearDirtyFlags(final int floor);
 

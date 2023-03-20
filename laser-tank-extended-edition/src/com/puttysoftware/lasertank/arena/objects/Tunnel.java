@@ -5,11 +5,11 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class Tunnel extends AbstractTunnel {
+public class Tunnel extends ArenaObject {
     // Constructors
     public Tunnel() {
         this.setColor(GameColor.GRAY);

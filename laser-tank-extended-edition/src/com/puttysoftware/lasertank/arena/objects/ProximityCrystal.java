@@ -6,8 +6,8 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractReactionWall;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -49,7 +49,7 @@ public class ProximityCrystal extends AbstractReactionWall {
 	}
 
 	@Override
-	public void pushCollideAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public void pushCollideAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// React to balls hitting barrels
 		if (pushed.canRoll()) {
 			this.laserEnteredAction(x, y, z, 0, 0, LaserType.GREEN, 1);

@@ -32,9 +32,35 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class ArenaObject {
 	static final int DEFAULT_CUSTOM_VALUE = 0;
 	protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
+	private final static boolean[] tunnelsFull = new boolean[GameColorHelper.COUNT];
+	private final static int TUNNEL_SCAN_RADIUS = 24;
 
 	public static final int getImbuedForce(final Material materialID) {
 		return GameObjectData.getImbuedForce(materialID);
+	}
+
+	public static void checkTunnels() {
+		for (var x = 0; x < GameColorHelper.COUNT; x++) {
+			checkTunnelsOfColor(GameColorHelper.fromOrdinal(x));
+		}
+	}
+
+	private static void checkTunnelsOfColor(final GameColor color) {
+		final var app = LaserTankEE.getApplication();
+		final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+		final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+		final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(0, 0, 0,
+				TUNNEL_SCAN_RADIUS,
+				tx, ty, getTunnelOfColor(color), false);
+		tunnelsFull[color.ordinal()] = (pgrmdest != null);
+	}
+
+	private static ArenaObject getTunnelOfColor(final GameColor color) {
+		return new ArenaObject(GameObjectID.TUNNEL, color);
+	}
+
+	public static boolean tunnelsFull(final GameColor color) {
+		return tunnelsFull[color.ordinal()];
 	}
 
 	// Properties
@@ -48,6 +74,7 @@ public class ArenaObject {
 	private ArenaObject savedObject;
 	private ArenaObject previousState;
 	private GameObjectID gameObjectID;
+	private boolean waitingOnTunnel;
 
 	// Constructors
 	public ArenaObject() {
@@ -58,6 +85,7 @@ public class ArenaObject {
 		this.color = GameColor.NONE;
 		this.imageEnabled = true;
 		this.index = 0;
+		this.waitingOnTunnel = false;
 	}
 
 	public ArenaObject(final GameObjectID goid) {
@@ -69,6 +97,19 @@ public class ArenaObject {
 		this.imageEnabled = true;
 		this.index = 0;
 		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
+	}
+
+	public ArenaObject(final GameObjectID goid, final GameColor newColor) {
+		this.timerValue = 0;
+		this.timerActive = false;
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = this.getInitialDirection();
+		this.color = newColor;
+		this.imageEnabled = true;
+		this.index = 0;
+		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
 	}
 
 	public final boolean acceptTick(final GameAction actionType) {
@@ -328,6 +369,10 @@ public class ArenaObject {
 		return GameObjectData.isSolid(this.getID());
 	}
 
+	public final boolean isTunnel() {
+		return this.getID() == GameObjectID.TUNNEL;
+	}
+
 	public final boolean killsOnMove() {
 		return GameObjectData.killsOnMove(this.getID(), this.index);
 	}
@@ -349,6 +394,43 @@ public class ArenaObject {
 	 */
 	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType, final int forceUnits) {
+		if (this.canMove()) {
+			final var app = LaserTankEE.getApplication();
+			if (forceUnits < this.getMinimumReactionForce()) {
+				// Not enough force
+				return Direction.NONE;
+			}
+			try {
+				final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ, this.getLayer());
+				final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+				if (this.getMaterial() == Material.MAGNETIC) {
+					if (laserType == LaserType.BLUE && mof != null
+							&& (mof.canControl() || !mof.isSolid())) {
+						app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+					} else if (mor != null && (mor.canControl() || !mor.isSolid())) {
+						app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+					} else {
+						// Object doesn't react to this type of laser
+						return Direction.NONE;
+					}
+				} else {
+					if (laserType == LaserType.BLUE && mor != null
+							&& (mor.canControl() || !mor.isSolid())) {
+						app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+					} else if (mof != null && (mof.canControl() || !mof.isSolid())) {
+						app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+					} else {
+						// Object doesn't react to this type of laser
+						return Direction.NONE;
+					}
+				}
+				Sounds.play(this.laserEnteredSound());
+			} catch (final ArrayIndexOutOfBoundsException aioobe) {
+				// Object can't go that way
+				return Direction.NONE;
+			}
+			return Direction.NONE;
+		}
 		final var dir = DirectionHelper.resolveRelative(dirX, dirY);
 		if (this.isSolid()) {
 			if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
@@ -357,7 +439,7 @@ public class ArenaObject {
 							locY + dirY, locZ, this.getLayer());
 					final var nextObj2 = LaserTankEE.getApplication().getArenaManager().getArena()
 							.getCell(locX + dirX * 2, locY + dirY * 2, locZ, this.getLayer());
-					if (this instanceof final AbstractMovableObject gmo && nextObj instanceof AbstractMovableObject gmo2
+					if (this instanceof final ArenaObject gmo && nextObj instanceof ArenaObject gmo2
 							&& nextObj.canMove()
 							&& (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
 						LaserTankEE.getApplication().getGameManager().updatePushedPositionLater(locX, locY, dirX, dirY,
@@ -387,6 +469,10 @@ public class ArenaObject {
 			return this.direction;
 		}
 		return DirectionHelper.resolveRelative(dirX, dirY);
+	}
+
+	public Sound laserEnteredSound() {
+		return null;
 	}
 
 	/**
@@ -492,6 +578,17 @@ public class ArenaObject {
 		if (n != 0) {
 			LaserTankEE.getApplication().getGameManager().updatePositionAbsoluteNoEvents(n);
 		}
+		if (this.isTunnel()) {
+			final var app = LaserTankEE.getApplication();
+			final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+			final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+			final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(dirX, dirY, dirZ,
+					TUNNEL_SCAN_RADIUS, tx, ty, getTunnelOfColor(this.getColor()), true);
+			if (pgrmdest != null) {
+				app.getGameManager().updatePositionAbsoluteNoEvents(pgrmdest[0], pgrmdest[1], pgrmdest[2]);
+				Sounds.play(Sound.WARP_TANK);
+			}
+		}
 		this.postMoveActionHook(dirX, dirY, dirZ);
 	}
 	
@@ -506,7 +603,7 @@ public class ArenaObject {
 	 * @param y
 	 * @param z
 	 */
-	public void pushCollideAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public void pushCollideAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Do nothing
 	}
 
@@ -524,7 +621,26 @@ public class ArenaObject {
 	 * @param z
 	 * @return
 	 */
-	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
+		if (this.isTunnel()) {
+			final var app = LaserTankEE.getApplication();
+			final var tx = app.getGameManager().getPlayerManager().getPlayerLocationX();
+			final var ty = app.getGameManager().getPlayerManager().getPlayerLocationY();
+			final var color = this.getColor();
+			final var pgrmdest = app.getArenaManager().getArena().circularScanTunnel(x, y, z,
+					TUNNEL_SCAN_RADIUS,
+					tx, ty, getTunnelOfColor(this.getColor()), false);
+			if (pgrmdest != null) {
+				tunnelsFull[color.ordinal()] = false;
+				app.getGameManager().updatePushedIntoPositionAbsolute(pgrmdest[0], pgrmdest[1], pgrmdest[2], x, y, z,
+						pushed, this);
+				Sounds.play(Sound.WARP_OBJECT);
+			} else {
+				tunnelsFull[color.ordinal()] = true;
+				pushed.setWaitingOnTunnel(true);
+			}
+			return false;
+		}
 		// Do nothing
 		return true;
 	}
@@ -536,7 +652,7 @@ public class ArenaObject {
 	 * @param y
 	 * @param z
 	 */
-	public void pushOutAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public void pushOutAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Do nothing
 	}
 
@@ -793,6 +909,10 @@ public class ArenaObject {
 		this.savedObject = obj;
 	}
 
+	public final void setWaitingOnTunnel(final boolean value) {
+		this.waitingOnTunnel = value;
+	}
+
 	public final boolean solvesOnMove() {
 		return GameObjectData.solvesOnMove(getID());
 	}
@@ -822,6 +942,10 @@ public class ArenaObject {
 
 	public final void toggleDirectionInvert() {
 		this.direction = DirectionHelper.previousOrthogonal(this.direction);
+	}
+
+	public final boolean waitingOnTunnel() {
+		return this.waitingOnTunnel;
 	}
 
 	public final void writeArenaObject(final DataIOWriter writer) throws IOException {

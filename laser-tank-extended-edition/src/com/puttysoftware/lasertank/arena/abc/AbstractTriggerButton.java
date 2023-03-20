@@ -17,7 +17,7 @@ public abstract class AbstractTriggerButton extends AbstractButton {
 	}
 
 	@Override
-	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		final var app = LaserTankEE.getApplication();
 		if (this.isUniversal() || pushed.getMaterial() == this.getMaterial()) {
 			Sounds.play(Sound.BUTTON);
@@ -37,7 +37,7 @@ public abstract class AbstractTriggerButton extends AbstractButton {
 	}
 
 	@Override
-	public void pushOutAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public void pushOutAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Do nothing
 	}
 }

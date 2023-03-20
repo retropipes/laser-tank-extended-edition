@@ -112,7 +112,7 @@ public abstract class AbstractCharacter extends ArenaObject {
 
     @Override
     public void timerExpiredAction(final int x, final int y) {
-        if (this.getSavedObject() instanceof AbstractMovableObject) {
+        if (this.getSavedObject().canMove()) {
             this.getSavedObject().timerExpiredAction(x, y);
         }
         this.activateTimer(1);

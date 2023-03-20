@@ -11,8 +11,6 @@ import java.io.IOException;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -66,7 +64,7 @@ public abstract class Arena {
 
     public abstract boolean addLevel();
 
-    public abstract void checkForEnemies(final int floor, final int ex, final int ey, final AbstractCharacter e);
+    public abstract void checkForEnemies(final int floor, final int ex, final int ey, final ArenaObject e);
 
     public abstract int checkForMagnetic(int floor, int centerX, int centerY, Direction dir);
 
@@ -79,7 +77,7 @@ public abstract class Arena {
     public abstract boolean circularScanTank(final int x, final int y, final int z, final int maxR);
 
     public abstract int[] circularScanTunnel(final int x, final int y, final int z, final int maxR, final int tx,
-            final int ty, final AbstractTunnel target, final boolean moved);
+            final int ty, final ArenaObject target, final boolean moved);
 
     public abstract void clearDirtyFlags(int floor);
 

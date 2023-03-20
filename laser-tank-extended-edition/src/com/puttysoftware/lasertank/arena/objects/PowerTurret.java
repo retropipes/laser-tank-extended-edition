@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
@@ -15,7 +15,7 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
-public class PowerTurret extends AbstractMovableObject {
+public class PowerTurret extends ArenaObject {
 	// Fields
 	private boolean autoMove;
 	private boolean canShoot;
@@ -86,8 +86,8 @@ public class PowerTurret extends AbstractMovableObject {
 	}
 
 	@Override
-	public void playSoundHook() {
-		Sounds.play(Sound.PUSH_ANTI_TANK);
+	public Sound laserEnteredSound() {
+		return Sound.PUSH_ANTI_TANK;
 	}
 
 	@Override

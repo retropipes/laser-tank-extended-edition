@@ -6,14 +6,14 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
-public class MagneticBox2 extends AbstractMovableObject {
+public class MagneticBox2 extends ArenaObject {
 	// Constructors
 	public MagneticBox2() {
 		super();
@@ -31,10 +31,10 @@ public class MagneticBox2 extends AbstractMovableObject {
 		final var mo = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 		if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
 			app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-			this.playSoundHook();
+			Sounds.play(this.laserEnteredSound());
 		} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
 			app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-			this.playSoundHook();
+			Sounds.play(this.laserEnteredSound());
 		} else if (laserType == LaserType.MISSILE) {
 			Sounds.play(Sound.BOOM);
 		} else {
@@ -44,7 +44,7 @@ public class MagneticBox2 extends AbstractMovableObject {
 	}
 
 	@Override
-	public void playSoundHook() {
-		Sounds.play(Sound.PUSH_BOX);
+	public Sound laserEnteredSound() {
+		return Sound.PUSH_BOX;
 	}
 }

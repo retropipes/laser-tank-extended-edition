@@ -23,8 +23,6 @@ import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractButton;
 import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abc.AbstractTunnel;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
@@ -121,7 +119,7 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void checkForEnemies(final int floor, final int ex, final int ey, final AbstractCharacter e) {
+	public void checkForEnemies(final int floor, final int ex, final int ey, final ArenaObject e) {
 		this.arenaData.checkForEnemies(this, floor, ex, ey, e);
 	}
 
@@ -149,7 +147,7 @@ public class CurrentArena extends Arena {
 
 	@Override
 	public int[] circularScanTunnel(final int x, final int y, final int z, final int maxR, final int tx, final int ty,
-			final AbstractTunnel target, final boolean moved) {
+			final ArenaObject target, final boolean moved) {
 		return this.arenaData.circularScanTunnel(this, x, y, z, maxR, tx, ty, target, moved);
 	}
 

@@ -39,7 +39,6 @@ import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.arena.objects.Tank;
@@ -830,7 +829,7 @@ public class Game extends Screen {
 		this.delayedDecayActive = false;
 	}
 
-	void doRemoteDelayedDecay(final AbstractMovableObject o) {
+	void doRemoteDelayedDecay(final ArenaObject o) {
 		o.setSavedObject(this.delayedDecayObject);
 		this.remoteDecay = false;
 		this.delayedDecayActive = false;
@@ -1996,7 +1995,7 @@ public class Game extends Screen {
 	}
 
 	public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
-			final int z2, final AbstractMovableObject pushedInto, final ArenaObject source) {
+			final int z2, final ArenaObject pushedInto, final ArenaObject source) {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
 		final var app = LaserTankEE.getApplication();
 		final var m = app.getArenaManager().getArena();
@@ -2035,7 +2034,7 @@ public class Game extends Screen {
 	}
 
 	public synchronized void updatePushedPosition(final int x, final int y, final int pushX, final int pushY,
-			final AbstractMovableObject o) {
+			final ArenaObject o) {
 		if (this.mlot == null || !this.mlot.isAlive()) {
 			this.mlot = new MLOTask();
 		}
@@ -2046,7 +2045,7 @@ public class Game extends Screen {
 	}
 
 	public void updatePushedPositionLater(final int x, final int y, final int pushX, final int pushY,
-			final AbstractMovableObject o, final int x2, final int y2, final AbstractMovableObject other,
+			final ArenaObject o, final int x2, final int y2, final ArenaObject other,
 			final LaserType laserType, final int forceUnits) {
 		new Thread() {
 			@Override

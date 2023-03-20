@@ -8,7 +8,6 @@ package com.puttysoftware.lasertank.game;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Layer;
 
@@ -27,7 +26,7 @@ final class MovingObjectTracker {
 	private int objMultX, objMultY;
 	private ArenaObject belowUpper;
 	private ArenaObject belowLower;
-	private AbstractMovableObject movingObj;
+	private ArenaObject movingObj;
 	private boolean objectCheck;
 	private boolean objectNewlyActivated;
 	private boolean jumpOnMover;
@@ -37,7 +36,7 @@ final class MovingObjectTracker {
 		this.resetTracker();
 	}
 
-	void activateObject(final int zx, final int zy, final int pushX, final int pushY, final AbstractMovableObject gmo) {
+	void activateObject(final int zx, final int zy, final int pushX, final int pushY, final ArenaObject gmo) {
 		final var gm = LaserTankEE.getApplication().getGameManager();
 		final var plMgr = gm.getPlayerManager();
 		final var pz = plMgr.getPlayerLocationZ();

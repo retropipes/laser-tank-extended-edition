@@ -6,13 +6,11 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
-public class PlasticBox4 extends AbstractMovableObject {
+public class PlasticBox4 extends ArenaObject {
 	// Constructors
 	public PlasticBox4() {
 		super();
@@ -37,7 +35,7 @@ public class PlasticBox4 extends AbstractMovableObject {
 	}
 
 	@Override
-	public void playSoundHook() {
-		Sounds.play(Sound.PUSH_BOX);
+	public Sound laserEnteredSound() {
+		return Sound.PUSH_BOX;
 	}
 }

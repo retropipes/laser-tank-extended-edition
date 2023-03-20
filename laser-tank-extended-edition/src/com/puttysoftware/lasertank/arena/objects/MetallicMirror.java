@@ -5,15 +5,14 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
-public class MetallicMirror extends AbstractMovableObject {
+public class MetallicMirror extends ArenaObject {
     // Constructors
     public MetallicMirror() {
         super();
@@ -42,7 +41,7 @@ public class MetallicMirror extends AbstractMovableObject {
     }
 
     @Override
-    public void playSoundHook() {
-        Sounds.play(Sound.PUSH_MIRROR);
-    }
+	public Sound laserEnteredSound() {
+		return Sound.PUSH_MIRROR;
+	}
 }

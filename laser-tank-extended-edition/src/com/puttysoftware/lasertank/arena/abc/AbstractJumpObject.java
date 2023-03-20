@@ -12,7 +12,7 @@ import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.locale.Strings;
 
-public abstract class AbstractJumpObject extends AbstractMovableObject {
+public abstract class AbstractJumpObject extends ArenaObject {
 	// Fields
 	private boolean jumpShot;
 	private boolean flip;
@@ -160,11 +160,6 @@ public abstract class AbstractJumpObject extends AbstractMovableObject {
 			}
 			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 		}
-	}
-
-	@Override
-	public void playSoundHook() {
-		// Do nothing
 	}
 
 	@Override

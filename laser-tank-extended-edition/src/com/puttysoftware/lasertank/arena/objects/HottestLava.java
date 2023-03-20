@@ -8,7 +8,6 @@ package com.puttysoftware.lasertank.arena.objects;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -34,7 +33,7 @@ public class HottestLava extends AbstractGround {
 
 	// Scriptability
 	@Override
-	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
+	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		final var app = LaserTankEE.getApplication();
 		if (pushed instanceof IcyBox) {
 			app.getGameManager().morph(new LavaBridge(), x, y, z, this.getLayer());

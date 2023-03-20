@@ -11,7 +11,6 @@ import java.util.ConcurrentModificationException;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.FrozenTank;
 import com.puttysoftware.lasertank.arena.objects.Ground;
@@ -239,7 +238,7 @@ final class MLOTask extends Thread {
 	}
 
 	void activateObjects(final int zx, final int zy, final int pushX, final int pushY,
-			final AbstractMovableObject gmo) {
+			final ArenaObject gmo) {
 		final var tracker = new MovingObjectTracker();
 		tracker.activateObject(zx, zy, pushX, pushY, gmo);
 		this.objectTrackers.add(tracker);
@@ -537,7 +536,7 @@ final class MLOTask extends Thread {
 						gm.doDelayedDecay();
 					}
 					// Preserve other objects
-					if (m.getCell(px, py, pz, pw) instanceof AbstractMovableObject) {
+					if (m.getCell(px, py, pz, pw) instanceof ArenaObject) {
 						gm.getTank().setSavedObject(m.getCell(px, py, pz, pw));
 					}
 					m.setCell(gm.getTank().getSavedObject(), px, py, pz, pw);

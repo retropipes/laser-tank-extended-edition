@@ -5,12 +5,11 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class RollingCrystal extends AbstractMovableObject {
+public class RollingCrystal extends ArenaObject {
     // Constructors
     public RollingCrystal() {
         super();
@@ -22,7 +21,7 @@ public class RollingCrystal extends AbstractMovableObject {
     }
 
     @Override
-    public void playSoundHook() {
-        Sounds.play(Sound.ROLL);
-    }
+	public Sound laserEnteredSound() {
+		return Sound.ROLL;
+	}
 }
