@@ -42,12 +42,20 @@ public class GameObjectData {
         return DataLoader.loadAcceptTick(objectID, action);
     }
 
+    public static boolean canCloak(final GameObjectID objectID) {
+        return DataLoader.loadCloak(objectID);
+    }
+
     public static boolean canControl(final GameObjectID objectID) {
         return DataLoader.loadControl(objectID);
     }
     
     public static boolean canMove(final GameObjectID objectID) {
         return DataLoader.loadMovable(objectID, Direction.NONE);
+    }
+
+    public static boolean canRoll(final GameObjectID objectID) {
+        return DataLoader.loadRoll(objectID);
     }
 
     public static boolean canShoot(final GameObjectID objectID) {
@@ -94,8 +102,16 @@ public class GameObjectData {
         return false;
     }
 
+    public static boolean isBox(final GameObjectID objectID) {
+        return DataLoader.loadBox(objectID);
+    }
+
     public static boolean isHostile(final GameObjectID objectID) {
         return DataLoader.loadHostile(objectID);
+    }
+
+    public static boolean isMovableMirror(final GameObjectID objectID, final Direction dir) {
+        return DataLoader.loadMovableMirror(objectID, dir);
     }
 
     public static boolean isPushable(final GameObjectID objectID) {

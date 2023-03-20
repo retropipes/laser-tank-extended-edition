@@ -10,7 +10,6 @@ import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
 
 final class MovingObjectTracker {
@@ -130,7 +129,7 @@ final class MovingObjectTracker {
 					this.objIncX = unres[0];
 					this.objIncY = unres[1];
 					this.objectCheck = true;
-				} else if (this.belowUpper.movesBoxes(belowUpper.getDirection()) && jumper.isOfType(GameType.BOX)) {
+				} else if (this.belowUpper.movesBoxes(belowUpper.getDirection()) && jumper.isBox()) {
 					// Handle box on box mover
 					this.jumpOnMover = true;
 					final var dir = this.belowUpper.getDirection();
@@ -139,7 +138,7 @@ final class MovingObjectTracker {
 					this.objIncY = unres[1];
 					this.objectCheck = true;
 				} else if (this.belowUpper.movesMirrors(this.belowUpper.getDirection())
-						&& this.movingObj.isOfType(GameType.MOVABLE_MIRROR)) {
+						&& this.movingObj.isMovableMirror(this.belowUpper.getDirection())) {
 					// Handle mirror on mirror mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);
@@ -231,7 +230,7 @@ final class MovingObjectTracker {
 					// Handle frictionless objects
 					this.objectCheck = true;
 				} else if (this.belowUpper.movesHostiles(this.belowUpper.getDirection()) && this.movingObj.isHostile()
-						|| this.belowUpper.movesBoxes(this.belowUpper.getDirection()) && this.movingObj.isOfType(GameType.BOX)) {
+						|| this.belowUpper.movesBoxes(this.belowUpper.getDirection()) && this.movingObj.isBox()) {
 					// Handle anti-tank on anti-tank mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);
@@ -239,7 +238,7 @@ final class MovingObjectTracker {
 					this.objIncY = unres[1];
 					this.objectCheck = true;
 				} else if (this.belowUpper.movesMirrors(this.belowUpper.getDirection())
-						&& this.movingObj.isOfType(GameType.MOVABLE_MIRROR)) {
+						&& this.movingObj.isMovableMirror(this.belowUpper.getDirection())) {
 					// Handle mirror on mirror mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);

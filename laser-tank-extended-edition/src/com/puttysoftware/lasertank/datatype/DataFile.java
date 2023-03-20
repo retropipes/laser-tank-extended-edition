@@ -21,7 +21,11 @@ enum DataFile {
     MOVES_TANKS,
     MOVES_HOSTILES,
     MOVES_BOXES,
-    MOVES_MIRRORS;
+    MOVES_MIRRORS,
+    BOX,
+    ROLL,
+    MOVABLE_MIRROR,
+    CLOAK;
 
     public String getName() {
         return Integer.toString(this.ordinal());

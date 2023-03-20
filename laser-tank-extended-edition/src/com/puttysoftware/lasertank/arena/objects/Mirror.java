@@ -11,14 +11,12 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class Mirror extends AbstractMovableObject {
     // Constructors
     public Mirror() {
         super();
-        this.addType(GameType.MOVABLE_MIRROR);
     }
 
     @Override

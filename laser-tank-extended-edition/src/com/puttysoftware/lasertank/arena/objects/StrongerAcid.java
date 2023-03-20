@@ -12,7 +12,6 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class StrongerAcid extends AbstractGround {
@@ -42,7 +41,7 @@ public class StrongerAcid extends AbstractGround {
 	@Override
 	public boolean pushIntoAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 		final var app = LaserTankEE.getApplication();
-		if (pushed.isOfType(GameType.BOX)) {
+		if (pushed.isBox()) {
 			// Get rid of pushed object
 			app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
 			if (pushed.getMaterial() == Material.WOODEN) {

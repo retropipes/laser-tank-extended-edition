@@ -11,14 +11,12 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class MagneticBox4 extends AbstractMovableObject {
 	// Constructors
 	public MagneticBox4() {
 		super();
-		this.addType(GameType.BOX);
 	}
 
 	@Override

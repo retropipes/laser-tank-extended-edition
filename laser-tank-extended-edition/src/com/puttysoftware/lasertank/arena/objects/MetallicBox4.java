@@ -10,14 +10,12 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class MetallicBox4 extends AbstractMovableObject {
 	// Constructors
 	public MetallicBox4() {
 		super();
-		this.addType(GameType.BOX);
 	}
 
 	@Override

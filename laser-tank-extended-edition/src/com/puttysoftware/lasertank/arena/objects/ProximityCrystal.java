@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
@@ -52,7 +51,7 @@ public class ProximityCrystal extends AbstractReactionWall {
 	@Override
 	public void pushCollideAction(final AbstractMovableObject pushed, final int x, final int y, final int z) {
 		// React to balls hitting barrels
-		if (pushed.isOfType(GameType.BALL)) {
+		if (pushed.canRoll()) {
 			this.laserEnteredAction(x, y, z, 0, 0, LaserType.GREEN, 1);
 		}
 	}

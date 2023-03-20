@@ -10,13 +10,11 @@ import java.awt.Color;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class JumpBox extends AbstractJumpObject {
     // Constructors
     public JumpBox() {
-        this.addType(GameType.BOX);
     }
 
     @Override

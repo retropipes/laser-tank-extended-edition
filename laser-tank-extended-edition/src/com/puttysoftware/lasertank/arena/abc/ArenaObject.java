@@ -28,7 +28,6 @@ import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -118,12 +117,12 @@ public class ArenaObject {
 		this.timerValue = ticks;
 	}
 
-	protected final void addType(final GameType newType) {
-		this.type.set(newType.ordinal());
-	}
-
 	public ArenaObject attributeGameRenderHook() {
 		return null;
+	}
+
+	public final boolean canCloak() {
+		return GameObjectData.canCloak(this.getID());
 	}
 
 	public final boolean canControl() {
@@ -132,6 +131,10 @@ public class ArenaObject {
 	
 	public final boolean canMove() {
 		return GameObjectData.canMove(this.getID());
+	}
+	
+	public final boolean canRoll() {
+		return GameObjectData.canRoll(this.getID());
 	}
 
 	public final boolean canShoot() {
@@ -348,6 +351,10 @@ public class ArenaObject {
 		return GameObjectData.isAnimated(this.getID());
 	}
 
+	public final boolean isBox() {
+		return GameObjectData.isBox(this.getID());
+	}
+
 	public boolean isConditionallySolid() {
 		return this.isSolid();
 	}
@@ -360,8 +367,8 @@ public class ArenaObject {
 		return GameObjectData.isHostile(this.getID());
 	}
 
-	public final boolean isOfType(final GameType testType) {
-		return this.type.get(testType.ordinal());
+	public final boolean isMovableMirror(final Direction dir) {
+		return GameObjectData.isMovableMirror(this.getID(), dir);
 	}
 
 	public final boolean isPushable() {

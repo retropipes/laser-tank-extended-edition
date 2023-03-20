@@ -30,6 +30,32 @@ public class DataLoader {
 		return action == GameActionHelper.fromStringValue(value);
 	}
 
+	public static boolean loadBox(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.BOX);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
+	}
+
+	public static boolean loadCloak(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.CLOAK);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static boolean loadControl(final GameObjectID objID) {
 		final var data = DataLoader.load(DataFile.CONTROL);
 		final var key = String.valueOf(objID);
@@ -231,6 +257,32 @@ public class DataLoader {
 		}
 	}
 
+	public static boolean loadMovableMirror(final GameObjectID objID, final Direction dir) {
+		final var data = DataLoader.load(DataFile.MOVABLE_MIRROR);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+				|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+			return false;
+		}
+		final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+		if (!data.containsKey(subkey)) {
+			return false;
+		}
+		final var subvalue = data.getString(subkey);
+		if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static boolean loadMovesBoxes(final GameObjectID objID, final Direction dir) {
 		final var data = DataLoader.load(DataFile.MOVES_BOXES);
 		final var key = String.valueOf(objID);
@@ -372,6 +424,19 @@ public class DataLoader {
 		} else {
 			return false;
 		}
+	}
+
+	public static boolean loadRoll(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.ROLL);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
 	}
 
 	public static boolean loadShoot(final GameObjectID objID) {

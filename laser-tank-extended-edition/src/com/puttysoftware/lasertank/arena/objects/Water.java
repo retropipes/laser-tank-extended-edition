@@ -12,7 +12,6 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Water extends AbstractGround {
@@ -44,7 +43,7 @@ public class Water extends AbstractGround {
 		final var app = LaserTankEE.getApplication();
 		// Get rid of pushed object
 		app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
-		if (pushed.isOfType(GameType.BOX)) {
+		if (pushed.isBox()) {
 			if (pushed.getMaterial() == Material.ICE) {
 				app.getGameManager().morph(new IceBridge(), x, y, z, this.getLayer());
 			} else {

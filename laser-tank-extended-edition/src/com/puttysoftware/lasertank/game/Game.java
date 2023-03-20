@@ -54,7 +54,6 @@ import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Difficulty;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -1467,7 +1466,7 @@ public class Game extends Screen {
 					final var vbobj = a.getVirtualCell(y, x, pz, Layer.VIRTUAL.ordinal());
 					final var otrep = otobj.attributeGameRenderHook();
 					if (otrep != null) {
-						if (otobj.isOfType(GameType.CLOAK)) {
+						if (otobj.canCloak()) {
 							obobj = otrep;
 						}
 						otobj = otrep;

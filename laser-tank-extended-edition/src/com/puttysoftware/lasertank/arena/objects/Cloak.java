@@ -12,13 +12,11 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class Cloak extends AbstractAttribute {
     // Constructors
     public Cloak() {
-        this.addType(GameType.CLOAK);
     }
 
     @Override
