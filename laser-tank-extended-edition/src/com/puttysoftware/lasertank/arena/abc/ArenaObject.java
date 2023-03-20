@@ -8,8 +8,6 @@ package com.puttysoftware.lasertank.arena.abc;
 import java.awt.Color;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.BitSet;
-import java.util.Objects;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
@@ -20,7 +18,6 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.datatype.GameObjectData;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
-import com.puttysoftware.lasertank.helper.GameTypeHelper;
 import com.puttysoftware.lasertank.helper.LaserTypeHelper;
 import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -31,39 +28,8 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
-import com.puttysoftware.lasertank.locale.global.DataLoaderString;
-import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
 public class ArenaObject {
-	private static class ObjectImageResolver {
-		public static String getImageName(final GameObjectID objID) {
-			return Integer.toString(objID.ordinal());
-		}
-
-		public static String getImageName(final GameObjectID objID, final int frameID) {
-			return Integer.toString(objID.ordinal()) + GlobalStrings.loadDataLoader(DataLoaderString.SUB_SEPARATOR)
-					+ Integer.toString(frameID);
-		}
-
-		public static String getImageName(final GameObjectID objID, final Direction dir) {
-			return Integer.toString(objID.ordinal())
-					+ GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR)
-					+ DirectionHelper.toStringValue(dir);
-		}
-
-		public static String getImageName(final GameObjectID objID, final Direction dir, final int frameID) {
-			return Integer.toString(objID.ordinal())
-					+ GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR)
-					+ DirectionHelper.toStringValue(dir) + GlobalStrings.loadDataLoader(DataLoaderString.SUB_SEPARATOR)
-					+ Integer.toString(frameID);
-		}
-
-		// Private constructor
-		private ObjectImageResolver() {
-			// Do nothing
-		}
-	}
-
 	static final int DEFAULT_CUSTOM_VALUE = 0;
 	protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
 
@@ -72,7 +38,6 @@ public class ArenaObject {
 	}
 
 	// Properties
-	private BitSet type;
 	private int timerValue;
 	private boolean timerActive;
 	private int frameNumber;
@@ -86,7 +51,6 @@ public class ArenaObject {
 
 	// Constructors
 	public ArenaObject() {
-		this.type = new BitSet(GameTypeHelper.COUNT);
 		this.timerValue = 0;
 		this.timerActive = false;
 		this.frameNumber = this.isAnimated() ? 1 : 0;
@@ -97,7 +61,6 @@ public class ArenaObject {
 	}
 
 	public ArenaObject(final GameObjectID goid) {
-		this.type = new BitSet(GameTypeHelper.COUNT);
 		this.timerValue = 0;
 		this.timerActive = false;
 		this.frameNumber = this.isAnimated() ? 1 : 0;
@@ -155,7 +118,6 @@ public class ArenaObject {
 	public ArenaObject clone() {
 		try {
 			final ArenaObject copy = this.getClass().getConstructor().newInstance();
-			copy.type = (BitSet) this.type.clone();
 			copy.timerValue = this.timerValue;
 			copy.timerActive = this.timerActive;
 			copy.frameNumber = this.frameNumber;
@@ -223,9 +185,6 @@ public class ArenaObject {
 		if (obj == null || !(obj instanceof final ArenaObject other)) {
 			return false;
 		}
-		if (!Objects.equals(this.type, other.type)) {
-			return false;
-		}
 		if (this.direction != other.direction) {
 			return false;
 		}
@@ -277,15 +236,15 @@ public class ArenaObject {
 
 	public final String getImageName() {
 		if (this.hasDirection() && this.isAnimated()) {
-			return ObjectImageResolver.getImageName(this.getID(), this.direction, this.frameNumber);
+			return ArenaObjectImageResolver.getImageName(this.getID(), this.direction, this.frameNumber);
 		}
 		if (!this.hasDirection() && this.isAnimated()) {
-			return ObjectImageResolver.getImageName(this.getID(), this.frameNumber);
+			return ArenaObjectImageResolver.getImageName(this.getID(), this.frameNumber);
 		}
 		if (this.hasDirection() && !this.isAnimated()) {
-			return ObjectImageResolver.getImageName(this.getID(), this.direction);
+			return ArenaObjectImageResolver.getImageName(this.getID(), this.direction);
 		} else {
-			return ObjectImageResolver.getImageName(this.getID());
+			return ArenaObjectImageResolver.getImageName(this.getID());
 		}
 	}
 
@@ -331,7 +290,6 @@ public class ArenaObject {
 		var result = 1;
 		result = prime * result + (this.timerActive ? 1231 : 1237);
 		result = prime * result + this.timerValue;
-		result = prime * result + (this.type == null ? 0 : this.type.hashCode());
 		result = prime * result + this.direction.hashCode();
 		return prime * result + this.color.ordinal();
 	}
