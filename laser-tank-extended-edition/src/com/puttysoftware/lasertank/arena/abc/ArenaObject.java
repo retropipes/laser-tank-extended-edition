@@ -67,8 +67,8 @@ public class ArenaObject {
 	static final int DEFAULT_CUSTOM_VALUE = 0;
 	protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
 
-	public static final int getImbuedRangeForce(final Material materialID) {
-		return GameObjectData.getImbuedRangeForce(materialID);
+	public static final int getImbuedForce(final Material materialID) {
+		return GameObjectData.getImbuedForce(materialID);
 	}
 
 	// Properties

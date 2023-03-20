@@ -979,7 +979,7 @@ public class Game extends Screen {
 		final var py = this.plMgr.getPlayerLocationY();
 		final var pz = this.plMgr.getPlayerLocationZ();
 		a.circularScanRange(px, py, pz, 1, this.otherRangeMode,
-				ArenaObject.getImbuedRangeForce(RangeTypeHelper.material(this.otherRangeMode)));
+				ArenaObject.getImbuedForce(RangeTypeHelper.material(this.otherRangeMode)));
 		LaserTankEE.getApplication().getArenaManager().getArena().tickTimers(pz, GameAction.USE_RANGE);
 		this.updateScoreText();
 	}

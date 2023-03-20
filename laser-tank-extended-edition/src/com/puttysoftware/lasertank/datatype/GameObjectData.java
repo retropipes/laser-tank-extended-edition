@@ -7,28 +7,28 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class GameObjectData {
-    private static final int PLASTIC_MINIMUM_REACTION_FORCE = 0;
-    private static final int DEFAULT_MINIMUM_REACTION_FORCE = 1;
-    private static final int METAL_MINIMUM_REACTION_FORCE = 2;
+    private static final int PLASTIC_FORCE = 0;
+    private static final int DEFAULT_FORCE = 1;
+    private static final int METAL_FORCE = 2;
 
-    public static final int getImbuedRangeForce(final Material materialID) {
+    public static final int getImbuedForce(final Material materialID) {
         if (materialID == Material.PLASTIC) {
-            return GameObjectData.PLASTIC_MINIMUM_REACTION_FORCE;
+            return GameObjectData.PLASTIC_FORCE;
         }
         if (materialID == Material.METALLIC) {
-            return GameObjectData.METAL_MINIMUM_REACTION_FORCE;
+            return GameObjectData.METAL_FORCE;
         }
-        return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
+        return GameObjectData.DEFAULT_FORCE;
     }
 
     public static final int getMinimumReactionForce(final Material materialID) {
         if (materialID == Material.PLASTIC) {
-            return GameObjectData.PLASTIC_MINIMUM_REACTION_FORCE;
+            return GameObjectData.PLASTIC_FORCE;
         }
         if (materialID == Material.METALLIC) {
-            return GameObjectData.METAL_MINIMUM_REACTION_FORCE;
+            return GameObjectData.METAL_FORCE;
         }
-        return GameObjectData.DEFAULT_MINIMUM_REACTION_FORCE;
+        return GameObjectData.DEFAULT_FORCE;
     }
 
     public static boolean hitReflectiveSide(final Direction dir) {
@@ -99,11 +99,7 @@ public class GameObjectData {
     }
 
     public static boolean isAnimated(final GameObjectID objectID) {
-        final var finalFrame = DataLoader.loadFrame(objectID);
-        if (finalFrame > 1) {
-            return true;
-        }
-        return false;
+        return DataLoader.loadFrame(objectID) > 1;
     }
 
     public static boolean isBox(final GameObjectID objectID) {
