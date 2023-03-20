@@ -80,8 +80,9 @@ public class ArenaObject {
 		this.timerValue = ticks;
 	}
 
-	public ArenaObject attributeGameRenderHook() {
-		return null;
+	public final ArenaObject attributeRenderHook() {
+		var renderAs = GameObjectData.attributeRenderHook(this.getID());
+		return renderAs != null ? new ArenaObject(renderAs) : null;
 	}
 
 	public final boolean canCloak() {
@@ -133,16 +134,6 @@ public class ArenaObject {
 
 	public boolean defersSetProperties() {
 		return false;
-	}
-
-	/**
-	 *
-	 * @param x
-	 * @param y
-	 * @param z
-	 */
-	public final void determineCurrentAppearance(final int x, final int y, final int z) {
-		// Do nothing
 	}
 
 	public boolean doLasersPassThrough() {
@@ -388,9 +379,11 @@ public class ArenaObject {
 					Sounds.play(Sound.LASER_DIE);
 				}
 			}
+			// Laser stops
 			return Direction.NONE;
 		}
 		if (GameObjectData.isReflective(this.getID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
+			// Laser reflected
 			return this.direction;
 		}
 		return DirectionHelper.resolveRelative(dirX, dirY);

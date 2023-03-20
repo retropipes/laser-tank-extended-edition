@@ -30,6 +30,19 @@ public class DataLoader {
 		return action == GameActionHelper.fromStringValue(value);
 	}
 
+	public static GameObjectID loadAttributeRender(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.ATTRIBUTE_RENDER);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return null;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+			return null;
+		}
+		return GameObjectID.values()[Integer.parseInt(value)];
+	}
+
 	public static boolean loadBox(final GameObjectID objID) {
 		final var data = DataLoader.load(DataFile.BOX);
 		final var key = String.valueOf(objID);

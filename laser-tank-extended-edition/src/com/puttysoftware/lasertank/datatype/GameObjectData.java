@@ -42,6 +42,10 @@ public class GameObjectData {
         return DataLoader.loadAcceptTick(objectID, action);
     }
 
+    public static GameObjectID attributeRenderHook(final GameObjectID objectID) {
+        return DataLoader.loadAttributeRender(objectID);
+    }
+
     public static boolean canCloak(final GameObjectID objectID) {
         return DataLoader.loadCloak(objectID);
     }

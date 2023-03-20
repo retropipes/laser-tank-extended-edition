@@ -19,11 +19,6 @@ public class Cloak extends ArenaObject {
     }
 
     @Override
-    public ArenaObject attributeGameRenderHook() {
-        return new Empty();
-    }
-
-    @Override
     public final GameObjectID getID() {
         return GameObjectID.CLOAK;
     }

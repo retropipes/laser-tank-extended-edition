@@ -26,7 +26,8 @@ enum DataFile {
     ROLL,
     MOVABLE_MIRROR,
     CLOAK,
-    PAIR;
+    PAIR,
+    ATTRIBUTE_RENDER;
 
     public String getName() {
         return Integer.toString(this.ordinal());

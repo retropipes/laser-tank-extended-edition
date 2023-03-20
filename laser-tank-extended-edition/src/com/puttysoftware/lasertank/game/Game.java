@@ -1464,7 +1464,7 @@ public class Game extends Screen {
 					var obobj = a.getCell(y, x, pz, Layer.LOWER_OBJECTS.ordinal());
 					var otobj = a.getCell(y, x, pz, Layer.UPPER_OBJECTS.ordinal());
 					final var vbobj = a.getVirtualCell(y, x, pz, Layer.VIRTUAL.ordinal());
-					final var otrep = otobj.attributeGameRenderHook();
+					final var otrep = otobj.attributeRenderHook();
 					if (otrep != null) {
 						if (otobj.canCloak()) {
 							obobj = otrep;
