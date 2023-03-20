@@ -35,7 +35,6 @@ import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -1066,7 +1065,7 @@ public final class CurrentArenaData extends ArenaData {
 				for (w = 0; w < LayerHelper.COUNT; w++) {
 					try {
 						final var obj = this.getCell(arena, xFix, u, zFix, w);
-						if (obj.isOfType(GameType.ANTI)) {
+						if (obj.isHostile()) {
 							final var invert = DirectionHelper.invert(obj.getDirection());
 							if (d == invert) {
 								this.foundX = xFix;
@@ -1093,7 +1092,7 @@ public final class CurrentArenaData extends ArenaData {
 				for (w = 0; w < LayerHelper.COUNT; w++) {
 					try {
 						final var obj = this.getCell(arena, xFix, u, zFix, w);
-						if (obj.isOfType(GameType.ANTI)) {
+						if (obj.isHostile()) {
 							final var invert = DirectionHelper.invert(obj.getDirection());
 							if (d == invert) {
 								this.foundX = xFix;
@@ -1118,7 +1117,7 @@ public final class CurrentArenaData extends ArenaData {
 				for (w = 0; w < LayerHelper.COUNT; w++) {
 					try {
 						final var obj = this.getCell(arena, u, yFix, zFix, w);
-						if (obj.isOfType(GameType.ANTI)) {
+						if (obj.isHostile()) {
 							final var invert = DirectionHelper.invert(obj.getDirection());
 							if (d == invert) {
 								this.foundX = u;
@@ -1143,7 +1142,7 @@ public final class CurrentArenaData extends ArenaData {
 				for (w = 0; w < LayerHelper.COUNT; w++) {
 					try {
 						final var obj = this.getCell(arena, u, yFix, zFix, w);
-						if (obj.isOfType(GameType.ANTI)) {
+						if (obj.isHostile()) {
 							final var invert = DirectionHelper.invert(obj.getDirection());
 							if (d == invert) {
 								this.foundX = u;

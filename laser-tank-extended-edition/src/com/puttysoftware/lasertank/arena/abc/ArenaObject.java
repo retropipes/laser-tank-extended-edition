@@ -356,6 +356,10 @@ public class ArenaObject {
 		return this.imageEnabled;
 	}
 
+	public boolean isHostile() {
+		return GameObjectData.isHostile(this.getID());
+	}
+
 	public final boolean isOfType(final GameType testType) {
 		return this.type.get(testType.ordinal());
 	}

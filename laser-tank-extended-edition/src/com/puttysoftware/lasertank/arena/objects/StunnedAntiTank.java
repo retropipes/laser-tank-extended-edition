@@ -11,7 +11,6 @@ import com.puttysoftware.lasertank.arena.abc.AbstractMovableObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 
 public class StunnedAntiTank extends AbstractMovableObject {
 	private static final int STUNNED_START = 10;
@@ -23,7 +22,6 @@ public class StunnedAntiTank extends AbstractMovableObject {
 		super();
 		this.activateTimer(1);
 		this.stunnedLeft = StunnedAntiTank.STUNNED_START;
-		this.addType(GameType.ANTI);
 	}
 
 	@Override

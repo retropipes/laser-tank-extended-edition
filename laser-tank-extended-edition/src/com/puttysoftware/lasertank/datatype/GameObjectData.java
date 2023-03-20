@@ -94,6 +94,10 @@ public class GameObjectData {
         return false;
     }
 
+    public static boolean isHostile(final GameObjectID objectID) {
+        return DataLoader.loadHostile(objectID);
+    }
+
     public static boolean isPushable(final GameObjectID objectID) {
         return DataLoader.loadMovable(objectID, Direction.NONE);
     }

@@ -16,7 +16,8 @@ enum DataFile {
     REFLECT,
     ACCEPT_TICK,
     NAVIGATE,
-    CONTROL;
+    CONTROL,
+    HOSTILE;
 
     public String getName() {
         return Integer.toString(this.ordinal());

@@ -123,7 +123,7 @@ final class MovingObjectTracker {
 				} else if (jumper.isOfType(GameType.ICY)) {
 					// Handle icy objects
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && jumper.isOfType(GameType.ANTI)) {
+				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && jumper.isHostile()) {
 					// Handle anti-tank on anti-tank mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);
@@ -230,7 +230,7 @@ final class MovingObjectTracker {
 				} else if (this.movingObj.isOfType(GameType.ICY)) {
 					// Handle icy objects
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && this.movingObj.isOfType(GameType.ANTI)
+				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && this.movingObj.isHostile()
 						|| this.belowUpper.isOfType(GameType.BOX_MOVER) && this.movingObj.isOfType(GameType.BOX)) {
 					// Handle anti-tank on anti-tank mover
 					final var dir = this.belowUpper.getDirection();

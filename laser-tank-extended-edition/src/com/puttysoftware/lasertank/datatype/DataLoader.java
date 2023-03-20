@@ -118,6 +118,19 @@ public class DataLoader {
 		return Integer.parseInt(value);
 	}
 
+	public static boolean loadHostile(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.CONTROL);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static int[] loadIndex(final GameObjectID objID) {
 		final var fallback = new int[] { 0 };
 		final var data = DataLoader.load(DataFile.INDEX);
