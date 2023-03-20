@@ -6,16 +6,16 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractDoor;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
-public class WaterDoor extends AbstractDoor {
+public class WaterDoor extends ArenaObject {
     // Constructors
     public WaterDoor() {
-        super(new WaterKey());
+        super();
     }
 
     @Override

@@ -6,13 +6,13 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractKey;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
-public class RedKey extends AbstractKey {
+public class RedKey extends ArenaObject {
     // Constructors
     public RedKey() {
     }
