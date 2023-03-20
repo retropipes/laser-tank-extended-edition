@@ -30,7 +30,6 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.utility.TankInventory;
@@ -388,7 +387,7 @@ final class MovingLaserTracker {
 		var sy = nsy;
 		var mover = nMover;
 		if (!this.res && this.laser) {
-			if (gm.getTank().getSavedObject().isOfType(GameType.MOVER)) {
+			if (gm.getTank().getSavedObject().movesTanks(gm.getTank().getSavedObject().getDirection())) {
 				final var dir = gm.getTank().getSavedObject().getDirection();
 				final var unres = DirectionHelper.unresolveRelative(dir);
 				sx = unres[0];

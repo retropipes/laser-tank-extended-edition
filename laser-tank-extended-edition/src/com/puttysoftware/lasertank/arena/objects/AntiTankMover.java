@@ -7,12 +7,10 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 
 public class AntiTankMover extends AbstractGround {
     // Constructors
     public AntiTankMover() {
-        this.addType(GameType.ANTI_MOVER);
     }
 
     @Override

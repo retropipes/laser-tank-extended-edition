@@ -17,7 +17,11 @@ enum DataFile {
     ACCEPT_TICK,
     NAVIGATE,
     CONTROL,
-    HOSTILE;
+    HOSTILE,
+    MOVES_TANKS,
+    MOVES_HOSTILES,
+    MOVES_BOXES,
+    MOVES_MIRRORS;
 
     public String getName() {
         return Integer.toString(this.ordinal());

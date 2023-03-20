@@ -114,6 +114,22 @@ public class GameObjectData {
         return DataLoader.loadLethal(objectID, index);
     }
 
+    public static boolean movesBoxes(final GameObjectID objectID, final Direction dir) {
+        return DataLoader.loadMovesBoxes(objectID, dir);
+    }
+
+    public static boolean movesHostiles(final GameObjectID objectID, final Direction dir) {
+        return DataLoader.loadMovesHostiles(objectID, dir);
+    }
+
+    public static boolean movesMirrors(final GameObjectID objectID, final Direction dir) {
+        return DataLoader.loadMovesMirrors(objectID, dir);
+    }
+
+    public static boolean movesTanks(final GameObjectID objectID, final Direction dir) {
+        return DataLoader.loadMovesTanks(objectID, dir);
+    }
+
     public static boolean solvesOnMove(final GameObjectID objectID) {
         return objectID == GameObjectID.FLAG;
     }

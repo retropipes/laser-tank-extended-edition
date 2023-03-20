@@ -13,7 +13,6 @@ import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class PowerTurret extends AbstractMovableObject {
@@ -93,8 +92,8 @@ public class PowerTurret extends AbstractMovableObject {
 
 	@Override
 	public void timerExpiredAction(final int locX, final int locY) {
-		if (this.getSavedObject().isOfType(GameType.ANTI_MOVER)) {
-			final var moveDir = this.getSavedObject().getDirection();
+		final var moveDir = this.getSavedObject().getDirection();
+		if (this.getSavedObject().movesHostiles(moveDir)) {
 			final var unres = DirectionHelper.unresolveRelative(moveDir);
 			if (Game.canObjectMove(locX, locY, unres[0], unres[1])) {
 				if (this.autoMove) {

@@ -7,15 +7,10 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.arena.abc.AbstractGround;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.GameType;
 
 public class AnyMover extends AbstractGround {
     // Constructors
     public AnyMover() {
-        this.addType(GameType.MOVER);
-        this.addType(GameType.ANTI_MOVER);
-        this.addType(GameType.BOX_MOVER);
-        this.addType(GameType.MIRROR_MOVER);
     }
 
     @Override

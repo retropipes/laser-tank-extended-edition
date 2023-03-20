@@ -231,6 +231,110 @@ public class DataLoader {
 		}
 	}
 
+	public static boolean loadMovesBoxes(final GameObjectID objID, final Direction dir) {
+		final var data = DataLoader.load(DataFile.MOVES_BOXES);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+				|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+			return false;
+		}
+		final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+		if (!data.containsKey(subkey)) {
+			return false;
+		}
+		final var subvalue = data.getString(subkey);
+		if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean loadMovesHostiles(final GameObjectID objID, final Direction dir) {
+		final var data = DataLoader.load(DataFile.MOVES_HOSTILES);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+				|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+			return false;
+		}
+		final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+		if (!data.containsKey(subkey)) {
+			return false;
+		}
+		final var subvalue = data.getString(subkey);
+		if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean loadMovesMirrors(final GameObjectID objID, final Direction dir) {
+		final var data = DataLoader.load(DataFile.MOVES_MIRRORS);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+				|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+			return false;
+		}
+		final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+		if (!data.containsKey(subkey)) {
+			return false;
+		}
+		final var subvalue = data.getString(subkey);
+		if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static boolean loadMovesTanks(final GameObjectID objID, final Direction dir) {
+		final var data = DataLoader.load(DataFile.MOVES_TANKS);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+				|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+			return false;
+		}
+		final var subkey = key + GlobalStrings.loadDataLoader(DataLoaderString.DIRECTION_SEPARATOR) + dir.ordinal();
+		if (!data.containsKey(subkey)) {
+			return false;
+		}
+		final var subvalue = data.getString(subkey);
+		if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public static int loadNavigate(final GameObjectID objID) {
 		final var data = DataLoader.load(DataFile.NAVIGATE);
 		final var key = String.valueOf(objID);

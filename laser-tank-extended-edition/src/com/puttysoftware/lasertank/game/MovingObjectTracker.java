@@ -123,14 +123,14 @@ final class MovingObjectTracker {
 				} else if (jumper.isOfType(GameType.ICY)) {
 					// Handle icy objects
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && jumper.isHostile()) {
+				} else if (this.belowUpper.movesHostiles(this.belowUpper.getDirection()) && jumper.isHostile()) {
 					// Handle anti-tank on anti-tank mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);
 					this.objIncX = unres[0];
 					this.objIncY = unres[1];
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.BOX_MOVER) && jumper.isOfType(GameType.BOX)) {
+				} else if (this.belowUpper.movesBoxes(belowUpper.getDirection()) && jumper.isOfType(GameType.BOX)) {
 					// Handle box on box mover
 					this.jumpOnMover = true;
 					final var dir = this.belowUpper.getDirection();
@@ -138,7 +138,7 @@ final class MovingObjectTracker {
 					this.objIncX = unres[0];
 					this.objIncY = unres[1];
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.MIRROR_MOVER)
+				} else if (this.belowUpper.movesMirrors(this.belowUpper.getDirection())
 						&& this.movingObj.isOfType(GameType.MOVABLE_MIRROR)) {
 					// Handle mirror on mirror mover
 					final var dir = this.belowUpper.getDirection();
@@ -230,15 +230,15 @@ final class MovingObjectTracker {
 				} else if (this.movingObj.isOfType(GameType.ICY)) {
 					// Handle icy objects
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.ANTI_MOVER) && this.movingObj.isHostile()
-						|| this.belowUpper.isOfType(GameType.BOX_MOVER) && this.movingObj.isOfType(GameType.BOX)) {
+				} else if (this.belowUpper.movesHostiles(this.belowUpper.getDirection()) && this.movingObj.isHostile()
+						|| this.belowUpper.movesBoxes(this.belowUpper.getDirection()) && this.movingObj.isOfType(GameType.BOX)) {
 					// Handle anti-tank on anti-tank mover
 					final var dir = this.belowUpper.getDirection();
 					final var unres = DirectionHelper.unresolveRelative(dir);
 					this.objIncX = unres[0];
 					this.objIncY = unres[1];
 					this.objectCheck = true;
-				} else if (this.belowUpper.isOfType(GameType.MIRROR_MOVER)
+				} else if (this.belowUpper.movesMirrors(this.belowUpper.getDirection())
 						&& this.movingObj.isOfType(GameType.MOVABLE_MIRROR)) {
 					// Handle mirror on mirror mover
 					final var dir = this.belowUpper.getDirection();

@@ -23,7 +23,6 @@ import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -552,7 +551,7 @@ final class MLOTask extends Thread {
 					ugo.postMoveAction(px, py, pz);
 					loo.postMoveAction(px, py, pz);
 					uoo.postMoveAction(px, py, pz);
-					if (ugo.isOfType(GameType.MOVER)) {
+					if (ugo.movesTanks(ugo.getDirection())) {
 						final var dir = ugo.getDirection();
 						final var unres = DirectionHelper.unresolveRelative(dir);
 						this.sx = unres[0];
@@ -586,7 +585,7 @@ final class MLOTask extends Thread {
 					}
 					uoo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 							plMgr.getPlayerLocationZ());
-					if (gm.getTank().getSavedObject().isOfType(GameType.MOVER)) {
+					if (gm.getTank().getSavedObject().movesTanks(gm.getTank().getSavedObject().getDirection())) {
 						final var dir = gm.getTank().getSavedObject().getDirection();
 						final var unres = DirectionHelper.unresolveRelative(dir);
 						this.sx = unres[0];

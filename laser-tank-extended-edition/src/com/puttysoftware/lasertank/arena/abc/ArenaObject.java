@@ -356,7 +356,7 @@ public class ArenaObject {
 		return this.imageEnabled;
 	}
 
-	public boolean isHostile() {
+	public final boolean isHostile() {
 		return GameObjectData.isHostile(this.getID());
 	}
 
@@ -491,6 +491,22 @@ public class ArenaObject {
 	 */
 	public void moveFailedAction(final int locX, final int locY, final int locZ) {
 		Sounds.play(Sound.BUMP_HEAD);
+	}
+
+	public final boolean movesBoxes(final Direction dir) {
+		return GameObjectData.movesBoxes(this.getID(), dir);
+	}
+
+	public final boolean movesHostiles(final Direction dir) {
+		return GameObjectData.movesHostiles(this.getID(), dir);
+	}
+
+	public final boolean movesMirrors(final Direction dir) {
+		return GameObjectData.movesMirrors(this.getID(), dir);
+	}
+
+	public final boolean movesTanks(final Direction dir) {
+		return GameObjectData.movesTanks(this.getID(), dir);
 	}
 
 	public final void nextIndex() {
