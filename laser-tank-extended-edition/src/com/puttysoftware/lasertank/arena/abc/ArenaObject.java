@@ -75,6 +75,10 @@ public class ArenaObject {
 	private ArenaObject previousState;
 	private GameObjectID gameObjectID;
 	private boolean waitingOnTunnel;
+	private boolean pairTriggered;
+	private int pairX;
+	private int pairY;
+	private ArenaObject pairedWith;
 
 	// Constructors
 	public ArenaObject() {
@@ -93,6 +97,13 @@ public class ArenaObject {
 		this.waitingOnTunnel = false;
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
 		}
 	}
 
@@ -114,6 +125,13 @@ public class ArenaObject {
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
+		}
 	}
 
 	public ArenaObject(final GameObjectID goid, final Direction dir) {
@@ -133,6 +151,13 @@ public class ArenaObject {
 		this.waitingOnTunnel = false;
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
 		}
 	}
 
@@ -154,6 +179,13 @@ public class ArenaObject {
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
+		}
 	}
 
 	public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
@@ -174,6 +206,9 @@ public class ArenaObject {
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
 	}
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor) {
@@ -194,6 +229,13 @@ public class ArenaObject {
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
+		}
 	}
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor, final int newIndex) {
@@ -213,6 +255,13 @@ public class ArenaObject {
 		this.waitingOnTunnel = false;
 		if (this.canMove() || this.canControl()) {
 			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+		this.pairTriggered = false;
+		this.pairX = -1;
+		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
 		}
 	}
 
@@ -292,6 +341,19 @@ public class ArenaObject {
 	 * @param z
 	 */
 	public void editorPlaceHook(final int x, final int y, final int z) {
+		if (this.pairedWith != null && this.usesTrigger()) {
+			final var app = LaserTankEE.getApplication();
+			final var loc = app.getArenaManager().getArena().findObject(z, this.getPairedWith());
+			if (loc != null) {
+				this.setPairX(loc[0]);
+				this.setPairY(loc[1]);
+				this.setPairTriggered(false);
+			}
+			if (this.usesTrigger()) {
+				app.getArenaManager().getArena().fullScanPairCleanup(x, y, z, this);
+			}
+			app.getEditor().redrawEditor();
+		}
 		// Do nothing
 	}
 
@@ -410,6 +472,18 @@ public class ArenaObject {
 		return GameObjectData.getMinimumReactionForce(this.getMaterial());
 	}
 
+	public int getPairX() {
+		return this.pairX;
+	}
+
+	public int getPairY() {
+		return this.pairY;
+	}
+
+	public final ArenaObject getPairedWith() {
+		return this.pairedWith;
+	}
+
 	public final ArenaObject getPreviousState() {
 		return this.previousState;
 	}
@@ -444,6 +518,20 @@ public class ArenaObject {
 		return this.previousState != null;
 	}
 
+	public boolean hasSamePair(final ArenaObject other) {
+		if (this == other) {
+			return true;
+		}
+		if (this.pairedWith == null) {
+			if (other.pairedWith != null) {
+				return false;
+			}
+		} else if (!this.pairedWith.getClass().equals(other.pairedWith.getClass())) {
+			return false;
+		}
+		return true;
+	}
+
 	public final boolean hitReflectiveSide(final Direction dir) {
 		if (!GameObjectData.isReflective(this.getID(), dir)) {
 			return false;
@@ -471,8 +559,23 @@ public class ArenaObject {
 		return GameObjectData.isHostile(this.getID());
 	}
 
+	public boolean isPairedWith(final ArenaObject other) {
+		if (this.pairedWith == null) {
+			if (other != null) {
+				return false;
+			}
+		} else if (!this.pairedWith.getClass().equals(other.getClass())) {
+			return false;
+		}
+		return true;
+	}
+
 	public final boolean isMovableMirror(final Direction dir) {
 		return GameObjectData.isMovableMirror(this.getID(), dir);
+	}
+
+	public boolean isPairTriggered() {
+		return this.pairTriggered;
 	}
 
 	public final boolean isPushable() {
@@ -756,6 +859,16 @@ public class ArenaObject {
 				pushed.setWaitingOnTunnel(true);
 			}
 			return false;
+		} else if (this.getPairedWith() != null && this.usesTrigger()) {
+			if (pushed.getMaterial() == this.getMaterial()) {
+				Sounds.play(Sound.BUTTON);
+				if (!this.isPairTriggered()) {
+					// Check to open door at location
+					this.setPairTriggered(true);
+					LaserTankEE.getApplication().getArenaManager().getArena().fullScanPairOpen(z, this);
+				}
+			}
+			return true;
 		}
 		// Do nothing
 		return true;
@@ -769,6 +882,13 @@ public class ArenaObject {
 	 * @param z
 	 */
 	public void pushOutAction(final ArenaObject pushed, final int x, final int y, final int z) {
+		if (this.getPairedWith() != null && this.usesTrigger()) {
+			if ((pushed.getMaterial() == this.getMaterial()) && this.isPairTriggered()) {
+				// Check to close door at location
+				this.setPairTriggered(false);
+				LaserTankEE.getApplication().getArenaManager().getArena().fullScanPairClose(z, this);
+			}
+		}
 		// Do nothing
 	}
 
@@ -1013,6 +1133,18 @@ public class ArenaObject {
 		this.imageEnabled = value;
 	}
 
+	public void setPairX(final int newPairX) {
+		this.pairX = newPairX;
+	}
+
+	public void setPairY(final int newPairY) {
+		this.pairY = newPairY;
+	}
+
+	public void setPairTriggered(final boolean isPairTriggered) {
+		this.pairTriggered = isPairTriggered;
+	}
+
 	protected void useIndex() {
 		this.index = 1;
 	}
@@ -1064,6 +1196,10 @@ public class ArenaObject {
 
 	public final void toggleDirectionInvert() {
 		this.direction = DirectionHelper.previousOrthogonal(this.direction);
+	}
+
+	public final boolean usesTrigger() {
+		return GameObjectData.usesTrigger(this.getID());
 	}
 
 	public final boolean waitingOnTunnel() {

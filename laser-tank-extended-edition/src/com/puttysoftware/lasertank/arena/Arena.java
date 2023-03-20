@@ -9,8 +9,6 @@ import java.io.File;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractButton;
-import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -111,15 +109,15 @@ public abstract class Arena {
 
     public abstract int[] findPlayer(final int number);
 
-    public abstract void fullScanAllButtonClose(int z, AbstractButton source);
+    public abstract void fullScanPairClose(int z, ArenaObject source);
 
-    public abstract void fullScanAllButtonOpen(int z, AbstractButton source);
+    public abstract void fullScanPairOpen(int z, ArenaObject source);
 
-    public abstract void fullScanButtonBind(int dx, int dy, int z, AbstractButtonDoor source);
+    public abstract void fullScanPairBind(int dx, int dy, int z, ArenaObject source);
 
-    public abstract void fullScanButtonCleanup(int px, int py, int z, AbstractButton button);
+    public abstract void fullScanPairCleanup(int px, int py, int z, ArenaObject button);
 
-    public abstract void fullScanFindButtonLostDoor(int z, AbstractButtonDoor door);
+    public abstract void fullScanFindLostPair(int z, ArenaObject door);
 
     public abstract void fullScanFreezeGround();
 

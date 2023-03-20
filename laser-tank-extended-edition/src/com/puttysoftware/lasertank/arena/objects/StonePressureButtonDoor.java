@@ -5,10 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractPressureButtonDoor;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class StonePressureButtonDoor extends AbstractPressureButtonDoor {
+public class StonePressureButtonDoor extends ArenaObject {
     // Constructors
     public StonePressureButtonDoor() {
     }

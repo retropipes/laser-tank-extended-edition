@@ -5,10 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTriggerButtonDoor;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class StoneTriggerButtonDoor extends AbstractTriggerButtonDoor {
+public class StoneTriggerButtonDoor extends ArenaObject {
     // Constructors
     public StoneTriggerButtonDoor() {
     }

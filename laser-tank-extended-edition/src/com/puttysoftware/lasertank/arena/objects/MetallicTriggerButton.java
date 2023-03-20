@@ -5,13 +5,13 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTriggerButton;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class MetallicTriggerButton extends AbstractTriggerButton {
+public class MetallicTriggerButton extends ArenaObject {
     // Constructors
     public MetallicTriggerButton() {
-        super(new MetallicTriggerButtonDoor(), false);
+        super();
     }
 
     @Override

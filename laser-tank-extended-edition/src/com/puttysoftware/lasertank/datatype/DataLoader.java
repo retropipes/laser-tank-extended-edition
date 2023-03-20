@@ -504,6 +504,19 @@ public class DataLoader {
 		}
 	}
 
+	public static boolean loadTrigger(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.USES_TRIGGER);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static int loadWeight(final GameObjectID objID) {
 		final var data = DataLoader.load(DataFile.WEIGHT);
 		final var key = String.valueOf(objID);

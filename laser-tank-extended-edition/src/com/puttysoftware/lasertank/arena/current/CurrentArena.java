@@ -21,8 +21,6 @@ import com.puttysoftware.lasertank.arena.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractButton;
-import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
@@ -238,28 +236,28 @@ public class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void fullScanAllButtonClose(final int z, final AbstractButton source) {
-		this.arenaData.fullScanAllButtonClose(this, z, source);
+	public void fullScanPairClose(final int z, final ArenaObject source) {
+		this.arenaData.fullScanPairClose(this, z, source);
 	}
 
 	@Override
-	public void fullScanAllButtonOpen(final int z, final AbstractButton source) {
-		this.arenaData.fullScanAllButtonOpen(this, z, source);
+	public void fullScanPairOpen(final int z, final ArenaObject source) {
+		this.arenaData.fullScanPairOpen(this, z, source);
 	}
 
 	@Override
-	public void fullScanButtonBind(final int dx, final int dy, final int z, final AbstractButtonDoor source) {
-		this.arenaData.fullScanButtonBind(this, dx, dy, z, source);
+	public void fullScanPairBind(final int dx, final int dy, final int z, final ArenaObject source) {
+		this.arenaData.fullScanPairBind(this, dx, dy, z, source);
 	}
 
 	@Override
-	public void fullScanButtonCleanup(final int px, final int py, final int z, final AbstractButton button) {
-		this.arenaData.fullScanButtonCleanup(this, px, py, z, button);
+	public void fullScanPairCleanup(final int px, final int py, final int z, final ArenaObject source) {
+		this.arenaData.fullScanPairCleanup(this, px, py, z, source);
 	}
 
 	@Override
-	public void fullScanFindButtonLostDoor(final int z, final AbstractButtonDoor door) {
-		this.arenaData.fullScanFindButtonLostDoor(this, z, door);
+	public void fullScanFindLostPair(final int z, final ArenaObject source) {
+		this.arenaData.fullScanFindLostPair(this, z, source);
 	}
 
 	@Override

@@ -150,11 +150,15 @@ public class GameObjectData {
         return DataLoader.loadMovesTanks(objectID, dir);
     }
 
+    public static int navigatesToOnMove(final GameObjectID objectID) {
+        return DataLoader.loadNavigate(objectID);
+    }
+
     public static boolean solvesOnMove(final GameObjectID objectID) {
         return objectID == GameObjectID.FLAG;
     }
 
-    public static int navigatesToOnMove(final GameObjectID objectID) {
-        return DataLoader.loadNavigate(objectID);
+    public static boolean usesTrigger(final GameObjectID objectID) {
+        return DataLoader.loadTrigger(objectID);
     }
 }

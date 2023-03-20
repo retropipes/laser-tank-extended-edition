@@ -5,8 +5,6 @@ import java.io.IOException;
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractButton;
-import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;
@@ -74,17 +72,17 @@ public abstract class ArenaData implements Cloneable {
 
     public abstract int[] findPlayer(final Arena arena, final int number);
 
-    public abstract void fullScanAllButtonClose(final Arena arena, final int zIn, final AbstractButton source);
+    public abstract void fullScanPairClose(final Arena arena, final int zIn, final ArenaObject source);
 
-    public abstract void fullScanAllButtonOpen(final Arena arena, final int zIn, final AbstractButton source);
+    public abstract void fullScanPairOpen(final Arena arena, final int zIn, final ArenaObject source);
 
-    public abstract void fullScanButtonBind(final Arena arena, final int dx, final int dy, final int zIn,
-            final AbstractButtonDoor source);
+    public abstract void fullScanPairBind(final Arena arena, final int dx, final int dy, final int zIn,
+            final ArenaObject source);
 
-    public abstract void fullScanButtonCleanup(final Arena arena, final int px, final int py, final int zIn,
-            final AbstractButton button);
+    public abstract void fullScanPairCleanup(final Arena arena, final int px, final int py, final int zIn,
+            final ArenaObject button);
 
-    public abstract void fullScanFindButtonLostDoor(final Arena arena, final int zIn, final AbstractButtonDoor door);
+    public abstract void fullScanFindLostPair(final Arena arena, final int zIn, final ArenaObject door);
 
     public abstract void fullScanFreezeGround(final Arena arena);
 

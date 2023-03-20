@@ -27,7 +27,8 @@ enum DataFile {
     MOVABLE_MIRROR,
     CLOAK,
     PAIR,
-    ATTRIBUTE_RENDER;
+    ATTRIBUTE_RENDER,
+    USES_TRIGGER;
 
     public String getName() {
         return Integer.toString(this.ordinal());

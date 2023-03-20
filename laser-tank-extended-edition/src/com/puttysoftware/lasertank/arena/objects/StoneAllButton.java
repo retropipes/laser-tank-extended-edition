@@ -5,13 +5,13 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractAllButton;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class StoneAllButton extends AbstractAllButton {
+public class StoneAllButton extends ArenaObject {
     // Constructors
     public StoneAllButton() {
-        super(new StoneAllButtonDoor(), false);
+        super();
     }
 
     @Override

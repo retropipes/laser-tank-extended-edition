@@ -16,8 +16,6 @@ import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractButton;
-import com.puttysoftware.lasertank.arena.abc.AbstractButtonDoor;
 import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.DeadAntiTank;
 import com.puttysoftware.lasertank.arena.objects.Empty;
@@ -791,13 +789,13 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void fullScanAllButtonClose(final Arena arena, final int zIn, final AbstractButton source) {
+	public void fullScanPairClose(final Arena arena, final int zIn, final ArenaObject source) {
 		// Perform the scan
 		var zFix = zIn;
 		if (arena.isThirdDimensionWraparoundEnabled()) {
 			zFix = this.normalizeFloor(zFix);
 		}
-		var flag = !source.isTriggered();
+		var flag = !source.isPairTriggered();
 		for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 			if (flag) {
 				break;
@@ -807,26 +805,26 @@ public final class CurrentArenaData extends ArenaData {
 					break;
 				}
 				final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
-				if ((obj instanceof final AbstractButton button)
-						&& (source.boundButtonDoorEquals(button) && !button.isTriggered())) {
+				if (obj.getPairedWith() != null && obj.usesTrigger()
+						&& (source.hasSamePair(obj) && !obj.isPairTriggered())) {
 					flag = true;
 				}
 			}
 		}
 		if (flag) {
 			// Scan said OK to proceed
-			final var dx = source.getDoorX();
-			final var dy = source.getDoorY();
+			final var dx = source.getPairX();
+			final var dy = source.getPairY();
 			if (!this.getCell(arena, dx, dy, zFix, source.getLayer()).getClass()
-					.equals(source.getButtonDoor().getClass())) {
-				this.setCell(arena, source.getButtonDoor(), dx, dy, zFix, source.getLayer());
+					.equals(source.getPairedWith().getClass())) {
+				this.setCell(arena, source.getPairedWith(), dx, dy, zFix, source.getLayer());
 				Sounds.play(Sound.DOOR_CLOSES);
 			}
 		}
 	}
 
 	@Override
-	public void fullScanAllButtonOpen(final Arena arena, final int zIn, final AbstractButton source) {
+	public void fullScanPairOpen(final Arena arena, final int zIn, final ArenaObject source) {
 		// Perform the scan
 		var zFix = zIn;
 		if (arena.isThirdDimensionWraparoundEnabled()) {
@@ -842,16 +840,16 @@ public final class CurrentArenaData extends ArenaData {
 					break;
 				}
 				final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
-				if ((obj instanceof final AbstractButton button)
-						&& (source.boundButtonDoorEquals(button) && !button.isTriggered())) {
+				if (obj.getPairedWith() != null && obj.usesTrigger()
+						&& (source.hasSamePair(obj) && !obj.isPairTriggered())) {
 					flag = false;
 				}
 			}
 		}
 		if (flag) {
 			// Scan said OK to proceed
-			final var dx = source.getDoorX();
-			final var dy = source.getDoorY();
+			final var dx = source.getPairX();
+			final var dy = source.getPairY();
 			if (!(this.getCell(arena, dx, dy, zFix, source.getLayer()) instanceof Ground)) {
 				this.setCell(arena, new Ground(), dx, dy, zFix, source.getLayer());
 				Sounds.play(Sound.DOOR_OPENS);
@@ -860,8 +858,8 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void fullScanButtonBind(final Arena arena, final int dx, final int dy, final int zIn,
-			final AbstractButtonDoor source) {
+	public void fullScanPairBind(final Arena arena, final int dx, final int dy, final int zIn,
+			final ArenaObject source) {
 		// Perform the scan
 		var z = zIn;
 		if (arena.isThirdDimensionWraparoundEnabled()) {
@@ -870,18 +868,18 @@ public final class CurrentArenaData extends ArenaData {
 		for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 				final var obj = this.getCell(arena, x, y, z, source.getLayer());
-				if ((obj instanceof final AbstractButton button)
-						&& source.getClass().equals(button.getButtonDoor().getClass())) {
-					button.setDoorX(dx);
-					button.setDoorY(dy);
-					button.setTriggered(false);
+				if (obj.getPairedWith() != null && obj.usesTrigger()
+						&& source.getClass().equals(obj.getPairedWith().getClass())) {
+					obj.setPairX(dx);
+					obj.setPairY(dy);
+					obj.setPairTriggered(false);
 				}
 			}
 		}
 		for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 				final var obj = this.getCell(arena, x, y, z, source.getLayer());
-				if ((obj instanceof final AbstractButtonDoor door) && source.getClass().equals(door.getClass())) {
+				if ((obj instanceof final ArenaObject door) && source.getClass().equals(door.getClass())) {
 					this.setCell(arena, new Ground(), x, y, z, source.getLayer());
 				}
 			}
@@ -889,8 +887,8 @@ public final class CurrentArenaData extends ArenaData {
 	}
 
 	@Override
-	public void fullScanButtonCleanup(final Arena arena, final int px, final int py, final int zIn,
-			final AbstractButton button) {
+	public void fullScanPairCleanup(final Arena arena, final int px, final int py, final int zIn,
+			final ArenaObject source) {
 		// Perform the scan
 		var zFix = zIn;
 		if (arena.isThirdDimensionWraparoundEnabled()) {
@@ -901,16 +899,16 @@ public final class CurrentArenaData extends ArenaData {
 				if (x == px && y == py) {
 					continue;
 				}
-				final var obj = this.getCell(arena, x, y, zFix, button.getLayer());
-				if (obj instanceof AbstractButton && ((AbstractButton) obj).boundButtonDoorEquals(button)) {
-					this.setCell(arena, new Ground(), x, y, zFix, button.getLayer());
+				final var obj = this.getCell(arena, x, y, zFix, source.getLayer());
+				if (obj.getPairedWith() != null && obj.usesTrigger() && obj.hasSamePair(source)) {
+					this.setCell(arena, new Ground(), x, y, zFix, source.getLayer());
 				}
 			}
 		}
 	}
 
 	@Override
-	public void fullScanFindButtonLostDoor(final Arena arena, final int zIn, final AbstractButtonDoor door) {
+	public void fullScanFindLostPair(final Arena arena, final int zIn, final ArenaObject source) {
 		// Perform the scan
 		var zFix = zIn;
 		if (arena.isThirdDimensionWraparoundEnabled()) {
@@ -918,9 +916,9 @@ public final class CurrentArenaData extends ArenaData {
 		}
 		for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
-				final var obj = this.getCell(arena, x, y, zFix, door.getLayer());
-				if ((obj instanceof final AbstractButton button) && button.boundToSameButtonDoor(door)) {
-					button.setTriggered(true);
+				final var obj = this.getCell(arena, x, y, zFix, source.getLayer());
+				if (obj.getPairedWith() != null && obj.usesTrigger() && obj.isPairedWith(source)) {
+					obj.setPairTriggered(true);
 					return;
 				}
 			}
