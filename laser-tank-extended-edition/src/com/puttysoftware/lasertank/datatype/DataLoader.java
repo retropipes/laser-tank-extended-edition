@@ -400,6 +400,19 @@ public class DataLoader {
 		return Integer.parseInt(value);
 	}
 
+	public static GameObjectID loadPair(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.PAIR);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return null;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+			return null;
+		}
+		return GameObjectID.values()[Integer.parseInt(value)];
+	}
+
 	public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
 		final var data = DataLoader.load(DataFile.REFLECT);
 		final var key = String.valueOf(objID);

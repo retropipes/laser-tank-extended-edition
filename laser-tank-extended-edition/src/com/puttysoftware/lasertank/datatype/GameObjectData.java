@@ -78,6 +78,10 @@ public class GameObjectData {
         return DataLoader.loadMaterial(objectID);
     }
 
+    public static GameObjectID getPairedObjectID(final GameObjectID objectID) {
+        return DataLoader.loadPair(objectID);
+    }
+
     public static Direction[] getValidDirections(final GameObjectID objectID) {
         return DataLoader.loadDirection(objectID);
     }
