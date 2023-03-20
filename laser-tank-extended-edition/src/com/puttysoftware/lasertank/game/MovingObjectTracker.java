@@ -16,7 +16,7 @@ import com.puttysoftware.lasertank.index.Layer;
 final class MovingObjectTracker {
 	private static boolean checkSolid(final ArenaObject next) {
 		final var nextSolid = next.isConditionallySolid();
-		if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
+		if (!nextSolid || next.canControl()) {
 			return true;
 		}
 		return false;

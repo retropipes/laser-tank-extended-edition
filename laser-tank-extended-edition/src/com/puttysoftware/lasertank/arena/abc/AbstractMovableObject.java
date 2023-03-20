@@ -67,9 +67,9 @@ public abstract class AbstractMovableObject extends ArenaObject {
 			final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 			if (this.getMaterial() == Material.MAGNETIC) {
 				if (laserType == LaserType.BLUE && mof != null
-						&& (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
+						&& (mof.canControl() || !mof.isSolid())) {
 					app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-				} else if (mor != null && (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
+				} else if (mor != null && (mor.canControl() || !mor.isSolid())) {
 					app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 				} else {
 					// Object doesn't react to this type of laser
@@ -77,9 +77,9 @@ public abstract class AbstractMovableObject extends ArenaObject {
 				}
 			} else {
 				if (laserType == LaserType.BLUE && mor != null
-						&& (mor.isOfType(GameType.CHARACTER) || !mor.isSolid())) {
+						&& (mor.canControl() || !mor.isSolid())) {
 					app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-				} else if (mof != null && (mof.isOfType(GameType.CHARACTER) || !mof.isSolid())) {
+				} else if (mof != null && (mof.canControl() || !mof.isSolid())) {
 					app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 				} else {
 					// Object doesn't react to this type of laser

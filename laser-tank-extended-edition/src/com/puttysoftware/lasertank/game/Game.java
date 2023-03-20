@@ -2007,10 +2007,10 @@ public class Game extends Screen {
 			if (!m.getCell(x, y, z, pushedInto.getLayer()).isConditionallySolid()) {
 				final var saved = m.getCell(x, y, z, pushedInto.getLayer());
 				final var there = m.getCell(x2, y2, z2, pushedInto.getLayer());
-				if (there.isOfType(GameType.CHARACTER)) {
+				if (there.canControl()) {
 					needsFixup1 = true;
 				}
-				if (saved.isOfType(GameType.CHARACTER)) {
+				if (saved.canControl()) {
 					needsFixup2 = true;
 				}
 				if (needsFixup2) {

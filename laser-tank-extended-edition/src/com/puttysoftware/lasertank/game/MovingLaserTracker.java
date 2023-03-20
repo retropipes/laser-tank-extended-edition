@@ -75,7 +75,7 @@ final class MovingLaserTracker {
 			return true;
 		}
 		final var nextSolid = next.isConditionallySolid();
-		if (!nextSolid || next.isOfType(GameType.CHARACTER)) {
+		if (!nextSolid || next.canControl()) {
 			return true;
 		}
 		return false;

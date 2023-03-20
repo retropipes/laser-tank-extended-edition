@@ -535,7 +535,7 @@ public final class CurrentArenaData extends ArenaData {
 						final var obj = this.getCell(arena, v, u, zFix, w);
 						final var savedObj = obj.getSavedObject();
 						String testName;
-						if (!obj.isOfType(GameType.CHARACTER) || moved) {
+						if (!obj.canControl() || moved) {
 							testName = obj.getImageName();
 						} else {
 							testName = savedObj.getImageName();
@@ -635,7 +635,7 @@ public final class CurrentArenaData extends ArenaData {
 					final var obj = this.getCell(arena, v, u, zFix, w);
 					final var savedObj = obj.getSavedObject();
 					ArenaObject test;
-					if (obj.isOfType(GameType.CHARACTER)) {
+					if (obj.canControl()) {
 						test = savedObj;
 					} else {
 						test = obj;

@@ -32,10 +32,10 @@ public class MagneticBox extends AbstractMovableObject {
 			final LaserType laserType, final int forceUnits) {
 		final var app = LaserTankEE.getApplication();
 		final var mo = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
-		if (laserType == LaserType.BLUE && mo != null && (mo.isOfType(GameType.CHARACTER) || !mo.isSolid())) {
+		if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
 			app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 			this.playSoundHook();
-		} else if (mo != null && (mo.isOfType(GameType.CHARACTER) || !mo.isSolid())) {
+		} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
 			app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
 			this.playSoundHook();
 		} else if (laserType == LaserType.MISSILE) {

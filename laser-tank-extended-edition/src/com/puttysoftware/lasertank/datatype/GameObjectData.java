@@ -42,6 +42,10 @@ public class GameObjectData {
         return DataLoader.loadAcceptTick(objectID, action);
     }
 
+    public static boolean canControl(final GameObjectID objectID) {
+        return DataLoader.loadControl(objectID);
+    }
+    
     public static boolean canMove(final GameObjectID objectID) {
         return DataLoader.loadMovable(objectID, Direction.NONE);
     }

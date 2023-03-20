@@ -12,7 +12,6 @@ import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.index.GameFormat;
-import com.puttysoftware.lasertank.index.GameType;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
 public abstract class AbstractCharacter extends ArenaObject {
@@ -24,7 +23,6 @@ public abstract class AbstractCharacter extends ArenaObject {
         super();
         this.setSavedObject(new Empty());
         this.activateTimer(1);
-        this.addType(GameType.CHARACTER);
         this.characterNumber = number;
     }
 

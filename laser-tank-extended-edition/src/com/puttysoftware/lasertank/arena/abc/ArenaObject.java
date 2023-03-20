@@ -126,6 +126,10 @@ public class ArenaObject {
 		return null;
 	}
 
+	public final boolean canControl() {
+		return GameObjectData.canControl(this.getID());
+	}
+	
 	public final boolean canMove() {
 		return GameObjectData.canMove(this.getID());
 	}
