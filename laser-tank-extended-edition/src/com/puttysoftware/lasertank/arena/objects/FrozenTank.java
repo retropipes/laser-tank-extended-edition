@@ -5,18 +5,17 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class FrozenTank extends AbstractCharacter {
+public class FrozenTank extends ArenaObject {
     public FrozenTank(final Direction dir, final int number) {
-        super(number);
+        super(GameObjectID.FROZEN_TANK, dir, number);
     }
 
-    // Constructors
     public FrozenTank(final int number) {
-        super(number);
+        super(GameObjectID.FROZEN_TANK, number);
     }
 
     @Override

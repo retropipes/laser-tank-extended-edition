@@ -6,19 +6,18 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class Tank extends AbstractCharacter {
+public class Tank extends ArenaObject {
     public Tank(final Direction dir, final int number) {
-        super(number);
-        this.setDirection(dir);
+        super(GameObjectID.TANK, dir, number);
     }
 
     // Constructors
     public Tank(final int number) {
-        super(number);
+        super(GameObjectID.TANK, number);
     }
 
     @Override

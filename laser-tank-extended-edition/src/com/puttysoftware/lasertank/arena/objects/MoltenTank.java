@@ -5,18 +5,18 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class MoltenTank extends AbstractCharacter {
+public class MoltenTank extends ArenaObject {
     public MoltenTank(final Direction dir, final int number) {
-        super(number);
+        super(GameObjectID.MOLTEN_TANK, dir, number);
     }
 
     // Constructors
     public MoltenTank(final int number) {
-        super(number);
+        super(GameObjectID.MOLTEN_TANK, number);
     }
 
     @Override

@@ -6,22 +6,21 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class PowerfulTank extends AbstractCharacter {
+public class PowerfulTank extends ArenaObject {
     public PowerfulTank(final Direction dir, final int number) {
-        super(number);
-        this.setDirection(dir);
+        super(GameObjectID.POWER_TANK, dir, number);
         this.activateTimer(50);
     }
 
     // Constructors
     public PowerfulTank(final int number) {
-        super(number);
+        super(GameObjectID.POWER_TANK, number);
         this.activateTimer(50);
     }
 

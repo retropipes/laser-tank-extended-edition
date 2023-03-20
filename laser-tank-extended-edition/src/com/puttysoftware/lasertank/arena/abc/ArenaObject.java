@@ -78,38 +78,142 @@ public class ArenaObject {
 
 	// Constructors
 	public ArenaObject() {
-		this.timerValue = 0;
-		this.timerActive = false;
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = 1;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = 0;
+		}
 		this.frameNumber = this.isAnimated() ? 1 : 0;
 		this.direction = this.getInitialDirection();
 		this.color = GameColor.NONE;
 		this.imageEnabled = true;
-		this.index = 0;
 		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
 	}
 
 	public ArenaObject(final GameObjectID goid) {
-		this.timerValue = 0;
-		this.timerActive = false;
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = 1;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = 0;
+		}
 		this.frameNumber = this.isAnimated() ? 1 : 0;
 		this.direction = this.getInitialDirection();
 		this.color = GameColor.NONE;
 		this.imageEnabled = true;
-		this.index = 0;
 		this.gameObjectID = goid;
 		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+	}
+
+	public ArenaObject(final GameObjectID goid, final Direction dir) {
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = 1;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = 0;
+		}
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = dir;
+		this.color = GameColor.NONE;
+		this.imageEnabled = true;
+		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+	}
+
+	public ArenaObject(final GameObjectID goid, final int newIndex) {
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = newIndex;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = newIndex;
+		}
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = this.getInitialDirection();
+		this.color = GameColor.NONE;
+		this.imageEnabled = true;
+		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+	}
+
+	public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = newIndex;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = newIndex;
+		}
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = dir;
+		this.color = GameColor.NONE;
+		this.imageEnabled = true;
+		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
 	}
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor) {
-		this.timerValue = 0;
-		this.timerActive = false;
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = 1;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = 0;
+		}
 		this.frameNumber = this.isAnimated() ? 1 : 0;
 		this.direction = this.getInitialDirection();
 		this.color = newColor;
 		this.imageEnabled = true;
-		this.index = 0;
 		this.gameObjectID = goid;
 		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
+	}
+
+	public ArenaObject(final GameObjectID goid, final GameColor newColor, final int newIndex) {
+		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = newIndex;
+		} else {
+			this.timerValue = 0;
+			this.timerActive = false;
+			this.index = newIndex;
+		}
+		this.frameNumber = this.isAnimated() ? 1 : 0;
+		this.direction = this.getInitialDirection();
+		this.color = newColor;
+		this.imageEnabled = true;
+		this.gameObjectID = goid;
+		this.waitingOnTunnel = false;
+		if (this.canMove() || this.canControl()) {
+			this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+		}
 	}
 
 	public final boolean acceptTick(final GameAction actionType) {
@@ -133,11 +237,11 @@ public class ArenaObject {
 	public final boolean canControl() {
 		return GameObjectData.canControl(this.getID());
 	}
-	
+
 	public final boolean canMove() {
 		return GameObjectData.canMove(this.getID());
 	}
-	
+
 	public final boolean canRoll() {
 		return GameObjectData.canRoll(this.getID());
 	}
@@ -239,14 +343,20 @@ public class ArenaObject {
 	}
 
 	public int getCustomProperty(final int propID) {
-        return ArenaObject.DEFAULT_CUSTOM_VALUE;
-    }
+		return ArenaObject.DEFAULT_CUSTOM_VALUE;
+	}
 
 	public String getCustomText() {
+		if (this.canControl()) {
+			return Integer.toString(this.index);
+		}
 		return null;
 	}
 
 	public Color getCustomTextColor() {
+		if (this.canControl()) {
+			return Color.white;
+		}
 		return null;
 	}
 
@@ -278,6 +388,10 @@ public class ArenaObject {
 		} else {
 			return ArenaObjectImageResolver.getImageName(this.getID());
 		}
+	}
+
+	public final int getNumber() {
+		return this.index;
 	}
 
 	private final Direction getInitialDirection() {
@@ -401,8 +515,10 @@ public class ArenaObject {
 				return Direction.NONE;
 			}
 			try {
-				final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ, this.getLayer());
-				final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+				final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ,
+						this.getLayer());
+				final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
+						this.getLayer());
 				if (this.getMaterial() == Material.MAGNETIC) {
 					if (laserType == LaserType.BLUE && mof != null
 							&& (mof.canControl() || !mof.isSolid())) {
@@ -591,7 +707,7 @@ public class ArenaObject {
 		}
 		this.postMoveActionHook(dirX, dirY, dirZ);
 	}
-	
+
 	protected void postMoveActionHook(final int dirX, final int dirY, int dirZ) {
 		// Do nothing
 	}
@@ -886,8 +1002,8 @@ public class ArenaObject {
 	}
 
 	public void setCustomProperty(final int propID, final int value) {
-        // Do nothing
-    }
+		// Do nothing
+	}
 
 	public final void setDirection(final Direction dir) {
 		this.direction = dir;
@@ -933,6 +1049,12 @@ public class ArenaObject {
 	 * @param dirY
 	 */
 	public void timerExpiredAction(final int dirX, final int dirY) {
+		if (this.canControl()) {
+			if (this.getSavedObject().canMove()) {
+				this.getSavedObject().timerExpiredAction(dirX, dirY);
+			}
+			this.activateTimer(1);
+		}
 		// Do nothing
 	}
 

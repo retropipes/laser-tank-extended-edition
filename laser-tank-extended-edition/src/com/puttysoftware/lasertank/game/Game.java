@@ -38,7 +38,6 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractCharacter;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.arena.objects.Tank;
@@ -656,7 +655,7 @@ public class Game extends Screen {
 	// Fields
 	private Container borderPane, scorePane, infoPane, outerOutputPane;
 	private GameDraw outputPane;
-	AbstractCharacter tank;
+	ArenaObject tank;
 	private boolean savedGameFlag;
 	private LaserType activeLaserType;
 	final PlayerLocationManager plMgr;
@@ -1037,7 +1036,7 @@ public class Game extends Screen {
 		return this.plMgr;
 	}
 
-	public AbstractCharacter getTank() {
+	public ArenaObject getTank() {
 		return this.tank;
 	}
 
@@ -2230,7 +2229,7 @@ public class Game extends Screen {
 
 	void updateTank() {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
-		this.tank = (AbstractCharacter) LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+		this.tank = (ArenaObject) LaserTankEE.getApplication().getArenaManager().getArena().getCell(
 				this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ(),
 				template.getLayer());
 	}
