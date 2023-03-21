@@ -10,7 +10,7 @@ import java.util.ConcurrentModificationException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.CurrentArenaLocks;
+import com.puttysoftware.lasertank.arena.ArenaLocks;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -365,7 +365,7 @@ final class MLOTask extends Thread {
 	}
 
 	private void doMovementLasersObjects() {
-		synchronized (CurrentArenaLocks.LOCK_OBJECT) {
+		synchronized (ArenaLocks.LOCK_OBJECT) {
 			final var gm = LaserTankEE.getGame();
 			final var plMgr = gm.getPlayerManager();
 			final var pz = plMgr.getPlayerLocationZ();

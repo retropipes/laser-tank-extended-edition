@@ -1,4 +1,4 @@
 package com.puttysoftware.lasertank.arena;
 
-public class CurrentArenaLock {
+public class ArenaLock {
 }
