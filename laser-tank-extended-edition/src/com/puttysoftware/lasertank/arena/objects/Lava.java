@@ -37,7 +37,7 @@ public class Lava extends ArenaObject {
 			Sounds.play(Sound.COOL_OFF);
 			return true;
 		}
-		LaserTankEE.getGame().morph(new Empty(), x, y, z, pushed.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 		Sounds.play(Sound.MELT);
 		return false;
 	}

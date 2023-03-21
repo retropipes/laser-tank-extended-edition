@@ -17,7 +17,7 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class Crystal extends ArenaObject {
 	private static void laserEnteredActionInnerP2(final int locX, final int locY, final int locZ, final int locW) {
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, locW);
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
 		// Check for nearby exploding barrels and blow them up too
 		try {
 			final var boom2 = LaserTankEE.getArenaManager().getArena()

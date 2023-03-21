@@ -14,6 +14,7 @@ import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.helper.LaserTypeHelper;
@@ -85,12 +86,17 @@ public class ArenaObject {
 	private int jumpRows;
 	private int jumpCols;
 	private boolean jumpShot;
+	private boolean autoMove;
+	private boolean shotUnlocked;
 
 	// Constructors
 	public ArenaObject() {
 		if (this.canControl()) {
 			this.activateTimer(1);
 			this.index = 1;
+		} else if (this.isHostile()) {
+			this.activateTimer(1);
+			this.index = 0;
 		} else {
 			this.timerValue = 0;
 			this.timerActive = false;
@@ -125,6 +131,9 @@ public class ArenaObject {
 		if (this.canControl()) {
 			this.activateTimer(1);
 			this.index = 1;
+		} else if (this.isHostile()) {
+			this.activateTimer(1);
+			this.index = 0;
 		} else {
 			this.timerValue = 0;
 			this.timerActive = false;
@@ -160,6 +169,9 @@ public class ArenaObject {
 		if (this.canControl()) {
 			this.activateTimer(1);
 			this.index = 1;
+		} else if (this.isHostile()) {
+			this.activateTimer(1);
+			this.index = 0;
 		} else {
 			this.timerValue = 0;
 			this.timerActive = false;
@@ -193,6 +205,9 @@ public class ArenaObject {
 
 	public ArenaObject(final GameObjectID goid, final int newIndex) {
 		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = newIndex;
+		} else if (this.isHostile()) {
 			this.activateTimer(1);
 			this.index = newIndex;
 		} else {
@@ -230,6 +245,9 @@ public class ArenaObject {
 		if (this.canControl()) {
 			this.activateTimer(1);
 			this.index = newIndex;
+		} else if (this.isHostile()) {
+			this.activateTimer(1);
+			this.index = newIndex;
 		} else {
 			this.timerValue = 0;
 			this.timerActive = false;
@@ -265,6 +283,9 @@ public class ArenaObject {
 		if (this.canControl()) {
 			this.activateTimer(1);
 			this.index = 1;
+		} else if (this.isHostile()) {
+			this.activateTimer(1);
+			this.index = 0;
 		} else {
 			this.timerValue = 0;
 			this.timerActive = false;
@@ -298,6 +319,9 @@ public class ArenaObject {
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor, final int newIndex) {
 		if (this.canControl()) {
+			this.activateTimer(1);
+			this.index = newIndex;
+		} else if (this.isHostile()) {
 			this.activateTimer(1);
 			this.index = newIndex;
 		} else {
@@ -706,11 +730,22 @@ public class ArenaObject {
 		}
 	}
 
+	public void kill(final int locX, final int locY) {
+		if (this.isHostile() && this.shotUnlocked) {
+			LaserTankEE.getGame().setLaserType(LaserType.RED);
+			LaserTankEE.getGame().fireLaser(locX, locY, this);
+			this.shotUnlocked = false;
+		}
+	}
+
 	public final boolean killsOnMove() {
 		return ArenaObjectData.killsOnMove(this.getID(), this.index);
 	}
 
 	public void laserDoneAction() {
+		if (this.isHostile()) {
+			this.shotUnlocked = true;
+		}
 		// Do nothing
 	}
 
@@ -790,6 +825,38 @@ public class ArenaObject {
 					} else {
 						this.flip = false;
 					}
+				}
+			} else if (this.isHostile()) {
+				final var baseDir = this.getDirection();
+				if (laserType == LaserType.MISSILE || laserType == LaserType.POWER) {
+					// Kill
+					final var gm = LaserTankEE.getGame();
+					final var dat = new DeadAntiTank();
+					dat.setSavedObject(this.getSavedObject());
+					dat.setDirection(baseDir);
+					gm.morph(dat, locX, locY, locZ, this.getLayer());
+					Sounds.play(Sound.ANTI_DIE);
+					return Direction.NONE;
+				}
+				if (laserType == LaserType.STUNNER) {
+					// Stun
+					final var gm = LaserTankEE.getGame();
+					final var sat = new StunnedAntiTank();
+					sat.setSavedObject(this.getSavedObject());
+					sat.setDirection(baseDir);
+					gm.morph(sat, locX, locY, locZ, this.getLayer());
+					Sounds.play(Sound.STUN);
+					return Direction.NONE;
+				}
+				final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+				if (sourceDir == baseDir) {
+					// Kill
+					final var gm = LaserTankEE.getGame();
+					final var dat = new DeadAntiTank();
+					dat.setSavedObject(this.getSavedObject());
+					dat.setDirection(baseDir);
+					gm.morph(dat, locX, locY, locZ, this.getLayer());
+					Sounds.play(Sound.ANTI_DIE);
 					return Direction.NONE;
 				}
 			} else if (this.isSolid()) {
@@ -847,6 +914,9 @@ public class ArenaObject {
 	}
 
 	public Sound laserEnteredSound() {
+		if (this.isHostile()) {
+			return Sound.PUSH_ANTI_TANK;
+		}
 		return null;
 	}
 
@@ -984,7 +1054,7 @@ public class ArenaObject {
 	protected void pushCrushAction(final int x, final int y, final int z) {
 		// Object crushed
 		Sounds.play(Sound.CRUSH);
-		LaserTankEE.getGame().morph(new Empty(), x, y, z, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, this.getLayer());
 	}
 
 	/**
@@ -1357,6 +1427,21 @@ public class ArenaObject {
 		if (this.canControl()) {
 			if (this.getSavedObject().canMove()) {
 				this.getSavedObject().timerExpiredAction(dirX, dirY);
+			}
+			this.activateTimer(1);
+		} else if (this.isHostile()) {
+			final var moveDir = this.getSavedObject().getDirection();
+			if (this.getSavedObject().movesHostiles(moveDir)) {
+				final var unres = DirectionHelper.unresolveRelative(moveDir);
+				if (Game.canObjectMove(dirX, dirY, unres[0], unres[1])) {
+					if (this.autoMove) {
+						this.autoMove = false;
+						LaserTankEE.getGame().updatePushedPosition(dirX, dirY, dirX + unres[0],
+								dirY + unres[1], this);
+					}
+				} else {
+					this.autoMove = true;
+				}
 			}
 			this.activateTimer(1);
 		}

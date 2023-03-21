@@ -22,7 +22,7 @@ public class IcyBox extends ArenaObject {
 				if (this.hasPreviousState()) {
 					return this.getPreviousState();
 				} else {
-					return new Box();
+					return new ArenaObject(GameObjectID.BOX);
 				}
 			default:
 				return this;

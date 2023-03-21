@@ -12,11 +12,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.FrozenTank;
-import com.puttysoftware.lasertank.arena.objects.Ground;
-import com.puttysoftware.lasertank.arena.objects.MoltenTank;
-import com.puttysoftware.lasertank.arena.objects.Tank;
-import com.puttysoftware.lasertank.arena.objects.Wall;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -61,7 +57,7 @@ final class MLOTask extends Thread {
 		final var px = gm.getPlayerManager().getPlayerLocationX();
 		final var py = gm.getPlayerManager().getPlayerLocationY();
 		final var pz = gm.getPlayerManager().getPlayerLocationZ();
-		final var ft = new FrozenTank(dir, tank.getNumber());
+		final var ft = new ArenaObject(GameObjectID.FROZEN_TANK, dir, tank.getNumber());
 		ft.setSavedObject(tank.getSavedObject());
 		gm.morph(ft, px, py, pz, ft.getLayer());
 		gm.updateTank();
@@ -74,7 +70,7 @@ final class MLOTask extends Thread {
 		final var px = gm.getPlayerManager().getPlayerLocationX();
 		final var py = gm.getPlayerManager().getPlayerLocationY();
 		final var pz = gm.getPlayerManager().getPlayerLocationZ();
-		final var mt = new MoltenTank(dir, tank.getNumber());
+		final var mt = new ArenaObject(GameObjectID.MOLTEN_TANK, dir, tank.getNumber());
 		mt.setSavedObject(tank.getSavedObject());
 		gm.morph(mt, px, py, pz, mt.getLayer());
 		gm.updateTank();
@@ -293,17 +289,17 @@ final class MLOTask extends Thread {
 				loo = m.getCell(px + this.sx, py + this.sy, pz, Layer.LOWER_OBJECTS.ordinal());
 				uoo = m.getCell(px + this.sx, py + this.sy, pz, pw);
 			} catch (final ArrayIndexOutOfBoundsException ae) {
-				lgo = new Wall();
-				ugo = new Wall();
-				loo = new Wall();
-				uoo = new Wall();
+				lgo = new ArenaObject(GameObjectID.WALL);
+				ugo = new ArenaObject(GameObjectID.WALL);
+				loo = new ArenaObject(GameObjectID.WALL);
+				uoo = new ArenaObject(GameObjectID.WALL);
 			}
 		} catch (final NullPointerException np) {
 			this.proceed = false;
-			lgo = new Wall();
-			ugo = new Wall();
-			loo = new Wall();
-			uoo = new Wall();
+			lgo = new ArenaObject(GameObjectID.WALL);
+			ugo = new ArenaObject(GameObjectID.WALL);
+			loo = new ArenaObject(GameObjectID.WALL);
+			uoo = new ArenaObject(GameObjectID.WALL);
 		}
 		return MLOTask.checkSolid(lgo) && MLOTask.checkSolid(ugo) && MLOTask.checkSolid(loo) && MLOTask.checkSolid(uoo);
 	}
@@ -322,13 +318,13 @@ final class MLOTask extends Thread {
 				lgo = m.getCell(px, py, pz, Layer.LOWER_GROUND.ordinal());
 				ugo = m.getCell(px, py, pz, Layer.UPPER_GROUND.ordinal());
 			} catch (final ArrayIndexOutOfBoundsException ae) {
-				lgo = new Wall();
-				ugo = new Wall();
+				lgo = new ArenaObject(GameObjectID.WALL);
+				ugo = new ArenaObject(GameObjectID.WALL);
 			}
 		} catch (final NullPointerException np) {
 			this.proceed = false;
-			lgo = new Wall();
-			ugo = new Wall();
+			lgo = new ArenaObject(GameObjectID.WALL);
+			ugo = new ArenaObject(GameObjectID.WALL);
 		}
 		return zproceed && (!lgo.hasFriction() || !ugo.hasFriction() || this.mover || this.frozen)
 				&& this.canMoveThere();
@@ -360,7 +356,7 @@ final class MLOTask extends Thread {
 			final var px = gm.getPlayerManager().getPlayerLocationX();
 			final var py = gm.getPlayerManager().getPlayerLocationY();
 			final var pz = gm.getPlayerManager().getPlayerLocationZ();
-			final var t = new Tank(dir, tank.getNumber());
+			final var t = new ArenaObject(GameObjectID.TANK, dir, tank.getNumber());
 			t.setSavedObject(tank.getSavedObject());
 			gm.morph(t, px, py, pz, t.getLayer());
 			gm.updateTank();
@@ -375,10 +371,10 @@ final class MLOTask extends Thread {
 			final var pz = plMgr.getPlayerLocationZ();
 			this.loopCheck = true;
 			var objs = new ArenaObject[4];
-			objs[Layer.LOWER_GROUND.ordinal()] = new Wall();
-			objs[Layer.UPPER_GROUND.ordinal()] = new Wall();
-			objs[Layer.LOWER_OBJECTS.ordinal()] = new Wall();
-			objs[Layer.UPPER_OBJECTS.ordinal()] = new Wall();
+			objs[Layer.LOWER_GROUND.ordinal()] = new ArenaObject(GameObjectID.WALL);
+			objs[Layer.UPPER_GROUND.ordinal()] = new ArenaObject(GameObjectID.WALL);
+			objs[Layer.LOWER_OBJECTS.ordinal()] = new ArenaObject(GameObjectID.WALL);
+			objs[Layer.UPPER_OBJECTS.ordinal()] = new ArenaObject(GameObjectID.WALL);
 			do {
 				try {
 					if (this.move && this.loopCheck) {
@@ -513,17 +509,17 @@ final class MLOTask extends Thread {
 				loo = m.getCell(px + this.sx, py + this.sy, pz, Layer.LOWER_OBJECTS.ordinal());
 				uoo = m.getCell(px + this.sx, py + this.sy, pz, pw);
 			} catch (final ArrayIndexOutOfBoundsException ae) {
-				lgo = new Wall();
-				ugo = new Wall();
-				loo = new Wall();
-				uoo = new Wall();
+				lgo = new ArenaObject(GameObjectID.WALL);
+				ugo = new ArenaObject(GameObjectID.WALL);
+				loo = new ArenaObject(GameObjectID.WALL);
+				uoo = new ArenaObject(GameObjectID.WALL);
 			}
 		} catch (final NullPointerException np) {
 			this.proceed = false;
-			lgo = new Wall();
-			ugo = new Wall();
-			loo = new Wall();
-			uoo = new Wall();
+			lgo = new ArenaObject(GameObjectID.WALL);
+			ugo = new ArenaObject(GameObjectID.WALL);
+			loo = new ArenaObject(GameObjectID.WALL);
+			uoo = new ArenaObject(GameObjectID.WALL);
 		}
 		if (this.proceed) {
 			plMgr.savePlayerLocation();
@@ -562,22 +558,22 @@ final class MLOTask extends Thread {
 						gm.doDelayedDecay();
 					}
 					if (lgo == null) {
-						lgo = new Ground();
+						lgo = new ArenaObject(GameObjectID.GROUND);
 					}
 					lgo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 							plMgr.getPlayerLocationZ());
 					if (ugo == null) {
-						ugo = new Ground();
+						ugo = new ArenaObject(GameObjectID.GROUND);
 					}
 					ugo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 							plMgr.getPlayerLocationZ());
 					if (loo == null) {
-						loo = new Ground();
+						loo = new ArenaObject(GameObjectID.GROUND);
 					}
 					loo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 							plMgr.getPlayerLocationZ());
 					if (uoo == null) {
-						uoo = new Ground();
+						uoo = new ArenaObject(GameObjectID.GROUND);
 					}
 					uoo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 							plMgr.getPlayerLocationZ());
@@ -598,22 +594,22 @@ final class MLOTask extends Thread {
 						plMgr.getPlayerLocationZ(), pw);
 				// Move failed - attempted to go outside the arena
 				if (lgo == null) {
-					lgo = new Ground();
+					lgo = new ArenaObject(GameObjectID.GROUND);
 				}
 				lgo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 						plMgr.getPlayerLocationZ());
 				if (ugo == null) {
-					ugo = new Ground();
+					ugo = new ArenaObject(GameObjectID.GROUND);
 				}
 				ugo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 						plMgr.getPlayerLocationZ());
 				if (loo == null) {
-					loo = new Ground();
+					loo = new ArenaObject(GameObjectID.GROUND);
 				}
 				loo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 						plMgr.getPlayerLocationZ());
 				if (uoo == null) {
-					uoo = new Ground();
+					uoo = new ArenaObject(GameObjectID.GROUND);
 				}
 				uoo.moveFailedAction(plMgr.getPlayerLocationX() + this.sx, plMgr.getPlayerLocationY() + this.sy,
 						plMgr.getPlayerLocationZ());

@@ -20,7 +20,7 @@ public class StrongAcid extends ArenaObject {
 	public ArenaObject changesToOnExposure(final Material materialID) {
 		return switch (materialID) {
 			case ICE -> {
-				final var i = new Ice();
+				final var i = new ArenaObject(GameObjectID.ICE);
 				i.setPreviousState(this);
 				yield i;
 			}
@@ -38,10 +38,10 @@ public class StrongAcid extends ArenaObject {
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Get rid of pushed object
-		LaserTankEE.getGame().morph(new Empty(), x, y, z, pushed.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 		if (pushed.isBox()) {
 			if (pushed.getMaterial() == Material.WOODEN) {
-				LaserTankEE.getGame().morph(new AcidBridge(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.ACID_BRIDGE), x, y, z, this.getLayer());
 			} else {
 				LaserTankEE.getGame().morph(new Acid(), x, y, z, this.getLayer());
 			}

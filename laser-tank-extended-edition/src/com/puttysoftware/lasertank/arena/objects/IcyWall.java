@@ -25,7 +25,7 @@ public class IcyWall extends ArenaObject {
 				if (this.hasPreviousState()) {
 					return this.getPreviousState();
 				} else {
-					return new Wall();
+					return new ArenaObject(GameObjectID.WALL);
 				}
 			default:
 				return this;
@@ -50,7 +50,7 @@ public class IcyWall extends ArenaObject {
 		if (this.hasPreviousState()) {
 			ao = this.getPreviousState();
 		} else {
-			ao = new Wall();
+			ao = new ArenaObject(GameObjectID.WALL);
 		}
 		LaserTankEE.getGame().morph(ao, locX, locY, locZ, this.getLayer());
 		return Direction.NONE;

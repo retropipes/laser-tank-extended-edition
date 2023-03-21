@@ -37,7 +37,7 @@ public class RollingCrystalHorizontal extends ArenaObject {
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX, locY, locZ, 1);
 		if (target) {
@@ -64,7 +64,7 @@ public class RollingCrystalHorizontal extends ArenaObject {
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new Empty(), x, y, z, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(x, y, z, 1);
 		if (target) {

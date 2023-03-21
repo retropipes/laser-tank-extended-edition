@@ -18,7 +18,7 @@ public class HotBox extends ArenaObject {
     @Override
     public ArenaObject changesToOnExposure(final Material materialID) {
         return switch (materialID) {
-            case ICE -> new Box();
+            case ICE -> new ArenaObject(GameObjectID.BOX);
             default -> this;
         };
     }

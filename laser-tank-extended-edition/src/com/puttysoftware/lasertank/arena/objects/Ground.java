@@ -17,7 +17,7 @@ public class Ground extends ArenaObject {
 	public ArenaObject changesToOnExposure(final Material materialID) {
 		return switch (materialID) {
 			case ICE -> {
-				final var i = new Ice();
+				final var i = new ArenaObject(GameObjectID.ICE);
 				i.setPreviousState(this);
 				yield i;
 			}

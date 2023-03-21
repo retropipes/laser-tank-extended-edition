@@ -14,7 +14,7 @@ import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.Ground;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.index.EditorLayout;
 import com.puttysoftware.lasertank.locale.CommonString;
@@ -50,7 +50,7 @@ public class Settings {
 	}
 
 	public static ArenaObject getEditorDefaultFill() {
-		return new Ground();
+		return new ArenaObject(GameObjectID.GROUND);
 	}
 
 	public static int getEditorLayoutID() {

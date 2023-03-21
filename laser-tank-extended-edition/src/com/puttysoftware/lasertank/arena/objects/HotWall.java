@@ -21,7 +21,7 @@ public class HotWall extends ArenaObject {
 	@Override
 	public ArenaObject changesToOnExposure(final Material materialID) {
 		return switch (materialID) {
-			case ICE -> new Wall();
+			case ICE -> new ArenaObject(GameObjectID.WALL);
 			default -> this;
 		};
 	}
@@ -37,7 +37,7 @@ public class HotWall extends ArenaObject {
 		if (laserType == LaserType.STUNNER) {
 			// Cool off hot wall
 			Sounds.play(Sound.COOL_OFF);
-			LaserTankEE.getGame().morph(new Wall(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.WALL), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser

@@ -28,6 +28,6 @@ public class TenBombs extends ArenaObject {
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         final var gm = LaserTankEE.getGame();
         TankInventory.addTenBombs();
-        gm.morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        gm.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

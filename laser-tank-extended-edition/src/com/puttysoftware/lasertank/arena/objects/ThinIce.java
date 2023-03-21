@@ -20,11 +20,11 @@ public class ThinIce extends ArenaObject {
     public ArenaObject changesToOnExposure(final Material materialID) {
         return switch (materialID) {
             case ICE -> {
-                final var i = new Ice();
+                final var i = new ArenaObject(GameObjectID.ICE);
                 i.setPreviousState(this);
                 yield i;
             }
-            case FIRE -> new Water();
+            case FIRE -> new ArenaObject(GameObjectID.WATER);
             default -> this;
         };
     }
@@ -37,12 +37,12 @@ public class ThinIce extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.PUSH_MIRROR);
-        LaserTankEE.getGame().remoteDelayedDecayTo(new Water());
+        LaserTankEE.getGame().remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
     }
 
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-        LaserTankEE.getGame().remoteDelayedDecayTo(new Water());
+        LaserTankEE.getGame().remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
         return true;
     }
 }

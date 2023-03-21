@@ -47,7 +47,7 @@ public class StunnedAntiTank extends ArenaObject {
 			this.activateTimer(1);
 		} else if (this.stunnedLeft == 0) {
 			final var z = LaserTankEE.getGame().getPlayerManager().getPlayerLocationZ();
-			final var at = new AntiTank();
+			final var at = new ArenaObject(GameObjectID.ANTI_TANK);
 			at.setSavedObject(this.getSavedObject());
 			at.setDirection(this.getDirection());
 			LaserTankEE.getGame().morph(at, locX, locY, z, this.getLayer());

@@ -33,8 +33,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.Ground;
-import com.puttysoftware.lasertank.arena.objects.Tank;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
@@ -251,7 +250,7 @@ public class Editor extends Screen {
 	private final FocusHandler fHandler = new FocusHandler();
 
 	public Editor() {
-		this.savedArenaObject = new Ground();
+		this.savedArenaObject = new ArenaObject(GameObjectID.GROUND);
 		this.lSettings = new LevelSettings();
 		this.mhandler = new EventHandler();
 		this.shandler = new StartEventHandler();
@@ -825,7 +824,7 @@ public class Editor extends Screen {
 				if (levelSizeZ > maxF) {
 					throw new NumberFormatException(Strings.loadEditor(EditorString.FLOORS_TOO_HIGH));
 				}
-				LaserTankEE.getArenaManager().getArena().resize(levelSizeZ, new Ground());
+				LaserTankEE.getArenaManager().getArena().resize(levelSizeZ, new ArenaObject(GameObjectID.GROUND));
 				this.fixLimits();
 				// Save the entire level
 				LaserTankEE.getArenaManager().getArena().save();
@@ -848,13 +847,13 @@ public class Editor extends Screen {
 	}
 
 	public void setPlayerLocation() {
-		final var template = new Tank(this.activePlayer + 1);
+		final var template = new ArenaObject(GameObjectID.TANK, this.activePlayer + 1);
 		final var oldX = LaserTankEE.getArenaManager().getArena().getStartColumn(this.activePlayer);
 		final var oldY = LaserTankEE.getArenaManager().getArena().getStartRow(this.activePlayer);
 		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new Ground(), oldX, oldY, oldZ, template.getLayer());
+			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ, template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}
@@ -867,7 +866,7 @@ public class Editor extends Screen {
 	}
 
 	void setPlayerLocation(final int x, final int y) {
-		final var template = new Tank(this.activePlayer + 1);
+		final var template = new ArenaObject(GameObjectID.TANK, this.activePlayer + 1);
 		final var xOffset = this.vertScroll.getValue() - this.vertScroll.getMinimum();
 		final var yOffset = this.horzScroll.getValue() - this.horzScroll.getMinimum();
 		final var destX = x / Images.getGraphicSize() + EditorViewingWindowManager.getViewingWindowLocationX() - xOffset
@@ -879,7 +878,7 @@ public class Editor extends Screen {
 		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new Ground(), oldX, oldY, oldZ, template.getLayer());
+			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ, template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}

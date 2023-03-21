@@ -34,7 +34,7 @@ public class Mirror extends ArenaObject {
         if (laserType == LaserType.MISSILE) {
             // Destroy mirror
             Sounds.play(Sound.BOOM);
-            LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+            LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
             return Direction.NONE;
         }
         return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);

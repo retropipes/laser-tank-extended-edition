@@ -38,9 +38,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
-import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -52,6 +50,7 @@ import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Difficulty;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -817,7 +816,7 @@ public class Game extends Screen {
 
 	public void decay() {
 		if (this.tank != null) {
-			this.tank.setSavedObject(new Empty());
+			this.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
 		}
 	}
 
@@ -1220,7 +1219,7 @@ public class Game extends Screen {
 					return;
 				}
 				this.updateTank();
-				this.tank.setSavedObject(new Empty());
+				this.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
 				this.st.setScoreFile(LaserTankEE.getArenaManager().getScoresFileName());
 				if (!this.savedGameFlag) {
 					this.st.resetScore(LaserTankEE.getArenaManager().getScoresFileName());
@@ -1609,7 +1608,7 @@ public class Game extends Screen {
 
 	public void setNormalTank() {
 		final var saveTank = this.tank;
-		this.tank = new Tank(saveTank.getDirection(), saveTank.getNumber());
+		this.tank = new ArenaObject(GameObjectID.TANK, saveTank.getDirection(), saveTank.getNumber());
 		this.resetTank();
 	}
 
@@ -1859,7 +1858,7 @@ public class Game extends Screen {
 	}
 
 	public void updatePositionAbsoluteNoEvents(final int x, final int y, final int z) {
-		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
+		final var template = new ArenaObject(GameObjectID.TANK, this.plMgr.getActivePlayerNumber() + 1);
 		final var m = LaserTankEE.getArenaManager().getArena();
 		this.plMgr.savePlayerLocation();
 		try {
@@ -1970,7 +1969,7 @@ public class Game extends Screen {
 
 	public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
 			final int z2, final ArenaObject pushedInto, final ArenaObject source) {
-		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
+		final var template = new ArenaObject(GameObjectID.TANK, this.plMgr.getActivePlayerNumber() + 1);
 		final var m = LaserTankEE.getArenaManager().getArena();
 		var needsFixup1 = false;
 		var needsFixup2 = false;
@@ -2001,7 +2000,7 @@ public class Game extends Screen {
 				LaserTankEE.getArenaManager().setDirty(true);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ae) {
-			final var e = new Empty();
+			final var e = new ArenaObject(GameObjectID.PLACEHOLDER);
 			m.setCell(e, x2, y2, z2, pushedInto.getLayer());
 		}
 	}
@@ -2202,7 +2201,7 @@ public class Game extends Screen {
 	}
 
 	void updateTank() {
-		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
+		final var template = new ArenaObject(GameObjectID.TANK, this.plMgr.getActivePlayerNumber() + 1);
 		this.tank = (ArenaObject) LaserTankEE.getArenaManager().getArena().getCell(
 				this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ(),
 				template.getLayer());

@@ -32,6 +32,6 @@ public class RedDoor extends ArenaObject {
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.UNLOCK);
         TankInventory.useRedKey();
-        LaserTankEE.getGame().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

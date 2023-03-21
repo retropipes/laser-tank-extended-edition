@@ -25,20 +25,20 @@ public class Cloak extends ArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
             final LaserType laserType, final int forceUnits) {
-        LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CHANGE);
         return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-        LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CHANGE);
     }
 
     @Override
     public void postMoveActionHook(final int locX, final int locY, final int locZ) {
-        LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CHANGE);
     }
 }

@@ -8,27 +8,14 @@ package com.puttysoftware.lasertank.game;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.BlueLaser;
-import com.puttysoftware.lasertank.arena.objects.Empty;
-import com.puttysoftware.lasertank.arena.objects.GreenLaser;
-import com.puttysoftware.lasertank.arena.objects.Ground;
-import com.puttysoftware.lasertank.arena.objects.HeatLaser;
-import com.puttysoftware.lasertank.arena.objects.IceLaser;
-import com.puttysoftware.lasertank.arena.objects.LightLaser;
-import com.puttysoftware.lasertank.arena.objects.Missile;
-import com.puttysoftware.lasertank.arena.objects.PowerLaser;
 import com.puttysoftware.lasertank.arena.objects.PowerTurret;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
-import com.puttysoftware.lasertank.arena.objects.RedLaser;
-import com.puttysoftware.lasertank.arena.objects.ShadowLaser;
-import com.puttysoftware.lasertank.arena.objects.Stunner;
-import com.puttysoftware.lasertank.arena.objects.VioletLaser;
-import com.puttysoftware.lasertank.arena.objects.Wall;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.utility.TankInventory;
@@ -47,11 +34,11 @@ final class MovingLaserTracker {
 			try {
 				zo = m.getCell(px + sx, py + sy, pz, Layer.LOWER_OBJECTS.ordinal());
 			} catch (final ArrayIndexOutOfBoundsException ae) {
-				zo = new Wall();
+				zo = new ArenaObject(GameObjectID.WALL);
 			}
 		} catch (final NullPointerException np) {
 			zproceed = false;
-			zo = new Wall();
+			zo = new ArenaObject(GameObjectID.WALL);
 		}
 		if (zproceed) {
 			try {
@@ -80,17 +67,17 @@ final class MovingLaserTracker {
 
 	private static ArenaObject createLaserForType(final LaserType type) {
 		return switch (type) {
-			case GREEN -> new GreenLaser();
-			case BLUE -> new BlueLaser();
-			case RED -> new RedLaser();
-			case MISSILE -> new Missile();
-			case STUNNER -> new Stunner();
-			case POWER -> new PowerLaser();
-			case VIOLET -> new VioletLaser();
-			case HEAT -> new HeatLaser();
-			case ICE -> new IceLaser();
-			case LIGHT -> new LightLaser();
-			case SHADOW -> new ShadowLaser();
+			case GREEN -> new ArenaObject(GameObjectID.GREEN_LASER);
+			case BLUE -> new ArenaObject(GameObjectID.BLUE_LASER);
+			case RED -> new ArenaObject(GameObjectID.RED_LASER);
+			case MISSILE -> new ArenaObject(GameObjectID.MISSILE);
+			case STUNNER -> new ArenaObject(GameObjectID.STUNNER);
+			case POWER -> new ArenaObject(GameObjectID.POWER_LASER);
+			case VIOLET -> new ArenaObject(GameObjectID.VIOLET_LASER);
+			case HEAT -> new ArenaObject(GameObjectID.HEAT_LASER);
+			case ICE -> new ArenaObject(GameObjectID.ICE_LASER);
+			case LIGHT -> new ArenaObject(GameObjectID.LIGHT_LASER);
+			case SHADOW -> new ArenaObject(GameObjectID.SHADOW_LASER);
 			default -> null;
 		};
 	}
@@ -221,7 +208,7 @@ final class MovingLaserTracker {
 		if (this.laser) {
 			// Clear last laser
 			try {
-				LaserTankEE.getArenaManager().getArena().setVirtualCell(new Empty(),
+				LaserTankEE.getArenaManager().getArena().setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER),
 						this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz, this.l.getLayer());
 				gm.redrawArena();
 			} catch (final ArrayIndexOutOfBoundsException aioobe) {
@@ -236,7 +223,7 @@ final class MovingLaserTracker {
 	}
 
 	private void doLasersOnce(final boolean tracking) {
-		final var g = new Ground();
+		final var g = new ArenaObject(GameObjectID.GROUND);
 		final var gm = LaserTankEE.getGame();
 		final var plMgr = LaserTankEE.getGame().getPlayerManager();
 		final var px = plMgr.getPlayerLocationX();
@@ -276,7 +263,7 @@ final class MovingLaserTracker {
 				// Ignore
 			}
 			try {
-				m.setVirtualCell(new Empty(), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
+				m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
 						this.l.getLayer());
 			} catch (final ArrayIndexOutOfBoundsException aioobe) {
 				// Ignore
@@ -298,7 +285,7 @@ final class MovingLaserTracker {
 				this.res = false;
 				// Clear laser, because it died
 				try {
-					m.setVirtualCell(new Empty(), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore
 				}
@@ -319,7 +306,7 @@ final class MovingLaserTracker {
 				this.res = false;
 				// Clear laser, because it died
 				try {
-					m.setVirtualCell(new Empty(), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore
 				}
@@ -344,7 +331,7 @@ final class MovingLaserTracker {
 			}
 			if (oldLaserDir != laserDir && tracking) {
 				try {
-					m.setVirtualCell(new Empty(), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
 							this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore

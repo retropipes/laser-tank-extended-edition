@@ -28,7 +28,7 @@ public class IcyBricks extends ArenaObject {
 	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 			final int dirY, final LaserType laserType, final int forceUnits) {
 		Sounds.play(Sound.BREAK_BRICKS);
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		if (laserType == LaserType.POWER) {
 			// Laser keeps going
 			return DirectionHelper.resolveRelative(dirX, dirY);
@@ -41,7 +41,7 @@ public class IcyBricks extends ArenaObject {
 	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final RangeType rangeType, final int forceUnits) {
 		Sounds.play(Sound.BREAK_BRICKS);
-		LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 				this.getLayer());
 		return true;
 	}

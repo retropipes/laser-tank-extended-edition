@@ -27,7 +27,7 @@ public class IcyCrystalBlock extends ArenaObject {
 				if (this.hasPreviousState()) {
 					return this.getPreviousState();
 				} else {
-					return new CrystalBlock();
+					return new ArenaObject(GameObjectID.CRYSTAL_BLOCK);
 				}
 			default:
 				return this;
@@ -45,7 +45,7 @@ public class IcyCrystalBlock extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy icy crystal block
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser
@@ -58,7 +58,7 @@ public class IcyCrystalBlock extends ArenaObject {
 			final RangeType rangeType, final int forceUnits) {
 		if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 			// Destroy icy crystal block
-			LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 					this.getLayer());
 			return true;
 		}

@@ -12,25 +12,10 @@ import java.nio.charset.Charset;
 
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
-import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.Box;
-import com.puttysoftware.lasertank.arena.objects.Bricks;
-import com.puttysoftware.lasertank.arena.objects.CrystalBlock;
-import com.puttysoftware.lasertank.arena.objects.Empty;
-import com.puttysoftware.lasertank.arena.objects.Flag;
-import com.puttysoftware.lasertank.arena.objects.Ground;
-import com.puttysoftware.lasertank.arena.objects.Ice;
-import com.puttysoftware.lasertank.arena.objects.Mirror;
-import com.puttysoftware.lasertank.arena.objects.RotaryMirror;
-import com.puttysoftware.lasertank.arena.objects.Tank;
-import com.puttysoftware.lasertank.arena.objects.TankMover;
-import com.puttysoftware.lasertank.arena.objects.ThinIce;
-import com.puttysoftware.lasertank.arena.objects.Tunnel;
-import com.puttysoftware.lasertank.arena.objects.Wall;
-import com.puttysoftware.lasertank.arena.objects.Water;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameColor;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
@@ -69,141 +54,141 @@ class V4FileLevel {
 					final var b = V4FileLevel.objects[z];
 					switch (b) {
 						case 0:
-							ao = new Ground();
+							ao = new ArenaObject(GameObjectID.GROUND);
 							break;
 						case 1:
-							ao = new Tank(1);
+							ao = new ArenaObject(GameObjectID.TANK, 1);
 							break;
 						case 2:
-							ao = new Flag();
+							ao = new ArenaObject(GameObjectID.FLAG);
 							break;
 						case 3:
-							ao = new Water();
+							ao = new ArenaObject(GameObjectID.WATER);
 							break;
 						case 4:
-							ao = new Wall();
+							ao = new ArenaObject(GameObjectID.WALL);
 							break;
 						case 5:
-							ao = new Box();
+							ao = new ArenaObject(GameObjectID.BOX);
 							break;
 						case 6:
-							ao = new Bricks();
+							ao = new ArenaObject(GameObjectID.BRICKS);
 							break;
 						case 7:
-							ao = new AntiTank();
+							ao = new ArenaObject(GameObjectID.ANTI_TANK);
 							ao.setDirection(Direction.NORTH);
 							break;
 						case 8:
-							ao = new AntiTank();
+							ao = new ArenaObject(GameObjectID.ANTI_TANK);
 							ao.setDirection(Direction.EAST);
 							break;
 						case 9:
-							ao = new AntiTank();
+							ao = new ArenaObject(GameObjectID.ANTI_TANK);
 							ao.setDirection(Direction.SOUTH);
 							break;
 						case 10:
-							ao = new AntiTank();
+							ao = new ArenaObject(GameObjectID.ANTI_TANK);
 							ao.setDirection(Direction.WEST);
 							break;
 						case 11:
-							ao = new Mirror();
+							ao = new ArenaObject(GameObjectID.MIRROR);
 							ao.setDirection(Direction.NORTHWEST);
 							break;
 						case 12:
-							ao = new Mirror();
+							ao = new ArenaObject(GameObjectID.MIRROR);
 							ao.setDirection(Direction.NORTHEAST);
 							break;
 						case 13:
-							ao = new Mirror();
+							ao = new ArenaObject(GameObjectID.MIRROR);
 							ao.setDirection(Direction.SOUTHEAST);
 							break;
 						case 14:
-							ao = new Mirror();
+							ao = new ArenaObject(GameObjectID.MIRROR);
 							ao.setDirection(Direction.SOUTHWEST);
 							break;
 						case 15:
-							ao = new TankMover();
+							ao = new ArenaObject(GameObjectID.TANK_MOVER);
 							ao.setDirection(Direction.NORTH);
 							break;
 						case 16:
-							ao = new TankMover();
+							ao = new ArenaObject(GameObjectID.TANK_MOVER);
 							ao.setDirection(Direction.EAST);
 							break;
 						case 17:
-							ao = new TankMover();
+							ao = new ArenaObject(GameObjectID.TANK_MOVER);
 							ao.setDirection(Direction.SOUTH);
 							break;
 						case 18:
-							ao = new TankMover();
+							ao = new ArenaObject(GameObjectID.TANK_MOVER);
 							ao.setDirection(Direction.WEST);
 							break;
 						case 19:
-							ao = new CrystalBlock();
+							ao = new ArenaObject(GameObjectID.CRYSTAL_BLOCK);
 							break;
 						case 20:
-							ao = new RotaryMirror();
+							ao = new ArenaObject(GameObjectID.ROTARY_MIRROR);
 							ao.setDirection(Direction.NORTHWEST);
 							break;
 						case 21:
-							ao = new RotaryMirror();
+							ao = new ArenaObject(GameObjectID.ROTARY_MIRROR);
 							ao.setDirection(Direction.NORTHEAST);
 							break;
 						case 22:
-							ao = new RotaryMirror();
+							ao = new ArenaObject(GameObjectID.ROTARY_MIRROR);
 							ao.setDirection(Direction.SOUTHEAST);
 							break;
 						case 23:
-							ao = new RotaryMirror();
+							ao = new ArenaObject(GameObjectID.ROTARY_MIRROR);
 							ao.setDirection(Direction.SOUTHWEST);
 							break;
 						case 24:
-							ao = new Ice();
+							ao = new ArenaObject(GameObjectID.ICE);
 							break;
 						case 25:
-							ao = new ThinIce();
+							ao = new ArenaObject(GameObjectID.THIN_ICE);
 							break;
 						case 64:
 						case 65:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.RED);
 							break;
 						case 66:
 						case 67:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.GREEN);
 							break;
 						case 68:
 						case 69:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.BLUE);
 							break;
 						case 70:
 						case 71:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.CYAN);
 							break;
 						case 72:
 						case 73:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.YELLOW);
 							break;
 						case 74:
 						case 75:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.MAGENTA);
 							break;
 						case 76:
 						case 77:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.WHITE);
 							break;
 						case 78:
 						case 79:
-							ao = new Tunnel();
+							ao = new ArenaObject(GameObjectID.TUNNEL);
 							ao.setColor(GameColor.GRAY);
 							break;
 						default:
-							ao = new Empty();
+							ao = new ArenaObject(GameObjectID.PLACEHOLDER);
 					}
 					t.setCell(a, ao, x, y, 0, ao.getLayer());
 				}
@@ -258,8 +243,8 @@ class V4FileLevel {
 					a.setDifficulty(3);
 					break;
 			}
-			t.fillNulls(a, new Ground(), new Wall(), true);
-			t.resize(a, Arena.getMinFloors(), new Empty());
+			t.fillNulls(a, new ArenaObject(GameObjectID.GROUND), new ArenaObject(GameObjectID.WALL), true);
+			t.resize(a, Arena.getMinFloors(), new ArenaObject(GameObjectID.PLACEHOLDER));
 			t.fillVirtual();
 			return t;
 		} catch (final IOException ioe) {

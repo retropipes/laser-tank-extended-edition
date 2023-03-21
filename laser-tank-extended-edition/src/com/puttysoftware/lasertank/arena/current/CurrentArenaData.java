@@ -15,13 +15,9 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
-import com.puttysoftware.lasertank.arena.objects.AntiTank;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.DeadAntiTank;
-import com.puttysoftware.lasertank.arena.objects.Empty;
-import com.puttysoftware.lasertank.arena.objects.Ground;
-import com.puttysoftware.lasertank.arena.objects.Tank;
-import com.puttysoftware.lasertank.arena.objects.Wall;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -189,7 +185,7 @@ public final class CurrentArenaData extends ArenaData {
 		arena.setDifficulty(reader.readInt());
 		arena.setMoveShootAllowedThisLevel(false);
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), new Wall(), true);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), new ArenaObject(GameObjectID.WALL), true);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -201,7 +197,7 @@ public final class CurrentArenaData extends ArenaData {
 		arenaSizeY = reader.readInt();
 		arenaSizeZ = reader.readInt();
 		final var lt = new CurrentArenaData();
-		lt.resize(arena, arenaSizeZ, new Ground());
+		lt.resize(arena, arenaSizeZ, new ArenaObject(GameObjectID.GROUND));
 		for (x = 0; x < arenaSizeX; x++) {
 			for (y = 0; y < arenaSizeY; y++) {
 				for (z = 0; z < arenaSizeZ; z++) {
@@ -237,7 +233,7 @@ public final class CurrentArenaData extends ArenaData {
 		arena.setDifficulty(reader.readInt());
 		arena.setMoveShootAllowedThisLevel(false);
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), null, false);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), null, false);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -249,7 +245,7 @@ public final class CurrentArenaData extends ArenaData {
 		arenaSizeY = reader.readInt();
 		arenaSizeZ = reader.readInt();
 		final var lt = new CurrentArenaData();
-		lt.resize(arena, arenaSizeZ, new Ground());
+		lt.resize(arena, arenaSizeZ, new ArenaObject(GameObjectID.GROUND));
 		for (x = 0; x < arenaSizeX; x++) {
 			for (y = 0; y < arenaSizeY; y++) {
 				for (z = 0; z < arenaSizeZ; z++) {
@@ -285,7 +281,7 @@ public final class CurrentArenaData extends ArenaData {
 		arena.setDifficulty(reader.readInt());
 		arena.setMoveShootAllowedThisLevel(false);
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), null, false);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), null, false);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -297,7 +293,7 @@ public final class CurrentArenaData extends ArenaData {
 		arenaSizeY = reader.readInt();
 		arenaSizeZ = reader.readInt();
 		final var lt = new CurrentArenaData();
-		lt.resize(arena, arenaSizeZ, new Ground());
+		lt.resize(arena, arenaSizeZ, new ArenaObject(GameObjectID.GROUND));
 		for (x = 0; x < arenaSizeX; x++) {
 			for (y = 0; y < arenaSizeY; y++) {
 				for (z = 0; z < arenaSizeZ; z++) {
@@ -333,7 +329,7 @@ public final class CurrentArenaData extends ArenaData {
 		arena.setDifficulty(reader.readInt());
 		arena.setMoveShootAllowedThisLevel(false);
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), null, false);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), null, false);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -345,7 +341,7 @@ public final class CurrentArenaData extends ArenaData {
 		arenaSizeY = reader.readInt();
 		arenaSizeZ = reader.readInt();
 		final var lt = new CurrentArenaData();
-		lt.resize(arena, arenaSizeZ, new Ground());
+		lt.resize(arena, arenaSizeZ, new ArenaObject(GameObjectID.GROUND));
 		for (x = 0; x < arenaSizeX; x++) {
 			for (y = 0; y < arenaSizeY; y++) {
 				for (z = 0; z < arenaSizeZ; z++) {
@@ -382,7 +378,7 @@ public final class CurrentArenaData extends ArenaData {
 		arena.setDifficulty(reader.readInt());
 		arena.setMoveShootAllowedThisLevel(reader.readBoolean());
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), null, false);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), null, false);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -394,7 +390,7 @@ public final class CurrentArenaData extends ArenaData {
 		arenaSizeY = reader.readInt();
 		arenaSizeZ = reader.readInt();
 		final var lt = new CurrentArenaData();
-		lt.resize(arena, arenaSizeZ, new Ground());
+		lt.resize(arena, arenaSizeZ, new ArenaObject(GameObjectID.GROUND));
 		for (x = 0; x < arenaSizeX; x++) {
 			for (y = 0; y < arenaSizeY; y++) {
 				for (z = 0; z < arenaSizeZ; z++) {
@@ -405,7 +401,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		// Fill nulls
-		lt.fillNulls(arena, new Ground(), null, false);
+		lt.fillNulls(arena, new ArenaObject(GameObjectID.GROUND), null, false);
 		lt.fillVirtual();
 		return lt;
 	}
@@ -436,7 +432,7 @@ public final class CurrentArenaData extends ArenaData {
 	@Override
 	public void checkForEnemies(final Arena arena, final int floorIn, final int enemyLocXIn, final int enemyLocYIn,
 			final ArenaObject enemy) {
-		final var template = new AntiTank();
+		final var template = new ArenaObject(GameObjectID.ANTI_TANK);
 		var enemyLocX = enemyLocXIn;
 		var enemyLocY = enemyLocYIn;
 		var floor = floorIn;
@@ -451,39 +447,23 @@ public final class CurrentArenaData extends ArenaData {
 		}
 		final var scanE = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.EAST);
 		if (scanE) {
-			try {
-				final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
-				at.kill(this.foundX, this.foundY);
-			} catch (final ClassCastException cce) {
-				// Ignore
-			}
+			final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+			at.kill(this.foundX, this.foundY);
 		}
 		final var scanW = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.WEST);
 		if (scanW) {
-			try {
-				final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
-				at.kill(this.foundX, this.foundY);
-			} catch (final ClassCastException cce) {
-				// Ignore
-			}
+			final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+			at.kill(this.foundX, this.foundY);
 		}
 		final var scanS = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.SOUTH);
 		if (scanS) {
-			try {
-				final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
-				at.kill(this.foundX, this.foundY);
-			} catch (final ClassCastException cce) {
-				// Ignore
-			}
+			final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+			at.kill(this.foundX, this.foundY);
 		}
 		final var scanN = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.NORTH);
 		if (scanN) {
-			try {
-				final var at = (AntiTank) this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
-				at.kill(this.foundX, this.foundY);
-			} catch (final ClassCastException cce) {
-				// Ignore
-			}
+			final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+			at.kill(this.foundX, this.foundY);
 		}
 	}
 
@@ -668,7 +648,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (var col = 0; col < this.getColumns(); col++) {
 				for (var floor = 0; floor < this.getFloors(); floor++) {
 					for (var layer = 0; layer < LayerHelper.VIRTUAL_COUNT; layer++) {
-						this.setVirtualCell(arena, new Empty(), row, col, floor, layer);
+						this.setVirtualCell(arena, new ArenaObject(GameObjectID.PLACEHOLDER), row, col, floor, layer);
 					}
 				}
 			}
@@ -686,7 +666,7 @@ public final class CurrentArenaData extends ArenaData {
 						if (w == Layer.LOWER_GROUND.ordinal()) {
 							this.setCell(arena, fill, y, x, z, w);
 						} else {
-							this.setCell(arena, new Empty(), y, x, z, w);
+							this.setCell(arena, new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
 						}
 					}
 				}
@@ -708,7 +688,7 @@ public final class CurrentArenaData extends ArenaData {
 							} else if (w == Layer.LOWER_OBJECTS.ordinal() && was16 && (x >= 16 || y >= 16)) {
 								this.setCell(arena, fill2, y, x, z, w);
 							} else {
-								this.setCell(arena, new Empty(), y, x, z, w);
+								this.setCell(arena, new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
 							}
 						}
 					}
@@ -728,7 +708,7 @@ public final class CurrentArenaData extends ArenaData {
 							if (w == Layer.LOWER_GROUND.ordinal()) {
 								this.savedState.setCell(fill, y, x, z, w);
 							} else {
-								this.savedState.setCell(new Empty(), y, x, z, w);
+								this.savedState.setCell(new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
 							}
 						}
 					}
@@ -744,7 +724,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (y = 0; y < this.getRows(); y++) {
 				for (z = 0; z < this.getFloors(); z++) {
 					for (w = 0; w < LayerHelper.VIRTUAL_COUNT; w++) {
-						this.virtualData.setCell(new Empty(), y, x, z, w);
+						this.virtualData.setCell(new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
 					}
 				}
 			}
@@ -773,7 +753,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public int[] findPlayer(final Arena arena, final int number) {
-		final var t = new Tank(number);
+		final var t = new ArenaObject(GameObjectID.TANK, number);
 		int y, x, z;
 		for (x = 0; x < this.getColumns(); x++) {
 			for (y = 0; y < this.getRows(); y++) {
@@ -850,8 +830,8 @@ public final class CurrentArenaData extends ArenaData {
 			// Scan said OK to proceed
 			final var dx = source.getPairX();
 			final var dy = source.getPairY();
-			if (!(this.getCell(arena, dx, dy, zFix, source.getLayer()) instanceof Ground)) {
-				this.setCell(arena, new Ground(), dx, dy, zFix, source.getLayer());
+			if (!(this.getCell(arena, dx, dy, zFix, source.getLayer()).getID() == GameObjectID.GROUND)) {
+				this.setCell(arena, new ArenaObject(GameObjectID.GROUND), dx, dy, zFix, source.getLayer());
 				Sounds.play(Sound.DOOR_OPENS);
 			}
 		}
@@ -880,7 +860,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 				final var obj = this.getCell(arena, x, y, z, source.getLayer());
 				if ((obj instanceof final ArenaObject door) && source.getClass().equals(door.getClass())) {
-					this.setCell(arena, new Ground(), x, y, z, source.getLayer());
+					this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, z, source.getLayer());
 				}
 			}
 		}
@@ -901,7 +881,7 @@ public final class CurrentArenaData extends ArenaData {
 				}
 				final var obj = this.getCell(arena, x, y, zFix, source.getLayer());
 				if (obj.getPairedWith() != null && obj.usesTrigger() && obj.hasSamePair(source)) {
-					this.setCell(arena, new Ground(), x, y, zFix, source.getLayer());
+					this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, zFix, source.getLayer());
 				}
 			}
 		}
@@ -932,7 +912,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 				for (var z = 0; z < this.getFloors(); z++) {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
-					if (!(obj instanceof Ground)) {
+					if (obj.getID() != GameObjectID.GROUND) {
 						// Freeze the ground
 						LaserTankEE.getGame().morph(obj.changesToOnExposure(Material.ICE), y, x,
 								z, Layer.LOWER_GROUND.ordinal());
@@ -949,7 +929,7 @@ public final class CurrentArenaData extends ArenaData {
 			for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
 				for (var z = 0; z < this.getFloors(); z++) {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
-					if (obj instanceof AntiTank) {
+					if (obj.getID() == GameObjectID.ANTI_TANK) {
 						// Kill the tank
 						final var gm = LaserTankEE.getGame();
 						final var dat = new DeadAntiTank();
@@ -1314,7 +1294,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		if (saveSizeX != ArenaData.MIN_COLUMNS || saveSizeY != ArenaData.MIN_ROWS) {
-			this.resizeSavedState(saveSizeZ, new Ground());
+			this.resizeSavedState(saveSizeZ, new ArenaObject(GameObjectID.GROUND));
 		}
 	}
 
@@ -1333,7 +1313,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		if (saveSizeX != ArenaData.MIN_COLUMNS || saveSizeY != ArenaData.MIN_ROWS) {
-			this.resizeSavedState(saveSizeZ, new Ground());
+			this.resizeSavedState(saveSizeZ, new ArenaObject(GameObjectID.GROUND));
 		}
 	}
 
@@ -1352,7 +1332,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		if (saveSizeX != ArenaData.MIN_COLUMNS || saveSizeY != ArenaData.MIN_ROWS) {
-			this.resizeSavedState(saveSizeZ, new Ground());
+			this.resizeSavedState(saveSizeZ, new ArenaObject(GameObjectID.GROUND));
 		}
 	}
 
@@ -1372,7 +1352,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		if (saveSizeX != ArenaData.MIN_COLUMNS || saveSizeY != ArenaData.MIN_ROWS) {
-			this.resizeSavedState(saveSizeZ, new Ground());
+			this.resizeSavedState(saveSizeZ, new ArenaObject(GameObjectID.GROUND));
 		}
 	}
 
@@ -1392,7 +1372,7 @@ public final class CurrentArenaData extends ArenaData {
 			}
 		}
 		if (saveSizeX != ArenaData.MIN_COLUMNS || saveSizeY != ArenaData.MIN_ROWS) {
-			this.resizeSavedState(saveSizeZ, new Ground());
+			this.resizeSavedState(saveSizeZ, new ArenaObject(GameObjectID.GROUND));
 		}
 	}
 

@@ -50,7 +50,7 @@ public class MirrorCrystalBlock extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy mirror crystal block
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		if (laserType == LaserType.BLUE) {
@@ -72,7 +72,7 @@ public class MirrorCrystalBlock extends ArenaObject {
 			final RangeType rangeType, final int forceUnits) {
 		if (rangeType == RangeType.BOMB || RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 			// Destroy mirror crystal block
-			LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 					this.getLayer());
 			return true;
 		}

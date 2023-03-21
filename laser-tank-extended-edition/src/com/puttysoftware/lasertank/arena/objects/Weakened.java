@@ -25,14 +25,14 @@ public class Weakened extends ArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
             final LaserType laserType, final int forceUnits) {
-        LaserTankEE.getGame().morph(new Cracked(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.CRACKED), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CRACK);
         return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-        LaserTankEE.getGame().morph(new Cracked(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.CRACKED), locX, locY, locZ, this.getLayer());
         Sounds.play(Sound.CRACK);
     }
 }

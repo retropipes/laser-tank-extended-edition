@@ -26,18 +26,18 @@ public class Crumbling extends ArenaObject {
 	@Override
 	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType, final int forceUnits) {
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Destroy whatever we were attached to
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
 		Sounds.play(Sound.CRACK);
 		return Direction.NONE;
 	}
 
 	@Override
 	public void moveFailedAction(final int locX, final int locY, final int locZ) {
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Destroy whatever we were attached to
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
 		Sounds.play(Sound.CRACK);
 	}
 }

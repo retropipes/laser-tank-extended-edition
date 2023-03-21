@@ -31,7 +31,7 @@ public class ProximityCrystal extends ArenaObject {
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX, locY, locZ, 1);
 		if (target) {
@@ -68,7 +68,7 @@ public class ProximityCrystal extends ArenaObject {
 			return true;
 		}
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 				this.getLayer());
 		return true;
 	}

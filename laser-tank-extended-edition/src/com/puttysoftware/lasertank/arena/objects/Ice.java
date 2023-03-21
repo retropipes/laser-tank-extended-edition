@@ -22,7 +22,7 @@ public class Ice extends ArenaObject {
 				if (this.hasPreviousState()) {
 					return this.getPreviousState();
 				} else {
-					return new Ground();
+					return new ArenaObject(GameObjectID.GROUND);
 				}
 			default:
 				return this;
@@ -42,7 +42,7 @@ public class Ice extends ArenaObject {
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof HotBox) {
-			final var g = new Ground();
+			final var g = new ArenaObject(GameObjectID.GROUND);
 			LaserTankEE.getGame().morph(g, x, y, z, g.getLayer());
 			Sounds.play(Sound.DEFROST);
 		}
