@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.arena.current;
 
 import java.io.IOException;
-import java.util.ArrayDeque;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
@@ -33,118 +32,6 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
 public final class CurrentArenaData extends ArenaData {
-	private class ImageUndoEngine {
-		// Inner classes
-		private class HistoryEntry {
-			// Fields
-			private final CurrentArenaStorage histImage;
-			private final HistoryStatus histWhatWas;
-
-			HistoryEntry(final CurrentArenaStorage i, final HistoryStatus hww) {
-				this.histImage = i;
-				this.histWhatWas = hww;
-			}
-
-			public CurrentArenaStorage getImage() {
-				return this.histImage;
-			}
-
-			public HistoryStatus getWhatWas() {
-				return this.histWhatWas;
-			}
-		}
-
-		private class HistoryStack {
-			// Fields
-			private final ArrayDeque<HistoryEntry> stack;
-
-			HistoryStack() {
-				this.stack = new ArrayDeque<>();
-			}
-
-			public boolean isEmpty() {
-				return this.stack.isEmpty();
-			}
-
-			public HistoryEntry pop() {
-				return this.stack.removeFirst();
-			}
-
-			public void push(final CurrentArenaStorage i, final HistoryStatus hww) {
-				final var newEntry = new HistoryEntry(i, hww);
-				this.stack.addFirst(newEntry);
-			}
-		}
-
-		// Fields
-		private HistoryStack undoHistory, redoHistory;
-		private HistoryStatus whatWas;
-		private CurrentArenaStorage image;
-
-		// Constructors
-		public ImageUndoEngine() {
-			this.undoHistory = new HistoryStack();
-			this.redoHistory = new HistoryStack();
-			this.image = null;
-			this.whatWas = null;
-		}
-
-		public void clearRedoHistory() {
-			this.redoHistory = new HistoryStack();
-		}
-
-		public void clearUndoHistory() {
-			this.undoHistory = new HistoryStack();
-		}
-
-		public CurrentArenaStorage getImage() {
-			return this.image;
-		}
-
-		public HistoryStatus getWhatWas() {
-			return this.whatWas;
-		}
-
-		public void redo() {
-			if (!this.redoHistory.isEmpty()) {
-				final var entry = this.redoHistory.pop();
-				this.image = entry.getImage();
-				this.whatWas = entry.getWhatWas();
-			} else {
-				this.image = null;
-				this.whatWas = null;
-			}
-		}
-
-		public boolean tryRedo() {
-			return !this.redoHistory.isEmpty();
-		}
-
-		public boolean tryUndo() {
-			return !this.undoHistory.isEmpty();
-		}
-
-		// Public methods
-		public void undo() {
-			if (!this.undoHistory.isEmpty()) {
-				final var entry = this.undoHistory.pop();
-				this.image = entry.getImage();
-				this.whatWas = entry.getWhatWas();
-			} else {
-				this.image = null;
-				this.whatWas = null;
-			}
-		}
-
-		public void updateRedoHistory(final CurrentArenaStorage newImage, final HistoryStatus newWhatWas) {
-			this.redoHistory.push(newImage, newWhatWas);
-		}
-
-		public void updateUndoHistory(final CurrentArenaStorage newImage, final HistoryStatus newWhatWas) {
-			this.undoHistory.push(newImage, newWhatWas);
-		}
-	}
-
 	public static final CurrentArenaLock LOCK_OBJECT = new CurrentArenaLock();
 
 	private static CurrentArenaData readDataG1(final Arena arena, final DataIOReader reader,
@@ -411,7 +298,7 @@ public final class CurrentArenaData extends ArenaData {
 	private FlagStorage dirtyData;
 	private CurrentArenaStorage savedState;
 	private int foundX, foundY;
-	private ImageUndoEngine iue;
+	private CurrentArenaHistoryEngine iue;
 
 	// Constructors
 	public CurrentArenaData() {
@@ -425,7 +312,7 @@ public final class CurrentArenaData extends ArenaData {
 				LayerHelper.COUNT);
 		this.foundX = -1;
 		this.foundY = -1;
-		this.iue = new ImageUndoEngine();
+		this.iue = new CurrentArenaHistoryEngine();
 	}
 
 	@Override
@@ -1385,7 +1272,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public void resetHistoryEngine() {
-		this.iue = new ImageUndoEngine();
+		this.iue = new CurrentArenaHistoryEngine();
 	}
 
 	@Override

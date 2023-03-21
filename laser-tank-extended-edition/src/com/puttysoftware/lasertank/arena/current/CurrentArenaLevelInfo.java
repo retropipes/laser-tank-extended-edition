@@ -15,9 +15,9 @@ import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.GenericString;
 import com.puttysoftware.lasertank.locale.Strings;
 
-public final class LevelInfo {
-	public static LevelInfo readLevelInfo(final DataIOReader reader) throws IOException {
-		final var li = new LevelInfo();
+final class CurrentArenaLevelInfo {
+	public static CurrentArenaLevelInfo readLevelInfo(final DataIOReader reader) throws IOException {
+		final var li = new CurrentArenaLevelInfo();
 		int x, y;
 		for (y = 0; y < 3; y++) {
 			for (x = 0; x < Players.COUNT; x++) {
@@ -47,7 +47,7 @@ public final class LevelInfo {
 	private boolean moveShootAllowed;
 
 	// Constructors
-	public LevelInfo() {
+	public CurrentArenaLevelInfo() {
 		this.playerData = new NumberStorage(Players.DIMENSIONS, Players.COUNT);
 		this.playerData.fill(-1);
 		this.horizontalWraparoundEnabled = false;
@@ -60,9 +60,8 @@ public final class LevelInfo {
 	}
 
 	// Methods
-	@Override
-	public LevelInfo clone() {
-		final var copy = new LevelInfo();
+	public CurrentArenaLevelInfo clone() {
+		final var copy = new CurrentArenaLevelInfo();
 		copy.playerData = new NumberStorage(this.playerData);
 		copy.horizontalWraparoundEnabled = this.horizontalWraparoundEnabled;
 		copy.verticalWraparoundEnabled = this.verticalWraparoundEnabled;

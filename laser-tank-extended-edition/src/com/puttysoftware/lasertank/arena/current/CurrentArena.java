@@ -50,7 +50,7 @@ public class CurrentArena extends Arena {
 	// Properties
 	private CurrentArenaData arenaData;
 	private CurrentArenaData clipboard;
-	private LevelInfo infoClipboard;
+	private CurrentArenaLevelInfo infoClipboard;
 	private int levelCount;
 	private int activeLevel;
 	private int activeEra;
@@ -59,7 +59,7 @@ public class CurrentArena extends Arena {
 	private DataIOSuffixHandler suffixHandler;
 	private String musicFilename;
 	private boolean moveShootAllowed;
-	private final ArrayList<LevelInfo> levelInfoData;
+	private final ArrayList<CurrentArenaLevelInfo> levelInfoData;
 	private ArrayList<String> levelInfoList;
 
 	// Constructors
@@ -111,7 +111,7 @@ public class CurrentArena extends Arena {
 		// Clean up
 		this.levelCount++;
 		this.activeLevel = this.levelCount - 1;
-		this.levelInfoData.add(new LevelInfo());
+		this.levelInfoData.add(new CurrentArenaLevelInfo());
 		this.levelInfoList.add(this.generateCurrentLevelInfo());
 		return true;
 	}
@@ -579,7 +579,7 @@ public class CurrentArena extends Arena {
 		this.musicFilename = reader.readString();
 		this.moveShootAllowed = reader.readBoolean();
 		for (var l = 0; l < this.levelCount; l++) {
-			this.levelInfoData.add(LevelInfo.readLevelInfo(reader));
+			this.levelInfoData.add(CurrentArenaLevelInfo.readLevelInfo(reader));
 			this.levelInfoList.add(reader.readString());
 		}
 		if (this.suffixHandler != null) {
