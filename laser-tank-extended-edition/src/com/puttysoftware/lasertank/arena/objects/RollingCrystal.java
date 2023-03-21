@@ -21,7 +21,7 @@ public class RollingCrystal extends ArenaObject {
     }
 
     @Override
-	public Sound laserEnteredSound() {
-		return Sound.ROLL;
-	}
+    public Sound laserEnteredSound() {
+        return Sound.ROLL;
+    }
 }

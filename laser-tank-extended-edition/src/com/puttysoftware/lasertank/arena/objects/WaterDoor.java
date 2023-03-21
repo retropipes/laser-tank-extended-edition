@@ -33,6 +33,6 @@ public class WaterDoor extends ArenaObject {
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.UNLOCK);
         TankInventory.useBlueKey();
-        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        LaserTankEE.getGame().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
     }
 }

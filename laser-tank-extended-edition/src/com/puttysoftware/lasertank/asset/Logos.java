@@ -12,7 +12,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.Application;
+import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
@@ -66,7 +66,7 @@ public class Logos {
 			final var image = ImageIO.read(url);
 			final var g2 = image.createGraphics();
 			g2.setColor(Color.yellow);
-			final var logoVer = Application.getLogoVersionString();
+			final var logoVer = LaserTankEE.getLogoVersionString();
 			if (drawing && Logos.LOGO_DRAW_FONT == null) {
 				try (var is = Logos.class
 						.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)

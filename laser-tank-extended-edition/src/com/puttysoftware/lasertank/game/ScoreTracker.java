@@ -61,7 +61,7 @@ class ScoreTracker {
 		b.append(ScoreTracker.getScoreDirectory());
 		b.append(filename);
 		b.append(Strings.loadCommon(CommonString.UNDERSCORE));
-		b.append(LaserTankEE.getApplication().getArenaManager().getArena().getActiveLevelNumber() + 1);
+		b.append(LaserTankEE.getArenaManager().getArena().getActiveLevelNumber() + 1);
 		b.append(FileExtensions.getScoresExtensionWithPeriod());
 		return new File(b.toString());
 	}

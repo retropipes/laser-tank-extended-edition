@@ -583,7 +583,7 @@ public final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public boolean circularScanTank(final Arena arena, final int x, final int y, final int z, final int r) {
-		final var tankLoc = LaserTankEE.getApplication().getGameManager().getTankLocation();
+		final var tankLoc = LaserTankEE.getGame().getTankLocation();
 		var fX = x;
 		var fY = y;
 		var fZ = z;
@@ -934,7 +934,7 @@ public final class CurrentArenaData extends ArenaData {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
 					if (!(obj instanceof Ground)) {
 						// Freeze the ground
-						LaserTankEE.getApplication().getGameManager().morph(obj.changesToOnExposure(Material.ICE), y, x,
+						LaserTankEE.getGame().morph(obj.changesToOnExposure(Material.ICE), y, x,
 								z, Layer.LOWER_GROUND.ordinal());
 					}
 				}
@@ -951,7 +951,7 @@ public final class CurrentArenaData extends ArenaData {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
 					if (obj instanceof AntiTank) {
 						// Kill the tank
-						final var gm = LaserTankEE.getApplication().getGameManager();
+						final var gm = LaserTankEE.getGame();
 						final var dat = new DeadAntiTank();
 						dat.setSavedObject(obj.getSavedObject());
 						dat.setDirection(obj.getDirection());
@@ -1052,7 +1052,7 @@ public final class CurrentArenaData extends ArenaData {
 		}
 		int u, w;
 		if (d == Direction.NORTH) {
-			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getGame().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1079,7 +1079,7 @@ public final class CurrentArenaData extends ArenaData {
 			return false;
 		}
 		if (d == Direction.SOUTH) {
-			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getGame().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1104,7 +1104,7 @@ public final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.WEST) {
-			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getGame().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1129,7 +1129,7 @@ public final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.EAST) {
-			final ArenaObject tank = LaserTankEE.getApplication().getGameManager().getTank();
+			final ArenaObject tank = LaserTankEE.getGame().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}

@@ -82,9 +82,9 @@ public class ArenaManager {
 
 	private static void saveFile(final String filename, final boolean isSavedGame, final boolean protect) {
 		if (isSavedGame) {
-			LaserTankEE.getApplication().showMessage(Strings.loadMessage(MessageString.SAVING_GAME));
+			LaserTankEE.showMessage(Strings.loadMessage(MessageString.SAVING_GAME));
 		} else {
-			LaserTankEE.getApplication().showMessage(Strings.loadMessage(MessageString.SAVING_ARENA));
+			LaserTankEE.showMessage(Strings.loadMessage(MessageString.SAVING_ARENA));
 		}
 		final var xst = new SaveTask(filename, isSavedGame, protect);
 		xst.start();
@@ -92,11 +92,10 @@ public class ArenaManager {
 
 	public static int showSaveDialog() {
 		String type, source;
-		final var app = LaserTankEE.getApplication();
-		if (app.isInEditorMode()) {
+		if (LaserTankEE.isInEditorMode()) {
 			type = Strings.loadDialog(DialogString.PROMPT_SAVE_ARENA);
 			source = Strings.loadEditor(EditorString.EDITOR);
-		} else if (app.isInGameMode()) {
+		} else if (LaserTankEE.isInGameMode()) {
 			type = Strings.loadDialog(DialogString.PROMPT_SAVE_GAME);
 			source = GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME);
 		} else {
@@ -157,8 +156,8 @@ public class ArenaManager {
 			this.setLoaded(true);
 		}
 		this.setDirty(false);
-		LaserTankEE.getApplication().getEditor().arenaChanged();
-		LaserTankEE.getApplication().getMenuManager().updateMenuItemState();
+		LaserTankEE.getEditor().arenaChanged();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public boolean isArenaProtected() {
@@ -232,8 +231,7 @@ public class ArenaManager {
 	}
 
 	public boolean saveArena(final boolean protect) {
-		final var app = LaserTankEE.getApplication();
-		if (app.isInGameMode()) {
+		if (LaserTankEE.isInGameMode()) {
 			if (this.lastUsedGameFile == null || this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 				return this.saveArenaAs(protect);
 			}
@@ -283,7 +281,6 @@ public class ArenaManager {
 	}
 
 	public boolean saveArenaAs(final boolean protect) {
-		final var app = LaserTankEE.getApplication();
 		var filename = Strings.loadCommon(CommonString.EMPTY);
 		var fileOnly = GlobalStrings.loadUntranslated(UntranslatedString.DOUBLE_BACKSLASH);
 		String extension, file, dir;
@@ -305,7 +302,7 @@ public class ArenaManager {
 						Strings.loadDialog(DialogString.SAVE));
 			} else {
 				Settings.setLastDirSave(dir);
-				if (app.isInGameMode()) {
+				if (LaserTankEE.isInGameMode()) {
 					if (extension != null) {
 						if (!extension.equals(FileExtensions.getGameExtension())) {
 							filename = ArenaManager.getNameWithoutExtension(file)
@@ -352,10 +349,9 @@ public class ArenaManager {
 	}
 
 	public void setDirty(final boolean newDirty) {
-		final var app = LaserTankEE.getApplication();
 		this.isDirty = newDirty;
 		MainWindow.mainWindow().setDirty(newDirty);
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public void setLastUsedArena(final String newFile) {
@@ -367,9 +363,8 @@ public class ArenaManager {
 	}
 
 	public void setLoaded(final boolean status) {
-		final var app = LaserTankEE.getApplication();
 		this.loaded = status;
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public void setScoresFileName(final String filename) {

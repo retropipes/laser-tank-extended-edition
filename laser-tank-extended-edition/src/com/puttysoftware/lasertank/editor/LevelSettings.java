@@ -108,13 +108,13 @@ class LevelSettings {
 
 	void hideSettings() {
 		this.prefFrame.setVisible(false);
-		LaserTankEE.getApplication().getEditor().enableOutput();
-		LaserTankEE.getApplication().getArenaManager().setDirty(true);
-		LaserTankEE.getApplication().getEditor().redrawEditor();
+		LaserTankEE.getEditor().enableOutput();
+		LaserTankEE.getArenaManager().setDirty(true);
+		LaserTankEE.getEditor().redrawEditor();
 	}
 
 	private void loadSettings() {
-		final var m = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		this.horizontalWrap.setSelected(m.isHorizontalWraparoundEnabled());
 		this.verticalWrap.setSelected(m.isVerticalWraparoundEnabled());
 		this.thirdWrap.setSelected(m.isThirdDimensionWraparoundEnabled());
@@ -126,7 +126,7 @@ class LevelSettings {
 	}
 
 	void setSettings() {
-		final var m = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		if (this.horizontalWrap.isSelected()) {
 			m.enableHorizontalWraparound();
 		} else {
@@ -201,7 +201,7 @@ class LevelSettings {
 	// Methods
 	void showSettings() {
 		this.loadSettings();
-		LaserTankEE.getApplication().getEditor().disableOutput();
+		LaserTankEE.getEditor().disableOutput();
 		this.prefFrame.setVisible(true);
 	}
 }

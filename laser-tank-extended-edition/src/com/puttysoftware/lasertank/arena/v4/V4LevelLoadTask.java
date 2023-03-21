@@ -44,32 +44,31 @@ public class V4LevelLoadTask extends Thread {
 	@Override
 	public void run() {
 		this.loadFrame.setVisible(true);
-		final var app = LaserTankEE.getApplication();
-		app.getGameManager().setSavedGameFlag(false);
+		LaserTankEE.getGame().setSavedGameFlag(false);
 		try (var arenaFile = new FileInputStream(this.filename)) {
 			final var gameArena = ArenaManager.createArena();
 			V4File.loadOldFile(gameArena, arenaFile);
 			arenaFile.close();
-			app.getArenaManager().setArena(gameArena);
+			LaserTankEE.getArenaManager().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				app.getGameManager().getPlayerManager().resetPlayerLocation();
+				LaserTankEE.getGame().getPlayerManager().resetPlayerLocation();
 			}
 			gameArena.save();
 			// Final cleanup
-			final var lum = app.getArenaManager().getLastUsedArena();
-			app.getArenaManager().clearLastUsedFilenames();
-			app.getArenaManager().setLastUsedArena(lum);
-			app.updateLevelInfoList();
-			app.getEditor().arenaChanged();
+			final var lum = LaserTankEE.getArenaManager().getLastUsedArena();
+			LaserTankEE.getArenaManager().clearLastUsedFilenames();
+			LaserTankEE.getArenaManager().setLastUsedArena(lum);
+			LaserTankEE.updateLevelInfoList();
+			LaserTankEE.getEditor().arenaChanged();
 			CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
-			app.getArenaManager().handleDeferredSuccess(true);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(true);
 		} catch (final FileNotFoundException fnfe) {
 			CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
-			app.getArenaManager().handleDeferredSuccess(false);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 		} catch (final IOException ie) {
 			LaserTankEE.logWarning(ie);
-			app.getArenaManager().handleDeferredSuccess(false);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 		} catch (final Exception ex) {
 			LaserTankEE.logError(ex);
 		} finally {

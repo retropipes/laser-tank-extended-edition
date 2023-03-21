@@ -402,7 +402,7 @@ public class Game extends Screen {
 
 		@Override
 		public void keyPressed(final KeyEvent e) {
-			final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			if ((!a.isMoveShootAllowed() && !Game.this.laserActive || a.isMoveShootAllowed()) && !Game.this.moving) {
 				if (!Settings.oneMove()) {
 					this.handleKeystrokes(e);
@@ -412,7 +412,7 @@ public class Game extends Screen {
 
 		@Override
 		public void keyReleased(final KeyEvent e) {
-			final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			if ((!a.isMoveShootAllowed() && !Game.this.laserActive || a.isMoveShootAllowed()) && !Game.this.moving) {
 				if (Settings.oneMove()) {
 					this.handleKeystrokes(e);
@@ -513,20 +513,20 @@ public class Game extends Screen {
 		@Override
 		public void windowClosing(final WindowEvent we) {
 			try {
-				final var app = LaserTankEE.getApplication();
 				var success = false;
 				var status = 0;
-				if (app.getArenaManager().getDirty()) {
+				if (LaserTankEE.getArenaManager().getDirty()) {
 					status = ArenaManager.showSaveDialog();
 					if (status == CommonDialogs.YES_OPTION) {
-						success = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
+						success = LaserTankEE.getArenaManager()
+								.saveArena(LaserTankEE.getArenaManager().isArenaProtected());
 						if (success) {
-							app.getGameManager().exitGame();
-							app.getGUIManager().showGUI();
+							LaserTankEE.getGame().exitGame();
+							LaserTankEE.getMainScreen().showGUI();
 						}
 					} else if (status == CommonDialogs.NO_OPTION) {
-						app.getGameManager().exitGame();
-						app.getGUIManager().showGUI();
+						LaserTankEE.getGame().exitGame();
+						LaserTankEE.getMainScreen().showGUI();
 					} else {
 						// Don't stop controls from working
 						final var gm = Game.this;
@@ -534,8 +534,8 @@ public class Game extends Screen {
 						gm.laserActive = false;
 					}
 				} else {
-					app.getGameManager().exitGame();
-					app.getGUIManager().showGUI();
+					LaserTankEE.getGame().exitGame();
+					LaserTankEE.getMainScreen().showGUI();
 				}
 			} catch (final Exception ex) {
 				LaserTankEE.logError(ex);
@@ -570,7 +570,7 @@ public class Game extends Screen {
 
 		@Override
 		public void windowGainedFocus(final WindowEvent e) {
-			LaserTankEE.getApplication().getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenuManager().updateMenuItemState();
 		}
 
 		@Override
@@ -637,19 +637,17 @@ public class Game extends Screen {
 	private static void updateRedo(final boolean las, final boolean mis, final boolean stu, final boolean boo,
 			final boolean mag, final boolean blu, final boolean dis, final boolean bom, final boolean hbm,
 			final boolean ibm) {
-		final var app = LaserTankEE.getApplication();
-		final var a = app.getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		a.updateRedoHistory(new HistoryStatus(las, mis, stu, boo, mag, blu, dis, bom, hbm, ibm));
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	static void updateUndo(final boolean las, final boolean mis, final boolean stu, final boolean boo,
 			final boolean mag, final boolean blu, final boolean dis, final boolean bom, final boolean hbm,
 			final boolean ibm) {
-		final var app = LaserTankEE.getApplication();
-		final var a = app.getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		a.updateUndoHistory(new HistoryStatus(las, mis, stu, boo, mag, blu, dis, bom, hbm, ibm));
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	// Fields
@@ -900,8 +898,7 @@ public class Game extends Screen {
 			this.abortMovementLaserObjectLoop();
 		}
 		this.mlot = null;
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		// Restore the arena
 		m.restore();
 		final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
@@ -912,13 +909,13 @@ public class Game extends Screen {
 				// Ignore
 			}
 		} else {
-			app.getArenaManager().setLoaded(false);
+			LaserTankEE.getArenaManager().setLoaded(false);
 		}
 		// Reset saved game flag
 		this.savedGameFlag = false;
-		app.getArenaManager().setDirty(false);
+		LaserTankEE.getArenaManager().setDirty(false);
 		// Exit game
-		app.getGUIManager().showGUI();
+		LaserTankEE.getMainScreen().showGUI();
 	}
 
 	public boolean fireLaser(final int ox, final int oy, final ArenaObject shooter) {
@@ -932,7 +929,7 @@ public class Game extends Screen {
 				&& TankInventory.getBlueLasersLeft() == 0 && !this.getCheatStatus(Game.CHEAT_BLUE_LASERS)) {
 			CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_BLUE_LASERS));
 		} else {
-			final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			if (!a.isMoveShootAllowed() && !this.laserActive || a.isMoveShootAllowed()) {
 				this.laserActive = true;
 				final var currDirection = DirectionHelper.unresolveRelative(shooter.getDirection());
@@ -972,13 +969,13 @@ public class Game extends Screen {
 		} else if (this.otherRangeMode == RangeType.ICE_BOMB) {
 			Game.updateUndo(false, false, false, false, false, false, false, false, false, true);
 		}
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		final var px = this.plMgr.getPlayerLocationX();
 		final var py = this.plMgr.getPlayerLocationY();
 		final var pz = this.plMgr.getPlayerLocationZ();
 		a.circularScanRange(px, py, pz, 1, this.otherRangeMode,
 				ArenaObject.getImbuedForce(RangeTypeHelper.material(this.otherRangeMode)));
-		LaserTankEE.getApplication().getArenaManager().getArena().tickTimers(pz, GameAction.USE_RANGE);
+		LaserTankEE.getArenaManager().getArena().tickTimers(pz, GameAction.USE_RANGE);
 		this.updateScoreText();
 	}
 
@@ -1068,22 +1065,19 @@ public class Game extends Screen {
 	}
 
 	void laserDone() {
-		final var app = LaserTankEE.getApplication();
 		this.laserActive = false;
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public void loadGameHookG1(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
 	}
 
 	public void loadGameHookG2(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
@@ -1093,8 +1087,7 @@ public class Game extends Screen {
 	}
 
 	public void loadGameHookG3(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
@@ -1102,8 +1095,7 @@ public class Game extends Screen {
 	}
 
 	public void loadGameHookG4(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
@@ -1111,8 +1103,7 @@ public class Game extends Screen {
 	}
 
 	public void loadGameHookG5(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
@@ -1120,8 +1111,7 @@ public class Game extends Screen {
 	}
 
 	public void loadGameHookG6(final DataIOReader arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		app.getArenaManager().setScoresFileName(arenaFile.readString());
+		LaserTankEE.getArenaManager().setScoresFileName(arenaFile.readString());
 		this.st.setMoves(arenaFile.readLong());
 		this.st.setShots(arenaFile.readLong());
 		this.st.setOthers(arenaFile.readLong());
@@ -1129,9 +1119,8 @@ public class Game extends Screen {
 	}
 
 	public void loadLevel() {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
-		final var choices = app.getLevelInfoList();
+		final var m = LaserTankEE.getArenaManager().getArena();
+		final var choices = LaserTankEE.getLevelInfoList();
 		final var res = CommonDialogs.showInputDialog(Strings.loadGame(GameString.LOAD_LEVEL_PROMPT),
 				Strings.loadGame(GameString.LOAD_LEVEL), choices, choices[m.getActiveLevelNumber()]);
 		var number = -1;
@@ -1144,10 +1133,10 @@ public class Game extends Screen {
 			this.suspendAnimator();
 			m.restore();
 			m.switchLevel(number);
-			app.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
+			LaserTankEE.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
 			m.resetHistoryEngine();
 			this.gre = new GameReplayEngine();
-			app.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenuManager().updateMenuItemState();
 			this.processLevelExists();
 		}
 	}
@@ -1157,25 +1146,23 @@ public class Game extends Screen {
 	}
 
 	void markTankAsDirty() {
-		LaserTankEE.getApplication().getArenaManager().getArena().markAsDirty(this.plMgr.getPlayerLocationX(),
+		LaserTankEE.getArenaManager().getArena().markAsDirty(this.plMgr.getPlayerLocationX(),
 				this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ());
 	}
 
 	public void morph(final ArenaObject morphInto, final int x, final int y, final int z, final int w) {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		try {
 			m.setCell(morphInto, x, y, z, w);
-			app.getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 		} catch (final ArrayIndexOutOfBoundsException | NullPointerException np) {
 			// Do nothing
 		}
 	}
 
 	void moveLoopDone() {
-		final var app = LaserTankEE.getApplication();
 		this.moving = false;
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public boolean newGame() {
@@ -1218,11 +1205,10 @@ public class Game extends Screen {
 	}
 
 	public void playArena() {
-		final var app = LaserTankEE.getApplication();
-		if (app.getArenaManager().getLoaded()) {
-			app.setInGame();
-			app.getArenaManager().getArena().switchLevel(0);
-			final var res = app.getArenaManager().getArena()
+		if (LaserTankEE.getArenaManager().getLoaded()) {
+			LaserTankEE.setInGame();
+			LaserTankEE.getArenaManager().getArena().switchLevel(0);
+			final var res = LaserTankEE.getArenaManager().getArena()
 					.switchToNextLevelWithDifficulty(Game.getEnabledDifficulties());
 			if (res) {
 				try {
@@ -1235,17 +1221,17 @@ public class Game extends Screen {
 				}
 				this.updateTank();
 				this.tank.setSavedObject(new Empty());
-				this.st.setScoreFile(app.getArenaManager().getScoresFileName());
+				this.st.setScoreFile(LaserTankEE.getArenaManager().getScoresFileName());
 				if (!this.savedGameFlag) {
-					this.st.resetScore(app.getArenaManager().getScoresFileName());
+					this.st.resetScore(LaserTankEE.getArenaManager().getScoresFileName());
 				}
 				this.updateInfo();
 				this.borderPane.removeAll();
 				this.borderPane.add(this.outerOutputPane, BorderLayout.CENTER);
 				this.borderPane.add(this.scorePane, BorderLayout.NORTH);
 				this.borderPane.add(this.infoPane, BorderLayout.SOUTH);
-				app.getMenuManager().updateMenuItemState();
-				app.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
+				LaserTankEE.getMenuManager().updateMenuItemState();
+				LaserTankEE.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
 				this.redrawArena();
 				this.updateScoreText();
 				this.pack();
@@ -1257,7 +1243,7 @@ public class Game extends Screen {
 				}
 			} else {
 				CommonDialogs.showDialog(Strings.loadGame(GameString.NO_LEVEL_WITH_DIFFICULTY));
-				LaserTankEE.getApplication().getGUIManager().showGUI();
+				LaserTankEE.getMainScreen().showGUI();
 			}
 		} else {
 			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
@@ -1265,11 +1251,10 @@ public class Game extends Screen {
 	}
 
 	public void previousLevel() {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		m.resetHistoryEngine();
 		this.gre = new GameReplayEngine();
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 		this.suspendAnimator();
 		m.restore();
 		if (m.doesLevelExistOffset(-1)) {
@@ -1289,7 +1274,6 @@ public class Game extends Screen {
 	}
 
 	private void processLevelExists() {
-		final var app = LaserTankEE.getApplication();
 		try {
 			this.resetPlayerLocation();
 		} catch (final InvalidArenaException iae) {
@@ -1299,7 +1283,7 @@ public class Game extends Screen {
 			return;
 		}
 		this.updateTank();
-		this.st.resetScore(app.getArenaManager().getScoresFileName());
+		this.st.resetScore(LaserTankEE.getArenaManager().getScoresFileName());
 		TankInventory.resetInventory();
 		this.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
 				+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
@@ -1370,8 +1354,8 @@ public class Game extends Screen {
 
 	private boolean readSolution() {
 		try {
-			final var activeLevel = LaserTankEE.getApplication().getArenaManager().getArena().getActiveLevelNumber();
-			final var levelFile = LaserTankEE.getApplication().getArenaManager().getLastUsedArena();
+			final var activeLevel = LaserTankEE.getArenaManager().getArena().getActiveLevelNumber();
+			final var levelFile = LaserTankEE.getArenaManager().getLastUsedArena();
 			final var filename = levelFile + Strings.loadCommon(CommonString.UNDERSCORE) + activeLevel
 					+ FileExtensions.getSolutionExtensionWithPeriod();
 			try (DataIOReader file = new XDataReader(filename,
@@ -1385,8 +1369,7 @@ public class Game extends Screen {
 	}
 
 	public void redoLastMove() {
-		final var app = LaserTankEE.getApplication();
-		final var a = app.getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		if (a.tryRedo()) {
 			this.moving = false;
 			this.laserActive = false;
@@ -1439,7 +1422,7 @@ public class Game extends Screen {
 			this.updateTank();
 			Game.updateUndo(laser, missile, stunner, boost, magnet, blue, disrupt, bomb, heatBomb, iceBomb);
 		}
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 		this.updateScoreText();
 		a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
 		this.redrawArena();
@@ -1447,8 +1430,7 @@ public class Game extends Screen {
 
 	public synchronized void redrawArena() {
 		// Draw the arena
-		final var app = LaserTankEE.getApplication();
-		final var a = app.getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		final var drawGrid = this.outputPane.getGrid();
 		int x, y;
 		final var pz = this.plMgr.getPlayerLocationZ();
@@ -1500,7 +1482,7 @@ public class Game extends Screen {
 	}
 
 	public void replaySolution() {
-		final var menu = LaserTankEE.getApplication().getMenuManager();
+		final var menu = LaserTankEE.getMenuManager();
 		if (this.lpbLoaded) {
 			this.replaying = true;
 			// Turn recording off
@@ -1549,9 +1531,8 @@ public class Game extends Screen {
 	}
 
 	public void resetGameState() {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
-		app.getArenaManager().setDirty(false);
+		final var m = LaserTankEE.getArenaManager().getArena();
+		LaserTankEE.getArenaManager().setDirty(false);
 		m.restore();
 		this.setSavedGameFlag(false);
 		this.st.resetScore();
@@ -1562,12 +1543,11 @@ public class Game extends Screen {
 	}
 
 	private void resetLevel(final boolean flag) throws InvalidArenaException {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		if (flag) {
 			m.resetHistoryEngine();
 		}
-		app.getArenaManager().setDirty(true);
+		LaserTankEE.getArenaManager().setDirty(true);
 		if (this.mlot != null && this.mlot.isAlive()) {
 			this.abortMovementLaserObjectLoop();
 		}
@@ -1578,7 +1558,7 @@ public class Game extends Screen {
 		m.setDirtyFlags(this.plMgr.getPlayerLocationZ());
 		final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
 		if (playerExists) {
-			this.st.resetScore(app.getArenaManager().getScoresFileName());
+			this.st.resetScore(LaserTankEE.getArenaManager().getScoresFileName());
 			this.resetPlayerLocation();
 			this.updateTank();
 			m.clearVirtualGrid();
@@ -1586,12 +1566,11 @@ public class Game extends Screen {
 			this.decay();
 			this.redrawArena();
 		}
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 	}
 
 	public void resetPlayerLocation() throws InvalidArenaException {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		final var found = m.findPlayer(1);
 		if (found == null) {
 			throw new InvalidArenaException(Strings.loadError(ErrorString.TANK_LOCATION));
@@ -1600,7 +1579,7 @@ public class Game extends Screen {
 	}
 
 	private void resetTank() {
-		LaserTankEE.getApplication().getArenaManager().getArena().setCell(this.tank, this.plMgr.getPlayerLocationX(),
+		LaserTankEE.getArenaManager().getArena().setCell(this.tank, this.plMgr.getPlayerLocationX(),
 				this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ(), this.tank.getLayer());
 		this.markTankAsDirty();
 	}
@@ -1613,8 +1592,7 @@ public class Game extends Screen {
 	}
 
 	public void saveGameHook(final DataIOWriter arenaFile) throws IOException {
-		final var app = LaserTankEE.getApplication();
-		arenaFile.writeString(app.getArenaManager().getScoresFileName());
+		arenaFile.writeString(LaserTankEE.getArenaManager().getScoresFileName());
 		arenaFile.writeLong(this.st.getMoves());
 		arenaFile.writeLong(this.st.getShots());
 		arenaFile.writeLong(this.st.getOthers());
@@ -1750,8 +1728,7 @@ public class Game extends Screen {
 		if (playSound) {
 			Sounds.play(Sound.END_LEVEL);
 		}
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		if (playSound) {
 			if (this.recording) {
 				this.writeSolution();
@@ -1762,7 +1739,7 @@ public class Game extends Screen {
 		}
 		m.resetHistoryEngine();
 		this.gre = new GameReplayEngine();
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 		this.suspendAnimator();
 		m.restore();
 		if (m.doesLevelExistOffset(1)) {
@@ -1803,8 +1780,7 @@ public class Game extends Screen {
 	}
 
 	public void undoLastMove() {
-		final var app = LaserTankEE.getApplication();
-		final var a = app.getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		if (a.tryUndo()) {
 			this.moving = false;
 			this.laserActive = false;
@@ -1857,7 +1833,7 @@ public class Game extends Screen {
 			this.updateTank();
 			Game.updateRedo(laser, missile, stunner, boost, magnet, blue, disrupt, bomb, heatBomb, iceBomb);
 		}
-		app.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenuManager().updateMenuItemState();
 		this.updateScoreText();
 		a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
 		this.redrawArena();
@@ -1868,7 +1844,7 @@ public class Game extends Screen {
 	}
 
 	private void updateInfo() {
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		this.levelInfo.setText(Strings.loadGame(GameString.LEVEL) + Strings.loadCommon(CommonString.SPACE)
 				+ (a.getActiveLevelNumber() + 1) + Strings.loadCommon(CommonString.COLON)
 				+ Strings.loadCommon(CommonString.SPACE) + a.getName().trim() + Strings.loadCommon(CommonString.SPACE)
@@ -1884,8 +1860,7 @@ public class Game extends Screen {
 
 	public void updatePositionAbsoluteNoEvents(final int x, final int y, final int z) {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		this.plMgr.savePlayerLocation();
 		try {
 			if (!m.getCell(x, y, z, template.getLayer()).isConditionallySolid()) {
@@ -1901,7 +1876,7 @@ public class Game extends Screen {
 						this.plMgr.getPlayerLocationZ(), template.getLayer()));
 				m.setCell(this.tank, this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
 						this.plMgr.getPlayerLocationZ(), template.getLayer());
-				app.getArenaManager().setDirty(true);
+				LaserTankEE.getArenaManager().setDirty(true);
 				if (z != 0) {
 					this.resumeAnimator();
 				}
@@ -1910,7 +1885,7 @@ public class Game extends Screen {
 			this.plMgr.restorePlayerLocation();
 			m.setCell(this.tank, this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
 					this.plMgr.getPlayerLocationZ(), template.getLayer());
-			LaserTankEE.getApplication().showMessage(Strings.loadGame(GameString.OUTSIDE_ARENA));
+			LaserTankEE.showMessage(Strings.loadGame(GameString.OUTSIDE_ARENA));
 		}
 	}
 
@@ -1996,8 +1971,7 @@ public class Game extends Screen {
 	public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
 			final int z2, final ArenaObject pushedInto, final ArenaObject source) {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		var needsFixup1 = false;
 		var needsFixup2 = false;
 		try {
@@ -2024,7 +1998,7 @@ public class Game extends Screen {
 				} else {
 					m.setCell(source, x2, y2, z2, pushedInto.getLayer());
 				}
-				app.getArenaManager().setDirty(true);
+				LaserTankEE.getArenaManager().setDirty(true);
 			}
 		} catch (final ArrayIndexOutOfBoundsException ae) {
 			final var e = new Empty();
@@ -2229,7 +2203,7 @@ public class Game extends Screen {
 
 	void updateTank() {
 		final var template = new Tank(this.plMgr.getActivePlayerNumber() + 1);
-		this.tank = (ArenaObject) LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+		this.tank = (ArenaObject) LaserTankEE.getArenaManager().getArena().getCell(
 				this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(), this.plMgr.getPlayerLocationZ(),
 				template.getLayer());
 	}
@@ -2250,8 +2224,8 @@ public class Game extends Screen {
 
 	private void writeSolution() {
 		try {
-			final var activeLevel = LaserTankEE.getApplication().getArenaManager().getArena().getActiveLevelNumber();
-			final var levelFile = LaserTankEE.getApplication().getArenaManager().getLastUsedArena();
+			final var activeLevel = LaserTankEE.getArenaManager().getArena().getActiveLevelNumber();
+			final var levelFile = LaserTankEE.getArenaManager().getLastUsedArena();
 			final var filename = levelFile + Strings.loadCommon(CommonString.UNDERSCORE) + activeLevel
 					+ FileExtensions.getSolutionExtensionWithPeriod();
 			try (DataIOWriter file = new XDataWriter(filename,

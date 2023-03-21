@@ -30,7 +30,7 @@ public class HotBox4 extends ArenaObject {
     }
 
     @Override
-	public Sound laserEnteredSound() {
-		return Sound.PUSH_BOX;
-	}
+    public Sound laserEnteredSound() {
+        return Sound.PUSH_BOX;
+    }
 }

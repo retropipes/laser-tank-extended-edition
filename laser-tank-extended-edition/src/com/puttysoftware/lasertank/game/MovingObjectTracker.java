@@ -36,7 +36,7 @@ final class MovingObjectTracker {
 	}
 
 	void activateObject(final int zx, final int zy, final int pushX, final int pushY, final ArenaObject gmo) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		final var pz = plMgr.getPlayerLocationZ();
 		this.objIncX = pushX - zx;
@@ -60,10 +60,10 @@ final class MovingObjectTracker {
 		this.objCumX = zx;
 		this.objCumY = zy;
 		this.movingObj = gmo;
-		this.belowUpper = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+		this.belowUpper = LaserTankEE.getArenaManager().getArena().getCell(
 				this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 				Layer.UPPER_GROUND.ordinal());
-		this.belowLower = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+		this.belowLower = LaserTankEE.getArenaManager().getArena().getCell(
 				this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 				Layer.LOWER_GROUND.ordinal());
 		this.objectMoving = true;
@@ -72,9 +72,8 @@ final class MovingObjectTracker {
 	}
 
 	private void doJumpObjectOnce(final ArenaObject jumper) {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
-		final var gm = app.getGameManager();
+		final var m = LaserTankEE.getArenaManager().getArena();
+		final var gm = LaserTankEE.getGame();
 		final var pz = gm.getPlayerManager().getPlayerLocationZ();
 		try {
 			this.jumpOnMover = false;
@@ -86,10 +85,10 @@ final class MovingObjectTracker {
 			final var oldSave = jumper.getSavedObject();
 			final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
 					this.objCumY + this.objIncY * this.objMultY, pz, jumper.getLayer());
-			this.belowUpper = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+			this.belowUpper = LaserTankEE.getArenaManager().getArena().getCell(
 					this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 					Layer.UPPER_GROUND.ordinal());
-			this.belowLower = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+			this.belowLower = LaserTankEE.getArenaManager().getArena().getCell(
 					this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 					Layer.LOWER_GROUND.ordinal());
 			if (MovingObjectTracker.checkSolid(saved) && this.objMultX != 0 && this.objMultY != 0) {
@@ -161,7 +160,7 @@ final class MovingObjectTracker {
 					this.objCumX += this.objIncX * this.objMultX;
 					this.objCumY += this.objIncY * this.objMultY;
 				}
-				app.getArenaManager().setDirty(true);
+				LaserTankEE.getArenaManager().setDirty(true);
 			} else {
 				// Movement failed
 				jumper.jumpSound(false);
@@ -181,9 +180,8 @@ final class MovingObjectTracker {
 	}
 
 	private void doNormalObjectOnce() {
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
-		final var gm = app.getGameManager();
+		final var m = LaserTankEE.getArenaManager().getArena();
+		final var gm = LaserTankEE.getGame();
 		final var pz = gm.getPlayerManager().getPlayerLocationZ();
 		try {
 			if (gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
@@ -192,10 +190,10 @@ final class MovingObjectTracker {
 			final var oldSave = this.movingObj.getSavedObject();
 			final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
 					this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.getLayer());
-			this.belowUpper = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+			this.belowUpper = LaserTankEE.getArenaManager().getArena().getCell(
 					this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 					Layer.UPPER_GROUND.ordinal());
-			this.belowLower = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+			this.belowLower = LaserTankEE.getArenaManager().getArena().getCell(
 					this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz,
 					Layer.LOWER_GROUND.ordinal());
 			if (MovingObjectTracker.checkSolid(saved)) {
@@ -253,7 +251,7 @@ final class MovingObjectTracker {
 					this.objCumX += this.objIncX;
 					this.objCumY += this.objIncY;
 				}
-				app.getArenaManager().setDirty(true);
+				LaserTankEE.getArenaManager().setDirty(true);
 			} else {
 				// Movement failed
 				this.belowLower.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);
@@ -309,7 +307,7 @@ final class MovingObjectTracker {
 
 	void trackPart2() {
 		try {
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var plMgr = gm.getPlayerManager();
 			final var pz = plMgr.getPlayerLocationZ();
 			if (this.objectMoving) {

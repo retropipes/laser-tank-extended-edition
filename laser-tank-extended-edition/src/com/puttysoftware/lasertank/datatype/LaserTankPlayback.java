@@ -41,7 +41,7 @@ public class LaserTankPlayback {
 	}
 
 	private static LaserTankPlaybackEntry decodeRawDataPoint(final byte d) throws LPBLoadException {
-		final var game = LaserTankEE.getApplication().getGameManager();
+		final var game = LaserTankEE.getGame();
 		return switch (d) {
 			case 0x20 -> {
 				game.loadReplay(GameAction.SHOOT, 0, 0);

@@ -51,11 +51,10 @@ public class LoadTask extends Thread {
 	@Override
 	public void run() {
 		this.loadFrame.setVisible(true);
-		final var app = LaserTankEE.getApplication();
 		if (this.isSavedGame) {
-			app.getGameManager().setSavedGameFlag(true);
+			LaserTankEE.getGame().setSavedGameFlag(true);
 		} else {
-			app.getGameManager().setSavedGameFlag(false);
+			LaserTankEE.getGame().setSavedGameFlag(false);
 		}
 		try {
 			final var arenaFile = new File(this.filename);
@@ -67,18 +66,18 @@ public class LoadTask extends Thread {
 				ProtectionWrapper.unprotect(arenaFile, tempLock);
 				try {
 					ZipUtilities.unzipDirectory(tempLock, new File(gameArena.getBasePath()));
-					app.getArenaManager().setArenaProtected(true);
+					LaserTankEE.getArenaManager().setArenaProtected(true);
 				} catch (final ZipException ze) {
 					CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.BAD_PROTECTION_KEY),
 							Strings.loadError(ErrorString.PROTECTION));
-					app.getArenaManager().handleDeferredSuccess(false);
+					LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 					return;
 				} finally {
 					tempLock.delete();
 				}
 			} else {
 				ZipUtilities.unzipDirectory(arenaFile, new File(gameArena.getBasePath()));
-				app.getArenaManager().setArenaProtected(false);
+				LaserTankEE.getArenaManager().setArenaProtected(false);
 			}
 			// Set prefix handler
 			gameArena.setPrefixHandler(new PrefixHandler());
@@ -92,39 +91,39 @@ public class LoadTask extends Thread {
 			if (gameArena == null) {
 				throw new InvalidArenaException(Strings.loadError(ErrorString.UNKNOWN_OBJECT));
 			}
-			app.getArenaManager().setArena(gameArena);
+			LaserTankEE.getArenaManager().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				app.getGameManager().getPlayerManager().resetPlayerLocation();
+				LaserTankEE.getGame().getPlayerManager().resetPlayerLocation();
 			}
 			if (!this.isSavedGame) {
 				gameArena.save();
 			}
 			// Final cleanup
-			final var lum = app.getArenaManager().getLastUsedArena();
-			final var lug = app.getArenaManager().getLastUsedGame();
-			app.getArenaManager().clearLastUsedFilenames();
+			final var lum = LaserTankEE.getArenaManager().getLastUsedArena();
+			final var lug = LaserTankEE.getArenaManager().getLastUsedGame();
+			LaserTankEE.getArenaManager().clearLastUsedFilenames();
 			if (this.isSavedGame) {
-				app.getArenaManager().setLastUsedGame(lug);
+				LaserTankEE.getArenaManager().setLastUsedGame(lug);
 			} else {
-				app.getArenaManager().setLastUsedArena(lum);
+				LaserTankEE.getArenaManager().setLastUsedArena(lum);
 			}
-			app.getEditor().arenaChanged();
+			LaserTankEE.getEditor().arenaChanged();
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_SUCCESS));
 			} else {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
 			}
-			app.getArenaManager().handleDeferredSuccess(true);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(true);
 		} catch (final FileNotFoundException fnfe) {
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
 			} else {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 			}
-			app.getArenaManager().handleDeferredSuccess(false);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 		} catch (final ProtectionCancelException pce) {
-			app.getArenaManager().handleDeferredSuccess(false);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 		} catch (final IOException ie) {
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
@@ -132,7 +131,7 @@ public class LoadTask extends Thread {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 			}
 			LaserTankEE.logWarning(ie);
-			app.getArenaManager().handleDeferredSuccess(false);
+			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
 		} catch (final Exception ex) {
 			LaserTankEE.logError(ex);
 		} finally {

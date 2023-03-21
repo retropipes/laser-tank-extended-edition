@@ -33,13 +33,12 @@ public class Lava extends ArenaObject {
 	// Scriptability
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-		final var app = LaserTankEE.getApplication();
 		if (pushed instanceof IcyBox) {
-			app.getGameManager().morph(new LavaBridge(), x, y, z, this.getLayer());
+			LaserTankEE.getGame().morph(new LavaBridge(), x, y, z, this.getLayer());
 			Sounds.play(Sound.COOL_OFF);
 			return true;
 		}
-		app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+		LaserTankEE.getGame().morph(new Empty(), x, y, z, pushed.getLayer());
 		Sounds.play(Sound.MELT);
 		return false;
 	}

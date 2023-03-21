@@ -32,6 +32,6 @@ public class PowerfulTank extends ArenaObject {
     @Override
     public void timerExpiredAction(final int x, final int y) {
         Sounds.play(Sound.RETURN);
-        LaserTankEE.getApplication().getGameManager().setNormalTank();
+        LaserTankEE.getGame().setNormalTank();
     }
 }

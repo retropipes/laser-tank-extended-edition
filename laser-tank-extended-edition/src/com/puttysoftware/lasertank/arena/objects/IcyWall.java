@@ -53,7 +53,7 @@ public class IcyWall extends ArenaObject {
 		} else {
 			ao = new Wall();
 		}
-		LaserTankEE.getApplication().getGameManager().morph(ao, locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(ao, locX, locY, locZ, this.getLayer());
 		return Direction.NONE;
 	}
 }

@@ -9,9 +9,6 @@ import java.awt.GridLayout;
 import java.awt.desktop.QuitEvent;
 import java.awt.desktop.QuitHandler;
 import java.awt.desktop.QuitResponse;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
@@ -29,78 +26,19 @@ import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.CleanupTask;
 
-public class GUIManager extends Screen implements QuitHandler {
-	private class CloseHandler implements WindowListener {
-		public CloseHandler() {
-			// Do nothing
-		}
-
-		@Override
-		public void windowActivated(final WindowEvent arg0) {
-			// Do nothing
-		}
-
-		@Override
-		public void windowClosed(final WindowEvent arg0) {
-			// Do nothing
-		}
-
-		@Override
-		public void windowClosing(final WindowEvent arg0) {
-			if (GUIManager.this.quitHandler()) {
-				System.exit(0);
-			}
-		}
-
-		@Override
-		public void windowDeactivated(final WindowEvent arg0) {
-			// Do nothing
-		}
-
-		@Override
-		public void windowDeiconified(final WindowEvent arg0) {
-			// Do nothing
-		}
-
-		@Override
-		public void windowIconified(final WindowEvent arg0) {
-			// Do nothing
-		}
-
-		@Override
-		public void windowOpened(final WindowEvent arg0) {
-			// Do nothing
-		}
-	}
-
-	private static class FocusHandler implements WindowFocusListener {
-		public FocusHandler() {
-			// Do nothing
-		}
-
-		@Override
-		public void windowGainedFocus(final WindowEvent e) {
-			LaserTankEE.getApplication().getMenuManager().updateMenuItemState();
-		}
-
-		@Override
-		public void windowLostFocus(final WindowEvent e) {
-			// Do nothing
-		}
-	}
-
+public class MainScreen extends Screen implements QuitHandler {
 	// Fields
 	private JLabel logoLabel;
-	private final CloseHandler cHandler = new CloseHandler();
-	private final FocusHandler fHandler = new FocusHandler();
+	private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler(this);
+	private final MainScreenFocusHandler fHandler = new MainScreenFocusHandler();
 
 	// Constructors
-	public GUIManager() {
+	public MainScreen() {
 	}
 
 	// Methods
 	public boolean quitHandler() {
-		final var mm = LaserTankEE.getApplication().getArenaManager();
+		final var mm = LaserTankEE.getArenaManager();
 		var saved = true;
 		var status = CommonDialogs.DEFAULT_OPTION;
 		if (mm.getDirty()) {
@@ -134,8 +72,7 @@ public class GUIManager extends Screen implements QuitHandler {
 	}
 
 	public void showGUI() {
-		final var app = LaserTankEE.getApplication();
-		app.setInGUI();
+		LaserTankEE.setInMain();
 	}
 
 	@Override

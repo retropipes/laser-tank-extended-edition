@@ -35,7 +35,7 @@ public class Box4 extends ArenaObject {
 	}
 
 	@Override
-	public Sound laserEnteredSound(){
+	public Sound laserEnteredSound() {
 		return Sound.PUSH_BOX;
 	}
 }

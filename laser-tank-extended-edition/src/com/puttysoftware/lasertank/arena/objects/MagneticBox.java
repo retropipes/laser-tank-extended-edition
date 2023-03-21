@@ -27,13 +27,13 @@ public class MagneticBox extends ArenaObject {
 	@Override
 	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType, final int forceUnits) {
-		final var app = LaserTankEE.getApplication();
-		final var mo = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+		final var mo = LaserTankEE.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
+				this.getLayer());
 		if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
-			app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+			LaserTankEE.getGame().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 			Sounds.play(this.laserEnteredSound());
 		} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
-			app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+			LaserTankEE.getGame().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
 			Sounds.play(this.laserEnteredSound());
 		} else if (laserType == LaserType.MISSILE) {
 			Sounds.play(Sound.BOOM);

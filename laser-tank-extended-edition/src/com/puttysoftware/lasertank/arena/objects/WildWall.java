@@ -43,7 +43,7 @@ public class WildWall extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Heat up wall
 			Sounds.play(Sound.MELT);
-			LaserTankEE.getApplication().getGameManager().morph(new HotWall(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new HotWall(), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		if (laserType == LaserType.STUNNER) {
@@ -51,7 +51,7 @@ public class WildWall extends ArenaObject {
 			Sounds.play(Sound.FREEZE);
 			final var iw = new IcyWall();
 			iw.setPreviousState(this);
-			LaserTankEE.getApplication().getGameManager().morph(iw, locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(iw, locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser

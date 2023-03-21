@@ -24,9 +24,9 @@ class AnimationTask extends Thread {
 	@Override
 	public void run() {
 		try {
-			final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			while (!this.stop) {
-				final var pz = LaserTankEE.getApplication().getGameManager().getPlayerManager().getPlayerLocationZ();
+				final var pz = LaserTankEE.getGame().getPlayerManager().getPlayerLocationZ();
 				final var maxX = a.getRows();
 				final var maxY = a.getColumns();
 				final var maxW = LayerHelper.COUNT;
@@ -44,7 +44,7 @@ class AnimationTask extends Thread {
 						}
 					}
 				}
-				LaserTankEE.getApplication().getGameManager().redrawArena();
+				LaserTankEE.getGame().redrawArena();
 				try {
 					Thread.sleep(200);
 				} catch (final InterruptedException ie) {

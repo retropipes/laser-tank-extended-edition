@@ -35,13 +35,12 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 
 final class MovingLaserTracker {
 	private static boolean canMoveThere(final int sx, final int sy) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		final var px = plMgr.getPlayerLocationX();
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		var zproceed = true;
 		ArenaObject zo = null;
 		try {
@@ -67,7 +66,7 @@ final class MovingLaserTracker {
 	}
 
 	private static boolean checkSolid(final ArenaObject next) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		// Check cheats
 		if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
 			return true;
@@ -144,7 +143,7 @@ final class MovingLaserTracker {
 
 	void activateLasers(final int zx, final int zy, final int zox, final int zoy, final LaserType zlt,
 			final ArenaObject zshooter) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		this.shooter = zshooter;
 		this.ox = zox;
 		this.oy = zoy;
@@ -160,7 +159,7 @@ final class MovingLaserTracker {
 			} else {
 				Sounds.play(Sound.FIRE_LASER);
 			}
-			LaserTankEE.getApplication().getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 			Game.updateUndo(true, false, false, false, false, false, false, false, false, false);
 			gm.updateScore(0, 1, 0);
 			if (!gm.isReplaying()) {
@@ -180,7 +179,7 @@ final class MovingLaserTracker {
 				this.res = true;
 			}
 		} else if (this.lt == LaserType.MISSILE) {
-			LaserTankEE.getApplication().getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 			Game.updateUndo(false, true, false, false, false, false, false, false, false, false);
 			TankInventory.fireMissile();
 			Sounds.play(Sound.MISSILE);
@@ -191,7 +190,7 @@ final class MovingLaserTracker {
 			this.laser = true;
 			this.res = true;
 		} else if (this.lt == LaserType.STUNNER) {
-			LaserTankEE.getApplication().getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 			Game.updateUndo(false, false, true, false, false, false, false, false, false, false);
 			TankInventory.fireStunner();
 			Sounds.play(Sound.STUNNER);
@@ -202,7 +201,7 @@ final class MovingLaserTracker {
 			this.laser = true;
 			this.res = true;
 		} else if (this.lt == LaserType.BLUE) {
-			LaserTankEE.getApplication().getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 			Game.updateUndo(false, false, false, false, false, true, false, false, false, false);
 			TankInventory.fireBlueLaser();
 			Sounds.play(Sound.FIRE_LASER);
@@ -216,13 +215,13 @@ final class MovingLaserTracker {
 	}
 
 	void clearLastLaser() {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		final var pz = plMgr.getPlayerLocationZ();
 		if (this.laser) {
 			// Clear last laser
 			try {
-				LaserTankEE.getApplication().getArenaManager().getArena().setVirtualCell(new Empty(),
+				LaserTankEE.getArenaManager().getArena().setVirtualCell(new Empty(),
 						this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz, this.l.getLayer());
 				gm.redrawArena();
 			} catch (final ArrayIndexOutOfBoundsException aioobe) {
@@ -238,13 +237,12 @@ final class MovingLaserTracker {
 
 	private void doLasersOnce(final boolean tracking) {
 		final var g = new Ground();
-		final var app = LaserTankEE.getApplication();
-		final var gm = app.getGameManager();
-		final var plMgr = app.getGameManager().getPlayerManager();
+		final var gm = LaserTankEE.getGame();
+		final var plMgr = LaserTankEE.getGame().getPlayerManager();
 		final var px = plMgr.getPlayerLocationX();
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		ArenaObject lol = null;
 		ArenaObject lou = null;
 		try {
@@ -381,7 +379,7 @@ final class MovingLaserTracker {
 	}
 
 	boolean trackPart2(final int nsx, final int nsy, final boolean nMover) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		var sx = nsx;
 		var sy = nsy;
 		var mover = nMover;

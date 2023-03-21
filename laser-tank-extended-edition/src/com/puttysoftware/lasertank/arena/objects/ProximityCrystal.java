@@ -28,16 +28,16 @@ public class ProximityCrystal extends ArenaObject {
 	@Override
 	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 			final int dirY, final LaserType laserType, final int forceUnits) {
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX, locY, locZ, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getApplication().getGameManager().gameOver();
+			LaserTankEE.getGame().gameOver();
 		}
 		if (laserType == LaserType.POWER) {
 			// Laser keeps going
@@ -58,18 +58,18 @@ public class ProximityCrystal extends ArenaObject {
 	@Override
 	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final RangeType rangeType, final int forceUnits) {
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX + dirX, locY + dirY, locZ, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getApplication().getGameManager().gameOver();
+			LaserTankEE.getGame().gameOver();
 			return true;
 		}
 		// Destroy barrel
-		LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+		LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
 				this.getLayer());
 		return true;
 	}

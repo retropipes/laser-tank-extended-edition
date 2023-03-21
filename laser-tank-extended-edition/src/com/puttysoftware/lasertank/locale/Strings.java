@@ -37,7 +37,7 @@ public class Strings {
 		DifficultyHelper.activeLanguageChanged();
 		EraHelper.activeLanguageChanged();
 		LayerHelper.activeLanguageChanged();
-		LaserTankEE.getApplication().activeLanguageChanged();
+		LaserTankEE.activeLanguageChanged();
 		Settings.activeLanguageChanged();
 		Images.activeLanguageChanged();
 	}

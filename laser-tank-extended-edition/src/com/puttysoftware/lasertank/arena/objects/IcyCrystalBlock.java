@@ -46,7 +46,7 @@ public class IcyCrystalBlock extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy icy crystal block
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser
@@ -59,14 +59,14 @@ public class IcyCrystalBlock extends ArenaObject {
 			final RangeType rangeType, final int forceUnits) {
 		if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 			// Destroy icy crystal block
-			LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX + dirX, locY + dirY, locZ,
+			LaserTankEE.getGame().morph(new Empty(), locX + dirX, locY + dirY, locZ,
 					this.getLayer());
 			return true;
 		}
 		if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
 			// Heat up crystal block
 			Sounds.play(Sound.MELT);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
+			LaserTankEE.getGame().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
 					locY + dirY, locZ, this.getLayer());
 		} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
 		}

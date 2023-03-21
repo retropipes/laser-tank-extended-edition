@@ -35,8 +35,8 @@ public class AntiTank extends ArenaObject {
 
 	public void kill(final int locX, final int locY) {
 		if (this.canShoot) {
-			LaserTankEE.getApplication().getGameManager().setLaserType(LaserType.RED);
-			LaserTankEE.getApplication().getGameManager().fireLaser(locX, locY, this);
+			LaserTankEE.getGame().setLaserType(LaserType.RED);
+			LaserTankEE.getGame().fireLaser(locX, locY, this);
 			this.canShoot = false;
 		}
 	}
@@ -52,7 +52,7 @@ public class AntiTank extends ArenaObject {
 		final var baseDir = this.getDirection();
 		if (laserType == LaserType.MISSILE || laserType == LaserType.POWER) {
 			// Kill
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var dat = new DeadAntiTank();
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
@@ -62,7 +62,7 @@ public class AntiTank extends ArenaObject {
 		}
 		if (laserType == LaserType.STUNNER) {
 			// Stun
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var sat = new StunnedAntiTank();
 			sat.setSavedObject(this.getSavedObject());
 			sat.setDirection(baseDir);
@@ -73,7 +73,7 @@ public class AntiTank extends ArenaObject {
 		final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
 		if (sourceDir == baseDir) {
 			// Kill
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var dat = new DeadAntiTank();
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
@@ -98,7 +98,7 @@ public class AntiTank extends ArenaObject {
 			if (Game.canObjectMove(locX, locY, unres[0], unres[1])) {
 				if (this.autoMove) {
 					this.autoMove = false;
-					LaserTankEE.getApplication().getGameManager().updatePushedPosition(locX, locY, locX + unres[0],
+					LaserTankEE.getGame().updatePushedPosition(locX, locY, locX + unres[0],
 							locY + unres[1], this);
 				}
 			} else {

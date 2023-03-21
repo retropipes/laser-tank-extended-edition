@@ -22,7 +22,7 @@ public class Tank extends ArenaObject {
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-        final var me = LaserTankEE.getApplication().getEditor();
+        final var me = LaserTankEE.getEditor();
         me.setPlayerLocation();
     }
 

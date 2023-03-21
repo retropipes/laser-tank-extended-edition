@@ -16,7 +16,6 @@ public class StairsDown extends ArenaObject {
         super();
     }
 
-
     @Override
     public final GameObjectID getID() {
         return GameObjectID.STAIRS_DOWN;

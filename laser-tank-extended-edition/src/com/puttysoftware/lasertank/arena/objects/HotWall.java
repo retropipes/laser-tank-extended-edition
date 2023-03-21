@@ -38,7 +38,7 @@ public class HotWall extends ArenaObject {
 		if (laserType == LaserType.STUNNER) {
 			// Cool off hot wall
 			Sounds.play(Sound.COOL_OFF);
-			LaserTankEE.getApplication().getGameManager().morph(new Wall(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new Wall(), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser

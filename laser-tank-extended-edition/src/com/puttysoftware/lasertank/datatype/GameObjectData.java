@@ -57,7 +57,7 @@ public class GameObjectData {
     public static boolean canJump(final GameObjectID objectID) {
         return DataLoader.loadJump(objectID);
     }
-    
+
     public static boolean canMove(final GameObjectID objectID) {
         return DataLoader.loadMovable(objectID, Direction.NONE);
     }

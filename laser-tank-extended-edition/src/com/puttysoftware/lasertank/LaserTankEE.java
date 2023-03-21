@@ -5,31 +5,80 @@
  */
 package com.puttysoftware.lasertank;
 
-import java.awt.desktop.PreferencesEvent;
-import java.awt.desktop.PreferencesHandler;
+import java.awt.Dimension;
+import java.lang.Thread.UncaughtExceptionHandler;
+import java.lang.reflect.InvocationTargetException;
+
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+import javax.swing.SwingUtilities;
+import javax.swing.WindowConstants;
+
+import com.puttysoftware.diane.gui.MainWindow;
+import com.puttysoftware.diane.gui.Screen;
+import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.editor.Editor;
+import com.puttysoftware.lasertank.game.Game;
+import com.puttysoftware.lasertank.locale.CommonString;
+import com.puttysoftware.lasertank.locale.DialogString;
+import com.puttysoftware.lasertank.locale.MessageString;
+import com.puttysoftware.lasertank.locale.Strings;
 
 import com.puttysoftware.diane.Diane;
 import com.puttysoftware.diane.gui.MainContentFactory;
-import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.diane.integration.Integration;
 import com.puttysoftware.lasertank.locale.ErrorString;
-import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
 
 public class LaserTankEE {
 	// Constants
-	private static Application application;
 	private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
 	private static String ERROR_MESSAGE = null;
 	private static String ERROR_TITLE = null;
 	private static String WARNING_MESSAGE = null;
 	private static String WARNING_TITLE = null;
 	private static final int CONTENT_SIZE = 768;
+	private static MainWindow masterFrame;
+	private static AboutDialog about;
+	private static Game gameMgr;
+	private static ArenaManager arenaMgr;
+	private static MenubarHost menuMgr;
+	private static Editor editor;
+	private static MainScreen mainScreen;
+	private static Screen mode, formerMode;
 
-	// Methods
-	public static Application getApplication() {
-		return LaserTankEE.application;
+	private static final int VERSION_MAJOR = 18;
+	private static final int VERSION_MINOR = 0;
+	private static final int VERSION_BUGFIX = 0;
+	private static final int VERSION_BETA = 1;
+
+	public static String getLogoVersionString() {
+		if (isBetaModeEnabled()) {
+			return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + VERSION_MAJOR
+					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
+					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX
+					+ Strings.loadCommon(CommonString.BETA_SHORT) + VERSION_BETA;
+		}
+		return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + VERSION_MAJOR
+				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
+				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX;
+	}
+
+	private static String getVersionString() {
+		if (isBetaModeEnabled()) {
+			return Strings.loadCommon(CommonString.EMPTY) + VERSION_MAJOR
+					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
+					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX
+					+ Strings.loadMessage(MessageString.BETA) + VERSION_BETA;
+		}
+		return Strings.loadCommon(CommonString.EMPTY) + VERSION_MAJOR
+				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
+				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX;
+	}
+
+	private static boolean isBetaModeEnabled() {
+		return VERSION_BETA > 0;
 	}
 
 	public static void logError(final Throwable t) {
@@ -58,6 +107,116 @@ public class LaserTankEE {
 		LaserTankEE.WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
 	}
 
+	public static void activeLanguageChanged() {
+		// Rebuild menus
+		menuMgr.populateMenuBar();
+		// Fire hooks
+		getGame().activeLanguageChanged();
+		getEditor().activeLanguageChanged();
+	}
+
+	static void exitCurrentMode() {
+		mode.hideScreen();
+	}
+
+	static AboutDialog getAboutDialog() {
+		return about;
+	}
+
+	public static ArenaManager getArenaManager() {
+		if (arenaMgr == null) {
+			arenaMgr = new ArenaManager();
+		}
+		return arenaMgr;
+	}
+
+	public static Editor getEditor() {
+		return editor;
+	}
+
+	public static Screen getFormerMode() {
+		return formerMode;
+	}
+
+	public static Game getGame() {
+		return gameMgr;
+	}
+
+	public static MainScreen getMainScreen() {
+		return mainScreen;
+	}
+
+	public static String[] getLevelInfoList() {
+		return arenaMgr.getArena().getLevelInfoList();
+	}
+
+	public static MenubarHost getMenuManager() {
+		return menuMgr;
+	}
+
+	public static boolean isInGameMode() {
+		return mode == gameMgr;
+	}
+
+	public static boolean isInEditorMode() {
+		return mode == editor;
+	}
+
+	public static boolean isInMainMode() {
+		return mode == mainScreen;
+	}
+
+	public static void setInEditor() {
+		formerMode = mode;
+		mode = editor;
+		tearDownFormerMode();
+		editor.showScreen();
+		menuMgr.activateEditorCommands();
+	}
+
+	public static void setInGame() {
+		formerMode = mode;
+		mode = gameMgr;
+		tearDownFormerMode();
+		gameMgr.showScreen();
+		menuMgr.activateGameCommands();
+	}
+
+	static void setInMain() {
+		formerMode = mode;
+		mode = mainScreen;
+		tearDownFormerMode();
+		mainScreen.showScreen();
+		menuMgr.activateGUICommands();
+		masterFrame.pack();
+	}
+
+	public static void showMessage(final String msg) {
+		mode.statusMessage(msg);
+	}
+
+	private static void tearDownFormerMode() {
+		if (formerMode != null) {
+			formerMode.hideScreen();
+		}
+	}
+
+	public static void updateLevelInfoList() {
+		JFrame loadFrame;
+		JProgressBar loadBar;
+		loadFrame = new JFrame(Strings.loadDialog(DialogString.UPDATING_LEVEL_INFO));
+		loadBar = new JProgressBar();
+		loadBar.setIndeterminate(true);
+		loadBar.setPreferredSize(new Dimension(600, 20));
+		loadFrame.getContentPane().add(loadBar);
+		loadFrame.setResizable(false);
+		loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+		loadFrame.pack();
+		loadFrame.setVisible(true);
+		arenaMgr.getArena().generateLevelInfoList();
+		loadFrame.setVisible(false);
+	}
+
 	public static void main(final String[] args) {
 		// Integrate with host platform
 		final var ni = new Integration();
@@ -71,32 +230,37 @@ public class LaserTankEE {
 		// Create main window
 		MainContentFactory.setContentSize(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
 		MainWindow.createMainWindow(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
-		// Create and initialize application
-		LaserTankEE.application = new Application();
-		LaserTankEE.application.init();
+		// Create and initialize game
+		masterFrame = MainWindow.mainWindow();
+		mode = null;
+		formerMode = null;
+		// Create Managers
+		menuMgr = new MenubarHost();
+		about = new AboutDialog(getVersionString());
+		mainScreen = new MainScreen();
+		gameMgr = new Game();
+		editor = new Editor();
 		// Initialize preferences
 		Settings.readSettings();
 		Strings.activeLanguageChanged(Settings.getLanguageID());
 		// Register platform hooks
-		MainWindow.mainWindow().setMenus(LaserTankEE.getApplication().getMenuManager().getMenuBar());
-		ni.setAboutHandler(LaserTankEE.application.getAboutDialog());
+		MainWindow.mainWindow().setMenus(getMenuManager().getMenuBar());
+		ni.setAboutHandler(getAboutDialog());
 		ni.setPreferencesHandler(new SettingsInvoker());
-		ni.setQuitHandler(LaserTankEE.application.getGUIManager());
+		ni.setQuitHandler(getMainScreen());
+		// Set up default error handling
+		final UncaughtExceptionHandler eh = (t, e) -> LaserTankEE.logWarning(e);
+		final Runnable doRun = () -> Thread.currentThread().setUncaughtExceptionHandler(eh);
+		try {
+			SwingUtilities.invokeAndWait(doRun);
+		} catch (InvocationTargetException | InterruptedException e) {
+			LaserTankEE.logError(e);
+		}
 		// Display GUI
-		LaserTankEE.application.bootGUI();
+		mainScreen.showGUI();
 	}
 
 	private LaserTankEE() {
 		// Do nothing
-	}
-
-	private static class SettingsInvoker implements PreferencesHandler {
-		public SettingsInvoker() {
-		}
-
-		@Override
-		public void handlePreferences(final PreferencesEvent e) {
-			Settings.showSettings();
-		}
 	}
 }

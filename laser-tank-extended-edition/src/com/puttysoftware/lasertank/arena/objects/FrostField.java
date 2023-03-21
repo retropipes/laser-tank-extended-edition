@@ -24,6 +24,6 @@ public class FrostField extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.FREEZE);
-        LaserTankEE.getApplication().getGameManager().updatePositionRelativeFrozen();
+        LaserTankEE.getGame().updatePositionRelativeFrozen();
     }
 }

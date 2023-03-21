@@ -50,7 +50,7 @@ public class MetallicRotaryMirror extends ArenaObject {
 		// Rotate mirror
 		this.toggleDirection();
 		Sounds.play(Sound.ROTATE);
-		LaserTankEE.getApplication().getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		LaserTankEE.getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
 		return true;
 	}
 }

@@ -16,7 +16,7 @@ class ReplayTask extends Thread {
 
 	@Override
 	public void run() {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		var result = true;
 		while (result) {
 			result = gm.replayLastMove();

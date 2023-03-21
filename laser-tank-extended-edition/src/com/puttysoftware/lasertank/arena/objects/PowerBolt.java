@@ -24,7 +24,7 @@ public class PowerBolt extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.POWERFUL);
-        LaserTankEE.getApplication().getGameManager().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
-        LaserTankEE.getApplication().getGameManager().setPowerfulTank();
+        LaserTankEE.getGame().morph(new Empty(), dirX, dirY, dirZ, this.getLayer());
+        LaserTankEE.getGame().setPowerfulTank();
     }
 }

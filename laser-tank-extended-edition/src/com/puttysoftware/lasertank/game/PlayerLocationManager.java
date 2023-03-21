@@ -59,7 +59,7 @@ public final class PlayerLocationManager {
 	}
 
 	public void resetPlayerLocation() {
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		for (var pi = 0; pi < Players.COUNT; pi++) {
 			final var found = a.findPlayer(pi);
 			if (found != null) {

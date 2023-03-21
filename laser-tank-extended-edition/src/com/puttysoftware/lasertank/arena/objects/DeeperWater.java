@@ -38,17 +38,16 @@ public class DeeperWater extends ArenaObject {
 	// Scriptability
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-		final var app = LaserTankEE.getApplication();
 		if (pushed.isBox()) {
 			// Get rid of pushed object
-			app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+			LaserTankEE.getGame().morph(new Empty(), x, y, z, pushed.getLayer());
 			if (pushed.getMaterial() == Material.WOODEN) {
-				app.getGameManager().morph(new Bridge(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new Bridge(), x, y, z, this.getLayer());
 			} else {
-				app.getGameManager().morph(new DeepWater(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new DeepWater(), x, y, z, this.getLayer());
 			}
 		} else {
-			app.getGameManager().morph(new Empty(), x, y, z, pushed.getLayer());
+			LaserTankEE.getGame().morph(new Empty(), x, y, z, pushed.getLayer());
 		}
 		Sounds.play(Sound.SINK);
 		return false;

@@ -254,13 +254,13 @@ public class Settings {
 	public static void setEditorLayoutID(final int value) {
 		Settings.storeMgr.setInteger(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_EDITOR_LAYOUT_ID),
 				value);
-		LaserTankEE.getApplication().getEditor().rebuildGUI();
+		LaserTankEE.getEditor().rebuildGUI();
 	}
 
 	public static void setEditorShowAllObjects(final boolean value) {
 		Settings.storeMgr.setBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_EDITOR_SHOW_ALL),
 				value);
-		LaserTankEE.getApplication().getEditor().rebuildGUI();
+		LaserTankEE.getEditor().rebuildGUI();
 	}
 
 	static void setEnableAnimation(final boolean value) {

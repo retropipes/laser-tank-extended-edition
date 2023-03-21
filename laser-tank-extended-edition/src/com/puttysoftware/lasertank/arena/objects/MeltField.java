@@ -24,6 +24,6 @@ public class MeltField extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.MELT);
-        LaserTankEE.getApplication().getGameManager().updatePositionRelativeMolten();
+        LaserTankEE.getGame().updatePositionRelativeMolten();
     }
 }

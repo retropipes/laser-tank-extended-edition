@@ -497,7 +497,7 @@ public class CurrentArena extends Arena {
 			this.arenaData = this.clipboard;
 			this.levelInfoData.set(this.activeLevel, this.infoClipboard);
 			this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
-			LaserTankEE.getApplication().getArenaManager().setDirty(true);
+			LaserTankEE.getArenaManager().setDirty(true);
 		}
 	}
 

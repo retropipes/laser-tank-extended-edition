@@ -27,13 +27,13 @@ public class DeadAntiTank extends ArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
             final LaserType laserType, final int forceUnits) {
-        LaserTankEE.getApplication().getGameManager().haltMovingObjects();
+        LaserTankEE.getGame().haltMovingObjects();
         if (laserType != LaserType.MISSILE) {
             return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
         }
         // Destroy
         Sounds.play(Sound.BOOM);
-        LaserTankEE.getApplication().getGameManager().morph(this.getSavedObject(), locX, locY, locZ, this.getLayer());
+        LaserTankEE.getGame().morph(this.getSavedObject(), locX, locY, locZ, this.getLayer());
         return Direction.NONE;
     }
 }

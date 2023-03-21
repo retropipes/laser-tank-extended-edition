@@ -31,11 +31,11 @@ import com.puttysoftware.lasertank.utility.AlreadyDeadException;
 
 final class MLOTask extends Thread {
 	static void activateAutomaticMovement() {
-		LaserTankEE.getApplication().getGameManager().scheduleAutoMove();
+		LaserTankEE.getGame().scheduleAutoMove();
 	}
 
 	private static boolean checkSolid(final ArenaObject next) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		// Check cheats
 		if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
 			return true;
@@ -44,8 +44,8 @@ final class MLOTask extends Thread {
 	}
 
 	static boolean checkSolid(final int zx, final int zy) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
-		final var next = LaserTankEE.getApplication().getArenaManager().getArena().getCell(zx, zy,
+		final var gm = LaserTankEE.getGame();
+		final var next = LaserTankEE.getArenaManager().getArena().getCell(zx, zy,
 				gm.getPlayerManager().getPlayerLocationZ(), Layer.LOWER_OBJECTS.ordinal());
 		// Check cheats
 		if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
@@ -55,7 +55,7 @@ final class MLOTask extends Thread {
 	}
 
 	private static void freezeTank() {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var tank = gm.getTank();
 		final var dir = tank.getDirection();
 		final var px = gm.getPlayerManager().getPlayerLocationX();
@@ -68,7 +68,7 @@ final class MLOTask extends Thread {
 	}
 
 	private static void meltTank() {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var tank = gm.getTank();
 		final var dir = tank.getDirection();
 		final var px = gm.getPlayerManager().getPlayerLocationX();
@@ -140,7 +140,7 @@ final class MLOTask extends Thread {
 	}
 
 	void activateFrozenMovement(final int zx, final int zy) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		// Moving under the influence of a Frost Field
 		this.frozen = true;
 		MLOTask.freezeTank();
@@ -162,7 +162,7 @@ final class MLOTask extends Thread {
 	}
 
 	void activateMoltenMovement(final int zx, final int zy) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		// Melt the tank - stepped into a Melt Field
 		MLOTask.meltTank();
 		gm.updateScore(1, 0, 0);
@@ -176,7 +176,7 @@ final class MLOTask extends Thread {
 	}
 
 	void activateMovement(final int zx, final int zy) {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		if (zx == 2 || zy == 2 || zx == -2 || zy == -2) {
 			// Boosting
 			Sounds.play(Sound.BOOST);
@@ -191,7 +191,7 @@ final class MLOTask extends Thread {
 		} else if (zx == 3 || zy == 3 || zx == -3 || zy == -3) {
 			// Using a Magnet
 			gm.updateScore(0, 0, 1);
-			final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			final var px = gm.getPlayerManager().getPlayerLocationX();
 			final var py = gm.getPlayerManager().getPlayerLocationY();
 			final var pz = gm.getPlayerManager().getPlayerLocationZ();
@@ -275,14 +275,13 @@ final class MLOTask extends Thread {
 	}
 
 	private boolean canMoveThere() {
-		final var app = LaserTankEE.getApplication();
-		final var gm = app.getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		final var px = plMgr.getPlayerLocationX();
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
 		final var pw = Layer.UPPER_OBJECTS.ordinal();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		ArenaObject lgo = null;
 		ArenaObject ugo = null;
 		ArenaObject loo = null;
@@ -310,13 +309,12 @@ final class MLOTask extends Thread {
 	}
 
 	private boolean checkLoopCondition(final boolean zproceed) {
-		final var app = LaserTankEE.getApplication();
-		final var gm = app.getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		final var px = plMgr.getPlayerLocationX();
 		final var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		ArenaObject lgo = null;
 		ArenaObject ugo = null;
 		try {
@@ -356,7 +354,7 @@ final class MLOTask extends Thread {
 	private void defrostTank() {
 		if (this.frozen) {
 			this.frozen = false;
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var tank = gm.getTank();
 			final var dir = tank.getDirection();
 			final var px = gm.getPlayerManager().getPlayerLocationX();
@@ -372,7 +370,7 @@ final class MLOTask extends Thread {
 
 	private void doMovementLasersObjects() {
 		synchronized (CurrentArenaData.LOCK_OBJECT) {
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			final var plMgr = gm.getPlayerManager();
 			final var pz = plMgr.getPlayerLocationZ();
 			this.loopCheck = true;
@@ -432,7 +430,7 @@ final class MLOTask extends Thread {
 						if (objs[Layer.LOWER_OBJECTS.ordinal()].solvesOnMove()) {
 							this.abort = true;
 							if (this.move) {
-								LaserTankEE.getApplication().getArenaManager().setDirty(true);
+								LaserTankEE.getArenaManager().setDirty(true);
 								this.defrostTank();
 								gm.moveLoopDone();
 								this.move = false;
@@ -449,7 +447,7 @@ final class MLOTask extends Thread {
 						this.loopCheck = false;
 					}
 					if (this.move && !this.loopCheck) {
-						LaserTankEE.getApplication().getArenaManager().setDirty(true);
+						LaserTankEE.getArenaManager().setDirty(true);
 						this.defrostTank();
 						gm.moveLoopDone();
 						this.move = false;
@@ -465,11 +463,11 @@ final class MLOTask extends Thread {
 						this.move = true;
 						this.loopCheck = true;
 					}
-					LaserTankEE.getApplication().getArenaManager().getArena().tickTimers(pz, actionType);
+					LaserTankEE.getArenaManager().getArena().tickTimers(pz, actionType);
 					final var px = plMgr.getPlayerLocationX();
 					final var py = plMgr.getPlayerLocationY();
-					LaserTankEE.getApplication().getArenaManager().getArena().checkForEnemies(pz, px, py,
-							LaserTankEE.getApplication().getGameManager().getTank());
+					LaserTankEE.getArenaManager().getArena().checkForEnemies(pz, px, py,
+							LaserTankEE.getGame().getTank());
 					// Delay
 					try {
 						Thread.sleep(Settings.getActionSpeed());
@@ -495,14 +493,13 @@ final class MLOTask extends Thread {
 	}
 
 	private ArenaObject[] doMovementOnce() {
-		final var gm = LaserTankEE.getApplication().getGameManager();
+		final var gm = LaserTankEE.getGame();
 		final var plMgr = gm.getPlayerManager();
 		var px = plMgr.getPlayerLocationX();
 		var py = plMgr.getPlayerLocationY();
 		final var pz = plMgr.getPlayerLocationZ();
 		final var pw = Layer.UPPER_OBJECTS.ordinal();
-		final var app = LaserTankEE.getApplication();
-		final var m = app.getArenaManager().getArena();
+		final var m = LaserTankEE.getArenaManager().getArena();
 		this.proceed = true;
 		this.mover = false;
 		ArenaObject lgo = null;
@@ -645,7 +642,7 @@ final class MLOTask extends Thread {
 	@Override
 	public void run() {
 		try {
-			final var gm = LaserTankEE.getApplication().getGameManager();
+			final var gm = LaserTankEE.getGame();
 			gm.clearDead();
 			this.doMovementLasersObjects();
 			// Check auto-move flag

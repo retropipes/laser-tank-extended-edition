@@ -41,7 +41,7 @@ public class MetallicMirror extends ArenaObject {
     }
 
     @Override
-	public Sound laserEnteredSound() {
-		return Sound.PUSH_MIRROR;
-	}
+    public Sound laserEnteredSound() {
+        return Sound.PUSH_MIRROR;
+    }
 }

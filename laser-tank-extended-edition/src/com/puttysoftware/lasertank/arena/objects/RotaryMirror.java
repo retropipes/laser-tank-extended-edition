@@ -35,7 +35,7 @@ public class RotaryMirror extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy mirror
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+			LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
@@ -47,7 +47,7 @@ public class RotaryMirror extends ArenaObject {
 		// Rotate mirror
 		this.toggleDirection();
 		Sounds.play(Sound.ROTATE);
-		LaserTankEE.getApplication().getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		LaserTankEE.getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
 		return true;
 	}
 }

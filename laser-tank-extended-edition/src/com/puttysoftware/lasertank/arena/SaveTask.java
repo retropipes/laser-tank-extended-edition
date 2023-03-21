@@ -46,7 +46,6 @@ public class SaveTask extends Thread {
 
 	@Override
 	public void run() {
-		final var app = LaserTankEE.getApplication();
 		var success = true;
 		// filename check
 		final var hasExtension = SaveTask.hasExtension(this.filename);
@@ -62,23 +61,23 @@ public class SaveTask extends Thread {
 				Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
 		try {
 			// Set prefix handler
-			app.getArenaManager().getArena().setPrefixHandler(new PrefixHandler());
+			LaserTankEE.getArenaManager().getArena().setPrefixHandler(new PrefixHandler());
 			// Set suffix handler
 			if (this.isSavedGame) {
-				app.getArenaManager().getArena().setSuffixHandler(new SuffixHandler());
+				LaserTankEE.getArenaManager().getArena().setSuffixHandler(new SuffixHandler());
 			} else {
-				app.getArenaManager().getArena().setSuffixHandler(null);
+				LaserTankEE.getArenaManager().getArena().setSuffixHandler(null);
 			}
-			app.getArenaManager().getArena().writeArena();
+			LaserTankEE.getArenaManager().getArena().writeArena();
 			if (this.saveProtected) {
-				ZipUtilities.zipDirectory(new File(app.getArenaManager().getArena().getBasePath()), tempLock);
+				ZipUtilities.zipDirectory(new File(LaserTankEE.getArenaManager().getArena().getBasePath()), tempLock);
 				// Protect the arena
 				ProtectionWrapper.protect(tempLock, arenaFile);
 				tempLock.delete();
-				app.getArenaManager().setArenaProtected(true);
+				LaserTankEE.getArenaManager().setArenaProtected(true);
 			} else {
-				ZipUtilities.zipDirectory(new File(app.getArenaManager().getArena().getBasePath()), arenaFile);
-				app.getArenaManager().setArenaProtected(false);
+				ZipUtilities.zipDirectory(new File(LaserTankEE.getArenaManager().getArena().getBasePath()), arenaFile);
+				LaserTankEE.getArenaManager().setArenaProtected(false);
 			}
 		} catch (final FileNotFoundException fnfe) {
 			if (this.isSavedGame) {
@@ -93,10 +92,10 @@ public class SaveTask extends Thread {
 			LaserTankEE.logError(ex);
 		}
 		if (this.isSavedGame) {
-			LaserTankEE.getApplication().showMessage(Strings.loadMessage(MessageString.GAME_SAVED));
+			LaserTankEE.showMessage(Strings.loadMessage(MessageString.GAME_SAVED));
 		} else {
-			LaserTankEE.getApplication().showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
+			LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
 		}
-		app.getArenaManager().handleDeferredSuccess(success);
+		LaserTankEE.getArenaManager().handleDeferredSuccess(success);
 	}
 }

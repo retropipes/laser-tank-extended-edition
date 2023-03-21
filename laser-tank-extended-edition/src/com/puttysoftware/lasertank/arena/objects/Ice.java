@@ -44,7 +44,7 @@ public class Ice extends ArenaObject {
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof HotBox) {
 			final var g = new Ground();
-			LaserTankEE.getApplication().getGameManager().morph(g, x, y, z, g.getLayer());
+			LaserTankEE.getGame().morph(g, x, y, z, g.getLayer());
 			Sounds.play(Sound.DEFROST);
 		}
 		return true;

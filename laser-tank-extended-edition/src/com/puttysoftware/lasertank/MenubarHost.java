@@ -5,340 +5,21 @@
  */
 package com.puttysoftware.lasertank;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
-import com.puttysoftware.diane.gui.GUIPrinter;
-import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.accelerator.Accelerators;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
-import com.puttysoftware.lasertank.datatype.LaserTankPlayback;
 import com.puttysoftware.lasertank.index.Era;
-import com.puttysoftware.lasertank.locale.DialogString;
-import com.puttysoftware.lasertank.locale.EditorString;
-import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.MenuString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 
-public class MenuManager {
-	private class MenuHandler implements ActionListener {
-		public MenuHandler() {
-			// Do nothing
-		}
-
-		// Handle menus
-		@Override
-		public void actionPerformed(final ActionEvent e) {
-			try {
-				final var app = LaserTankEE.getApplication();
-				final var game = app.getGameManager();
-				final var editor = app.getEditor();
-				final var menu = MenuManager.this;
-				var loaded = false;
-				final var cmd = e.getActionCommand();
-				if (cmd.equals(Strings.loadMenu(MenuString.ITEM_NEW))) {
-					loaded = app.getEditor().newArena();
-					app.getArenaManager().setLoaded(loaded);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN))) {
-					loaded = app.getArenaManager().loadArena();
-					app.getArenaManager().setLoaded(loaded);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN_DEFAULT))) {
-					loaded = app.getArenaManager().loadArenaDefault();
-					app.getArenaManager().setLoaded(loaded);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLOSE))) {
-					// Close the window
-					if (app.isInEditorMode()) {
-						app.getEditor().handleCloseWindow();
-					} else if (app.isInGameMode()) {
-						var saved = true;
-						var status = 0;
-						if (app.getArenaManager().getDirty()) {
-							status = ArenaManager.showSaveDialog();
-							if (status == CommonDialogs.YES_OPTION) {
-								saved = app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
-							} else if (status == CommonDialogs.CANCEL_OPTION) {
-								saved = false;
-							} else {
-								app.getArenaManager().setDirty(false);
-							}
-						}
-						if (saved) {
-							app.getGameManager().exitGame();
-						}
-					}
-					app.getGUIManager().showGUI();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE))) {
-					if (app.getArenaManager().getLoaded()) {
-						app.getArenaManager().saveArena(app.getArenaManager().isArenaProtected());
-					} else {
-						CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS))) {
-					if (app.getArenaManager().getLoaded()) {
-						app.getArenaManager().saveArenaAs(false);
-					} else {
-						CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS_PROTECTED))) {
-					if (app.getArenaManager().getLoaded()) {
-						app.getArenaManager().saveArenaAs(true);
-					} else {
-						CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SETTINGS))) {
-					// Show preferences dialog
-					Settings.showSettings();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PRINT_GAMEBOARD))) {
-					GUIPrinter.printScreen();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EXIT))
-						|| cmd.equals(Strings.loadMenu(MenuString.ITEM_QUIT))) {
-					// Exit program
-					if (app.getGUIManager().quitHandler()) {
-						System.exit(0);
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PLAY))) {
-					// Play the current arena
-					final var proceed = app.getGameManager().newGame();
-					if (proceed) {
-						app.exitCurrentMode();
-						app.getGameManager().playArena();
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EDIT))) {
-					// Edit the current arena
-					app.exitCurrentMode();
-					app.getEditor().editArena();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_USE_CLASSIC_ACCELERATORS))) {
-					// Toggle accelerators
-					app.getMenuManager().toggleAccelerators();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL))) {
-					final var result = CommonDialogs.showConfirmDialog(
-							Strings.loadDialog(DialogString.CONFIRM_RESET_CURRENT_LEVEL),
-							GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
-					if (result == CommonDialogs.YES_OPTION) {
-						game.abortAndWaitForMLOLoop();
-						game.resetCurrentLevel();
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_SCORE_TABLE))) {
-					game.showScoreTable();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REPLAY_SOLUTION))) {
-					game.abortAndWaitForMLOLoop();
-					game.replaySolution();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RECORD_SOLUTION))) {
-					game.toggleRecording();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_LOAD_PLAYBACK_FILE))) {
-					game.abortAndWaitForMLOLoop();
-					LaserTankPlayback.loadLPB();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PREVIOUS_LEVEL))) {
-					game.abortAndWaitForMLOLoop();
-					game.previousLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SKIP_LEVEL))) {
-					game.abortAndWaitForMLOLoop();
-					game.solvedLevel(false);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_LOAD_LEVEL))) {
-					game.abortAndWaitForMLOLoop();
-					game.loadLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_HINT))) {
-					CommonDialogs.showDialog(app.getArenaManager().getArena().getHint().trim());
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHEATS))) {
-					game.enterCheatCode();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_AMMO))) {
-					game.changeOtherAmmoMode();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_TOOL))) {
-					game.changeOtherToolMode();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_RANGE))) {
-					game.changeOtherRangeMode();
-				} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
-					// Time Travel: Distant Past
-					Sounds.play(Sound.ERA_CHANGE);
-					app.getArenaManager().getArena().switchEra(Era.DISTANT_PAST.ordinal());
-					menu.gameEraDistantPast.setSelected(true);
-					menu.gameEraPast.setSelected(false);
-					menu.gameEraPresent.setSelected(false);
-					menu.gameEraFuture.setSelected(false);
-					menu.gameEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
-					// Time Travel: Past
-					Sounds.play(Sound.ERA_CHANGE);
-					app.getArenaManager().getArena().switchEra(Era.PAST.ordinal());
-					menu.gameEraDistantPast.setSelected(false);
-					menu.gameEraPast.setSelected(true);
-					menu.gameEraPresent.setSelected(false);
-					menu.gameEraFuture.setSelected(false);
-					menu.gameEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
-					// Time Travel: Present
-					Sounds.play(Sound.ERA_CHANGE);
-					app.getArenaManager().getArena().switchEra(Era.PRESENT.ordinal());
-					menu.gameEraDistantPast.setSelected(false);
-					menu.gameEraPast.setSelected(false);
-					menu.gameEraPresent.setSelected(true);
-					menu.gameEraFuture.setSelected(false);
-					menu.gameEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
-					// Time Travel: Future
-					Sounds.play(Sound.ERA_CHANGE);
-					app.getArenaManager().getArena().switchEra(Era.FUTURE.ordinal());
-					menu.gameEraDistantPast.setSelected(false);
-					menu.gameEraPast.setSelected(false);
-					menu.gameEraPresent.setSelected(false);
-					menu.gameEraFuture.setSelected(true);
-					menu.gameEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
-					// Time Travel: Distant Future
-					Sounds.play(Sound.ERA_CHANGE);
-					app.getArenaManager().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
-					menu.gameEraDistantPast.setSelected(false);
-					menu.gameEraPast.setSelected(false);
-					menu.gameEraPresent.setSelected(false);
-					menu.gameEraFuture.setSelected(false);
-					menu.gameEraDistantFuture.setSelected(true);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UNDO))) {
-					// Undo most recent action
-					if (app.isInEditorMode()) {
-						editor.undo();
-					} else if (app.isInGameMode()) {
-						app.getGameManager().abortAndWaitForMLOLoop();
-						app.getGameManager().undoLastMove();
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REDO))) {
-					// Redo most recent undone action
-					if (app.isInEditorMode()) {
-						editor.redo();
-					} else if (app.isInGameMode()) {
-						app.getGameManager().abortAndWaitForMLOLoop();
-						app.getGameManager().redoLastMove();
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL))) {
-					// Cut Level
-					final var level = editor.getEditorLocationU();
-					app.getArenaManager().getArena().cutLevel();
-					editor.fixLimits();
-					editor.updateEditorLevelAbsolute(level);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_COPY_LEVEL))) {
-					// Copy Level
-					app.getArenaManager().getArena().copyLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PASTE_LEVEL))) {
-					// Paste Level
-					app.getArenaManager().getArena().pasteLevel();
-					editor.fixLimits();
-					editor.redrawEditor();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_INSERT_LEVEL_FROM_CLIPBOARD))) {
-					// Insert Level From Clipboard
-					app.getArenaManager().getArena().insertLevelFromClipboard();
-					editor.fixLimits();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY))) {
-					// Clear undo/redo history, confirm first
-					final var res = CommonDialogs.showConfirmDialog(
-							Strings.loadDialog(DialogString.CONFIRM_CLEAR_HISTORY),
-							Strings.loadEditor(EditorString.EDITOR));
-					if (res == CommonDialogs.YES_OPTION) {
-						editor.clearHistory();
-					}
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_GO_TO_LEVEL))) {
-					// Go To Level
-					editor.goToLevelHandler();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UP_ONE_FLOOR))) {
-					// Go up one floor
-					editor.updateEditorPosition(1, 0);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_DOWN_ONE_FLOOR))) {
-					// Go down one floor
-					editor.updateEditorPosition(-1, 0);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UP_ONE_LEVEL))) {
-					// Go up one level
-					editor.updateEditorPosition(0, 1);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_DOWN_ONE_LEVEL))) {
-					// Go down one level
-					editor.updateEditorPosition(0, -1);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ADD_A_LEVEL))) {
-					// Add a level
-					editor.addLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REMOVE_A_LEVEL))) {
-					// Remove a level
-					editor.removeLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_FILL_CURRENT_LEVEL))) {
-					// Fill level
-					editor.fillLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RESIZE_CURRENT_LEVEL))) {
-					// Resize level
-					editor.resizeLevel();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_LEVEL_SETTINGS))) {
-					// Set Level Preferences
-					editor.setLevelSettings();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SET_START_POINT))) {
-					// Set Start Point
-					editor.editPlayerLocation();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_LAYER))) {
-					// Change Layer
-					editor.changeLayer();
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT))) {
-					// Enable Global Move-Shoot
-					LaserTankEE.getApplication().getArenaManager().getArena().setMoveShootAllowedGlobally(true);
-					menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT));
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT))) {
-					// Disable Global Move-Shoot
-					menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT));
-					app.getArenaManager().getArena().setMoveShootAllowedGlobally(false);
-				} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
-					// Time Travel: Distant Past
-					app.getArenaManager().getArena().switchEra(Era.DISTANT_PAST.ordinal());
-					menu.editorEraDistantPast.setSelected(true);
-					menu.editorEraPast.setSelected(false);
-					menu.editorEraPresent.setSelected(false);
-					menu.editorEraFuture.setSelected(false);
-					menu.editorEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
-					// Time Travel: Past
-					app.getArenaManager().getArena().switchEra(Era.PAST.ordinal());
-					menu.editorEraDistantPast.setSelected(false);
-					menu.editorEraPast.setSelected(true);
-					menu.editorEraPresent.setSelected(false);
-					menu.editorEraFuture.setSelected(false);
-					menu.editorEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
-					// Time Travel: Present
-					app.getArenaManager().getArena().switchEra(Era.PRESENT.ordinal());
-					menu.editorEraDistantPast.setSelected(false);
-					menu.editorEraPast.setSelected(false);
-					menu.editorEraPresent.setSelected(true);
-					menu.editorEraFuture.setSelected(false);
-					menu.editorEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
-					// Time Travel: Future
-					app.getArenaManager().getArena().switchEra(Era.FUTURE.ordinal());
-					menu.editorEraDistantPast.setSelected(false);
-					menu.editorEraPast.setSelected(false);
-					menu.editorEraPresent.setSelected(false);
-					menu.editorEraFuture.setSelected(true);
-					menu.editorEraDistantFuture.setSelected(false);
-				} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
-					// Time Travel: Distant Future
-					app.getArenaManager().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
-					menu.editorEraDistantPast.setSelected(false);
-					menu.editorEraPast.setSelected(false);
-					menu.editorEraPresent.setSelected(false);
-					menu.editorEraFuture.setSelected(false);
-					menu.editorEraDistantFuture.setSelected(true);
-				} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK))) {
-					app.getAboutDialog().showScreen();
-				}
-				app.getMenuManager().updateMenuItemState();
-			} catch (final Exception ex) {
-				LaserTankEE.logError(ex);
-			}
-		}
-	}
-
+public class MenubarHost {
 	// Fields
 	private final JMenuBar menuBar;
 	private JMenuItem fileNew, fileOpen, fileOpenDefault, fileClose, fileSave, fileSaveAs, fileSaveAsProtected,
@@ -357,12 +38,13 @@ public class MenuManager {
 	JCheckBoxMenuItem editorEraDistantPast, editorEraPast, editorEraPresent, editorEraFuture, editorEraDistantFuture;
 	private JMenuItem editorClearHistory, editorGoToLevel, editorUpOneFloor, editorDownOneFloor, editorUpOneLevel,
 			editorDownOneLevel, editorAddLevel, editorRemoveLevel, editorLevelPreferences, editorSetStartPoint,
-			editorFillLevel, editorResizeLevel, editorChangeLayer, editorGlobalMoveShoot;
+			editorFillLevel, editorResizeLevel, editorChangeLayer;
+	JMenuItem editorGlobalMoveShoot;
 	private JMenuItem helpAbout;
 	private Accelerators accel;
 
 	// Constructors
-	public MenuManager() {
+	public MenubarHost() {
 		this.menuBar = new JMenuBar();
 		this.accel = Accelerators.getInstance(Settings.useClassicAccelerators());
 	}
@@ -370,20 +52,19 @@ public class MenuManager {
 	// Methods
 	public final void updateMenuItemState() {
 		try {
-			final var app = LaserTankEE.getApplication();
-			final var editor = app.getEditor();
-			if (app.getArenaManager().getLoaded()) {
+			final var editor = LaserTankEE.getEditor();
+			if (LaserTankEE.getArenaManager().getLoaded()) {
 				this.enableLoadedCommands();
 			} else {
 				this.disableLoadedCommands();
 			}
-			if (app.getArenaManager().getDirty()) {
+			if (LaserTankEE.getArenaManager().getDirty()) {
 				this.enableDirtyCommands();
 			} else {
 				this.disableDirtyCommands();
 			}
-			if (app.isInEditorMode()) {
-				final var m = app.getArenaManager().getArena();
+			if (LaserTankEE.isInEditorMode()) {
+				final var m = LaserTankEE.getArenaManager().getArena();
 				if (m.getLevels() == Arena.getMinLevels()) {
 					this.disableRemoveLevel();
 				} else {
@@ -445,8 +126,8 @@ public class MenuManager {
 					this.enableClearHistory();
 				}
 			}
-			if (app.isInGameMode()) {
-				final var a = app.getArenaManager().getArena();
+			if (LaserTankEE.isInGameMode()) {
+				final var a = LaserTankEE.getArenaManager().getArena();
 				if (a.tryUndo()) {
 					this.enableUndo();
 				} else {
@@ -458,7 +139,7 @@ public class MenuManager {
 					this.disableRedo();
 				}
 			}
-			final var a = app.getArenaManager().getArena();
+			final var a = LaserTankEE.getArenaManager().getArena();
 			if (a != null && a.isPasteBlocked()) {
 				this.disablePasteLevel();
 				this.disableInsertLevelFromClipboard();
@@ -589,7 +270,7 @@ public class MenuManager {
 	}
 
 	void populateMenuBar() {
-		final var mhandler = new MenuHandler();
+		final var mhandler = new MenubarEventHandler(this);
 		final var fileMenu = this.buildFileMenu(mhandler);
 		final var editMenu = this.buildEditMenu(mhandler);
 		final var playMenu = this.buildPlayMenu(mhandler);
@@ -605,7 +286,7 @@ public class MenuManager {
 		this.menuBar.add(helpMenu);
 	}
 
-	private JMenu buildFileMenu(final MenuHandler mhandler) {
+	private JMenu buildFileMenu(final MenubarEventHandler mhandler) {
 		final var fileMenu = new JMenu(Strings.loadMenu(MenuString.MENU_FILE));
 		this.fileNew = new JMenuItem(Strings.loadMenu(MenuString.ITEM_NEW));
 		this.fileOpen = new JMenuItem(Strings.loadMenu(MenuString.ITEM_OPEN));
@@ -651,7 +332,7 @@ public class MenuManager {
 		return fileMenu;
 	}
 
-	private JMenu buildEditMenu(final MenuHandler mhandler) {
+	private JMenu buildEditMenu(final MenubarEventHandler mhandler) {
 		final var editMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDIT));
 		this.editUndo = new JMenuItem(Strings.loadMenu(MenuString.ITEM_UNDO));
 		this.editRedo = new JMenuItem(Strings.loadMenu(MenuString.ITEM_REDO));
@@ -684,7 +365,7 @@ public class MenuManager {
 		return editMenu;
 	}
 
-	private JMenu buildPlayMenu(final MenuHandler mhandler) {
+	private JMenu buildPlayMenu(final MenubarEventHandler mhandler) {
 		final var playMenu = new JMenu(Strings.loadMenu(MenuString.MENU_PLAY));
 		this.playPlay = new JMenuItem(Strings.loadMenu(MenuString.ITEM_PLAY));
 		this.playEdit = new JMenuItem(Strings.loadMenu(MenuString.ITEM_EDIT));
@@ -701,7 +382,7 @@ public class MenuManager {
 		return playMenu;
 	}
 
-	private JMenu buildGameMenu(final MenuHandler mhandler) {
+	private JMenu buildGameMenu(final MenubarEventHandler mhandler) {
 		final var gameMenu = new JMenu(Strings.loadMenu(MenuString.MENU_GAME));
 		this.gameReset = new JMenuItem(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL));
 		this.gameShowTable = new JMenuItem(Strings.loadMenu(MenuString.ITEM_SHOW_SCORE_TABLE));
@@ -780,7 +461,7 @@ public class MenuManager {
 		return gameMenu;
 	}
 
-	private JMenu buildEditorMenu(final MenuHandler mhandler) {
+	private JMenu buildEditorMenu(final MenubarEventHandler mhandler) {
 		final var editorMenu = new JMenu(Strings.loadMenu(MenuString.MENU_EDITOR));
 		this.editorClearHistory = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY));
 		this.editorGoToLevel = new JMenuItem(Strings.loadMenu(MenuString.ITEM_GO_TO_LEVEL));
@@ -863,7 +544,7 @@ public class MenuManager {
 		return editorMenu;
 	}
 
-	private JMenu buildHelpMenu(final MenuHandler mhandler) {
+	private JMenu buildHelpMenu(final MenubarEventHandler mhandler) {
 		final var helpMenu = new JMenu(Strings.loadMenu(MenuString.MENU_HELP));
 		this.helpAbout = new JMenuItem(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK));
 		this.helpAbout.addActionListener(mhandler);
@@ -919,8 +600,7 @@ public class MenuManager {
 	}
 
 	private void enableLoadedCommands() {
-		final var app = LaserTankEE.getApplication();
-		if (app.isInGUIMode()) {
+		if (LaserTankEE.isInMainMode()) {
 			this.fileClose.setEnabled(false);
 			this.fileSaveAs.setEnabled(false);
 			this.fileSaveAsProtected.setEnabled(false);
@@ -929,7 +609,7 @@ public class MenuManager {
 			this.fileSaveAs.setEnabled(true);
 			this.fileSaveAsProtected.setEnabled(true);
 		}
-		if (app.getArenaManager().getArena().doesPlayerExist(0)) {
+		if (LaserTankEE.getArenaManager().getArena().doesPlayerExist(0)) {
 			this.playPlay.setEnabled(true);
 		} else {
 			this.playPlay.setEnabled(false);

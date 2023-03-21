@@ -34,16 +34,16 @@ public class RollingCrystalHorizontal extends ArenaObject {
 			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 		}
 		// Break up
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, this.getLayer());
+		LaserTankEE.getGame().morph(new Empty(), locX, locY, locZ, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX, locY, locZ, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getApplication().getGameManager().gameOver();
+			LaserTankEE.getGame().gameOver();
 		}
 		if (laserType == LaserType.POWER) {
 			// Laser keeps going
@@ -61,16 +61,16 @@ public class RollingCrystalHorizontal extends ArenaObject {
 	@Override
 	public void pushCollideAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Break up
-		final var a = LaserTankEE.getApplication().getArenaManager().getArena();
+		final var a = LaserTankEE.getArenaManager().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getApplication().getGameManager().morph(new Empty(), x, y, z, this.getLayer());
+		LaserTankEE.getGame().morph(new Empty(), x, y, z, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(x, y, z, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getApplication().getGameManager().gameOver();
+			LaserTankEE.getGame().gameOver();
 		}
 	}
 }

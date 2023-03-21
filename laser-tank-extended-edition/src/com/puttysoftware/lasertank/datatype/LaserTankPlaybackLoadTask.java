@@ -41,8 +41,7 @@ class LaserTankPlaybackLoadTask extends Thread {
 	@Override
 	public void run() {
 		MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
-		final var app = LaserTankEE.getApplication();
-		app.getGameManager().setSavedGameFlag(false);
+		LaserTankEE.getGame().setSavedGameFlag(false);
 		try {
 			LaserTankPlayback.loadFromFile(this.file);
 		} catch (final FileNotFoundException fnfe) {
