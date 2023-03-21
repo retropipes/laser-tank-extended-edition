@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.asset;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.arena.ArenaObject;
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 
 class ImageCache {
 	// Fields

@@ -8,6 +8,7 @@ package com.puttysoftware.lasertank.arena;
 import java.io.File;
 import java.io.IOException;
 
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.RangeType;

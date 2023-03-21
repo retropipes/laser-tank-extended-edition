@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.datatype;
+package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -6,29 +6,29 @@ import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
-public class GameObjectData {
+class ArenaObjectData {
     private static final int PLASTIC_FORCE = 0;
     private static final int DEFAULT_FORCE = 1;
     private static final int METAL_FORCE = 2;
 
     public static final int getImbuedForce(final Material materialID) {
         if (materialID == Material.PLASTIC) {
-            return GameObjectData.PLASTIC_FORCE;
+            return ArenaObjectData.PLASTIC_FORCE;
         }
         if (materialID == Material.METALLIC) {
-            return GameObjectData.METAL_FORCE;
+            return ArenaObjectData.METAL_FORCE;
         }
-        return GameObjectData.DEFAULT_FORCE;
+        return ArenaObjectData.DEFAULT_FORCE;
     }
 
     public static final int getMinimumReactionForce(final Material materialID) {
         if (materialID == Material.PLASTIC) {
-            return GameObjectData.PLASTIC_FORCE;
+            return ArenaObjectData.PLASTIC_FORCE;
         }
         if (materialID == Material.METALLIC) {
-            return GameObjectData.METAL_FORCE;
+            return ArenaObjectData.METAL_FORCE;
         }
-        return GameObjectData.DEFAULT_FORCE;
+        return ArenaObjectData.DEFAULT_FORCE;
     }
 
     public static boolean hitReflectiveSide(final Direction dir) {
@@ -39,123 +39,123 @@ public class GameObjectData {
     }
 
     public static boolean acceptTick(final GameObjectID objectID, final GameAction action) {
-        return DataLoader.loadAcceptTick(objectID, action);
+        return ArenaObjectDataLoader.loadAcceptTick(objectID, action);
     }
 
     public static GameObjectID attributeRenderHook(final GameObjectID objectID) {
-        return DataLoader.loadAttributeRender(objectID);
+        return ArenaObjectDataLoader.loadAttributeRender(objectID);
     }
 
     public static boolean canCloak(final GameObjectID objectID) {
-        return DataLoader.loadCloak(objectID);
+        return ArenaObjectDataLoader.loadCloak(objectID);
     }
 
     public static boolean canControl(final GameObjectID objectID) {
-        return DataLoader.loadControl(objectID);
+        return ArenaObjectDataLoader.loadControl(objectID);
     }
 
     public static boolean canJump(final GameObjectID objectID) {
-        return DataLoader.loadJump(objectID);
+        return ArenaObjectDataLoader.loadJump(objectID);
     }
 
     public static boolean canMove(final GameObjectID objectID) {
-        return DataLoader.loadMovable(objectID, Direction.NONE);
+        return ArenaObjectDataLoader.loadMovable(objectID, Direction.NONE);
     }
 
     public static boolean canRoll(final GameObjectID objectID) {
-        return DataLoader.loadRoll(objectID);
+        return ArenaObjectDataLoader.loadRoll(objectID);
     }
 
     public static boolean canShoot(final GameObjectID objectID) {
-        return DataLoader.loadShoot(objectID);
+        return ArenaObjectDataLoader.loadShoot(objectID);
     }
 
     public static int getBlockHeight(final GameObjectID objectID) {
-        return DataLoader.loadHeight(objectID);
+        return ArenaObjectDataLoader.loadHeight(objectID);
     }
 
     public static int getLastFrameNumber(final GameObjectID objectID) {
-        return DataLoader.loadFrame(objectID);
+        return ArenaObjectDataLoader.loadFrame(objectID);
     }
 
     public static int getLayer(final GameObjectID objectID) {
-        return DataLoader.loadLayer(objectID);
+        return ArenaObjectDataLoader.loadLayer(objectID);
     }
 
     public static Material getMaterial(final GameObjectID objectID) {
-        return DataLoader.loadMaterial(objectID);
+        return ArenaObjectDataLoader.loadMaterial(objectID);
     }
 
     public static GameObjectID getPairedObjectID(final GameObjectID objectID) {
-        return DataLoader.loadPair(objectID);
+        return ArenaObjectDataLoader.loadPair(objectID);
     }
 
     public static Direction[] getValidDirections(final GameObjectID objectID) {
-        return DataLoader.loadDirection(objectID);
+        return ArenaObjectDataLoader.loadDirection(objectID);
     }
 
     public static int[] getValidIndexes(final GameObjectID objectID) {
-        return DataLoader.loadIndex(objectID);
+        return ArenaObjectDataLoader.loadIndex(objectID);
     }
 
     public static boolean hasDirection(final GameObjectID objectID) {
-        return DataLoader.loadDirection(objectID).length > 1;
+        return ArenaObjectDataLoader.loadDirection(objectID).length > 1;
     }
 
     public static boolean hasFriction(final GameObjectID objectID) {
-        return DataLoader.loadFriction(objectID, Direction.NONE);
+        return ArenaObjectDataLoader.loadFriction(objectID, Direction.NONE);
     }
 
     public static boolean isAnimated(final GameObjectID objectID) {
-        return DataLoader.loadFrame(objectID) > 1;
+        return ArenaObjectDataLoader.loadFrame(objectID) > 1;
     }
 
     public static boolean isBox(final GameObjectID objectID) {
-        return DataLoader.loadBox(objectID);
+        return ArenaObjectDataLoader.loadBox(objectID);
     }
 
     public static boolean isHostile(final GameObjectID objectID) {
-        return DataLoader.loadHostile(objectID);
+        return ArenaObjectDataLoader.loadHostile(objectID);
     }
 
     public static boolean isMovableMirror(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadMovableMirror(objectID, dir);
+        return ArenaObjectDataLoader.loadMovableMirror(objectID, dir);
     }
 
     public static boolean isPushable(final GameObjectID objectID) {
-        return DataLoader.loadMovable(objectID, Direction.NONE);
+        return ArenaObjectDataLoader.loadMovable(objectID, Direction.NONE);
     }
 
     public static boolean isReflective(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadReflect(objectID, dir);
+        return ArenaObjectDataLoader.loadReflect(objectID, dir);
     }
 
     public static boolean isSolid(final GameObjectID objectID) {
-        return DataLoader.loadSolid(objectID, Direction.NONE);
+        return ArenaObjectDataLoader.loadSolid(objectID, Direction.NONE);
     }
 
     public static boolean killsOnMove(final GameObjectID objectID, final int index) {
-        return DataLoader.loadLethal(objectID, index);
+        return ArenaObjectDataLoader.loadLethal(objectID, index);
     }
 
     public static boolean movesBoxes(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadMovesBoxes(objectID, dir);
+        return ArenaObjectDataLoader.loadMovesBoxes(objectID, dir);
     }
 
     public static boolean movesHostiles(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadMovesHostiles(objectID, dir);
+        return ArenaObjectDataLoader.loadMovesHostiles(objectID, dir);
     }
 
     public static boolean movesMirrors(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadMovesMirrors(objectID, dir);
+        return ArenaObjectDataLoader.loadMovesMirrors(objectID, dir);
     }
 
     public static boolean movesTanks(final GameObjectID objectID, final Direction dir) {
-        return DataLoader.loadMovesTanks(objectID, dir);
+        return ArenaObjectDataLoader.loadMovesTanks(objectID, dir);
     }
 
     public static int navigatesToOnMove(final GameObjectID objectID) {
-        return DataLoader.loadNavigate(objectID);
+        return ArenaObjectDataLoader.loadNavigate(objectID);
     }
 
     public static boolean solvesOnMove(final GameObjectID objectID) {
@@ -163,6 +163,6 @@ public class GameObjectData {
     }
 
     public static boolean usesTrigger(final GameObjectID objectID) {
-        return DataLoader.loadTrigger(objectID);
+        return ArenaObjectDataLoader.loadTrigger(objectID);
     }
 }

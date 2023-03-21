@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.ArenaObject;
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.BlueLaser;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.GreenLaser;

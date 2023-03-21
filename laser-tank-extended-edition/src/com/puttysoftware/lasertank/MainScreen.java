@@ -72,7 +72,7 @@ public class MainScreen extends Screen implements QuitHandler {
 	}
 
 	public void showGUI() {
-		LaserTankEE.setInMain();
+		LaserTankEE.setInMainMode();
 	}
 
 	@Override

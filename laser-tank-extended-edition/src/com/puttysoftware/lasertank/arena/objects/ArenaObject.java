@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena;
+package com.puttysoftware.lasertank.arena.objects;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -12,10 +12,8 @@ import java.lang.reflect.InvocationTargetException;
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
-import com.puttysoftware.lasertank.datatype.GameObjectData;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.helper.LaserTypeHelper;
@@ -37,7 +35,7 @@ public class ArenaObject {
 	private final static int TUNNEL_SCAN_RADIUS = 24;
 
 	public static final int getImbuedForce(final Material materialID) {
-		return GameObjectData.getImbuedForce(materialID);
+		return ArenaObjectData.getImbuedForce(materialID);
 	}
 
 	public static void checkTunnels() {
@@ -109,7 +107,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -144,7 +142,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -179,7 +177,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -214,7 +212,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -249,7 +247,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -284,7 +282,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -319,7 +317,7 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
-		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
@@ -334,7 +332,7 @@ public class ArenaObject {
 	}
 
 	public final boolean acceptTick(final GameAction actionType) {
-		return GameObjectData.acceptTick(this.getID(), actionType);
+		return ArenaObjectData.acceptTick(this.getID(), actionType);
 	}
 
 	public final void activateTimer(final int ticks) {
@@ -343,32 +341,32 @@ public class ArenaObject {
 	}
 
 	public final ArenaObject attributeRenderHook() {
-		var renderAs = GameObjectData.attributeRenderHook(this.getID());
+		var renderAs = ArenaObjectData.attributeRenderHook(this.getID());
 		return renderAs != null ? new ArenaObject(renderAs) : null;
 	}
 
 	public final boolean canCloak() {
-		return GameObjectData.canCloak(this.getID());
+		return ArenaObjectData.canCloak(this.getID());
 	}
 
 	public final boolean canControl() {
-		return GameObjectData.canControl(this.getID());
+		return ArenaObjectData.canControl(this.getID());
 	}
 
 	public final boolean canJump() {
-		return GameObjectData.canJump(this.getID());
+		return ArenaObjectData.canJump(this.getID());
 	}
 
 	public final boolean canMove() {
-		return GameObjectData.canMove(this.getID());
+		return ArenaObjectData.canMove(this.getID());
 	}
 
 	public final boolean canRoll() {
-		return GameObjectData.canRoll(this.getID());
+		return ArenaObjectData.canRoll(this.getID());
 	}
 
 	public final boolean canShoot() {
-		return GameObjectData.canShoot(this.getID());
+		return ArenaObjectData.canShoot(this.getID());
 	}
 
 	/**
@@ -467,7 +465,7 @@ public class ArenaObject {
 	}
 
 	public final int getBlockHeight() {
-		return GameObjectData.getBlockHeight(this.getID());
+		return ArenaObjectData.getBlockHeight(this.getID());
 	}
 
 	public final GameColor getColor() {
@@ -520,7 +518,7 @@ public class ArenaObject {
 	}
 
 	private final int getLastFrameNumber() {
-		return GameObjectData.getLastFrameNumber(this.getID());
+		return ArenaObjectData.getLastFrameNumber(this.getID());
 	}
 
 	private final String getIdentifier() {
@@ -542,7 +540,7 @@ public class ArenaObject {
 	}
 
 	private final Direction getInitialDirection() {
-		return GameObjectData.getValidDirections(this.getID())[0];
+		return ArenaObjectData.getValidDirections(this.getID())[0];
 	}
 
 	public final int getJumpCols() {
@@ -554,15 +552,15 @@ public class ArenaObject {
 	}
 
 	public final int getLayer() {
-		return GameObjectData.getLayer(getID());
+		return ArenaObjectData.getLayer(getID());
 	}
 
 	public final Material getMaterial() {
-		return GameObjectData.getMaterial(getID());
+		return ArenaObjectData.getMaterial(getID());
 	}
 
 	public final int getMinimumReactionForce() {
-		return GameObjectData.getMinimumReactionForce(this.getMaterial());
+		return ArenaObjectData.getMinimumReactionForce(this.getMaterial());
 	}
 
 	public final int getNumber() {
@@ -611,7 +609,7 @@ public class ArenaObject {
 	}
 
 	public final boolean hasFriction() {
-		return GameObjectData.hasFriction(this.getID());
+		return ArenaObjectData.hasFriction(this.getID());
 	}
 
 	@Override
@@ -643,18 +641,18 @@ public class ArenaObject {
 	}
 
 	public final boolean hitReflectiveSide(final Direction dir) {
-		if (!GameObjectData.isReflective(this.getID(), dir)) {
+		if (!ArenaObjectData.isReflective(this.getID(), dir)) {
 			return false;
 		}
-		return GameObjectData.hitReflectiveSide(dir);
+		return ArenaObjectData.hitReflectiveSide(dir);
 	}
 
 	private final boolean isAnimated() {
-		return GameObjectData.isAnimated(this.getID());
+		return ArenaObjectData.isAnimated(this.getID());
 	}
 
 	public final boolean isBox() {
-		return GameObjectData.isBox(this.getID());
+		return ArenaObjectData.isBox(this.getID());
 	}
 
 	public boolean isConditionallySolid() {
@@ -666,7 +664,7 @@ public class ArenaObject {
 	}
 
 	public final boolean isHostile() {
-		return GameObjectData.isHostile(this.getID());
+		return ArenaObjectData.isHostile(this.getID());
 	}
 
 	public boolean isPairedWith(final ArenaObject other) {
@@ -681,7 +679,7 @@ public class ArenaObject {
 	}
 
 	public final boolean isMovableMirror(final Direction dir) {
-		return GameObjectData.isMovableMirror(this.getID(), dir);
+		return ArenaObjectData.isMovableMirror(this.getID(), dir);
 	}
 
 	public boolean isPairTriggered() {
@@ -689,11 +687,11 @@ public class ArenaObject {
 	}
 
 	public final boolean isPushable() {
-		return GameObjectData.isPushable(this.getID());
+		return ArenaObjectData.isPushable(this.getID());
 	}
 
 	public final boolean isSolid() {
-		return GameObjectData.isSolid(this.getID());
+		return ArenaObjectData.isSolid(this.getID());
 	}
 
 	public final boolean isTunnel() {
@@ -709,7 +707,7 @@ public class ArenaObject {
 	}
 
 	public final boolean killsOnMove() {
-		return GameObjectData.killsOnMove(this.getID(), this.index);
+		return ArenaObjectData.killsOnMove(this.getID(), this.index);
 	}
 
 	public void laserDoneAction() {
@@ -832,7 +830,7 @@ public class ArenaObject {
 				// Laser stops
 				return Direction.NONE;
 			}
-			if (GameObjectData.isReflective(this.getID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
+			if (ArenaObjectData.isReflective(this.getID(), dir) && ArenaObjectData.hitReflectiveSide(dir)) {
 				// Laser reflected
 				return this.direction;
 			}
@@ -865,7 +863,7 @@ public class ArenaObject {
 	public Direction laserExitedAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType) {
 		final var dir = DirectionHelper.resolveRelative(dirX, dirY);
-		if (!GameObjectData.isReflective(this.getID(), dir) || !GameObjectData.hitReflectiveSide(dir)) {
+		if (!ArenaObjectData.isReflective(this.getID(), dir) || !ArenaObjectData.hitReflectiveSide(dir)) {
 			return DirectionHelper.resolveRelative(dirX, dirY);
 		}
 		// Finish reflecting laser
@@ -915,23 +913,23 @@ public class ArenaObject {
 	}
 
 	public final boolean movesBoxes(final Direction dir) {
-		return GameObjectData.movesBoxes(this.getID(), dir);
+		return ArenaObjectData.movesBoxes(this.getID(), dir);
 	}
 
 	public final boolean movesHostiles(final Direction dir) {
-		return GameObjectData.movesHostiles(this.getID(), dir);
+		return ArenaObjectData.movesHostiles(this.getID(), dir);
 	}
 
 	public final boolean movesMirrors(final Direction dir) {
-		return GameObjectData.movesMirrors(this.getID(), dir);
+		return ArenaObjectData.movesMirrors(this.getID(), dir);
 	}
 
 	public final boolean movesTanks(final Direction dir) {
-		return GameObjectData.movesTanks(this.getID(), dir);
+		return ArenaObjectData.movesTanks(this.getID(), dir);
 	}
 
 	public final void nextIndex() {
-		var validIndexes = GameObjectData.getValidIndexes(getID());
+		var validIndexes = ArenaObjectData.getValidIndexes(getID());
 		if (validIndexes.length > 0) {
 			var lastIndex = validIndexes[validIndexes.length - 1];
 			if (lastIndex != 0 && this.index < lastIndex) {
@@ -951,7 +949,7 @@ public class ArenaObject {
 
 	// Scripting
 	public final void postMoveAction(final int dirX, final int dirY, int dirZ) {
-		var n = GameObjectData.navigatesToOnMove(this.getID());
+		var n = ArenaObjectData.navigatesToOnMove(this.getID());
 		if (n != 0) {
 			LaserTankEE.getGame().updatePositionAbsoluteNoEvents(n);
 		}
@@ -1337,7 +1335,7 @@ public class ArenaObject {
 	}
 
 	public final boolean solvesOnMove() {
-		return GameObjectData.solvesOnMove(getID());
+		return ArenaObjectData.solvesOnMove(getID());
 	}
 
 	public final void tickTimer(final int dirX, final int dirY, final GameAction actionType) {
@@ -1374,7 +1372,7 @@ public class ArenaObject {
 	}
 
 	public final boolean usesTrigger() {
-		return GameObjectData.usesTrigger(this.getID());
+		return ArenaObjectData.usesTrigger(this.getID());
 	}
 
 	public final boolean waitingOnTunnel() {

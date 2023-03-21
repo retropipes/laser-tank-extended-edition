@@ -10,7 +10,7 @@ class MainScreenFocusHandler implements WindowFocusListener {
 
 	@Override
 	public void windowGainedFocus(final WindowEvent e) {
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	@Override

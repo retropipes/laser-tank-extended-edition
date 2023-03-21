@@ -32,7 +32,7 @@ import com.puttysoftware.diane.gui.picker.AnonymousPicturePicker;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.arena.ArenaObject;
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.asset.Images;
@@ -154,7 +154,7 @@ public class Editor extends Screen {
 
 		@Override
 		public void windowGainedFocus(final WindowEvent e) {
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 		}
 
 		@Override
@@ -289,7 +289,7 @@ public class Editor extends Screen {
 			// Save the entire level
 			LaserTankEE.getArenaManager().getArena().save();
 			LaserTankEE.getArenaManager().getArena().switchLevel(saveLevel);
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 		}
 		return success;
 	}
@@ -335,7 +335,7 @@ public class Editor extends Screen {
 
 	public void clearHistory() {
 		this.engine = new EditorUndoRedoEngine();
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public boolean checkLimitMinZ() {
@@ -386,7 +386,7 @@ public class Editor extends Screen {
 
 	public void editArena() {
 		if (LaserTankEE.getArenaManager().getLoaded()) {
-			LaserTankEE.setInEditor();
+			LaserTankEE.setInEditorMode();
 			// Reset game state
 			LaserTankEE.getGame().resetGameState();
 			// Create the managers
@@ -400,7 +400,7 @@ public class Editor extends Screen {
 			this.redrawEditor();
 			this.updatePickerLayout();
 			this.rebuildGUI();
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 		} else {
 			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		}
@@ -450,7 +450,7 @@ public class Editor extends Screen {
 			LaserTankEE.getArenaManager().getArena().setCell(instance, gridX, gridY, this.elMgr.getEditorLocationZ(),
 					this.elMgr.getEditorLocationW());
 			LaserTankEE.getArenaManager().setDirty(true);
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			LaserTankEE.getArenaManager().getArena().setCell(this.savedArenaObject, gridX, gridY,
@@ -481,7 +481,7 @@ public class Editor extends Screen {
 							this.elMgr.getEditorLocationW(), this.elMgr.getEditorLocationU());
 					LaserTankEE.getArenaManager().getArena().setCell(mo2, gridX, gridY, this.elMgr.getEditorLocationZ(),
 							this.elMgr.getEditorLocationW());
-					LaserTankEE.getMenuManager().updateMenuItemState();
+					LaserTankEE.getMenus().updateMenuItemState();
 					LaserTankEE.getArenaManager().setDirty(true);
 				}
 			} else {
@@ -502,7 +502,7 @@ public class Editor extends Screen {
 
 	void enableOutput() {
 		this.theContent.setEnabled(true);
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public void exitEditor() {
@@ -637,7 +637,7 @@ public class Editor extends Screen {
 			final var oldObj = LaserTankEE.getArenaManager().getArena().getCell(x, y, z, w);
 			LaserTankEE.getArenaManager().getArena().setCell(obj, x, y, z, w);
 			this.updateUndoHistory(oldObj, x, y, z, w, u);
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
 		} else {
 			LaserTankEE.showMessage(Strings.loadEditor(EditorString.NOTHING_TO_REDO));
@@ -782,7 +782,7 @@ public class Editor extends Screen {
 							// Deleted current level - go to level 1
 							this.updateEditorLevelAbsolute(0);
 						}
-						LaserTankEE.getMenuManager().updateMenuItemState();
+						LaserTankEE.getMenus().updateMenuItemState();
 						LaserTankEE.getArenaManager().setDirty(true);
 					}
 					break;
@@ -829,7 +829,7 @@ public class Editor extends Screen {
 				this.fixLimits();
 				// Save the entire level
 				LaserTankEE.getArenaManager().getArena().save();
-				LaserTankEE.getMenuManager().updateMenuItemState();
+				LaserTankEE.getMenus().updateMenuItemState();
 				// Redraw
 				this.redrawEditor();
 			} catch (final NumberFormatException nf) {
@@ -988,7 +988,7 @@ public class Editor extends Screen {
 			final var oldObj = LaserTankEE.getArenaManager().getArena().getCell(x, y, z, w);
 			LaserTankEE.getArenaManager().getArena().setCell(obj, x, y, z, w);
 			this.updateRedoHistory(oldObj, x, y, z, w, u);
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
 		} else {
 			LaserTankEE.showMessage(Strings.loadEditor(EditorString.NOTHING_TO_UNDO));
@@ -1001,7 +1001,7 @@ public class Editor extends Screen {
 		LaserTankEE.getArenaManager().getArena().switchLevel(w);
 		this.fixLimits();
 		this.rebuildGUI();
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.redrawEditor();
 	}
 
@@ -1014,7 +1014,7 @@ public class Editor extends Screen {
 			this.fixLimits();
 			this.rebuildGUI();
 		}
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.redrawEditor();
 	}
 

@@ -109,7 +109,7 @@ class MenubarEventHandler implements ActionListener {
 				LaserTankEE.getEditor().editArena();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_USE_CLASSIC_ACCELERATORS))) {
 				// Toggle accelerators
-				LaserTankEE.getMenuManager().toggleAccelerators();
+				LaserTankEE.getMenus().toggleAccelerators();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RESET_CURRENT_LEVEL))) {
 				final var result = CommonDialogs.showConfirmDialog(
 						Strings.loadDialog(DialogString.CONFIRM_RESET_CURRENT_LEVEL),
@@ -321,7 +321,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK))) {
 				LaserTankEE.getAboutDialog().showScreen();
 			}
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 		} catch (final Exception ex) {
 			LaserTankEE.logError(ex);
 		}

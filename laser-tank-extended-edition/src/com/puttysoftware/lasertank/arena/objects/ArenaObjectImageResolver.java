@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.arena;
+package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;

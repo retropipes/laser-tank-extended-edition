@@ -36,8 +36,8 @@ import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.arena.objects.Tank;
@@ -570,7 +570,7 @@ public class Game extends Screen {
 
 		@Override
 		public void windowGainedFocus(final WindowEvent e) {
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 		}
 
 		@Override
@@ -639,7 +639,7 @@ public class Game extends Screen {
 			final boolean ibm) {
 		final var a = LaserTankEE.getArenaManager().getArena();
 		a.updateRedoHistory(new HistoryStatus(las, mis, stu, boo, mag, blu, dis, bom, hbm, ibm));
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	static void updateUndo(final boolean las, final boolean mis, final boolean stu, final boolean boo,
@@ -647,7 +647,7 @@ public class Game extends Screen {
 			final boolean ibm) {
 		final var a = LaserTankEE.getArenaManager().getArena();
 		a.updateUndoHistory(new HistoryStatus(las, mis, stu, boo, mag, blu, dis, bom, hbm, ibm));
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	// Fields
@@ -1066,7 +1066,7 @@ public class Game extends Screen {
 
 	void laserDone() {
 		this.laserActive = false;
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public void loadGameHookG1(final DataIOReader arenaFile) throws IOException {
@@ -1136,7 +1136,7 @@ public class Game extends Screen {
 			LaserTankEE.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
 			m.resetHistoryEngine();
 			this.gre = new GameReplayEngine();
-			LaserTankEE.getMenuManager().updateMenuItemState();
+			LaserTankEE.getMenus().updateMenuItemState();
 			this.processLevelExists();
 		}
 	}
@@ -1162,7 +1162,7 @@ public class Game extends Screen {
 
 	void moveLoopDone() {
 		this.moving = false;
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public boolean newGame() {
@@ -1206,7 +1206,7 @@ public class Game extends Screen {
 
 	public void playArena() {
 		if (LaserTankEE.getArenaManager().getLoaded()) {
-			LaserTankEE.setInGame();
+			LaserTankEE.setInGameMode();
 			LaserTankEE.getArenaManager().getArena().switchLevel(0);
 			final var res = LaserTankEE.getArenaManager().getArena()
 					.switchToNextLevelWithDifficulty(Game.getEnabledDifficulties());
@@ -1230,7 +1230,7 @@ public class Game extends Screen {
 				this.borderPane.add(this.outerOutputPane, BorderLayout.CENTER);
 				this.borderPane.add(this.scorePane, BorderLayout.NORTH);
 				this.borderPane.add(this.infoPane, BorderLayout.SOUTH);
-				LaserTankEE.getMenuManager().updateMenuItemState();
+				LaserTankEE.getMenus().updateMenuItemState();
 				LaserTankEE.getArenaManager().getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
 				this.redrawArena();
 				this.updateScoreText();
@@ -1254,7 +1254,7 @@ public class Game extends Screen {
 		final var m = LaserTankEE.getArenaManager().getArena();
 		m.resetHistoryEngine();
 		this.gre = new GameReplayEngine();
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.suspendAnimator();
 		m.restore();
 		if (m.doesLevelExistOffset(-1)) {
@@ -1422,7 +1422,7 @@ public class Game extends Screen {
 			this.updateTank();
 			Game.updateUndo(laser, missile, stunner, boost, magnet, blue, disrupt, bomb, heatBomb, iceBomb);
 		}
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.updateScoreText();
 		a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
 		this.redrawArena();
@@ -1482,7 +1482,7 @@ public class Game extends Screen {
 	}
 
 	public void replaySolution() {
-		final var menu = LaserTankEE.getMenuManager();
+		final var menu = LaserTankEE.getMenus();
 		if (this.lpbLoaded) {
 			this.replaying = true;
 			// Turn recording off
@@ -1566,7 +1566,7 @@ public class Game extends Screen {
 			this.decay();
 			this.redrawArena();
 		}
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public void resetPlayerLocation() throws InvalidArenaException {
@@ -1739,7 +1739,7 @@ public class Game extends Screen {
 		}
 		m.resetHistoryEngine();
 		this.gre = new GameReplayEngine();
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.suspendAnimator();
 		m.restore();
 		if (m.doesLevelExistOffset(1)) {
@@ -1833,7 +1833,7 @@ public class Game extends Screen {
 			this.updateTank();
 			Game.updateRedo(laser, missile, stunner, boost, magnet, blue, disrupt, bomb, heatBomb, iceBomb);
 		}
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 		this.updateScoreText();
 		a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
 		this.redrawArena();

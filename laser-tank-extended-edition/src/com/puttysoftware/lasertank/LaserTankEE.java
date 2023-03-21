@@ -43,7 +43,7 @@ public class LaserTankEE {
 	private static AboutDialog about;
 	private static Game gameMgr;
 	private static ArenaManager arenaMgr;
-	private static MenubarHost menuMgr;
+	private static MenubarHost menubarHost;
 	private static Editor editor;
 	private static MainScreen mainScreen;
 	private static Screen mode, formerMode;
@@ -109,7 +109,7 @@ public class LaserTankEE {
 
 	public static void activeLanguageChanged() {
 		// Rebuild menus
-		menuMgr.populateMenuBar();
+		menubarHost.populateMenuBar();
 		// Fire hooks
 		getGame().activeLanguageChanged();
 		getEditor().activeLanguageChanged();
@@ -150,8 +150,8 @@ public class LaserTankEE {
 		return arenaMgr.getArena().getLevelInfoList();
 	}
 
-	public static MenubarHost getMenuManager() {
-		return menuMgr;
+	public static MenubarHost getMenus() {
+		return menubarHost;
 	}
 
 	public static boolean isInGameMode() {
@@ -166,28 +166,28 @@ public class LaserTankEE {
 		return mode == mainScreen;
 	}
 
-	public static void setInEditor() {
+	public static void setInEditorMode() {
 		formerMode = mode;
 		mode = editor;
 		tearDownFormerMode();
 		editor.showScreen();
-		menuMgr.activateEditorCommands();
+		menubarHost.activateEditorCommands();
 	}
 
-	public static void setInGame() {
+	public static void setInGameMode() {
 		formerMode = mode;
 		mode = gameMgr;
 		tearDownFormerMode();
 		gameMgr.showScreen();
-		menuMgr.activateGameCommands();
+		menubarHost.activateGameCommands();
 	}
 
-	static void setInMain() {
+	static void setInMainMode() {
 		formerMode = mode;
 		mode = mainScreen;
 		tearDownFormerMode();
 		mainScreen.showScreen();
-		menuMgr.activateGUICommands();
+		menubarHost.activateGUICommands();
 		masterFrame.pack();
 	}
 
@@ -235,7 +235,7 @@ public class LaserTankEE {
 		mode = null;
 		formerMode = null;
 		// Create Managers
-		menuMgr = new MenubarHost();
+		menubarHost = new MenubarHost();
 		about = new AboutDialog(getVersionString());
 		mainScreen = new MainScreen();
 		gameMgr = new Game();
@@ -244,7 +244,7 @@ public class LaserTankEE {
 		Settings.readSettings();
 		Strings.activeLanguageChanged(Settings.getLanguageID());
 		// Register platform hooks
-		MainWindow.mainWindow().setMenus(getMenuManager().getMenuBar());
+		MainWindow.mainWindow().setMenus(getMenus().getMenuBar());
 		ni.setAboutHandler(getAboutDialog());
 		ni.setPreferencesHandler(new SettingsInvoker());
 		ni.setQuitHandler(getMainScreen());

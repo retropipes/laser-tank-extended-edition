@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.datatype;
+package com.puttysoftware.lasertank.arena.objects;
 
 import java.util.ResourceBundle;
 
@@ -12,13 +12,13 @@ import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.locale.global.DataLoaderString;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
-public class DataLoader {
-	private static ResourceBundle load(final DataFile file) {
+class ArenaObjectDataLoader {
+	private static ResourceBundle load(final ArenaObjectDataFile file) {
 		return ResourceBundle.getBundle(GlobalStrings.loadDataLoader(DataLoaderString.LOAD_PATH) + file.getName());
 	}
 
 	public static boolean loadAcceptTick(final GameObjectID objID, final GameAction action) {
-		final var data = DataLoader.load(DataFile.ACCEPT_TICK);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ACCEPT_TICK);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -31,7 +31,7 @@ public class DataLoader {
 	}
 
 	public static GameObjectID loadAttributeRender(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.ATTRIBUTE_RENDER);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ATTRIBUTE_RENDER);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return null;
@@ -44,7 +44,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadBox(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.BOX);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.BOX);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -57,7 +57,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadCloak(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.CLOAK);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.CLOAK);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -70,7 +70,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadControl(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.CONTROL);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.CONTROL);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -85,7 +85,7 @@ public class DataLoader {
 	public static Direction[] loadDirection(final GameObjectID objID) {
 		final var fallback = new Direction[] { Direction.NONE };
 		final var all = Direction.values();
-		final var data = DataLoader.load(DataFile.DIRECTION);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.DIRECTION);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return fallback;
@@ -106,7 +106,7 @@ public class DataLoader {
 	}
 
 	public static int loadFrame(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.FRAME);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.FRAME);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return 0;
@@ -119,7 +119,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadFriction(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.FRICTION);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.FRICTION);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -145,7 +145,7 @@ public class DataLoader {
 	}
 
 	public static int loadHeight(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.LAYER);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LAYER);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return 0;
@@ -158,7 +158,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadHostile(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.CONTROL);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.CONTROL);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -172,7 +172,7 @@ public class DataLoader {
 
 	public static int[] loadIndex(final GameObjectID objID) {
 		final var fallback = new int[] { 0 };
-		final var data = DataLoader.load(DataFile.INDEX);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.INDEX);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return fallback;
@@ -193,7 +193,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadJump(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.JUMP);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.JUMP);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -206,7 +206,7 @@ public class DataLoader {
 	}
 
 	public static int loadLayer(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.LAYER);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LAYER);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return 0;
@@ -219,7 +219,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadLethal(final GameObjectID objID, final int index) {
-		final var data = DataLoader.load(DataFile.LETHAL);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LETHAL);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -245,7 +245,7 @@ public class DataLoader {
 	}
 
 	public static Material loadMaterial(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.MATERIAL);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MATERIAL);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return Material.NONE;
@@ -258,7 +258,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovable(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVABLE);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVABLE);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -284,7 +284,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovableMirror(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVABLE_MIRROR);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVABLE_MIRROR);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -310,7 +310,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovesBoxes(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVES_BOXES);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVES_BOXES);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -336,7 +336,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovesHostiles(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVES_HOSTILES);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVES_HOSTILES);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -362,7 +362,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovesMirrors(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVES_MIRRORS);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVES_MIRRORS);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -388,7 +388,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadMovesTanks(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.MOVES_TANKS);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.MOVES_TANKS);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -414,7 +414,7 @@ public class DataLoader {
 	}
 
 	public static int loadNavigate(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.NAVIGATE);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.NAVIGATE);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return 0;
@@ -427,7 +427,7 @@ public class DataLoader {
 	}
 
 	public static GameObjectID loadPair(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.PAIR);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.PAIR);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return null;
@@ -440,7 +440,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.REFLECT);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.REFLECT);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -466,7 +466,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadRoll(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.ROLL);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ROLL);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -479,7 +479,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadShoot(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.SHOOT);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.SHOOT);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -492,7 +492,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadSolid(final GameObjectID objID, final Direction dir) {
-		final var data = DataLoader.load(DataFile.SOLID);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.SOLID);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -518,7 +518,7 @@ public class DataLoader {
 	}
 
 	public static boolean loadTrigger(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.USES_TRIGGER);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.USES_TRIGGER);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return false;
@@ -531,7 +531,7 @@ public class DataLoader {
 	}
 
 	public static int loadWeight(final GameObjectID objID) {
-		final var data = DataLoader.load(DataFile.WEIGHT);
+		final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.WEIGHT);
 		final var key = String.valueOf(objID);
 		if (!data.containsKey(key)) {
 			return 0;

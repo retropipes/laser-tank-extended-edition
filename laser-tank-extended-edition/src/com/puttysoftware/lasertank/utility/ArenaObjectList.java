@@ -11,7 +11,6 @@ import java.lang.reflect.InvocationTargetException;
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.*;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;

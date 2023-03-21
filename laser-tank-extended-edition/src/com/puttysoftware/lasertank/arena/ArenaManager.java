@@ -157,7 +157,7 @@ public class ArenaManager {
 		}
 		this.setDirty(false);
 		LaserTankEE.getEditor().arenaChanged();
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public boolean isArenaProtected() {
@@ -351,7 +351,7 @@ public class ArenaManager {
 	public void setDirty(final boolean newDirty) {
 		this.isDirty = newDirty;
 		MainWindow.mainWindow().setDirty(newDirty);
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public void setLastUsedArena(final String newFile) {
@@ -364,7 +364,7 @@ public class ArenaManager {
 
 	public void setLoaded(final boolean status) {
 		this.loaded = status;
-		LaserTankEE.getMenuManager().updateMenuItemState();
+		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
 	public void setScoresFileName(final String filename) {

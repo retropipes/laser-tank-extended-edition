@@ -1,6 +1,6 @@
-package com.puttysoftware.lasertank.datatype;
+package com.puttysoftware.lasertank.arena.objects;
 
-enum DataFile {
+enum ArenaObjectDataFile {
     SOLID,
     DIRECTION,
     FRAME,
