@@ -38,7 +38,6 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -63,7 +62,6 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.AlreadyDeadException;
-import com.puttysoftware.lasertank.utility.ArenaObjectList;
 import com.puttysoftware.lasertank.utility.CustomDialogs;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 import com.puttysoftware.lasertank.utility.RCLGenerator;
@@ -1165,7 +1163,6 @@ public class Game extends Screen {
 	}
 
 	public boolean newGame() {
-		ArenaObjectList.enableAllObjects();
 		this.difficultyList.clearSelection();
 		final var retVal = Game.getEnabledDifficulties();
 		this.difficultyList.setSelectedIndices(retVal);
@@ -1614,7 +1611,7 @@ public class Game extends Screen {
 
 	public void setPowerfulTank() {
 		final var saveTank = this.tank;
-		this.tank = new PowerfulTank(saveTank.getDirection(), saveTank.getNumber());
+		this.tank = new ArenaObject(GameObjectID.POWER_TANK, saveTank.getDirection(), saveTank.getNumber());
 		this.resetTank();
 	}
 

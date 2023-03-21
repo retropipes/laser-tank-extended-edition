@@ -52,7 +52,7 @@ public class PowerTurret extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Kill
 			final var gm = LaserTankEE.getGame();
-			final var dat = new DeadAntiTank();
+			final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
 			gm.morph(dat, locX, locY, locZ, this.getLayer());
@@ -73,7 +73,7 @@ public class PowerTurret extends ArenaObject {
 		if (sourceDir == baseDir) {
 			// Kill
 			final var gm = LaserTankEE.getGame();
-			final var dat = new DeadAntiTank();
+			final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
 			gm.morph(dat, locX, locY, locZ, this.getLayer());

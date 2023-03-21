@@ -6,12 +6,10 @@
 package com.puttysoftware.lasertank.utility;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.fileio.DataIOReader;
-import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.objects.*;
+import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.index.GameFormat;
@@ -21,76 +19,38 @@ import com.puttysoftware.lasertank.locale.Strings;
 
 public class ArenaObjectList {
 	// Fields
-	private static final ArenaObject[] allObjects = { new ArenaObject(GameObjectID.PLACEHOLDER), new ArenaObject(GameObjectID.PLACEHOLDER),
-			new ArenaObject(GameObjectID.PLACEHOLDER), new ArenaObject(GameObjectID.GROUND), new ArenaObject(GameObjectID.TANK_MOVER), new ArenaObject(GameObjectID.ICE), new ArenaObject(GameObjectID.WATER), new ArenaObject(GameObjectID.THIN_ICE), new Bridge(),
-			new ArenaObject(GameObjectID.TANK, 1), new ArenaObject(GameObjectID.FLAG), new ArenaObject(GameObjectID.WALL), new ArenaObject(GameObjectID.ANTI_TANK), new DeadAntiTank(), new ArenaObject(GameObjectID.CRYSTAL_BLOCK), new ArenaObject(GameObjectID.BRICKS),
-			new ArenaObject(GameObjectID.TUNNEL), new ArenaObject(GameObjectID.MIRROR), new ArenaObject(GameObjectID.ROTARY_MIRROR), new ArenaObject(GameObjectID.BOX), new ArenaObject(GameObjectID.ANTI_TANK_MOVER), new ArenaObject(GameObjectID.ANY_MOVER),
-			new TenMissiles(), new MagneticBox(), new MagneticMirror(), new MirrorCrystalBlock(), new TenStunners(),
-			new TenBoosts(), new TenMagnets(), new MagneticAttractWall(), new FrostField(), new StairsDown(),
-			new StairsUp(), new TenBlueLasers(), new IcyBox(), new WaterDoor(), new WaterKey(), new MagneticDoor(),
-			new MagneticKey(), new RedDoor(), new RedKey(), new ProximityCrystal(), new Crystal(), new RollingCrystal(),
-			new TenBombs(), new TenHeatBombs(), new TenIceBombs(), new IcyWall(), new HotWall(), new Lava(),
-			new HotBox(), new MetallicBricks(), new MetallicMirror(), new MetallicRotaryMirror(), new DeepWater(),
-			new DeeperWater(), new DeepestWater(), new IceBridge(), new PlasticBox(), new MetallicBox(),
-			new FireAllButton(), new FireAllButtonDoor(), new FirePressureButton(), new FirePressureButtonDoor(),
-			new FireTriggerButton(), new FireTriggerButtonDoor(), new IceAllButton(), new IceAllButtonDoor(),
-			new IcePressureButton(), new IcePressureButtonDoor(), new IceTriggerButton(), new IceTriggerButtonDoor(),
-			new MagneticAllButton(), new MagneticAllButtonDoor(), new MagneticPressureButton(),
-			new MagneticPressureButtonDoor(), new MagneticTriggerButton(), new MagneticTriggerButtonDoor(),
-			new MetallicAllButton(), new MetallicAllButtonDoor(), new MetallicPressureButton(),
-			new MetallicPressureButtonDoor(), new MetallicTriggerButton(), new MetallicTriggerButtonDoor(),
-			new PlasticAllButton(), new PlasticAllButtonDoor(), new PlasticPressureButton(),
-			new PlasticPressureButtonDoor(), new PlasticTriggerButton(), new PlasticTriggerButtonDoor(),
-			new StoneAllButton(), new StoneAllButtonDoor(), new StonePressureButton(), new StonePressureButtonDoor(),
-			new StoneTriggerButton(), new StoneTriggerButtonDoor(), new UniversalAllButton(),
-			new UniversalAllButtonDoor(), new UniversalPressureButton(), new UniversalPressureButtonDoor(),
-			new UniversalTriggerButton(), new UniversalTriggerButtonDoor(), new ArenaObject(GameObjectID.BOX_MOVER), new JumpBox(),
-			new ReverseJumpBox(), new ArenaObject(GameObjectID.MIRROR_MOVER), new HotCrystalBlock(), new IcyCrystalBlock(), new ArenaObject(GameObjectID.CRACKED),
-			new ArenaObject(GameObjectID.CRUMBLING), new ArenaObject(GameObjectID.DAMAGED), new Weakened(), new Cloak(), new ArenaObject(GameObjectID.DARKNESS), new PowerBolt(),
-			new RollingCrystalHorizontal(), new RollingCrystalVertical(), new KillerSkull(), new Bomb(), new Acid(),
-			new StrongAcid(), new StrongerAcid(), new StrongestAcid(), new ArenaObject(GameObjectID.ACID_BRIDGE), new HotLava(),
-			new HotterLava(), new HottestLava(), new ToughBricks(), new TougherBricks(), new ToughestBricks(),
-			new ShadowCrystalBlock(), new MagneticRepelWall(), new HotBricks(), new IcyBricks(), new WildWall(),
-			new ArenaObject(GameObjectID.BOMBABLE), new ArenaObject(GameObjectID.BREAKABLE), new ArenaObject(GameObjectID.FAKE), new ArenaObject(GameObjectID.INVISIBLE), new ArenaObject(GameObjectID.FADING), new OneWay(), new Box2(),
-			new Box3(), new Box4(), new HotBox2(), new HotBox3(), new HotBox4(), new IcyBox2(), new IcyBox3(),
-			new IcyBox4(), new MagneticBox2(), new MagneticBox3(), new MagneticBox4(), new MetallicBox2(),
-			new MetallicBox3(), new MetallicBox4(), new PlasticBox2(), new PlasticBox3(), new PlasticBox4(),
-			new BoxTeleport(), new InvisibleBoxTeleport(), new Tree(), new ArenaObject(GameObjectID.AXE), new Pit(), new Spring(),
-			new SuperPit(), new SuperSpring(), new Sand(), new QuickSand(), new QuickerSand(), new QuickestSand(),
-			new SandBridge() };
+	private static final int COUNT = 172;
 
-	public static void enableAllObjects() {
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			allObject.setEnabled(true);
-		}
+	private static ArenaObject createObject(int x) {
+		return new ArenaObject(GameObjectID.values()[x]);
 	}
 
 	public static BufferedImageIcon[] getAllEditorAppearances() {
-		final var allEditorAppearances = new BufferedImageIcon[ArenaObjectList.allObjects.length];
+		final var allEditorAppearances = new BufferedImageIcon[ArenaObjectList.COUNT];
 		for (var x = 0; x < allEditorAppearances.length; x++) {
-			allEditorAppearances[x] = Images.getImage(ArenaObjectList.allObjects[x], false);
+			allEditorAppearances[x] = Images.getImage(createObject(x), false);
 		}
 		return allEditorAppearances;
 	}
 
 	public static BufferedImageIcon[] getAllEditorAppearancesOnLayer(final int layer, final boolean useDisable) {
 		if (useDisable) {
-			final var allEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.allObjects.length];
-			for (var x = 0; x < ArenaObjectList.allObjects.length; x++) {
-				if (ArenaObjectList.allObjects[x].getLayer() == layer) {
-					ArenaObjectList.allObjects[x].setEnabled(true);
+			final var allEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.COUNT];
+			for (var x = 0; x < ArenaObjectList.COUNT; x++) {
+				if (createObject(x).getLayer() == layer) {
+					createObject(x).setEnabled(true);
 				} else {
-					ArenaObjectList.allObjects[x].setEnabled(false);
+					createObject(x).setEnabled(false);
 				}
-				allEditorAppearancesOnLayer[x] = Images.getImage(ArenaObjectList.allObjects[x], false);
+				allEditorAppearancesOnLayer[x] = Images.getImage(createObject(x), false);
 			}
 			return allEditorAppearancesOnLayer;
 		}
-		final var tempAllEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.allObjects.length];
+		final var tempAllEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.COUNT];
 		var objectCount = 0;
-		for (var x = 0; x < ArenaObjectList.allObjects.length; x++) {
-			if (ArenaObjectList.allObjects[x].getLayer() == layer) {
-				tempAllEditorAppearancesOnLayer[x] = Images.getImage(ArenaObjectList.allObjects[x], false);
+		for (var x = 0; x < ArenaObjectList.COUNT; x++) {
+			if (createObject(x).getLayer() == layer) {
+				tempAllEditorAppearancesOnLayer[x] = Images.getImage(createObject(x), false);
 			}
 		}
 		for (final BufferedImageIcon element : tempAllEditorAppearancesOnLayer) {
@@ -110,21 +70,18 @@ public class ArenaObjectList {
 	}
 
 	public static ArenaObject[] getAllObjectsOnLayer(final int layer, final boolean useDisable) {
-		if (useDisable) {
-			for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-				if (allObject.getLayer() == layer) {
-					allObject.setEnabled(true);
-				} else {
-					allObject.setEnabled(false);
-				}
-			}
-			return ArenaObjectList.allObjects;
-		}
-		final var tempAllObjectsOnLayer = new ArenaObject[ArenaObjectList.allObjects.length];
+		final var tempAllObjectsOnLayer = new ArenaObject[ArenaObjectList.COUNT];
 		var objectCount = 0;
-		for (var x = 0; x < ArenaObjectList.allObjects.length; x++) {
-			if (ArenaObjectList.allObjects[x].getLayer() == layer) {
-				tempAllObjectsOnLayer[x] = ArenaObjectList.allObjects[x];
+		for (var x = 0; x < ArenaObjectList.COUNT; x++) {
+			if (createObject(x).getLayer() == layer) {
+				tempAllObjectsOnLayer[x] = createObject(x);
+				if (useDisable) {
+					if (tempAllObjectsOnLayer[x].getLayer() == layer) {
+						tempAllObjectsOnLayer[x].setEnabled(true);
+					} else {
+						tempAllObjectsOnLayer[x].setEnabled(false);
+					}
+				}
 			}
 		}
 		for (final ArenaObject element : tempAllObjectsOnLayer) {
@@ -132,21 +89,21 @@ public class ArenaObjectList {
 				objectCount++;
 			}
 		}
-		final var allObjectsOnLayer = new ArenaObject[objectCount];
+		final var objectsOnLayer = new ArenaObject[objectCount];
 		objectCount = 0;
 		for (final ArenaObject element : tempAllObjectsOnLayer) {
 			if (element != null) {
-				allObjectsOnLayer[objectCount] = element;
+				objectsOnLayer[objectCount] = element;
 				objectCount++;
 			}
 		}
-		return allObjectsOnLayer;
+		return objectsOnLayer;
 	}
 
 	public static boolean[] getObjectEnabledStatuses(final int layer) {
-		final var allObjectEnabledStatuses = new boolean[ArenaObjectList.allObjects.length];
-		for (var x = 0; x < ArenaObjectList.allObjects.length; x++) {
-			if (ArenaObjectList.allObjects[x].getLayer() == layer) {
+		final var allObjectEnabledStatuses = new boolean[ArenaObjectList.COUNT];
+		for (var x = 0; x < ArenaObjectList.COUNT; x++) {
+			if (createObject(x).getLayer() == layer) {
 				allObjectEnabledStatuses[x] = true;
 			} else {
 				allObjectEnabledStatuses[x] = false;
@@ -163,20 +120,13 @@ public class ArenaObjectList {
 			return null;
 		}
 		UID = reader.readString();
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			try {
-				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
-				if (!GameFormatHelper.isValidG1(formatVersion) && !GameFormatHelper.isValidG2(formatVersion)) {
-					return null;
-				}
-				o = instance.readArenaObjectG2(reader, UID, formatVersion);
-				if (o != null) {
-					return o;
-				}
-			} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				LaserTankEE.logError(e);
-			}
+		final ArenaObject instance = new ArenaObject();
+		if (!GameFormatHelper.isValidG1(formatVersion) && !GameFormatHelper.isValidG2(formatVersion)) {
+			return null;
+		}
+		o = instance.readArenaObjectG2(reader, UID, formatVersion);
+		if (o != null) {
+			return o;
 		}
 		return null;
 	}
@@ -189,20 +139,13 @@ public class ArenaObjectList {
 			return null;
 		}
 		UID = reader.readString();
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			try {
-				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
-				if (!GameFormatHelper.isValidG3(formatVersion)) {
-					return null;
-				}
-				o = instance.readArenaObjectG3(reader, UID, formatVersion);
-				if (o != null) {
-					return o;
-				}
-			} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				LaserTankEE.logError(e);
-			}
+		final ArenaObject instance = new ArenaObject();
+		if (!GameFormatHelper.isValidG3(formatVersion)) {
+			return null;
+		}
+		o = instance.readArenaObjectG3(reader, UID, formatVersion);
+		if (o != null) {
+			return o;
 		}
 		return null;
 	}
@@ -215,20 +158,13 @@ public class ArenaObjectList {
 			return null;
 		}
 		UID = reader.readString();
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			try {
-				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
-				if (!GameFormatHelper.isValidG4(formatVersion)) {
-					return null;
-				}
-				o = instance.readArenaObjectG4(reader, UID, formatVersion);
-				if (o != null) {
-					return o;
-				}
-			} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				LaserTankEE.logError(e);
-			}
+		final ArenaObject instance = new ArenaObject();
+		if (!GameFormatHelper.isValidG4(formatVersion)) {
+			return null;
+		}
+		o = instance.readArenaObjectG4(reader, UID, formatVersion);
+		if (o != null) {
+			return o;
 		}
 		return null;
 	}
@@ -241,20 +177,13 @@ public class ArenaObjectList {
 			return null;
 		}
 		UID = reader.readString();
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			try {
-				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
-				if (!GameFormatHelper.isValidG5(formatVersion)) {
-					return null;
-				}
-				o = instance.readArenaObjectG5(reader, UID, formatVersion);
-				if (o != null) {
-					return o;
-				}
-			} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				LaserTankEE.logError(e);
-			}
+		final ArenaObject instance = new ArenaObject();
+		if (!GameFormatHelper.isValidG5(formatVersion)) {
+			return null;
+		}
+		o = instance.readArenaObjectG5(reader, UID, formatVersion);
+		if (o != null) {
+			return o;
 		}
 		return null;
 	}
@@ -267,20 +196,13 @@ public class ArenaObjectList {
 			return null;
 		}
 		UID = reader.readString();
-		for (final ArenaObject allObject : ArenaObjectList.allObjects) {
-			try {
-				final ArenaObject instance = allObject.getClass().getConstructor().newInstance();
-				if (!GameFormatHelper.isValidG6(formatVersion)) {
-					return null;
-				}
-				o = instance.readArenaObjectG6(reader, UID, formatVersion);
-				if (o != null) {
-					return o;
-				}
-			} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-				LaserTankEE.logError(e);
-			}
+		final ArenaObject instance = new ArenaObject();
+		if (!GameFormatHelper.isValidG6(formatVersion)) {
+			return null;
+		}
+		o = instance.readArenaObjectG6(reader, UID, formatVersion);
+		if (o != null) {
+			return o;
 		}
 		return null;
 	}

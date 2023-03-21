@@ -16,7 +16,6 @@ import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.DeadAntiTank;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
@@ -932,7 +931,7 @@ public final class CurrentArenaData extends ArenaData {
 					if (obj.getID() == GameObjectID.ANTI_TANK) {
 						// Kill the tank
 						final var gm = LaserTankEE.getGame();
-						final var dat = new DeadAntiTank();
+						final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 						dat.setSavedObject(obj.getSavedObject());
 						dat.setDirection(obj.getDirection());
 						gm.morph(dat, y, x, z, Layer.LOWER_OBJECTS.ordinal());

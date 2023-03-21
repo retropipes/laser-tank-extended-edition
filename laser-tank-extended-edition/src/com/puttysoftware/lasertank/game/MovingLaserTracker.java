@@ -8,8 +8,6 @@ package com.puttysoftware.lasertank.game;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.arena.objects.PowerTurret;
-import com.puttysoftware.lasertank.arena.objects.PowerfulTank;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -140,7 +138,7 @@ final class MovingLaserTracker {
 		this.incX = zx;
 		this.incY = zy;
 		if (this.lt == LaserType.GREEN) {
-			if (this.shooter instanceof PowerfulTank) {
+			if (this.shooter.getID() == GameObjectID.POWER_TANK) {
 				this.lt = LaserType.POWER;
 				Sounds.play(Sound.POWER_LASER);
 			} else {
@@ -156,7 +154,7 @@ final class MovingLaserTracker {
 			this.res = true;
 		} else if (this.lt == LaserType.RED) {
 			if (!gm.getCheatStatus(Game.CHEAT_INVINCIBLE)) {
-				if (this.shooter instanceof PowerTurret) {
+				if (this.shooter.getID() == GameObjectID.POWER_TURRET) {
 					this.lt = LaserType.VIOLET;
 					Sounds.play(Sound.POWER_LASER);
 				} else {
