@@ -41,7 +41,7 @@ public class DeepestWater extends ArenaObject {
 		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 		if (pushed.isBox()) {
 			if (pushed.getMaterial() == Material.WOODEN) {
-				LaserTankEE.getGame().morph(new Bridge(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
 			} else {
 				LaserTankEE.getGame().morph(new DeeperWater(), x, y, z, this.getLayer());
 			}

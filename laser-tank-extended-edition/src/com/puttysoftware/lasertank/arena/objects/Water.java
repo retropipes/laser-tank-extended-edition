@@ -41,9 +41,9 @@ public class Water extends ArenaObject {
 		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 		if (pushed.isBox()) {
 			if (pushed.getMaterial() == Material.ICE) {
-				LaserTankEE.getGame().morph(new IceBridge(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.ICE_BRIDGE), x, y, z, this.getLayer());
 			} else {
-				LaserTankEE.getGame().morph(new Bridge(), x, y, z, this.getLayer());
+				LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
 			}
 		}
 		Sounds.play(Sound.SINK);

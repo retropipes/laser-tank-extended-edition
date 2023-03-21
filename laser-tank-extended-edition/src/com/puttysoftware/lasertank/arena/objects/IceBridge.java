@@ -22,7 +22,7 @@ public class IceBridge extends ArenaObject {
 				if (this.hasPreviousState()) {
 					return this.getPreviousState();
 				} else {
-					return new Bridge();
+					return new ArenaObject(GameObjectID.BRIDGE);
 				}
 			default:
 				return this;
@@ -42,7 +42,7 @@ public class IceBridge extends ArenaObject {
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof HotBox) {
-			pushed.setSavedObject(new Bridge());
+			pushed.setSavedObject(new ArenaObject(GameObjectID.BRIDGE));
 		}
 		return true;
 	}
