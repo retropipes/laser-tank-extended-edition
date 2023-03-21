@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.arena;
+package com.puttysoftware.lasertank.arena.fileio;
 
 import java.io.File;
 import java.io.FileInputStream;

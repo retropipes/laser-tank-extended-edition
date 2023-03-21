@@ -17,6 +17,8 @@ import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.current.CurrentArena;
+import com.puttysoftware.lasertank.arena.fileio.LoadTask;
+import com.puttysoftware.lasertank.arena.fileio.SaveTask;
 import com.puttysoftware.lasertank.arena.v4.V4LevelLoadTask;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.CommonString;

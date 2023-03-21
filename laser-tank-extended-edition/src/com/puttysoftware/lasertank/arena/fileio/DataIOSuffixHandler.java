@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena;
+package com.puttysoftware.lasertank.arena.fileio;
 
 import java.io.IOException;
 

@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena;
+package com.puttysoftware.lasertank.arena.fileio;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,6 +17,8 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.diane.fileio.utility.ZipUtilities;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.Arena;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
