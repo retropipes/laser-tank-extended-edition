@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.arena.current;
 
 import com.puttysoftware.diane.storage.ObjectStorage;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 
 class CurrentArenaStorage extends ObjectStorage {
     // Constructor

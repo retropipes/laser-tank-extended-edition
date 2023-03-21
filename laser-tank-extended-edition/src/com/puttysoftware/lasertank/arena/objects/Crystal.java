@@ -6,8 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractReactionWall;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -16,7 +15,7 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
-public class Crystal extends AbstractReactionWall {
+public class Crystal extends ArenaObject {
 	private static void laserEnteredActionInnerP2(final int locX, final int locY, final int locZ, final int locW) {
 		// Destroy barrel
 		LaserTankEE.getApplication().getGameManager().morph(new Empty(), locX, locY, locZ, locW);

@@ -6,8 +6,7 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractReactionWall;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.RangeTypeHelper;
@@ -17,7 +16,7 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 
-public class HotCrystalBlock extends AbstractReactionWall {
+public class HotCrystalBlock extends ArenaObject {
 	// Constructors
 	public HotCrystalBlock() {
 	}

@@ -5,10 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractWall;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class MagneticAttractWall extends AbstractWall {
+public class MagneticAttractWall extends ArenaObject {
     // Constructors
     public MagneticAttractWall() {
     }

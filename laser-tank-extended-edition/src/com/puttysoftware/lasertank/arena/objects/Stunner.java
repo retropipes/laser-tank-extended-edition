@@ -5,17 +5,12 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class Stunner extends AbstractTransientObject {
+public class Stunner extends ArenaObject {
     // Constructors
     public Stunner() {
-    }
-
-    @Override
-    public int getForceUnitsImbued() {
-        return 0;
     }
 
     @Override

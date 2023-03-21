@@ -32,7 +32,7 @@ import com.puttysoftware.diane.gui.picker.AnonymousPicturePicker;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.asset.Images;

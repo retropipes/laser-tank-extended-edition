@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Layer;
 

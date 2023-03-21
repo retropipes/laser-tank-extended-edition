@@ -5,17 +5,12 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class RedLaser extends AbstractTransientObject {
+public class RedLaser extends ArenaObject {
     // Constructors
     public RedLaser() {
-    }
-
-    @Override
-    public int getForceUnitsImbued() {
-        return 1;
     }
 
     @Override

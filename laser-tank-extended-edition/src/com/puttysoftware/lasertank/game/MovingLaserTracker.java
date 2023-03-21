@@ -7,8 +7,7 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.arena.objects.BlueLaser;
 import com.puttysoftware.lasertank.arena.objects.Empty;
 import com.puttysoftware.lasertank.arena.objects.GreenLaser;
@@ -80,7 +79,7 @@ final class MovingLaserTracker {
 		return false;
 	}
 
-	private static AbstractTransientObject createLaserForType(final LaserType type) {
+	private static ArenaObject createLaserForType(final LaserType type) {
 		return switch (type) {
 			case GREEN -> new GreenLaser();
 			case BLUE -> new BlueLaser();
@@ -136,7 +135,7 @@ final class MovingLaserTracker {
 	private boolean res;
 	private boolean laser;
 	private int cumX, cumY, incX, incY;
-	private AbstractTransientObject l;
+	private ArenaObject l;
 
 	// Constructors
 	public MovingLaserTracker() {
@@ -292,10 +291,10 @@ final class MovingLaserTracker {
 				return;
 			}
 			var dir = lou.laserEnteredAction(this.ox + this.cumX, this.oy + this.cumY, pz, this.incX, this.incY,
-					this.lt, this.l.getForceUnitsImbued());
+					this.lt, ArenaObject.getImbuedForce(this.l.getMaterial()));
 			if (dir != Direction.NONE) {
 				dir = lol.laserEnteredAction(this.ox + this.cumX, this.oy + this.cumY, pz, this.incX, this.incY,
-						this.lt, this.l.getForceUnitsImbued());
+						this.lt, ArenaObject.getImbuedForce(this.l.getMaterial()));
 			}
 			if (dir == Direction.NONE) {
 				this.res = false;

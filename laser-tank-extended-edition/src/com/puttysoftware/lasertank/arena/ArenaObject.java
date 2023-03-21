@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.abc;
+package com.puttysoftware.lasertank.arena;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -543,10 +543,6 @@ public class ArenaObject {
 		}
 	}
 
-	public final int getNumber() {
-		return this.index;
-	}
-
 	private final Direction getInitialDirection() {
 		return GameObjectData.getValidDirections(this.getID())[0];
 	}
@@ -569,6 +565,10 @@ public class ArenaObject {
 
 	public final int getMinimumReactionForce() {
 		return GameObjectData.getMinimumReactionForce(this.getMaterial());
+	}
+
+	public final int getNumber() {
+		return this.index;
 	}
 
 	public int getPairX() {
@@ -731,115 +731,124 @@ public class ArenaObject {
 	 */
 	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType, final int forceUnits) {
-		if (this.canMove()) {
-			final var app = LaserTankEE.getApplication();
-			if (forceUnits < this.getMinimumReactionForce()) {
-				// Not enough force
-				return Direction.NONE;
-			}
-			try {
-				final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ,
-						this.getLayer());
-				final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
-						this.getLayer());
-				if (this.getMaterial() == Material.MAGNETIC) {
-					if (laserType == LaserType.BLUE && mof != null
-							&& (mof.canControl() || !mof.isSolid())) {
-						app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-					} else if (mor != null && (mor.canControl() || !mor.isSolid())) {
-						app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-					} else {
-						// Object doesn't react to this type of laser
-						return Direction.NONE;
-					}
-				} else {
-					if (laserType == LaserType.BLUE && mor != null
-							&& (mor.canControl() || !mor.isSolid())) {
-						app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-					} else if (mof != null && (mof.canControl() || !mof.isSolid())) {
-						app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-					} else {
-						// Object doesn't react to this type of laser
-						return Direction.NONE;
-					}
-				}
-				Sounds.play(this.laserEnteredSound());
-			} catch (final ArrayIndexOutOfBoundsException aioobe) {
-				// Object can't go that way
-				return Direction.NONE;
-			}
-			return Direction.NONE;
-		} else if (this.canJump()) {
-			final var app = LaserTankEE.getApplication();
-			final var px = app.getGameManager().getPlayerManager().getPlayerLocationX();
-			final var py = app.getGameManager().getPlayerManager().getPlayerLocationY();
-			if (forceUnits > this.getMinimumReactionForce() && this.jumpRows == 0 && this.jumpCols == 0) {
-				this.pushCrushAction(locX, locY, locZ);
-				return Direction.NONE;
-			}
-			if (!this.jumpShot) {
-				this.jumpShot = true;
-				this.dir1X = (int) Math.signum(px - locX);
-				this.dir1Y = (int) Math.signum(py - locY);
-				Sounds.play(Sound.PREPARE);
-				return Direction.NONE;
-			}
-			this.jumpShot = false;
-			this.dir2X = (int) Math.signum(px - locX);
-			this.dir2Y = (int) Math.signum(py - locY);
-			if (this.dir1X != 0 && this.dir2X != 0 || this.dir1Y != 0 && this.dir2Y != 0) {
-				Sounds.play(Sound.LASER_DIE);
-				return Direction.NONE;
-			} else {
-				if (this.dir1X == 0 && this.dir2X == 1 && this.dir1Y == -1 && this.dir2Y == 0
-						|| this.dir1X == 0 && this.dir2X == -1 && this.dir1Y == 1 && this.dir2Y == 0
-						|| this.dir1X == 1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == -1
-						|| this.dir1X == -1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == 1) {
-					this.flip = true;
-				} else {
-					this.flip = false;
-				}
-				return Direction.NONE;
-			}
-		}
-		final var dir = DirectionHelper.resolveRelative(dirX, dirY);
-		if (this.isSolid()) {
-			if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
+		final var app = LaserTankEE.getApplication();
+		if (forceUnits >= this.getMinimumReactionForce()) {
+			if (this.canMove()) {
 				try {
-					final var nextObj = LaserTankEE.getApplication().getArenaManager().getArena().getCell(locX + dirX,
-							locY + dirY, locZ, this.getLayer());
-					final var nextObj2 = LaserTankEE.getApplication().getArenaManager().getArena()
-							.getCell(locX + dirX * 2, locY + dirY * 2, locZ, this.getLayer());
-					if (this instanceof final ArenaObject gmo && nextObj instanceof ArenaObject gmo2
-							&& nextObj.canMove()
-							&& (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
-						LaserTankEE.getApplication().getGameManager().updatePushedPositionLater(locX, locY, dirX, dirY,
-								gmo, locX + dirX, locY + dirY, gmo2, laserType,
-								forceUnits - Math.max(1, this.getMinimumReactionForce()));
+					final var mof = app.getArenaManager().getArena().getCell(locX + dirX, locY + dirY, locZ,
+							this.getLayer());
+					final var mor = app.getArenaManager().getArena().getCell(locX - dirX, locY - dirY, locZ,
+							this.getLayer());
+					if (this.getMaterial() == Material.MAGNETIC) {
+						if (laserType == LaserType.BLUE && mof != null
+								&& (mof.canControl() || !mof.isSolid())) {
+							app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+						} else if (mor != null && (mor.canControl() || !mor.isSolid())) {
+							app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+						} else {
+							// Object doesn't react to this type of laser
+							return Direction.NONE;
+						}
 					} else {
+						if (laserType == LaserType.BLUE && mor != null
+								&& (mor.canControl() || !mor.isSolid())) {
+							app.getGameManager().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+						} else if (mof != null && (mof.canControl() || !mof.isSolid())) {
+							app.getGameManager().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+						} else {
+							// Object doesn't react to this type of laser
+							return Direction.NONE;
+						}
+					}
+					Sounds.play(this.laserEnteredSound());
+				} catch (final ArrayIndexOutOfBoundsException aioobe) {
+					// Object can't go that way
+					return Direction.NONE;
+				}
+				return Direction.NONE;
+			} else if (this.canJump()) {
+				final var px = app.getGameManager().getPlayerManager().getPlayerLocationX();
+				final var py = app.getGameManager().getPlayerManager().getPlayerLocationY();
+				if (forceUnits > this.getMinimumReactionForce() && this.jumpRows == 0 && this.jumpCols == 0) {
+					this.pushCrushAction(locX, locY, locZ);
+					return Direction.NONE;
+				}
+				if (!this.jumpShot) {
+					this.jumpShot = true;
+					this.dir1X = (int) Math.signum(px - locX);
+					this.dir1Y = (int) Math.signum(py - locY);
+					Sounds.play(Sound.PREPARE);
+					return Direction.NONE;
+				}
+				this.jumpShot = false;
+				this.dir2X = (int) Math.signum(px - locX);
+				this.dir2Y = (int) Math.signum(py - locY);
+				if (this.dir1X != 0 && this.dir2X != 0 || this.dir1Y != 0 && this.dir2Y != 0) {
+					Sounds.play(Sound.LASER_DIE);
+					return Direction.NONE;
+				} else {
+					if (this.dir1X == 0 && this.dir2X == 1 && this.dir1Y == -1 && this.dir2Y == 0
+							|| this.dir1X == 0 && this.dir2X == -1 && this.dir1Y == 1 && this.dir2Y == 0
+							|| this.dir1X == 1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == -1
+							|| this.dir1X == -1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == 1) {
+						this.flip = true;
+					} else {
+						this.flip = false;
+					}
+					return Direction.NONE;
+				}
+			} else if (this.isSolid()) {
+				return this.laserEnteredActionHook(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+			}
+			final var dir = DirectionHelper.resolveRelative(dirX, dirY);
+			if (this.isSolid()) {
+				if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
+					try {
+						final var nextObj = LaserTankEE.getApplication().getArenaManager().getArena().getCell(
+								locX + dirX,
+								locY + dirY, locZ, this.getLayer());
+						final var nextObj2 = LaserTankEE.getApplication().getArenaManager().getArena()
+								.getCell(locX + dirX * 2, locY + dirY * 2, locZ, this.getLayer());
+						if (this instanceof final ArenaObject gmo && nextObj instanceof ArenaObject gmo2
+								&& nextObj.canMove()
+								&& (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
+							LaserTankEE.getApplication().getGameManager().updatePushedPositionLater(locX, locY, dirX,
+									dirY,
+									gmo, locX + dirX, locY + dirY, gmo2, laserType,
+									forceUnits - Math.max(1, this.getMinimumReactionForce()));
+						} else {
+							// Object crushed by impact
+							this.pushCrushAction(locX, locY, locZ);
+						}
+					} catch (final ArrayIndexOutOfBoundsException aioob) {
 						// Object crushed by impact
 						this.pushCrushAction(locX, locY, locZ);
 					}
-				} catch (final ArrayIndexOutOfBoundsException aioob) {
-					// Object crushed by impact
-					this.pushCrushAction(locX, locY, locZ);
+				} else {
+					final var adj = LaserTankEE.getApplication().getArenaManager().getArena().getCell(locX - dirX,
+							locY - dirY, locZ, this.getLayer());
+					if (adj != null && !adj.rangeAction(locX - 2 * dirX, locY - 2 * dirY, locZ, dirX, dirY,
+							LaserTypeHelper.rangeType(laserType), 1)) {
+						Sounds.play(Sound.LASER_DIE);
+					}
 				}
-			} else {
-				final var adj = LaserTankEE.getApplication().getArenaManager().getArena().getCell(locX - dirX,
-						locY - dirY, locZ, this.getLayer());
-				if (adj != null && !adj.rangeAction(locX - 2 * dirX, locY - 2 * dirY, locZ, dirX, dirY,
-						LaserTypeHelper.rangeType(laserType), 1)) {
-					Sounds.play(Sound.LASER_DIE);
-				}
+				// Laser stops
+				return Direction.NONE;
 			}
-			// Laser stops
-			return Direction.NONE;
+			if (GameObjectData.isReflective(this.getID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
+				// Laser reflected
+				return this.direction;
+			}
+			return DirectionHelper.resolveRelative(dirX, dirY);
 		}
-		if (GameObjectData.isReflective(this.getID(), dir) && GameObjectData.hitReflectiveSide(dir)) {
-			// Laser reflected
-			return this.direction;
-		}
-		return DirectionHelper.resolveRelative(dirX, dirY);
+		// Not enough force
+		return Direction.NONE;
+	}
+
+	public Direction laserEnteredActionHook(int locX, int locY, int locZ, int dirX, int dirY,
+			LaserType laserType, int forceUnits) {
+		// Do nothing
+		return Direction.NONE;
 	}
 
 	public Sound laserEnteredSound() {
@@ -1057,45 +1066,56 @@ public class ArenaObject {
 	 */
 	public boolean rangeAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final RangeType rangeType, final int forceUnits) {
-		if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.WOODEN
-				&& this.changesToOnExposure(Material.FIRE) != null) {
-			// Burn wooden object
-			Sounds.play(Sound.BURN);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
-					locY + dirY, locZ, this.getLayer());
-			return true;
+		if (forceUnits >= this.getMinimumReactionForce()) {
+			if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.WOODEN
+					&& this.changesToOnExposure(Material.FIRE) != null) {
+				// Burn wooden object
+				Sounds.play(Sound.BURN);
+				LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE),
+						locX + dirX,
+						locY + dirY, locZ, this.getLayer());
+				return true;
+			}
+			if (RangeTypeHelper.material(rangeType) == Material.ICE && (this.getMaterial() == Material.METALLIC
+					|| this.getMaterial() == Material.WOODEN || this.getMaterial() == Material.PLASTIC)
+					&& this.changesToOnExposure(Material.ICE) != null) {
+				// Freeze metal, wooden, or plastic object
+				Sounds.play(Sound.FREEZE);
+				LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
+						locY + dirY, locZ, this.getLayer());
+				return true;
+			}
+			if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
+					&& this.changesToOnExposure(Material.FIRE) != null) {
+				// Melt icy object
+				Sounds.play(Sound.DEFROST);
+				LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE),
+						locX + dirX,
+						locY + dirY, locZ, this.getLayer());
+				return true;
+			} else if (RangeTypeHelper.material(rangeType) == Material.ICE && this.getMaterial() == Material.FIRE
+					&& this.changesToOnExposure(Material.ICE) != null) {
+				// Cool hot object
+				Sounds.play(Sound.COOL_OFF);
+				LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
+						locY + dirY, locZ, this.getLayer());
+				return true;
+			} else if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.METALLIC
+					&& this.changesToOnExposure(Material.FIRE) != null) {
+				// Melt metal object
+				Sounds.play(Sound.MELT);
+				LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE),
+						locX + dirX,
+						locY + dirY, locZ, this.getLayer());
+				return true;
+			}
 		}
-		if (RangeTypeHelper.material(rangeType) == Material.ICE && (this.getMaterial() == Material.METALLIC
-				|| this.getMaterial() == Material.WOODEN || this.getMaterial() == Material.PLASTIC)
-				&& this.changesToOnExposure(Material.ICE) != null) {
-			// Freeze metal, wooden, or plastic object
-			Sounds.play(Sound.FREEZE);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
-					locY + dirY, locZ, this.getLayer());
-			return true;
-		}
-		if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
-				&& this.changesToOnExposure(Material.FIRE) != null) {
-			// Melt icy object
-			Sounds.play(Sound.DEFROST);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
-					locY + dirY, locZ, this.getLayer());
-			return true;
-		} else if (RangeTypeHelper.material(rangeType) == Material.ICE && this.getMaterial() == Material.FIRE
-				&& this.changesToOnExposure(Material.ICE) != null) {
-			// Cool hot object
-			Sounds.play(Sound.COOL_OFF);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
-					locY + dirY, locZ, this.getLayer());
-			return true;
-		} else if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.METALLIC
-				&& this.changesToOnExposure(Material.FIRE) != null) {
-			// Melt metal object
-			Sounds.play(Sound.MELT);
-			LaserTankEE.getApplication().getGameManager().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
-					locY + dirY, locZ, this.getLayer());
-			return true;
-		}
+		return false;
+	}
+
+	public boolean rangeActionHook(int locX, int locY, int locZ, int dirX, int dirY, RangeType rangeType,
+			int forceUnits) {
+		// Do nothing
 		return false;
 	}
 

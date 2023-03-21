@@ -5,17 +5,12 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractTransientObject;
+import com.puttysoftware.lasertank.arena.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class ShadowLaser extends AbstractTransientObject {
+public class ShadowLaser extends ArenaObject {
     // Constructors
     public ShadowLaser() {
-    }
-
-    @Override
-    public int getForceUnitsImbued() {
-        return 1;
     }
 
     @Override
