@@ -28,7 +28,8 @@ enum DataFile {
     CLOAK,
     PAIR,
     ATTRIBUTE_RENDER,
-    USES_TRIGGER;
+    USES_TRIGGER,
+    JUMP;
 
     public String getName() {
         return Integer.toString(this.ordinal());

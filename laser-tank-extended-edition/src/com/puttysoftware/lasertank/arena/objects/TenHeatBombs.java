@@ -6,11 +6,11 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.abc.AbstractGround;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
-public class TenHeatBombs extends AbstractGround {
+public class TenHeatBombs extends ArenaObject {
     // Constructors
     public TenHeatBombs() {
     }

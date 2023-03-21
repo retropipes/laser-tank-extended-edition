@@ -8,11 +8,10 @@ package com.puttysoftware.lasertank.arena.objects;
 import java.awt.Color;
 
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
-public class ReverseJumpBox extends AbstractJumpObject {
+public class ReverseJumpBox extends ArenaObject {
     // Constructors
     public ReverseJumpBox() {
     }
@@ -31,13 +30,13 @@ public class ReverseJumpBox extends AbstractJumpObject {
     }
 
     @Override
-    public int getActualJumpCols() {
-        return -super.getActualJumpCols();
+    public int getColumnsToJump() {
+        return -super.getColumnsToJump();
     }
 
     @Override
-    public int getActualJumpRows() {
-        return -super.getActualJumpRows();
+    public int getRowsToJump() {
+        return -super.getRowsToJump();
     }
 
     @Override

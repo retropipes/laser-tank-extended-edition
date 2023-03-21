@@ -8,11 +8,10 @@ package com.puttysoftware.lasertank.arena.objects;
 import java.awt.Color;
 
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
-public class JumpBox extends AbstractJumpObject {
+public class JumpBox extends ArenaObject {
     // Constructors
     public JumpBox() {
     }

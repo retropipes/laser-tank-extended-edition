@@ -5,10 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.arena.abc.AbstractGround;
+import com.puttysoftware.lasertank.arena.abc.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
-public class TankMover extends AbstractGround {
+public class TankMover extends ArenaObject {
     // Constructors
     public TankMover() {
     }

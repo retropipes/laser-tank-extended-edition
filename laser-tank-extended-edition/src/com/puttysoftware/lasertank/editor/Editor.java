@@ -33,7 +33,6 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.arena.objects.Ground;
 import com.puttysoftware.lasertank.arena.objects.Tank;
 import com.puttysoftware.lasertank.asset.Images;
@@ -410,7 +409,7 @@ public class Editor extends Screen {
 		}
 	}
 
-	public void editJumpBox(final AbstractJumpObject jumper) {
+	public void editJumpBox(final ArenaObject jumper) {
 		final var currentX = jumper.getJumpCols();
 		final var currentY = jumper.getJumpRows();
 		final var newXStr = CommonDialogs.showInputDialog(Strings.loadEditor(EditorString.HORZ_JUMP),

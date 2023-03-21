@@ -192,6 +192,19 @@ public class DataLoader {
 		return res;
 	}
 
+	public static boolean loadJump(final GameObjectID objID) {
+		final var data = DataLoader.load(DataFile.JUMP);
+		final var key = String.valueOf(objID);
+		if (!data.containsKey(key)) {
+			return false;
+		}
+		final var value = data.getString(key);
+		if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+			return true;
+		}
+		return false;
+	}
+
 	public static int loadLayer(final GameObjectID objID) {
 		final var data = DataLoader.load(DataFile.LAYER);
 		final var key = String.valueOf(objID);

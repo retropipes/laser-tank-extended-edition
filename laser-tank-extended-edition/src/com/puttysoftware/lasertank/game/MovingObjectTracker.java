@@ -7,7 +7,6 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.abc.ArenaObject;
-import com.puttysoftware.lasertank.arena.abc.AbstractJumpObject;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Layer;
 
@@ -42,7 +41,7 @@ final class MovingObjectTracker {
 		final var pz = plMgr.getPlayerLocationZ();
 		this.objIncX = pushX - zx;
 		this.objIncY = pushY - zy;
-		if (gmo instanceof AbstractJumpObject) {
+		if (gmo instanceof ArenaObject) {
 			if (pushX - zx == 0) {
 				if (pushY > zy) {
 					this.objIncX = -1;
@@ -72,15 +71,15 @@ final class MovingObjectTracker {
 		this.objectNewlyActivated = true;
 	}
 
-	private void doJumpObjectOnce(final AbstractJumpObject jumper) {
+	private void doJumpObjectOnce(final ArenaObject jumper) {
 		final var app = LaserTankEE.getApplication();
 		final var m = app.getArenaManager().getArena();
 		final var gm = app.getGameManager();
 		final var pz = gm.getPlayerManager().getPlayerLocationZ();
 		try {
 			this.jumpOnMover = false;
-			this.objMultX = jumper.getActualJumpCols();
-			this.objMultY = jumper.getActualJumpRows();
+			this.objMultX = jumper.getColumnsToJump();
+			this.objMultY = jumper.getRowsToJump();
 			if (gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
 				gm.doRemoteDelayedDecay(jumper);
 			}
@@ -274,8 +273,8 @@ final class MovingObjectTracker {
 	}
 
 	private void doObjectOnce() {
-		if (this.movingObj instanceof AbstractJumpObject) {
-			this.doJumpObjectOnce((AbstractJumpObject) this.movingObj);
+		if (this.movingObj instanceof ArenaObject) {
+			this.doJumpObjectOnce((ArenaObject) this.movingObj);
 		} else {
 			this.doNormalObjectOnce();
 		}

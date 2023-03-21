@@ -28,6 +28,7 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
+import com.puttysoftware.lasertank.locale.Strings;
 
 public class ArenaObject {
 	static final int DEFAULT_CUSTOM_VALUE = 0;
@@ -79,6 +80,14 @@ public class ArenaObject {
 	private int pairX;
 	private int pairY;
 	private ArenaObject pairedWith;
+	private boolean flip;
+	private int dir1X;
+	private int dir1Y;
+	private int dir2X;
+	private int dir2Y;
+	private int jumpRows;
+	private int jumpCols;
+	private boolean jumpShot;
 
 	// Constructors
 	public ArenaObject() {
@@ -105,6 +114,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid) {
@@ -132,6 +149,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid, final Direction dir) {
@@ -159,6 +184,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid, final int newIndex) {
@@ -186,6 +219,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
@@ -209,6 +250,18 @@ public class ArenaObject {
 		this.pairTriggered = false;
 		this.pairX = -1;
 		this.pairY = -1;
+		var pairID = GameObjectData.getPairedObjectID(this.getID());
+		if (pairID != null) {
+			this.pairedWith = new ArenaObject(pairID);
+		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor) {
@@ -236,6 +289,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public ArenaObject(final GameObjectID goid, final GameColor newColor, final int newIndex) {
@@ -263,6 +324,14 @@ public class ArenaObject {
 		if (pairID != null) {
 			this.pairedWith = new ArenaObject(pairID);
 		}
+		this.jumpRows = 0;
+		this.jumpCols = 0;
+		this.jumpShot = false;
+		this.flip = false;
+		this.dir1X = 0;
+		this.dir1Y = 0;
+		this.dir2X = 0;
+		this.dir2Y = 0;
 	}
 
 	public final boolean acceptTick(final GameAction actionType) {
@@ -285,6 +354,10 @@ public class ArenaObject {
 
 	public final boolean canControl() {
 		return GameObjectData.canControl(this.getID());
+	}
+
+	public final boolean canJump() {
+		return GameObjectData.canJump(this.getID());
 	}
 
 	public final boolean canMove() {
@@ -361,6 +434,9 @@ public class ArenaObject {
 		if (this.hasDirection()) {
 			this.toggleDirection();
 			return this;
+		} else if (this.canJump()) {
+			LaserTankEE.getApplication().getEditor().editJumpBox(this);
+			return this;
 		}
 		return null;
 	}
@@ -400,6 +476,19 @@ public class ArenaObject {
 		return this.color;
 	}
 
+	public int getColumnsToJump() {
+		if (this.flip) {
+			if (this.dir2Y == 0) {
+				return this.jumpRows * this.dir1Y;
+			}
+			return this.jumpRows * this.dir2Y;
+		}
+		if (this.dir2X == 0) {
+			return this.jumpCols * this.dir1X;
+		}
+		return this.jumpCols * this.dir2X;
+	}
+
 	public int getCustomFormat() {
 		return 0;
 	}
@@ -411,6 +500,8 @@ public class ArenaObject {
 	public String getCustomText() {
 		if (this.canControl()) {
 			return Integer.toString(this.index);
+		} else if (this.canJump()) {
+			return Strings.loadObjectCustomText(this.getID(), this.jumpRows, this.jumpCols);
 		}
 		return null;
 	}
@@ -460,6 +551,14 @@ public class ArenaObject {
 		return GameObjectData.getValidDirections(this.getID())[0];
 	}
 
+	public final int getJumpCols() {
+		return this.jumpCols;
+	}
+
+	public final int getJumpRows() {
+		return this.jumpRows;
+	}
+
 	public final int getLayer() {
 		return GameObjectData.getLayer(getID());
 	}
@@ -486,6 +585,19 @@ public class ArenaObject {
 
 	public final ArenaObject getPreviousState() {
 		return this.previousState;
+	}
+
+	public int getRowsToJump() {
+		if (this.flip) {
+			if (this.dir2X == 0) {
+				return this.jumpCols * this.dir1X;
+			}
+			return this.jumpCols * this.dir2X;
+		}
+		if (this.dir2Y == 0) {
+			return this.jumpRows * this.dir1Y;
+		}
+		return this.jumpRows * this.dir2Y;
 	}
 
 	public final ArenaObject getSavedObject() {
@@ -590,6 +702,14 @@ public class ArenaObject {
 		return this.getID() == GameObjectID.TUNNEL;
 	}
 
+	public final void jumpSound(final boolean success) {
+		if (!success || this.jumpRows == 0 && this.jumpCols == 0) {
+			Sounds.play(Sound.LASER_DIE);
+		} else {
+			Sounds.play(Sound.JUMPING);
+		}
+	}
+
 	public final boolean killsOnMove() {
 		return GameObjectData.killsOnMove(this.getID(), this.index);
 	}
@@ -649,6 +769,38 @@ public class ArenaObject {
 				return Direction.NONE;
 			}
 			return Direction.NONE;
+		} else if (this.canJump()) {
+			final var app = LaserTankEE.getApplication();
+			final var px = app.getGameManager().getPlayerManager().getPlayerLocationX();
+			final var py = app.getGameManager().getPlayerManager().getPlayerLocationY();
+			if (forceUnits > this.getMinimumReactionForce() && this.jumpRows == 0 && this.jumpCols == 0) {
+				this.pushCrushAction(locX, locY, locZ);
+				return Direction.NONE;
+			}
+			if (!this.jumpShot) {
+				this.jumpShot = true;
+				this.dir1X = (int) Math.signum(px - locX);
+				this.dir1Y = (int) Math.signum(py - locY);
+				Sounds.play(Sound.PREPARE);
+				return Direction.NONE;
+			}
+			this.jumpShot = false;
+			this.dir2X = (int) Math.signum(px - locX);
+			this.dir2Y = (int) Math.signum(py - locY);
+			if (this.dir1X != 0 && this.dir2X != 0 || this.dir1Y != 0 && this.dir2Y != 0) {
+				Sounds.play(Sound.LASER_DIE);
+				return Direction.NONE;
+			} else {
+				if (this.dir1X == 0 && this.dir2X == 1 && this.dir1Y == -1 && this.dir2Y == 0
+						|| this.dir1X == 0 && this.dir2X == -1 && this.dir1Y == 1 && this.dir2Y == 0
+						|| this.dir1X == 1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == -1
+						|| this.dir1X == -1 && this.dir2X == 0 && this.dir1Y == 0 && this.dir2Y == 1) {
+					this.flip = true;
+				} else {
+					this.flip = false;
+				}
+				return Direction.NONE;
+			}
 		}
 		final var dir = DirectionHelper.resolveRelative(dirX, dirY);
 		if (this.isSolid()) {
@@ -1131,6 +1283,14 @@ public class ArenaObject {
 
 	public void setEnabled(final boolean value) {
 		this.imageEnabled = value;
+	}
+
+	public final void setJumpCols(final int njc) {
+		this.jumpCols = njc;
+	}
+
+	public final void setJumpRows(final int njr) {
+		this.jumpRows = njr;
 	}
 
 	public void setPairX(final int newPairX) {
