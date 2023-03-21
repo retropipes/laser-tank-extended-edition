@@ -6,7 +6,7 @@ import java.awt.Graphics;
 import javax.swing.JPanel;
 
 import com.puttysoftware.diane.gui.DrawGrid;
-import com.puttysoftware.lasertank.asset.Images;
+import com.puttysoftware.lasertank.assets.Images;
 
 class EditorDraw extends JPanel {
 	private static final long serialVersionUID = 35935343464625L;

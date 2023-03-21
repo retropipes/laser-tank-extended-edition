@@ -1,7 +1,7 @@
 # Project-specific
-asset
+assets
 .classpath
 .project
 .settings
 !laser-tank-extended-edition/modules/*.module.jar
-!laser-tank-extended-edition/src/com/puttysoftware/lasertank/asset
+!laser-tank-extended-edition/src/com/puttysoftware/lasertank/assets

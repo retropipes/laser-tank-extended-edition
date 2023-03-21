@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.asset;
+package com.puttysoftware.lasertank.assets;
 
 import java.net.URL;
 import java.util.Locale;

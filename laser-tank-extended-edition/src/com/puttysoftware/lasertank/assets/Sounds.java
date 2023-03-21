@@ -1,4 +1,4 @@
-package com.puttysoftware.lasertank.asset;
+package com.puttysoftware.lasertank.assets;
 
 import com.puttysoftware.diane.asset.sound.DianeSoundPlayer;
 

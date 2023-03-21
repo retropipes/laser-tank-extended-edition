@@ -18,7 +18,7 @@ import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.asset.Logos;
+import com.puttysoftware.lasertank.assets.Logos;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;

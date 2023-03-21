@@ -6,8 +6,8 @@
 package com.puttysoftware.lasertank.arena.objects;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
+import com.puttysoftware.lasertank.assets.Sound;
+import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;

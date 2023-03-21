@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 

@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.asset;
+package com.puttysoftware.lasertank.assets;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;

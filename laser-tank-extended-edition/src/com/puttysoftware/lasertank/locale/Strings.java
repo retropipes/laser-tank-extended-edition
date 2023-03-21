@@ -11,7 +11,7 @@ import java.util.ResourceBundle;
 
 import com.puttysoftware.diane.fileio.utility.ResourceStreamReader;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.asset.Images;
+import com.puttysoftware.lasertank.assets.Images;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.EraHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;

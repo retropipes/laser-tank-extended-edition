@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.asset;
+package com.puttysoftware.lasertank.assets;
 
 import java.awt.Font;
 import java.io.IOException;
