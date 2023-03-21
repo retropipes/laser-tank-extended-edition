@@ -11,7 +11,8 @@ import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
+import com.puttysoftware.lasertank.arena.ArenaData;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameColor;
@@ -34,14 +35,14 @@ class V4FileLevel {
 	private static final int DIFFICULTY_SIZE = 2;
 
 	// Methods
-	static CurrentArenaData loadAndConvert(final FileInputStream file, final Arena a) {
+	static ArenaData loadAndConvert(final FileInputStream file, final Arena a) {
 		try {
 			V4FileLevel.objects = new byte[V4FileLevel.OBJECTS_SIZE];
 			V4FileLevel.name = new byte[V4FileLevel.NAME_SIZE];
 			V4FileLevel.hint = new byte[V4FileLevel.HINT_SIZE];
 			V4FileLevel.author = new byte[V4FileLevel.AUTHOR_SIZE];
 			V4FileLevel.difficulty = new byte[V4FileLevel.DIFFICULTY_SIZE];
-			final var t = new CurrentArenaData();
+			final var t = ArenaManager.createArenaData();
 			// Convert object byte map
 			var bytesRead = file.read(V4FileLevel.objects, 0, V4FileLevel.OBJECTS_SIZE);
 			if (bytesRead != V4FileLevel.OBJECTS_SIZE) {

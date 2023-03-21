@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
+import com.puttysoftware.lasertank.arena.CurrentArenaLocks;
 import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
@@ -33,7 +33,7 @@ class AnimationTask extends Thread {
 				for (var x = 0; x < maxX; x++) {
 					for (var y = 0; y < maxY; y++) {
 						for (var w = 0; w < maxW; w++) {
-							synchronized (CurrentArenaData.LOCK_OBJECT) {
+							synchronized (CurrentArenaLocks.LOCK_OBJECT) {
 								final var oldFN = a.getCell(x, y, pz, w).getFrameNumber();
 								a.getCell(x, y, pz, w).nextFrame();
 								final var newFN = a.getCell(x, y, pz, w).getFrameNumber();

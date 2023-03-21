@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.current;
+package com.puttysoftware.lasertank.arena;
 
 import java.io.IOException;
 
@@ -11,9 +11,6 @@ import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.diane.storage.FlagStorage;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.ArenaData;
-import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.asset.Sound;
@@ -31,9 +28,7 @@ import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
-public final class CurrentArenaData extends ArenaData {
-	public static final CurrentArenaLock LOCK_OBJECT = new CurrentArenaLock();
-
+final class CurrentArenaData extends ArenaData {
 	private static CurrentArenaData readDataG1(final Arena arena, final DataIOReader reader,
 			final GameFormat formatVersion) throws IOException {
 		int y, x, z, arenaSizeX, arenaSizeY, arenaSizeZ;

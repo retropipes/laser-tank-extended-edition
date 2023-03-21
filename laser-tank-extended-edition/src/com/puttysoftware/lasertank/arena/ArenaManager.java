@@ -16,7 +16,6 @@ import com.puttysoftware.diane.fileio.utility.FilenameChecker;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.current.CurrentArena;
 import com.puttysoftware.lasertank.arena.fileio.LoadTask;
 import com.puttysoftware.lasertank.arena.fileio.SaveTask;
 import com.puttysoftware.lasertank.arena.v4.V4LevelLoadTask;
@@ -35,6 +34,11 @@ public class ArenaManager {
 	// Methods
 	public static Arena createArena() throws IOException {
 		return new CurrentArena();
+	}
+
+	// Used for conversion
+	public static ArenaData createArenaData() {
+		return new CurrentArenaData();
 	}
 
 	private static String getExtension(final String s) {

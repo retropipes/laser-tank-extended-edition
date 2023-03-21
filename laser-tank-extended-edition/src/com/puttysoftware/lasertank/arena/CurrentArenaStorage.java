@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.current;
+package com.puttysoftware.lasertank.arena;
 
 import com.puttysoftware.diane.storage.ObjectStorage;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;

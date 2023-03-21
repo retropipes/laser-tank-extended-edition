@@ -8,14 +8,14 @@ package com.puttysoftware.lasertank.arena.v4;
 import java.io.FileInputStream;
 
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.current.CurrentArenaData;
+import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 class V4File {
 	static void loadOldFile(final Arena a, final FileInputStream file) throws InvalidArenaException {
-		CurrentArenaData t = null;
+		ArenaData t = null;
 		var levelCount = 0;
 		do {
 			a.switchLevel(levelCount);

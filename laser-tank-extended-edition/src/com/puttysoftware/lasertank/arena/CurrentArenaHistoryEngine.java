@@ -1,6 +1,4 @@
-package com.puttysoftware.lasertank.arena.current;
-
-import com.puttysoftware.lasertank.arena.HistoryStatus;
+package com.puttysoftware.lasertank.arena;
 
 class CurrentArenaHistoryEngine {
 	// Fields

@@ -1,8 +1,6 @@
-package com.puttysoftware.lasertank.arena.current;
+package com.puttysoftware.lasertank.arena;
 
 import java.util.ArrayDeque;
-
-import com.puttysoftware.lasertank.arena.HistoryStatus;
 
 class CurrentArenaHistoryStack {
 	// Fields

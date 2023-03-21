@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.arena.current;
+package com.puttysoftware.lasertank.arena;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,9 +15,6 @@ import com.puttysoftware.diane.fileio.XDataReader;
 import com.puttysoftware.diane.fileio.XDataWriter;
 import com.puttysoftware.diane.fileio.utility.FileUtilities;
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.arena.ArenaData;
-import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.fileio.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.fileio.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
@@ -38,7 +35,7 @@ import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.IDGenerator;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
-public class CurrentArena extends Arena {
+class CurrentArena extends Arena {
 	private static String convertDifficultyNumberToName(final int number) {
 		return DifficultyHelper.getNames()[number - 1];
 	}
