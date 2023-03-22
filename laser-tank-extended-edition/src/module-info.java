@@ -6,5 +6,5 @@
  * products@puttysoftware.com
  */
 module com.puttysoftware.lasertankee {
-    requires com.puttysoftware.diane;
+    requires java.desktop;
 }

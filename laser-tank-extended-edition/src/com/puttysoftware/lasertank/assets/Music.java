@@ -22,7 +22,8 @@ public enum Music implements DianeMusicIndex {
 
     @Override
     public URL getURL() {
-        return Music.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_PATH) + this.getName()
-                + GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION));
+        var path = GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_PATH) + this.getName()
+        + GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION);
+        return Music.class.getResource(path);
     }
 }

@@ -1,0 +1,19 @@
+/*  Diane Game Engine
+Copyleft (C) 2019 Eric Ahnell
+
+Any questions should be directed to the author via email at: support@puttysoftware.com
+ */
+package com.puttysoftware.diane.point;
+
+public class Point1D {
+    public int x;
+
+    public Point1D() {
+        super();
+    }
+
+    public Point1D(final int nx) {
+        super();
+        x = nx;
+    }
+}
