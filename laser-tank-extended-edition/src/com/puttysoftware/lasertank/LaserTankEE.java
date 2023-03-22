@@ -40,6 +40,7 @@ public class LaserTankEE {
 	static String ERROR_TITLE = null;
 	static String WARNING_MESSAGE = null;
 	static String WARNING_TITLE = null;
+	private static boolean DIALOG_SHOWING = false;
 	private static final int CONTENT_SIZE = 768;
 	private static MainWindow masterFrame;
 	private static AboutDialog about;
@@ -84,14 +85,20 @@ public class LaserTankEE {
 	}
 
 	public static void logError(final Throwable t) {
-		new Thread() {
-            @Override
-            public void run() {
-                Sounds.play(Sound.ERROR);
-                CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
-                Diane.handleError(t);
-            }
-        }.start();
+		if (!DIALOG_SHOWING) {
+			DIALOG_SHOWING = true;
+			new Thread() {
+				@Override
+				public void run() {
+					Sounds.play(Sound.ERROR);
+					CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
+					DIALOG_SHOWING = false;
+					Diane.handleError(t);
+				}
+			}.start();
+		} else {
+			logErrorDirectly(t);
+		}
 	}
 
 	public static void logErrorDirectly(final Throwable t) {
@@ -100,13 +107,19 @@ public class LaserTankEE {
 
 	public static void logWarning(final Throwable t) {
 		Diane.handleWarning(t);
-        new Thread() {
-            @Override
-            public void run() {
-                Sounds.play(Sound.ERROR);
-                CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
-            }
-        }.start();
+		if (!DIALOG_SHOWING) {
+			DIALOG_SHOWING = true;
+			new Thread() {
+				@Override
+				public void run() {
+					Sounds.play(Sound.ERROR);
+					CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
+					DIALOG_SHOWING = false;
+				}
+			}.start();
+		} else {
+			logWarningDirectly(t);
+		}
 	}
 
 	public static void logWarningDirectly(final Throwable t) {
