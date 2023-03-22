@@ -18,6 +18,7 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
 
 import com.puttysoftware.diane.asset.image.BufferedImageIcon;
 import com.puttysoftware.diane.gui.MainWindow;
@@ -41,7 +42,9 @@ class InputDialog {
 		iconPane.add(iconLabel);
 		final var mainPane = new JPanel();
 		mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
-		final var textLabel = new JLabel(text);
+		final var textLabel = new JTextArea(text);
+		textLabel.setEditable(false);
+		textLabel.setLineWrap(true);
 		mainPane.add(textLabel);
 		mainPane.add(Box.createRigidArea(new Dimension(0, 5)));
 		mainPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));

@@ -82,7 +82,7 @@ public class LaserTankEE {
 	}
 
 	public static void logError(final Throwable t) {
-		CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
+		CommonDialogs.showErrorDialogLater(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
 		Diane.handleError(t);
 	}
 
@@ -92,7 +92,7 @@ public class LaserTankEE {
 
 	public static void logWarning(final Throwable t) {
 		Diane.handleWarning(t);
-		CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
+		CommonDialogs.showTitledDialogLater(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
 	}
 
 	public static void logWarningDirectly(final Throwable t) {

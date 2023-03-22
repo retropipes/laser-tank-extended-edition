@@ -120,6 +120,25 @@ public class CommonDialogs {
         }
     }
 
+    // Methods
+    /**
+     * Displays a dialog in a new thread.
+     *
+     * @param msg The dialog message.
+     */
+    public static void showDialogLater(final String msg) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    GeneralDialog.showDialog(msg, CommonDialogs.DEFAULT_TITLE, CommonDialogs.ICON).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Diane.handleError(e);
+                }
+            }
+        }.start();
+    }
+
     /**
      * Displays an error dialog with the default title.
      *
@@ -134,6 +153,24 @@ public class CommonDialogs {
     }
 
     /**
+     * Displays an error dialog with the default title in a new thread.
+     *
+     * @param msg The dialog message.
+     */
+    public static void showErrorDialogLater(final String msg) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    GeneralDialog.showDialog(msg, CommonDialogs.DEFAULT_TITLE, CommonDialogs.ICON).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Diane.handleError(e);
+                }
+            }
+        }.start();
+    }
+
+    /**
      * Displays an error dialog with a title.
      *
      * @param msg   The dialog message.
@@ -145,6 +182,25 @@ public class CommonDialogs {
         } catch (InterruptedException | ExecutionException e) {
             Diane.handleError(e);
         }
+    }
+
+    /**
+     * Displays an error dialog with a title in a new thread.
+     *
+     * @param msg   The dialog message.
+     * @param title The dialog title.
+     */
+    public static void showErrorDialogLater(final String msg, final String title) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    GeneralDialog.showDialog(msg, title, CommonDialogs.ICON).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Diane.handleError(e);
+                }
+            }
+        }.start();
     }
 
     public static File showFileOpenDialog(final File dir, final FilenameFilter filter, final String prompt) {
@@ -287,6 +343,25 @@ public class CommonDialogs {
         } catch (InterruptedException | ExecutionException e) {
             Diane.handleError(e);
         }
+    }
+
+    /**
+     * Displays a dialog with a title in a new thread.
+     *
+     * @param msg   The dialog message.
+     * @param title The dialog title.
+     */
+    public static void showTitledDialogLater(final String msg, final String title) {
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    GeneralDialog.showDialog(msg, title, CommonDialogs.ICON).get();
+                } catch (InterruptedException | ExecutionException e) {
+                    Diane.handleError(e);
+                }
+            }
+        }.start();
     }
 
     /**
