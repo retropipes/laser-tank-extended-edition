@@ -92,7 +92,6 @@ class CurrentArena extends Arena {
 			try (var writer = this.getLevelWriter()) {
 				// Save old level
 				this.writeArenaLevel(writer);
-				writer.close();
 			} catch (final IOException ioe) {
 				throw new InvalidArenaException(ioe);
 			}
@@ -753,7 +752,6 @@ class CurrentArena extends Arena {
 				try (var writer = this.getLevelWriter()) {
 					// Save old level
 					this.writeArenaLevel(writer);
-					writer.close();
 				} catch (final IOException ioe) {
 					throw new InvalidArenaException(ioe);
 				}
@@ -763,7 +761,6 @@ class CurrentArena extends Arena {
 			try (var reader = this.getLevelReaderG6()) {
 				// Load new level
 				this.readArenaLevel(reader);
-				reader.close();
 			} catch (final IOException ioe) {
 				throw new InvalidArenaException(ioe);
 			}
