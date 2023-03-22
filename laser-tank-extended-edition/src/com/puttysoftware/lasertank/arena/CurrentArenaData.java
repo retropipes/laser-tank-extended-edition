@@ -26,6 +26,7 @@ import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
 final class CurrentArenaData extends ArenaData {
@@ -299,12 +300,14 @@ final class CurrentArenaData extends ArenaData {
 	public CurrentArenaData() {
 		this.data = new CurrentArenaStorage(ArenaData.MIN_COLUMNS, ArenaData.MIN_ROWS, ArenaData.MIN_FLOORS,
 				LayerHelper.COUNT);
+		this.dirtyData = new FlagStorage(ArenaData.MIN_COLUMNS, ArenaData.MIN_ROWS, ArenaData.MIN_FLOORS);
+		this.fillDefault();
 		this.virtualData = new CurrentArenaStorage(ArenaData.MIN_COLUMNS, ArenaData.MIN_ROWS, ArenaData.MIN_FLOORS,
 				LayerHelper.VIRTUAL_COUNT);
 		this.fillVirtual();
-		this.dirtyData = new FlagStorage(ArenaData.MIN_COLUMNS, ArenaData.MIN_ROWS, ArenaData.MIN_FLOORS);
 		this.savedState = new CurrentArenaStorage(ArenaData.MIN_ROWS, ArenaData.MIN_COLUMNS, ArenaData.MIN_FLOORS,
 				LayerHelper.COUNT);
+		this.fillSavedState();
 		this.foundX = -1;
 		this.foundY = -1;
 		this.iue = new CurrentArenaHistoryEngine();
@@ -548,6 +551,44 @@ final class CurrentArenaData extends ArenaData {
 							this.setCell(arena, fill, y, x, z, w);
 						} else {
 							this.setCell(arena, new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private final void fillDefault() {
+		ArenaObject fill = Settings.getEditorDefaultFill();
+		int y, x, z, w;
+		for (x = 0; x < this.getColumns(); x++) {
+			for (y = 0; y < this.getRows(); y++) {
+				for (z = 0; z < this.getFloors(); z++) {
+					for (w = 0; w < LayerHelper.COUNT; w++) {
+						if (w == Layer.LOWER_GROUND.ordinal()) {
+							this.data.setArenaDataCell(fill, y, x, z, w);
+							this.dirtyData.setCell(true, y, x, z);
+						} else {
+							this.data.setArenaDataCell(new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
+							this.dirtyData.setCell(true, y, x, z);
+						}
+					}
+				}
+			}
+		}
+	}
+
+	private final void fillSavedState() {
+		ArenaObject fill = Settings.getEditorDefaultFill();
+		int y, x, z, w;
+		for (x = 0; x < this.getColumns(); x++) {
+			for (y = 0; y < this.getRows(); y++) {
+				for (z = 0; z < this.getFloors(); z++) {
+					for (w = 0; w < LayerHelper.COUNT; w++) {
+						if (w == Layer.LOWER_GROUND.ordinal()) {
+							this.savedState.setArenaDataCell(fill, y, x, z, w);
+						} else {
+							this.savedState.setArenaDataCell(new ArenaObject(GameObjectID.PLACEHOLDER), y, x, z, w);
 						}
 					}
 				}
