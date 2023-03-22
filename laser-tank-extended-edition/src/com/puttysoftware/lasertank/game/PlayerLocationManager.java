@@ -46,13 +46,15 @@ final class PlayerLocationManager {
 
 	void resetPlayerLocation() {
 		final var a = LaserTankEE.getArenaManager().getArena();
-		for (var pi = 0; pi < Players.COUNT; pi++) {
-			final var found = a.findPlayer(pi);
-			if (found != null) {
-				final var valX = found[0];
-				final var valY = found[1];
-				final var valZ = found[2];
-				this.initPlayerLocation(valX, valY, valZ, pi);
+		if (a != null) {
+			for (var pi = 0; pi < Players.COUNT; pi++) {
+				final var found = a.findPlayer(pi);
+				if (found != null) {
+					final var valX = found[0];
+					final var valY = found[1];
+					final var valZ = found[2];
+					this.initPlayerLocation(valX, valY, valZ, pi);
+				}
 			}
 		}
 	}
