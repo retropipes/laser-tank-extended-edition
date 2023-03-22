@@ -88,6 +88,7 @@ class CurrentArena extends Arena {
 		if (this.levelCount >= Arena.MAX_LEVELS) {
 			return false;
 		}
+		// Save old data, if any
 		if (this.arenaData != null) {
 			try (var writer = this.getLevelWriter()) {
 				// Save old level
@@ -96,19 +97,24 @@ class CurrentArena extends Arena {
 				throw new InvalidArenaException(ioe);
 			}
 		}
-		// Add all eras for the new level
-		final var saveEra = this.activeEra;
-		this.arenaData = new CurrentArenaData();
-		for (var e = 0; e < Arena.ERA_COUNT; e++) {
-			this.switchEra(e);
-			this.arenaData = new CurrentArenaData();
-		}
-		this.switchEra(saveEra);
-		// Clean up
+		// Create new level data
 		this.levelCount++;
 		this.activeLevel = this.levelCount - 1;
 		this.levelInfoData.add(new CurrentArenaLevelInfo());
 		this.levelInfoList.add(this.generateCurrentLevelInfo());
+		this.arenaData = new CurrentArenaData();
+		// Write all eras for the new level
+		final var saveEra = this.activeEra;
+		for (var e = 0; e < Arena.ERA_COUNT; e++) {
+			this.activeEra = e;
+			try (var writer = this.getLevelWriter()) {
+				this.writeArenaLevel(writer);
+			} catch (final IOException ioe) {
+				throw new InvalidArenaException(ioe);
+			}
+		}
+		// Clean up
+		this.activeEra = saveEra;
 		return true;
 	}
 
