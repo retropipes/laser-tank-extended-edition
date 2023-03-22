@@ -258,7 +258,8 @@ final class MovingLaserTracker {
 				// Ignore
 			}
 			try {
-				m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
+				m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX,
+						this.oy + this.cumY - this.incY, pz,
 						this.l.getLayer());
 			} catch (final ArrayIndexOutOfBoundsException aioobe) {
 				// Ignore
@@ -280,7 +281,8 @@ final class MovingLaserTracker {
 				this.res = false;
 				// Clear laser, because it died
 				try {
-					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX,
+							this.oy + this.cumY, pz, this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore
 				}
@@ -301,7 +303,8 @@ final class MovingLaserTracker {
 				this.res = false;
 				// Clear laser, because it died
 				try {
-					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX,
+							this.oy + this.cumY, pz, this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore
 				}
@@ -326,7 +329,8 @@ final class MovingLaserTracker {
 			}
 			if (oldLaserDir != laserDir && tracking) {
 				try {
-					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz,
+					m.setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER), this.ox + this.cumX - this.incX,
+							this.oy + this.cumY - this.incY, pz,
 							this.l.getLayer());
 				} catch (final ArrayIndexOutOfBoundsException aioobe) {
 					// Ignore

@@ -12,6 +12,6 @@ final class AckInternalStrings {
     }
 
     static String load(final int index) {
-	return ResourceBundle.getBundle("locale.ack.internal").getString(Integer.toString(index));
+        return ResourceBundle.getBundle("locale.ack.internal").getString(Integer.toString(index));
     }
 }

@@ -23,7 +23,7 @@ public enum Music implements DianeMusicIndex {
     @Override
     public URL getURL() {
         var path = GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_PATH) + this.getName()
-        + GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION);
+                + GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION);
         return Music.class.getResource(path);
     }
 }

@@ -11,7 +11,7 @@ import com.puttysoftware.diane.asset.sound.DianeSoundIndex;
 
 public class DefaultAssets {
     private DefaultAssets() {
-	// Unused
+        // Unused
     }
 
     public static final DianeImageIndex NO_IMAGE = null;

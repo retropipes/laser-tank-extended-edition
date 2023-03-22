@@ -855,7 +855,8 @@ public class Editor extends Screen {
 		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ, template.getLayer());
+			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
+					template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}
@@ -880,7 +881,8 @@ public class Editor extends Screen {
 		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ, template.getLayer());
+			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
+					template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}

@@ -11,7 +11,7 @@ public final class DianeSoundPlayer {
 
     // Methods
     public static void play(final DianeSoundIndex index) {
-	new SoundResource(index.getURL()).play();
+        new SoundResource(index.getURL()).play();
     }
 
     // Constructor

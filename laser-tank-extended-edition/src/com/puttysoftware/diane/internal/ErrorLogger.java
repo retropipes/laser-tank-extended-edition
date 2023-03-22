@@ -11,18 +11,18 @@ public final class ErrorLogger {
 
     // Constructor
     public ErrorLogger(final String programName) {
-	this.name = programName;
+        this.name = programName;
     }
 
     // Methods
     public void logError(final Throwable t) {
-	final var elw = new ErrorLogWriter(t, this.name);
-	elw.writeErrorInfo();
-	System.exit(1);
+        final var elw = new ErrorLogWriter(t, this.name);
+        elw.writeErrorInfo();
+        System.exit(1);
     }
 
     public void logWarning(final Throwable t) {
-	final var wlw = new WarningLogWriter(t, this.name);
-	wlw.writeLogInfo();
+        final var wlw = new WarningLogWriter(t, this.name);
+        wlw.writeLogInfo();
     }
 }

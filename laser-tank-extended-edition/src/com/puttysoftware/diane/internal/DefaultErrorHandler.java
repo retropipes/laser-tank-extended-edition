@@ -12,17 +12,17 @@ public class DefaultErrorHandler implements ErrorHandler {
     private final ErrorLogger logger;
 
     public DefaultErrorHandler(final String name) {
-	this.programName = name;
-	this.logger = new ErrorLogger(this.programName);
+        this.programName = name;
+        this.logger = new ErrorLogger(this.programName);
     }
 
     @Override
     public void uncaughtException(Thread t, Throwable e) {
-	this.logger.logError(e);
+        this.logger.logError(e);
     }
 
     @Override
     public void handleWarning(final Throwable t) {
-	this.logger.logWarning(t);
+        this.logger.logWarning(t);
     }
 }
