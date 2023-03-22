@@ -26,7 +26,7 @@ class AnimationTask extends Thread {
 		try {
 			final var a = LaserTankEE.getArenaManager().getArena();
 			while (!this.stop) {
-				final var pz = LaserTankEE.getGame().getPlayerManager().getPlayerLocationZ();
+				final var pz = LaserTankEE.getGame().getPlayerLocationZ();
 				final var maxX = a.getRows();
 				final var maxY = a.getColumns();
 				final var maxW = LayerHelper.COUNT;

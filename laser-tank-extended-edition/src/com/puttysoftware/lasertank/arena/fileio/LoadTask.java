@@ -96,7 +96,7 @@ public class LoadTask extends Thread {
 			LaserTankEE.getArenaManager().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				LaserTankEE.getGame().getPlayerManager().resetPlayerLocation();
+				LaserTankEE.getGame().resetPlayerLocation();
 			}
 			if (!this.isSavedGame) {
 				gameArena.save();

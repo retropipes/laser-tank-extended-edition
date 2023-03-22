@@ -21,10 +21,9 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 final class MovingLaserTracker {
 	private static boolean canMoveThere(final int sx, final int sy) {
 		final var gm = LaserTankEE.getGame();
-		final var plMgr = gm.getPlayerManager();
-		final var px = plMgr.getPlayerLocationX();
-		final var py = plMgr.getPlayerLocationY();
-		final var pz = plMgr.getPlayerLocationZ();
+		final var px = gm.getPlayerLocationX();
+		final var py = gm.getPlayerLocationY();
+		final var pz = gm.getPlayerLocationZ();
 		final var m = LaserTankEE.getArenaManager().getArena();
 		var zproceed = true;
 		ArenaObject zo = null;
@@ -201,8 +200,7 @@ final class MovingLaserTracker {
 
 	void clearLastLaser() {
 		final var gm = LaserTankEE.getGame();
-		final var plMgr = gm.getPlayerManager();
-		final var pz = plMgr.getPlayerLocationZ();
+		final var pz = gm.getPlayerLocationZ();
 		if (this.laser) {
 			// Clear last laser
 			try {
@@ -223,10 +221,9 @@ final class MovingLaserTracker {
 	private void doLasersOnce(final boolean tracking) {
 		final var g = new ArenaObject(GameObjectID.GROUND);
 		final var gm = LaserTankEE.getGame();
-		final var plMgr = LaserTankEE.getGame().getPlayerManager();
-		final var px = plMgr.getPlayerLocationX();
-		final var py = plMgr.getPlayerLocationY();
-		final var pz = plMgr.getPlayerLocationZ();
+		final var px = gm.getPlayerLocationX();
+		final var py = gm.getPlayerLocationY();
+		final var pz = gm.getPlayerLocationZ();
 		final var m = LaserTankEE.getArenaManager().getArena();
 		ArenaObject lol = null;
 		ArenaObject lou = null;

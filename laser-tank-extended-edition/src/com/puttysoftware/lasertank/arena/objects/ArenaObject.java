@@ -46,8 +46,8 @@ public class ArenaObject {
 	}
 
 	private static void checkTunnelsOfColor(final GameColor color) {
-		final var tx = LaserTankEE.getGame().getPlayerManager().getPlayerLocationX();
-		final var ty = LaserTankEE.getGame().getPlayerManager().getPlayerLocationY();
+		final var tx = LaserTankEE.getGame().getPlayerLocationX();
+		final var ty = LaserTankEE.getGame().getPlayerLocationY();
 		final var pgrmdest = LaserTankEE.getArenaManager().getArena().circularScanTunnel(0, 0, 0,
 				TUNNEL_SCAN_RADIUS,
 				tx, ty, getTunnelOfColor(color), false);
@@ -797,8 +797,8 @@ public class ArenaObject {
 				}
 				return Direction.NONE;
 			} else if (this.canJump()) {
-				final var px = LaserTankEE.getGame().getPlayerManager().getPlayerLocationX();
-				final var py = LaserTankEE.getGame().getPlayerManager().getPlayerLocationY();
+				final var px = LaserTankEE.getGame().getPlayerLocationX();
+				final var py = LaserTankEE.getGame().getPlayerLocationY();
 				if (forceUnits > this.getMinimumReactionForce() && this.jumpRows == 0 && this.jumpCols == 0) {
 					this.pushCrushAction(locX, locY, locZ);
 					return Direction.NONE;
@@ -1024,8 +1024,8 @@ public class ArenaObject {
 			LaserTankEE.getGame().updatePositionAbsoluteNoEvents(n);
 		}
 		if (this.isTunnel()) {
-			final var tx = LaserTankEE.getGame().getPlayerManager().getPlayerLocationX();
-			final var ty = LaserTankEE.getGame().getPlayerManager().getPlayerLocationY();
+			final var tx = LaserTankEE.getGame().getPlayerLocationX();
+			final var ty = LaserTankEE.getGame().getPlayerLocationY();
 			final var pgrmdest = LaserTankEE.getArenaManager().getArena().circularScanTunnel(dirX, dirY, dirZ,
 					TUNNEL_SCAN_RADIUS, tx, ty, getTunnelOfColor(this.getColor()), true);
 			if (pgrmdest != null) {
@@ -1067,8 +1067,8 @@ public class ArenaObject {
 	 */
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (this.isTunnel()) {
-			final var tx = LaserTankEE.getGame().getPlayerManager().getPlayerLocationX();
-			final var ty = LaserTankEE.getGame().getPlayerManager().getPlayerLocationY();
+			final var tx = LaserTankEE.getGame().getPlayerLocationX();
+			final var ty = LaserTankEE.getGame().getPlayerLocationY();
 			final var color = this.getColor();
 			final var pgrmdest = LaserTankEE.getArenaManager().getArena().circularScanTunnel(x, y, z,
 					TUNNEL_SCAN_RADIUS,

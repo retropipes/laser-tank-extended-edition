@@ -52,7 +52,7 @@ public class V4LevelLoadTask extends Thread {
 			LaserTankEE.getArenaManager().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				LaserTankEE.getGame().getPlayerManager().resetPlayerLocation();
+				LaserTankEE.getGame().resetPlayerLocation();
 			}
 			gameArena.save();
 			// Final cleanup

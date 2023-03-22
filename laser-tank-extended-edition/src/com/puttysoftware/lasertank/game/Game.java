@@ -131,8 +131,8 @@ public class Game extends Screen {
 			try {
 				final var gm = Game.this;
 				gm.setLaserType(LaserType.BLUE);
-				final var px = gm.getPlayerManager().getPlayerLocationX();
-				final var py = gm.getPlayerManager().getPlayerLocationY();
+				final var px = gm.getPlayerLocationX();
+				final var py = gm.getPlayerLocationY();
 				Game.this.fireLaser(px, py, gm.tank);
 			} catch (final Exception ex) {
 				LaserTankEE.logError(ex);
@@ -265,8 +265,8 @@ public class Game extends Screen {
 			try {
 				final var gm = Game.this;
 				gm.setLaserType(LaserType.GREEN);
-				final var px = gm.getPlayerManager().getPlayerLocationX();
-				final var py = gm.getPlayerManager().getPlayerLocationY();
+				final var px = gm.getPlayerLocationX();
+				final var py = gm.getPlayerLocationY();
 				Game.this.fireLaser(px, py, gm.tank);
 			} catch (final Exception ex) {
 				LaserTankEE.logError(ex);
@@ -308,8 +308,8 @@ public class Game extends Screen {
 			try {
 				final var gm = Game.this;
 				gm.setLaserType(LaserType.MISSILE);
-				final var px = gm.getPlayerManager().getPlayerLocationX();
-				final var py = gm.getPlayerManager().getPlayerLocationY();
+				final var px = gm.getPlayerLocationX();
+				final var py = gm.getPlayerLocationY();
 				Game.this.fireLaser(px, py, gm.tank);
 			} catch (final Exception ex) {
 				LaserTankEE.logError(ex);
@@ -345,8 +345,8 @@ public class Game extends Screen {
 			try {
 				final var gm = Game.this;
 				gm.setLaserType(LaserType.STUNNER);
-				final var px = gm.getPlayerManager().getPlayerLocationX();
-				final var py = gm.getPlayerManager().getPlayerLocationY();
+				final var px = gm.getPlayerLocationX();
+				final var py = gm.getPlayerLocationY();
 				Game.this.fireLaser(px, py, gm.tank);
 			} catch (final Exception ex) {
 				LaserTankEE.logError(ex);
@@ -439,8 +439,8 @@ public class Game extends Screen {
 			final var gm = Game.this;
 			final var x = me.getX();
 			final var y = me.getY();
-			final var px = gm.getPlayerManager().getPlayerLocationX();
-			final var py = gm.getPlayerManager().getPlayerLocationY();
+			final var px = gm.getPlayerLocationX();
+			final var py = gm.getPlayerLocationY();
 			final var destX = (int) Math.signum(x / Images.getGraphicSize() - px);
 			final var destY = (int) Math.signum(y / Images.getGraphicSize() - py);
 			return DirectionHelper.resolveRelative(destX, destY);
@@ -459,8 +459,8 @@ public class Game extends Screen {
 					} else {
 						final var x = e.getX();
 						final var y = e.getY();
-						final var px = gm.getPlayerManager().getPlayerLocationX();
-						final var py = gm.getPlayerManager().getPlayerLocationY();
+						final var px = gm.getPlayerLocationX();
+						final var py = gm.getPlayerLocationY();
 						final var destX = (int) Math.signum(x / Images.getGraphicSize() - px);
 						final var destY = (int) Math.signum(y / Images.getGraphicSize() - py);
 						gm.updatePositionRelative(destX, destY);
@@ -468,8 +468,8 @@ public class Game extends Screen {
 				} else if (e.getButton() == MouseEvent.BUTTON2 || e.getButton() == MouseEvent.BUTTON3) {
 					// Fire Laser
 					gm.setLaserType(LaserType.GREEN);
-					final var px = gm.getPlayerManager().getPlayerLocationX();
-					final var py = gm.getPlayerManager().getPlayerLocationY();
+					final var px = gm.getPlayerLocationX();
+					final var py = gm.getPlayerLocationY();
 					gm.fireLaser(px, py, gm.tank);
 				}
 			} catch (final Exception ex) {
@@ -857,8 +857,8 @@ public class Game extends Screen {
 	}
 
 	void doAction(final GameAction action, final int x, final int y) {
-		final var px = this.getPlayerManager().getPlayerLocationX();
-		final var py = this.getPlayerManager().getPlayerLocationY();
+		final var px = this.getPlayerLocationX();
+		final var py = this.getPlayerLocationY();
 		final var currDir = this.tank.getDirection();
 		final var newDir = DirectionHelper.resolveRelative(x, y);
 		switch (action) {
@@ -1028,8 +1028,52 @@ public class Game extends Screen {
 		return this.cheatStatus[cheatID];
 	}
 
-	public PlayerLocationManager getPlayerManager() {
-		return this.plMgr;
+	public int getActivePlayerNumber() {
+		return this.plMgr.getActivePlayerNumber();
+	}
+
+	public int getPlayerLocationX() {
+		return this.plMgr.getPlayerLocationX();
+	}
+
+	public int getPlayerLocationY() {
+		return this.plMgr.getPlayerLocationY();
+	}
+
+	public int getPlayerLocationZ() {
+		return this.plMgr.getPlayerLocationZ();
+	}
+
+	public void resetPlayerLocation() {
+		this.plMgr.resetPlayerLocation();
+	}
+
+	public void setActivePlayerNumber(final int value) {
+		this.plMgr.setActivePlayerNumber(value);
+	}
+
+	public void setPlayerLocation(final int valX, final int valY, final int valZ) {
+		this.plMgr.setPlayerLocation(valX, valY, valZ);
+	}
+
+	public void togglePlayerInstance() {
+		this.plMgr.togglePlayerInstance();
+	}
+
+	void offsetPlayerLocationX(final int val) {
+		this.plMgr.offsetPlayerLocationX(val);
+	}
+
+	void offsetPlayerLocationY(final int val) {
+		this.plMgr.offsetPlayerLocationY(val);
+	}
+
+	void restorePlayerLocation() {
+		this.plMgr.restorePlayerLocation();
+	}
+
+	void savePlayerLocation() {
+		this.plMgr.savePlayerLocation();
 	}
 
 	public ArenaObject getTank() {

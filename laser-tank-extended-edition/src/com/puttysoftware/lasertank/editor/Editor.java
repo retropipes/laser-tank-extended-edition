@@ -597,7 +597,7 @@ public class Editor extends Screen {
 			}
 		}
 		if (saved) {
-			LaserTankEE.getGame().getPlayerManager().resetPlayerLocation();
+			LaserTankEE.getGame().resetPlayerLocation();
 			Arena a = null;
 			try {
 				a = ArenaManager.createArena();

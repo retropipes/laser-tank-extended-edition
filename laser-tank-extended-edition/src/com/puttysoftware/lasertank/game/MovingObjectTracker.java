@@ -37,8 +37,7 @@ final class MovingObjectTracker {
 
 	void activateObject(final int zx, final int zy, final int pushX, final int pushY, final ArenaObject gmo) {
 		final var gm = LaserTankEE.getGame();
-		final var plMgr = gm.getPlayerManager();
-		final var pz = plMgr.getPlayerLocationZ();
+		final var pz = gm.getPlayerLocationZ();
 		this.objIncX = pushX - zx;
 		this.objIncY = pushY - zy;
 		if (gmo instanceof ArenaObject) {
@@ -74,7 +73,7 @@ final class MovingObjectTracker {
 	private void doJumpObjectOnce(final ArenaObject jumper) {
 		final var m = LaserTankEE.getArenaManager().getArena();
 		final var gm = LaserTankEE.getGame();
-		final var pz = gm.getPlayerManager().getPlayerLocationZ();
+		final var pz = gm.getPlayerLocationZ();
 		try {
 			this.jumpOnMover = false;
 			this.objMultX = jumper.getColumnsToJump();
@@ -182,7 +181,7 @@ final class MovingObjectTracker {
 	private void doNormalObjectOnce() {
 		final var m = LaserTankEE.getArenaManager().getArena();
 		final var gm = LaserTankEE.getGame();
-		final var pz = gm.getPlayerManager().getPlayerLocationZ();
+		final var pz = gm.getPlayerLocationZ();
 		try {
 			if (gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
 				gm.doRemoteDelayedDecay(this.movingObj);
@@ -308,8 +307,7 @@ final class MovingObjectTracker {
 	void trackPart2() {
 		try {
 			final var gm = LaserTankEE.getGame();
-			final var plMgr = gm.getPlayerManager();
-			final var pz = plMgr.getPlayerLocationZ();
+			final var pz = gm.getPlayerLocationZ();
 			if (this.objectMoving) {
 				// Make objects pushed into ice move 2 squares first time
 				if (this.objectCheck && this.objectNewlyActivated
