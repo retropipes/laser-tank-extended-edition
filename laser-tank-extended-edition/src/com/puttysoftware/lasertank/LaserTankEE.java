@@ -17,8 +17,6 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.CommonString;
@@ -36,11 +34,12 @@ import com.puttysoftware.lasertank.settings.Settings;
 public class LaserTankEE {
 	// Constants
 	private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
+	private static CustomErrorHandler errorHandler;
 	static String ERROR_MESSAGE = null;
 	static String ERROR_TITLE = null;
 	static String WARNING_MESSAGE = null;
 	static String WARNING_TITLE = null;
-	private static boolean DIALOG_SHOWING = false;
+	static final boolean DEBUG = true;
 	private static final int CONTENT_SIZE = 768;
 	private static MainWindow masterFrame;
 	private static AboutDialog about;
@@ -85,53 +84,27 @@ public class LaserTankEE {
 	}
 
 	public static void logError(final Throwable t) {
-		if (!DIALOG_SHOWING) {
-			DIALOG_SHOWING = true;
-			new Thread() {
-				@Override
-				public void run() {
-					Sounds.play(Sound.ERROR);
-					CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
-					Diane.handleError(t);
-					DIALOG_SHOWING = false;
-				}
-			}.start();
-		} else {
-			logErrorDirectly(t);
-		}
+		errorHandler.handleError(t);
 	}
 
 	public static void logErrorDirectly(final Throwable t) {
-		Diane.handleError(t);
+		errorHandler.handleErrorDirectly(t);
 	}
 
 	public static void logWarning(final Throwable t) {
-		Diane.handleWarning(t);
-		if (!DIALOG_SHOWING) {
-			DIALOG_SHOWING = true;
-			new Thread() {
-				@Override
-				public void run() {
-					Sounds.play(Sound.ERROR);
-					CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
-					DIALOG_SHOWING = false;
-				}
-			}.start();
-		} else {
-			logWarningDirectly(t);
-		}
+		errorHandler.handleWarning(t);
 	}
 
 	public static void logWarningDirectly(final Throwable t) {
-		Diane.handleWarning(t);
+		errorHandler.handleWarningDirectly(t);
 	}
 
 	private static void initStrings() {
 		Strings.setDefaultLanguage();
-		LaserTankEE.ERROR_TITLE = Strings.loadError(ErrorString.ERROR_TITLE);
-		LaserTankEE.ERROR_MESSAGE = Strings.loadError(ErrorString.ERROR_MESSAGE);
-		LaserTankEE.WARNING_TITLE = Strings.loadError(ErrorString.WARNING_TITLE);
-		LaserTankEE.WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
+		ERROR_TITLE = Strings.loadError(ErrorString.ERROR_TITLE);
+		ERROR_MESSAGE = Strings.loadError(ErrorString.ERROR_MESSAGE);
+		WARNING_TITLE = Strings.loadError(ErrorString.WARNING_TITLE);
+		WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
 	}
 
 	public static void activeLanguageChanged() {
@@ -249,14 +222,15 @@ public class LaserTankEE {
 		final var ni = new Integration();
 		ni.configureLookAndFeel();
 		// Install error handler
-		Diane.installDefaultErrorHandler(LaserTankEE.PROGRAM_NAME);
+		errorHandler = new CustomErrorHandler(PROGRAM_NAME);
+		Diane.installCustomErrorHandler(errorHandler);
 		// Initialize strings
-		LaserTankEE.initStrings();
+		initStrings();
 		// Set Up Common Dialogs
-		CommonDialogs.setDefaultTitle(LaserTankEE.PROGRAM_NAME);
+		CommonDialogs.setDefaultTitle(PROGRAM_NAME);
 		// Create main window
-		MainContentFactory.setContentSize(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
-		MainWindow.createMainWindow(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
+		MainContentFactory.setContentSize(CONTENT_SIZE, CONTENT_SIZE);
+		MainWindow.createMainWindow(CONTENT_SIZE, CONTENT_SIZE);
 		// Create and initialize game
 		masterFrame = MainWindow.mainWindow();
 		mode = null;
@@ -276,12 +250,12 @@ public class LaserTankEE {
 		ni.setPreferencesHandler(new SettingsInvoker());
 		ni.setQuitHandler(getMainScreen());
 		// Set up default error handling
-		final UncaughtExceptionHandler eh = (t, e) -> LaserTankEE.logWarning(e);
+		final UncaughtExceptionHandler eh = (t, e) -> logWarning(e);
 		final Runnable doRun = () -> Thread.currentThread().setUncaughtExceptionHandler(eh);
 		try {
 			SwingUtilities.invokeAndWait(doRun);
 		} catch (InvocationTargetException | InterruptedException e) {
-			LaserTankEE.logError(e);
+			logError(e);
 		}
 		// Display GUI
 		mainScreen.showGUI();
