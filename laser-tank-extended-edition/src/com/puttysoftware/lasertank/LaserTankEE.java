@@ -92,8 +92,8 @@ public class LaserTankEE {
 				public void run() {
 					Sounds.play(Sound.ERROR);
 					CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
-					DIALOG_SHOWING = false;
 					Diane.handleError(t);
+					DIALOG_SHOWING = false;
 				}
 			}.start();
 		} else {
@@ -249,7 +249,7 @@ public class LaserTankEE {
 		final var ni = new Integration();
 		ni.configureLookAndFeel();
 		// Install error handler
-		Diane.installCustomErrorHandler(new LaserTankErrorHandler());
+		Diane.installDefaultErrorHandler(LaserTankEE.PROGRAM_NAME);
 		// Initialize strings
 		LaserTankEE.initStrings();
 		// Set Up Common Dialogs
