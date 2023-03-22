@@ -1,6 +1,7 @@
 package com.puttysoftware.lasertank.assets;
 
 import com.puttysoftware.diane.asset.sound.DianeSoundPlayer;
+import com.puttysoftware.lasertank.settings.Settings;
 
 public class Sounds {
     private Sounds() {
@@ -8,6 +9,8 @@ public class Sounds {
     }
 
     public static void play(final Sound soundID) {
-        DianeSoundPlayer.play(soundID);
+        if (Settings.areSoundsEnabled()) {
+            DianeSoundPlayer.play(soundID);
+        }
     }
 }

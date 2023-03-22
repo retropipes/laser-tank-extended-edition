@@ -39,6 +39,8 @@ import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.HistoryStatus;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.assets.Images;
+import com.puttysoftware.lasertank.assets.Music;
+import com.puttysoftware.lasertank.assets.Musics;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.cheat.Cheats;
@@ -1624,6 +1626,7 @@ public class Game extends Screen {
 		this.addKeyListener(this.handler);
 		this.addWindowListener(this.handler);
 		this.addWindowFocusListener(this.fHandler);
+		Musics.play(Music.GAME);
 	}
 
 	private void setUpDifficultyDialog() {

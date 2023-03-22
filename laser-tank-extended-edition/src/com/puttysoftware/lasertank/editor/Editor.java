@@ -34,6 +34,8 @@ import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.assets.Images;
+import com.puttysoftware.lasertank.assets.Music;
+import com.puttysoftware.lasertank.assets.Musics;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
@@ -1055,6 +1057,7 @@ public class Editor extends Screen {
 	public void showScreenHook() {
 		this.addWindowListener(this.mhandler);
 		this.addWindowFocusListener(this.fHandler);
+		Musics.play(Music.EDITOR);
 	}
 
 	@Override

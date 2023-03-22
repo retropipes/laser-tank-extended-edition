@@ -120,8 +120,8 @@ class SettingsGUI {
 
 	private void loadSettings() {
 		this.enableAnimation.setSelected(Settings.enableAnimation());
-		this.sounds.setSelected(Settings.getSoundsEnabled());
-		this.music.setSelected(Settings.getMusicEnabled());
+		this.sounds.setSelected(Settings.areSoundsEnabled());
+		this.music.setSelected(Settings.isMusicEnabled());
 		this.checkUpdatesStartup.setSelected(Settings.shouldCheckUpdatesAtStartup());
 		this.moveOneAtATime.setSelected(Settings.oneMove());
 		this.actionDelay.setSelectedIndex(Settings.getActionDelay());

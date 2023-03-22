@@ -19,6 +19,8 @@ import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Logos;
+import com.puttysoftware.lasertank.assets.Music;
+import com.puttysoftware.lasertank.assets.Musics;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -89,6 +91,7 @@ public class MainScreen extends Screen implements QuitHandler {
 	protected void showScreenHook() {
 		MainWindow.mainWindow().addWindowListener(this.cHandler);
 		MainWindow.mainWindow().addWindowFocusListener(this.fHandler);
+		Musics.play(Music.MAIN_SCREEN);
 	}
 
 	@Override

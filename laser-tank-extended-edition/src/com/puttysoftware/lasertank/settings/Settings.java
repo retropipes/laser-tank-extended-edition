@@ -81,7 +81,7 @@ public class Settings {
 				Strings.loadCommon(CommonString.EMPTY));
 	}
 
-	public static boolean getMusicEnabled() {
+	public static boolean isMusicEnabled() {
 		return Settings.storeMgr
 				.getBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_ENABLE_MUSIC), true);
 	}
@@ -145,7 +145,7 @@ public class Settings {
 		return (Settings.getActionDelay() + 1) * 10;
 	}
 
-	public static boolean getSoundsEnabled() {
+	public static boolean areSoundsEnabled() {
 		return Settings.storeMgr
 				.getBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_ENABLE_SOUNDS), true);
 	}
