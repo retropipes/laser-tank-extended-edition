@@ -17,6 +17,8 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
 import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.assets.Sound;
+import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.CommonString;
@@ -34,10 +36,10 @@ import com.puttysoftware.lasertank.settings.Settings;
 public class LaserTankEE {
 	// Constants
 	private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
-	private static String ERROR_MESSAGE = null;
-	private static String ERROR_TITLE = null;
-	private static String WARNING_MESSAGE = null;
-	private static String WARNING_TITLE = null;
+	static String ERROR_MESSAGE = null;
+	static String ERROR_TITLE = null;
+	static String WARNING_MESSAGE = null;
+	static String WARNING_TITLE = null;
 	private static final int CONTENT_SIZE = 768;
 	private static MainWindow masterFrame;
 	private static AboutDialog about;
@@ -82,8 +84,14 @@ public class LaserTankEE {
 	}
 
 	public static void logError(final Throwable t) {
-		CommonDialogs.showErrorDialogLater(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
-		Diane.handleError(t);
+		new Thread() {
+            @Override
+            public void run() {
+                Sounds.play(Sound.ERROR);
+                CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
+                Diane.handleError(t);
+            }
+        }.start();
 	}
 
 	public static void logErrorDirectly(final Throwable t) {
@@ -92,7 +100,13 @@ public class LaserTankEE {
 
 	public static void logWarning(final Throwable t) {
 		Diane.handleWarning(t);
-		CommonDialogs.showTitledDialogLater(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
+        new Thread() {
+            @Override
+            public void run() {
+                Sounds.play(Sound.ERROR);
+                CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
+            }
+        }.start();
 	}
 
 	public static void logWarningDirectly(final Throwable t) {
@@ -222,7 +236,7 @@ public class LaserTankEE {
 		final var ni = new Integration();
 		ni.configureLookAndFeel();
 		// Install error handler
-		Diane.installDefaultErrorHandler(LaserTankEE.PROGRAM_NAME);
+		Diane.installCustomErrorHandler(new LaserTankErrorHandler());
 		// Initialize strings
 		LaserTankEE.initStrings();
 		// Set Up Common Dialogs

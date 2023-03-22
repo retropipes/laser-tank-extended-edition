@@ -60,7 +60,8 @@ public enum Sound implements DianeSoundIndex {
     FALL,
     SPRING,
     WARP_OBJECT,
-    WARP_TANK;
+    WARP_TANK,
+    ERROR;
 
     @Override
     public String getName() {
