@@ -903,7 +903,7 @@ public class Game extends Screen {
 		final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
 		if (playerExists) {
 			try {
-				this.resetPlayerLocation();
+				this.resetPlayerToStart();
 			} catch (final InvalidArenaException iae) {
 				// Ignore
 			}
@@ -1210,7 +1210,7 @@ public class Game extends Screen {
 					.switchToNextLevelWithDifficulty(Game.getEnabledDifficulties());
 			if (res) {
 				try {
-					this.resetPlayerLocation();
+					this.resetPlayerToStart();
 				} catch (final InvalidArenaException iae) {
 					CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.TANK_LOCATION),
 							GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
@@ -1273,7 +1273,7 @@ public class Game extends Screen {
 
 	private void processLevelExists() {
 		try {
-			this.resetPlayerLocation();
+			this.resetPlayerToStart();
 		} catch (final InvalidArenaException iae) {
 			CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.TANK_LOCATION),
 					GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
@@ -1410,7 +1410,7 @@ public class Game extends Screen {
 				this.updateScore(1, 0, 0);
 			}
 			try {
-				this.resetPlayerLocation();
+				this.resetPlayerToStart();
 			} catch (final InvalidArenaException iae) {
 				CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.TANK_LOCATION),
 						GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
@@ -1557,7 +1557,7 @@ public class Game extends Screen {
 		final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
 		if (playerExists) {
 			this.st.resetScore(LaserTankEE.getArenaManager().getScoresFileName());
-			this.resetPlayerLocation();
+			this.resetPlayerToStart();
 			this.updateTank();
 			m.clearVirtualGrid();
 			this.updateScore();
@@ -1567,7 +1567,7 @@ public class Game extends Screen {
 		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
-	public void resetPlayerLocation() throws InvalidArenaException {
+	public void resetPlayerToStart() throws InvalidArenaException {
 		final var m = LaserTankEE.getArenaManager().getArena();
 		final var found = m.findPlayer(1);
 		if (found == null) {
@@ -1822,7 +1822,7 @@ public class Game extends Screen {
 				this.updateScore(-1, 0, 0);
 			}
 			try {
-				this.resetPlayerLocation();
+				this.resetPlayerToStart();
 			} catch (final InvalidArenaException iae) {
 				CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.TANK_LOCATION),
 						GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));

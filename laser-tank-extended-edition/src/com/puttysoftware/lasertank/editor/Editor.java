@@ -513,7 +513,7 @@ public class Editor extends Screen {
 		mm.getArena().save();
 		// Reset the player location
 		try {
-			gm.resetPlayerLocation();
+			gm.resetPlayerToStart();
 		} catch (final InvalidArenaException iae) {
 			// Harmless error, ignore it
 		}
