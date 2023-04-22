@@ -6,12 +6,9 @@ import java.awt.event.ActionListener;
 import com.puttysoftware.diane.gui.GUIPrinter;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.datatype.LaserTankPlayback;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.game.Game;
-import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
 import com.puttysoftware.lasertank.locale.ErrorString;
@@ -149,51 +146,6 @@ class MenubarEventHandler implements ActionListener {
 				game.changeOtherToolMode();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_RANGE))) {
 				game.changeOtherRangeMode();
-			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
-				// Time Travel: Distant Past
-				Sounds.play(Sound.ERA_CHANGE);
-				ArenaManager.get().getArena().switchEra(Era.DISTANT_PAST.ordinal());
-				menu.gameEraDistantPast.setSelected(true);
-				menu.gameEraPast.setSelected(false);
-				menu.gameEraPresent.setSelected(false);
-				menu.gameEraFuture.setSelected(false);
-				menu.gameEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
-				// Time Travel: Past
-				Sounds.play(Sound.ERA_CHANGE);
-				ArenaManager.get().getArena().switchEra(Era.PAST.ordinal());
-				menu.gameEraDistantPast.setSelected(false);
-				menu.gameEraPast.setSelected(true);
-				menu.gameEraPresent.setSelected(false);
-				menu.gameEraFuture.setSelected(false);
-				menu.gameEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
-				// Time Travel: Present
-				Sounds.play(Sound.ERA_CHANGE);
-				ArenaManager.get().getArena().switchEra(Era.PRESENT.ordinal());
-				menu.gameEraDistantPast.setSelected(false);
-				menu.gameEraPast.setSelected(false);
-				menu.gameEraPresent.setSelected(true);
-				menu.gameEraFuture.setSelected(false);
-				menu.gameEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
-				// Time Travel: Future
-				Sounds.play(Sound.ERA_CHANGE);
-				ArenaManager.get().getArena().switchEra(Era.FUTURE.ordinal());
-				menu.gameEraDistantPast.setSelected(false);
-				menu.gameEraPast.setSelected(false);
-				menu.gameEraPresent.setSelected(false);
-				menu.gameEraFuture.setSelected(true);
-				menu.gameEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
-				// Time Travel: Distant Future
-				Sounds.play(Sound.ERA_CHANGE);
-				ArenaManager.get().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
-				menu.gameEraDistantPast.setSelected(false);
-				menu.gameEraPast.setSelected(false);
-				menu.gameEraPresent.setSelected(false);
-				menu.gameEraFuture.setSelected(false);
-				menu.gameEraDistantFuture.setSelected(true);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UNDO))) {
 				// Undo most recent action
 				if (LaserTankEE.onEditorScreen()) {
@@ -280,46 +232,6 @@ class MenubarEventHandler implements ActionListener {
 				// Disable Global Move-Shoot
 				menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT));
 				ArenaManager.get().getArena().setMoveShootAllowedGlobally(false);
-			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
-				// Time Travel: Distant Past
-				ArenaManager.get().getArena().switchEra(Era.DISTANT_PAST.ordinal());
-				menu.editorEraDistantPast.setSelected(true);
-				menu.editorEraPast.setSelected(false);
-				menu.editorEraPresent.setSelected(false);
-				menu.editorEraFuture.setSelected(false);
-				menu.editorEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
-				// Time Travel: Past
-				ArenaManager.get().getArena().switchEra(Era.PAST.ordinal());
-				menu.editorEraDistantPast.setSelected(false);
-				menu.editorEraPast.setSelected(true);
-				menu.editorEraPresent.setSelected(false);
-				menu.editorEraFuture.setSelected(false);
-				menu.editorEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
-				// Time Travel: Present
-				ArenaManager.get().getArena().switchEra(Era.PRESENT.ordinal());
-				menu.editorEraDistantPast.setSelected(false);
-				menu.editorEraPast.setSelected(false);
-				menu.editorEraPresent.setSelected(true);
-				menu.editorEraFuture.setSelected(false);
-				menu.editorEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
-				// Time Travel: Future
-				ArenaManager.get().getArena().switchEra(Era.FUTURE.ordinal());
-				menu.editorEraDistantPast.setSelected(false);
-				menu.editorEraPast.setSelected(false);
-				menu.editorEraPresent.setSelected(false);
-				menu.editorEraFuture.setSelected(true);
-				menu.editorEraDistantFuture.setSelected(false);
-			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
-				// Time Travel: Distant Future
-				ArenaManager.get().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
-				menu.editorEraDistantPast.setSelected(false);
-				menu.editorEraPast.setSelected(false);
-				menu.editorEraPresent.setSelected(false);
-				menu.editorEraFuture.setSelected(false);
-				menu.editorEraDistantFuture.setSelected(true);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK))) {
 				LaserTankEE.getAboutDialog().showScreen();
 			}

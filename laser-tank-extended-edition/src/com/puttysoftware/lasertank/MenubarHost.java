@@ -14,7 +14,6 @@ import com.puttysoftware.lasertank.accelerator.Accelerators;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.locale.MenuString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -30,14 +29,10 @@ public class MenubarHost {
 			editPreferences;
 	private JMenuItem playPlay, playEdit;
 	private JCheckBoxMenuItem playToggleAccelerators;
-	private JMenu gameTimeTravelSubMenu;
-	JCheckBoxMenuItem gameEraDistantPast, gameEraPast, gameEraPresent, gameEraFuture, gameEraDistantFuture;
 	private JMenuItem gameReset, gameShowTable, gameReplaySolution, gameLoadLPB, gamePreviousLevel, gameSkipLevel,
 			gameLoadLevel, gameShowHint, gameCheats, gameChangeOtherAmmoMode, gameChangeOtherToolMode,
 			gameChangeOtherRangeMode;
 	private JCheckBoxMenuItem gameRecordSolution;
-	private JMenu editorTimeTravelSubMenu;
-	JCheckBoxMenuItem editorEraDistantPast, editorEraPast, editorEraPresent, editorEraFuture, editorEraDistantFuture;
 	private JMenuItem editorClearHistory, editorGoToLevel, editorUpOneFloor, editorDownOneFloor, editorUpOneLevel,
 			editorDownOneLevel, editorAddLevel, editorRemoveLevel, editorLevelPreferences, editorSetStartPoint,
 			editorFillLevel, editorResizeLevel, editorChangeLayer;
@@ -399,11 +394,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_AMMO));
 		this.gameChangeOtherToolMode = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_TOOL));
 		this.gameChangeOtherRangeMode = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_RANGE));
-		this.gameEraDistantPast = new JCheckBoxMenuItem(Strings.loadEra(Era.DISTANT_PAST), false);
-		this.gameEraPast = new JCheckBoxMenuItem(Strings.loadEra(Era.PAST), false);
-		this.gameEraPresent = new JCheckBoxMenuItem(Strings.loadEra(Era.PRESENT), true);
-		this.gameEraFuture = new JCheckBoxMenuItem(Strings.loadEra(Era.FUTURE), false);
-		this.gameEraDistantFuture = new JCheckBoxMenuItem(Strings.loadEra(Era.DISTANT_FUTURE), false);
 		this.gameReset.addActionListener(mhandler);
 		this.gameShowTable.addActionListener(mhandler);
 		this.gameReplaySolution.addActionListener(mhandler);
@@ -417,17 +407,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode.addActionListener(mhandler);
 		this.gameChangeOtherToolMode.addActionListener(mhandler);
 		this.gameChangeOtherRangeMode.addActionListener(mhandler);
-		this.gameEraDistantPast.addActionListener(mhandler);
-		this.gameEraPast.addActionListener(mhandler);
-		this.gameEraPresent.addActionListener(mhandler);
-		this.gameEraFuture.addActionListener(mhandler);
-		this.gameEraDistantFuture.addActionListener(mhandler);
-		this.gameTimeTravelSubMenu = new JMenu(Strings.loadMenu(MenuString.SUB_TIME_TRAVEL));
-		this.gameTimeTravelSubMenu.add(this.gameEraDistantPast);
-		this.gameTimeTravelSubMenu.add(this.gameEraPast);
-		this.gameTimeTravelSubMenu.add(this.gameEraPresent);
-		this.gameTimeTravelSubMenu.add(this.gameEraFuture);
-		this.gameTimeTravelSubMenu.add(this.gameEraDistantFuture);
 		gameMenu.add(this.gameReset);
 		gameMenu.add(this.gameShowTable);
 		gameMenu.add(this.gameReplaySolution);
@@ -441,7 +420,6 @@ public class MenubarHost {
 		gameMenu.add(this.gameChangeOtherAmmoMode);
 		gameMenu.add(this.gameChangeOtherToolMode);
 		gameMenu.add(this.gameChangeOtherRangeMode);
-		gameMenu.add(this.gameTimeTravelSubMenu);
 		this.gameReset.setEnabled(false);
 		this.gameShowTable.setEnabled(false);
 		this.gameReplaySolution.setEnabled(false);
@@ -455,11 +433,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode.setEnabled(false);
 		this.gameChangeOtherToolMode.setEnabled(false);
 		this.gameChangeOtherRangeMode.setEnabled(false);
-		this.gameEraDistantPast.setEnabled(false);
-		this.gameEraPast.setEnabled(false);
-		this.gameEraPresent.setEnabled(false);
-		this.gameEraFuture.setEnabled(false);
-		this.gameEraDistantFuture.setEnabled(false);
 		return gameMenu;
 	}
 
@@ -479,12 +452,6 @@ public class MenubarHost {
 		this.editorSetStartPoint = new JMenuItem(Strings.loadMenu(MenuString.ITEM_SET_START_POINT));
 		this.editorChangeLayer = new JMenuItem(Strings.loadMenu(MenuString.ITEM_CHANGE_LAYER));
 		this.editorGlobalMoveShoot = new JMenuItem(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT));
-		this.editorTimeTravelSubMenu = new JMenu(Strings.loadMenu(MenuString.SUB_TIME_TRAVEL));
-		this.editorEraDistantPast = new JCheckBoxMenuItem(Strings.loadEra(Era.DISTANT_PAST), false);
-		this.editorEraPast = new JCheckBoxMenuItem(Strings.loadEra(Era.PAST), false);
-		this.editorEraPresent = new JCheckBoxMenuItem(Strings.loadEra(Era.PRESENT), true);
-		this.editorEraFuture = new JCheckBoxMenuItem(Strings.loadEra(Era.FUTURE), false);
-		this.editorEraDistantFuture = new JCheckBoxMenuItem(Strings.loadEra(Era.DISTANT_FUTURE), false);
 		this.editorClearHistory.addActionListener(mhandler);
 		this.editorGoToLevel.addActionListener(mhandler);
 		this.editorUpOneFloor.addActionListener(mhandler);
@@ -499,16 +466,6 @@ public class MenubarHost {
 		this.editorSetStartPoint.addActionListener(mhandler);
 		this.editorChangeLayer.addActionListener(mhandler);
 		this.editorGlobalMoveShoot.addActionListener(mhandler);
-		this.editorEraDistantPast.addActionListener(mhandler);
-		this.editorEraPast.addActionListener(mhandler);
-		this.editorEraPresent.addActionListener(mhandler);
-		this.editorEraFuture.addActionListener(mhandler);
-		this.editorEraDistantFuture.addActionListener(mhandler);
-		this.editorTimeTravelSubMenu.add(this.editorEraDistantPast);
-		this.editorTimeTravelSubMenu.add(this.editorEraPast);
-		this.editorTimeTravelSubMenu.add(this.editorEraPresent);
-		this.editorTimeTravelSubMenu.add(this.editorEraFuture);
-		this.editorTimeTravelSubMenu.add(this.editorEraDistantFuture);
 		editorMenu.add(this.editorClearHistory);
 		editorMenu.add(this.editorGoToLevel);
 		editorMenu.add(this.editorUpOneFloor);
@@ -523,7 +480,6 @@ public class MenubarHost {
 		editorMenu.add(this.editorSetStartPoint);
 		editorMenu.add(this.editorChangeLayer);
 		editorMenu.add(this.editorGlobalMoveShoot);
-		editorMenu.add(this.editorTimeTravelSubMenu);
 		this.editorClearHistory.setEnabled(false);
 		this.editorGoToLevel.setEnabled(false);
 		this.editorUpOneFloor.setEnabled(false);
@@ -538,11 +494,6 @@ public class MenubarHost {
 		this.editorSetStartPoint.setEnabled(false);
 		this.editorChangeLayer.setEnabled(false);
 		this.editorGlobalMoveShoot.setEnabled(false);
-		this.editorEraDistantPast.setEnabled(false);
-		this.editorEraPast.setEnabled(false);
-		this.editorEraPresent.setEnabled(false);
-		this.editorEraFuture.setEnabled(false);
-		this.editorEraDistantFuture.setEnabled(false);
 		return editorMenu;
 	}
 
@@ -636,11 +587,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode.setEnabled(false);
 		this.gameChangeOtherToolMode.setEnabled(false);
 		this.gameChangeOtherRangeMode.setEnabled(false);
-		this.gameEraDistantPast.setEnabled(false);
-		this.gameEraPast.setEnabled(false);
-		this.gameEraPresent.setEnabled(false);
-		this.gameEraFuture.setEnabled(false);
-		this.gameEraDistantFuture.setEnabled(false);
 		this.editUndo.setEnabled(false);
 		this.editRedo.setEnabled(false);
 		this.editCutLevel.setEnabled(true);
@@ -654,11 +600,6 @@ public class MenubarHost {
 		this.editorSetStartPoint.setEnabled(true);
 		this.editorChangeLayer.setEnabled(true);
 		this.editorGlobalMoveShoot.setEnabled(true);
-		this.editorEraDistantPast.setEnabled(true);
-		this.editorEraPast.setEnabled(true);
-		this.editorEraPresent.setEnabled(true);
-		this.editorEraFuture.setEnabled(true);
-		this.editorEraDistantFuture.setEnabled(true);
 	}
 
 	void activateGameCommands() {
@@ -678,11 +619,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode.setEnabled(true);
 		this.gameChangeOtherToolMode.setEnabled(true);
 		this.gameChangeOtherRangeMode.setEnabled(true);
-		this.gameEraDistantPast.setEnabled(true);
-		this.gameEraPast.setEnabled(true);
-		this.gameEraPresent.setEnabled(true);
-		this.gameEraFuture.setEnabled(true);
-		this.gameEraDistantFuture.setEnabled(true);
 		this.editUndo.setEnabled(false);
 		this.editRedo.setEnabled(false);
 		this.editCutLevel.setEnabled(false);
@@ -703,11 +639,6 @@ public class MenubarHost {
 		this.editorSetStartPoint.setEnabled(false);
 		this.editorChangeLayer.setEnabled(false);
 		this.editorGlobalMoveShoot.setEnabled(false);
-		this.editorEraDistantPast.setEnabled(false);
-		this.editorEraPast.setEnabled(false);
-		this.editorEraPresent.setEnabled(false);
-		this.editorEraFuture.setEnabled(false);
-		this.editorEraDistantFuture.setEnabled(false);
 	}
 
 	void activateGUICommands() {
@@ -727,11 +658,6 @@ public class MenubarHost {
 		this.gameChangeOtherAmmoMode.setEnabled(false);
 		this.gameChangeOtherToolMode.setEnabled(false);
 		this.gameChangeOtherRangeMode.setEnabled(false);
-		this.gameEraDistantPast.setEnabled(false);
-		this.gameEraPast.setEnabled(false);
-		this.gameEraPresent.setEnabled(false);
-		this.gameEraFuture.setEnabled(false);
-		this.gameEraDistantFuture.setEnabled(false);
 		this.editUndo.setEnabled(false);
 		this.editRedo.setEnabled(false);
 		this.editCutLevel.setEnabled(false);
@@ -752,11 +678,6 @@ public class MenubarHost {
 		this.editorSetStartPoint.setEnabled(false);
 		this.editorChangeLayer.setEnabled(false);
 		this.editorGlobalMoveShoot.setEnabled(false);
-		this.editorEraDistantPast.setEnabled(false);
-		this.editorEraPast.setEnabled(false);
-		this.editorEraPresent.setEnabled(false);
-		this.editorEraFuture.setEnabled(false);
-		this.editorEraDistantFuture.setEnabled(false);
 	}
 
 	void toggleAccelerators() {

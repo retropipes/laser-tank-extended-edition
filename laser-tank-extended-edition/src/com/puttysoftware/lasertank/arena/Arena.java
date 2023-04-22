@@ -127,11 +127,8 @@ public abstract class Arena {
 
     public abstract void generateLevelInfoList();
 
-    public abstract int getActiveEraNumber();
-
     public abstract int getActiveLevelNumber();
 
-    // Methods
     public abstract String getArenaTempMusicFolder();
 
     public abstract String getAuthor();
@@ -265,11 +262,7 @@ public abstract class Arena {
     public abstract void setVirtualCell(final ArenaObject mo, final int row, final int col, final int floor,
             final int layer);
 
-    public abstract void switchEra(final int era);
-
-    public abstract void switchEraOffset(final int era);
-
-    protected abstract void switchInternal(int level, int era);
+    protected abstract void switchInternal(int level);
 
     public abstract void switchLevel(int level);
 

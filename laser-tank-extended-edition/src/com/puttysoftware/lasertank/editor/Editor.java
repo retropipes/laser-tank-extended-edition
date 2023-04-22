@@ -283,9 +283,9 @@ public class Editor extends Screen {
 	public boolean addLevel() {
 		final var success = this.addLevelInternal();
 		if (success) {
-			CommonDialogs.showDialog(Strings.loadEditor(EditorString.LEVEL_ADDED));
+			statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDED));
 		} else {
-			CommonDialogs.showDialog(Strings.loadEditor(EditorString.LEVEL_ADDING_FAILED));
+			statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDING_FAILED));
 		}
 		return success;
 	}
@@ -412,7 +412,7 @@ public class Editor extends Screen {
 			this.rebuildGUI();
 			LaserTankEE.getMenus().updateMenuItemState();
 		} else {
-			CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
+			statusMessage(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		}
 	}
 
@@ -626,9 +626,9 @@ public class Editor extends Screen {
 		}
 		if (success) {
 			this.arenaChanged = true;
-			CommonDialogs.showDialog(Strings.loadEditor(EditorString.ARENA_CREATED));
+			statusMessage(Strings.loadEditor(EditorString.ARENA_CREATED));
 		} else {
-			CommonDialogs.showDialog(Strings.loadEditor(EditorString.ARENA_CREATION_FAILED));
+			statusMessage(Strings.loadEditor(EditorString.ARENA_CREATION_FAILED));
 		}
 		return success;
 	}
@@ -658,7 +658,6 @@ public class Editor extends Screen {
 		final var z = this.elMgr.getEditorLocationZ();
 		final var w = this.elMgr.getEditorLocationW();
 		final var u = this.elMgr.getEditorLocationU();
-		final var e = ArenaManager.get().getArena().getActiveEraNumber();
 		if (w == Layer.LOWER_GROUND.ordinal()) {
 			this.redrawEditorBottomGround();
 		} else if (w == Layer.UPPER_GROUND.ordinal()) {
@@ -670,8 +669,7 @@ public class Editor extends Screen {
 		}
 		this.pack();
 		this.setTitle(Strings.loadEditor(EditorString.EDITOR_TITLE_1) + (z + 1)
-				+ Strings.loadEditor(EditorString.EDITOR_TITLE_2) + (u + 1)
-				+ Strings.loadCommon(CommonString.SPACE_DASH_SPACE) + Strings.loadEra(e));
+				+ Strings.loadEditor(EditorString.EDITOR_TITLE_2) + (u + 1));
 		this.outputPane.repaint();
 	}
 
@@ -843,7 +841,7 @@ public class Editor extends Screen {
 				// Redraw
 				this.redrawEditor();
 			} catch (final NumberFormatException nf) {
-				CommonDialogs.showDialog(nf.getMessage());
+				statusMessage(nf.getMessage());
 				success = false;
 			}
 		} else {

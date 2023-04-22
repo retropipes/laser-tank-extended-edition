@@ -49,7 +49,6 @@ class CurrentArena extends Arena {
 	private CurrentArenaLevelInfo infoClipboard;
 	private int levelCount;
 	private int activeLevel;
-	private int activeEra;
 	private String basePath;
 	private DataIOPrefixHandler prefixHandler;
 	private DataIOSuffixHandler suffixHandler;
@@ -64,7 +63,6 @@ class CurrentArena extends Arena {
 		this.clipboard = null;
 		this.levelCount = 0;
 		this.activeLevel = 0;
-		this.activeEra = 0;
 		this.prefixHandler = null;
 		this.suffixHandler = null;
 		this.musicFilename = Strings.loadCommon(CommonString.NULL);
@@ -102,18 +100,6 @@ class CurrentArena extends Arena {
 		this.levelInfoData.add(new CurrentArenaLevelInfo());
 		this.levelInfoList.add(this.generateCurrentLevelInfo());
 		this.arenaData = new CurrentArenaData();
-		// Write all eras for the new level
-		final var saveEra = this.activeEra;
-		for (var e = 0; e < Arena.ERA_COUNT; e++) {
-			this.activeEra = e;
-			try (var writer = this.getLevelWriter()) {
-				this.writeArenaLevel(writer);
-			} catch (final IOException ioe) {
-				throw new InvalidArenaException(ioe);
-			}
-		}
-		// Clean up
-		this.activeEra = saveEra;
 		return true;
 	}
 
@@ -302,11 +288,6 @@ class CurrentArena extends Arena {
 	}
 
 	@Override
-	public int getActiveEraNumber() {
-		return this.activeEra;
-	}
-
-	@Override
 	public int getActiveLevelNumber() {
 		return this.activeLevel;
 	}
@@ -374,8 +355,7 @@ class CurrentArena extends Arena {
 	private DataIOReader getLevelReaderG6() throws IOException {
 		return new XDataReader(
 				this.basePath + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_LEVEL)
-						+ this.activeLevel + GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_ERA)
-						+ this.activeEra + FileExtensions.getArenaLevelExtensionWithPeriod(),
+						+ this.activeLevel + FileExtensions.getArenaLevelExtensionWithPeriod(),
 				GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_LEVEL));
 	}
 
@@ -387,8 +367,7 @@ class CurrentArena extends Arena {
 	private DataIOWriter getLevelWriter() throws IOException {
 		return new XDataWriter(
 				this.basePath + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_LEVEL)
-						+ this.activeLevel + GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_ERA)
-						+ this.activeEra + FileExtensions.getArenaLevelExtensionWithPeriod(),
+						+ this.activeLevel + FileExtensions.getArenaLevelExtensionWithPeriod(),
 				GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_LEVEL));
 	}
 
@@ -741,18 +720,8 @@ class CurrentArena extends Arena {
 	}
 
 	@Override
-	public void switchEra(final int era) {
-		this.switchInternal(this.activeLevel, era);
-	}
-
-	@Override
-	public void switchEraOffset(final int era) {
-		this.switchInternal(this.activeLevel, this.activeEra + era);
-	}
-
-	@Override
-	protected void switchInternal(final int level, final int era) {
-		if (this.activeLevel != level || this.activeEra != era || this.arenaData == null) {
+	protected void switchInternal(final int level) {
+		if (this.activeLevel != level || this.arenaData == null) {
 			if (this.arenaData != null) {
 				try (var writer = this.getLevelWriter()) {
 					// Save old level
@@ -762,7 +731,6 @@ class CurrentArena extends Arena {
 				}
 			}
 			this.activeLevel = level;
-			this.activeEra = era;
 			try (var reader = this.getLevelReaderG6()) {
 				// Load new level
 				this.readArenaLevel(reader);
@@ -774,12 +742,12 @@ class CurrentArena extends Arena {
 
 	@Override
 	public void switchLevel(final int level) {
-		this.switchInternal(level, this.activeEra);
+		this.switchInternal(level);
 	}
 
 	@Override
 	public void switchLevelOffset(final int level) {
-		this.switchInternal(this.activeLevel + level, this.activeEra);
+		this.switchInternal(this.activeLevel + level);
 	}
 
 	@Override
