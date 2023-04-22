@@ -6,7 +6,7 @@
 package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.diane.storage.NumberStorage;
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.helper.Players;
 
 final class PlayerLocationManager {
@@ -45,7 +45,7 @@ final class PlayerLocationManager {
 	}
 
 	void resetPlayerLocation() {
-		final var a = LaserTankEE.getArenaManager().getArena();
+		final var a = ArenaManager.get().getArena();
 		if (a != null) {
 			for (var pi = 0; pi < Players.COUNT; pi++) {
 				final var found = a.findPlayer(pi);

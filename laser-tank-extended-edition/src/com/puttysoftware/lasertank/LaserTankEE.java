@@ -43,12 +43,12 @@ public class LaserTankEE {
 	private static final int CONTENT_SIZE = 768;
 	private static MainWindow masterFrame;
 	private static AboutDialog about;
-	private static Game gameMgr;
+	private static Game game;
 	private static ArenaManager arenaMgr;
-	private static MenubarHost menubarHost;
+	private static MenubarHost menus;
 	private static Editor editor;
 	private static MainScreen mainScreen;
-	private static Screen mode, formerMode;
+	private static Screen currentScreen, lastScreen;
 
 	private static final int VERSION_MAJOR = 18;
 	private static final int VERSION_MINOR = 0;
@@ -109,37 +109,22 @@ public class LaserTankEE {
 
 	public static void activeLanguageChanged() {
 		// Rebuild menus
-		menubarHost.populateMenuBar();
+		menus.populateMenuBar();
 		// Fire hooks
-		getGame().activeLanguageChanged();
-		getEditor().activeLanguageChanged();
+		Game.get().activeLanguageChanged();
+		Editor.get().activeLanguageChanged();
 	}
 
-	static void exitCurrentMode() {
-		mode.hideScreen();
+	static void leaveScreen() {
+		currentScreen.hideScreen();
 	}
 
 	static AboutDialog getAboutDialog() {
 		return about;
 	}
 
-	public static ArenaManager getArenaManager() {
-		if (arenaMgr == null) {
-			arenaMgr = new ArenaManager();
-		}
-		return arenaMgr;
-	}
-
-	public static Editor getEditor() {
-		return editor;
-	}
-
-	public static Screen getFormerMode() {
-		return formerMode;
-	}
-
-	public static Game getGame() {
-		return gameMgr;
+	public static Screen getLastScreen() {
+		return lastScreen;
 	}
 
 	public static MainScreen getMainScreen() {
@@ -151,53 +136,53 @@ public class LaserTankEE {
 	}
 
 	public static MenubarHost getMenus() {
-		return menubarHost;
+		return menus;
 	}
 
-	public static boolean isInGameMode() {
-		return mode == gameMgr;
+	public static boolean onGameScreen() {
+		return currentScreen == game;
 	}
 
-	public static boolean isInEditorMode() {
-		return mode == editor;
+	public static boolean onEditorScreen() {
+		return currentScreen == editor;
 	}
 
-	public static boolean isInMainMode() {
-		return mode == mainScreen;
+	public static boolean onMainScreen() {
+		return currentScreen == mainScreen;
 	}
 
-	public static void setInEditorMode() {
-		formerMode = mode;
-		mode = editor;
+	public static void setOnEditorScreen() {
+		lastScreen = currentScreen;
+		currentScreen = editor;
 		tearDownFormerMode();
 		editor.showScreen();
-		menubarHost.activateEditorCommands();
+		menus.activateEditorCommands();
 	}
 
-	public static void setInGameMode() {
-		formerMode = mode;
-		mode = gameMgr;
+	public static void setOnGameScreen() {
+		lastScreen = currentScreen;
+		currentScreen = game;
 		tearDownFormerMode();
-		gameMgr.showScreen();
-		menubarHost.activateGameCommands();
+		game.showScreen();
+		menus.activateGameCommands();
 	}
 
-	static void setInMainMode() {
-		formerMode = mode;
-		mode = mainScreen;
+	static void setOnMainScreen() {
+		lastScreen = currentScreen;
+		currentScreen = mainScreen;
 		tearDownFormerMode();
 		mainScreen.showScreen();
-		menubarHost.activateGUICommands();
+		menus.activateGUICommands();
 		masterFrame.pack();
 	}
 
 	public static void showMessage(final String msg) {
-		mode.statusMessage(msg);
+		currentScreen.statusMessage(msg);
 	}
 
 	private static void tearDownFormerMode() {
-		if (formerMode != null) {
-			formerMode.hideScreen();
+		if (lastScreen != null) {
+			lastScreen.hideScreen();
 		}
 	}
 
@@ -233,14 +218,14 @@ public class LaserTankEE {
 		MainWindow.createMainWindow(CONTENT_SIZE, CONTENT_SIZE);
 		// Create and initialize game
 		masterFrame = MainWindow.mainWindow();
-		mode = null;
-		formerMode = null;
+		currentScreen = null;
+		lastScreen = null;
 		// Create Managers
-		menubarHost = new MenubarHost();
+		menus = new MenubarHost();
 		about = new AboutDialog(getVersionString());
 		mainScreen = new MainScreen();
-		gameMgr = new Game();
-		editor = new Editor();
+		game = Game.get();
+		editor = Editor.get();
 		// Initialize preferences
 		Settings.readSettings();
 		Strings.activeLanguageChanged(Settings.getLanguageID());

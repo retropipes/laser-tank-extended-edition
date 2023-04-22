@@ -9,6 +9,8 @@ import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.datatype.LaserTankPlayback;
+import com.puttysoftware.lasertank.editor.Editor;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -30,58 +32,58 @@ class MenubarEventHandler implements ActionListener {
 	@Override
 	public void actionPerformed(final ActionEvent e) {
 		try {
-			final var game = LaserTankEE.getGame();
-			final var editor = LaserTankEE.getEditor();
+			final var game = Game.get();
+			final var editor = Editor.get();
 			final var menu = this.menubarHost;
 			var loaded = false;
 			final var cmd = e.getActionCommand();
 			if (cmd.equals(Strings.loadMenu(MenuString.ITEM_NEW))) {
-				loaded = LaserTankEE.getEditor().newArena();
-				LaserTankEE.getArenaManager().setLoaded(loaded);
+				loaded = Editor.get().newArena();
+				ArenaManager.get().setLoaded(loaded);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN))) {
-				loaded = LaserTankEE.getArenaManager().loadArena();
-				LaserTankEE.getArenaManager().setLoaded(loaded);
+				loaded = ArenaManager.get().loadArena();
+				ArenaManager.get().setLoaded(loaded);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN_DEFAULT))) {
-				loaded = LaserTankEE.getArenaManager().loadArenaDefault();
-				LaserTankEE.getArenaManager().setLoaded(loaded);
+				loaded = ArenaManager.get().loadArenaDefault();
+				ArenaManager.get().setLoaded(loaded);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLOSE))) {
 				// Close the window
-				if (LaserTankEE.isInEditorMode()) {
-					LaserTankEE.getEditor().handleCloseWindow();
-				} else if (LaserTankEE.isInGameMode()) {
+				if (LaserTankEE.onEditorScreen()) {
+					Editor.get().handleCloseWindow();
+				} else if (LaserTankEE.onGameScreen()) {
 					var saved = true;
 					var status = 0;
-					if (LaserTankEE.getArenaManager().getDirty()) {
+					if (ArenaManager.get().getDirty()) {
 						status = ArenaManager.showSaveDialog();
 						if (status == CommonDialogs.YES_OPTION) {
-							saved = LaserTankEE.getArenaManager()
-									.saveArena(LaserTankEE.getArenaManager().isArenaProtected());
+							saved = ArenaManager.get()
+									.saveArena(ArenaManager.get().isArenaProtected());
 						} else if (status == CommonDialogs.CANCEL_OPTION) {
 							saved = false;
 						} else {
-							LaserTankEE.getArenaManager().setDirty(false);
+							ArenaManager.get().setDirty(false);
 						}
 					}
 					if (saved) {
-						LaserTankEE.getGame().exitGame();
+						Game.get().exitGame();
 					}
 				}
 				LaserTankEE.getMainScreen().showGUI();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE))) {
-				if (LaserTankEE.getArenaManager().getLoaded()) {
-					LaserTankEE.getArenaManager().saveArena(LaserTankEE.getArenaManager().isArenaProtected());
+				if (ArenaManager.get().getLoaded()) {
+					ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
 				} else {
 					CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS))) {
-				if (LaserTankEE.getArenaManager().getLoaded()) {
-					LaserTankEE.getArenaManager().saveArenaAs(false);
+				if (ArenaManager.get().getLoaded()) {
+					ArenaManager.get().saveArenaAs(false);
 				} else {
 					CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS_PROTECTED))) {
-				if (LaserTankEE.getArenaManager().getLoaded()) {
-					LaserTankEE.getArenaManager().saveArenaAs(true);
+				if (ArenaManager.get().getLoaded()) {
+					ArenaManager.get().saveArenaAs(true);
 				} else {
 					CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 				}
@@ -98,15 +100,15 @@ class MenubarEventHandler implements ActionListener {
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PLAY))) {
 				// Play the current arena
-				final var proceed = LaserTankEE.getGame().newGame();
+				final var proceed = Game.get().newGame();
 				if (proceed) {
-					LaserTankEE.exitCurrentMode();
-					LaserTankEE.getGame().playArena();
+					LaserTankEE.leaveScreen();
+					Game.get().playArena();
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EDIT))) {
 				// Edit the current arena
-				LaserTankEE.exitCurrentMode();
-				LaserTankEE.getEditor().editArena();
+				LaserTankEE.leaveScreen();
+				Editor.get().editArena();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_USE_CLASSIC_ACCELERATORS))) {
 				// Toggle accelerators
 				LaserTankEE.getMenus().toggleAccelerators();
@@ -138,7 +140,7 @@ class MenubarEventHandler implements ActionListener {
 				game.abortAndWaitForMLOLoop();
 				game.loadLevel();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_HINT))) {
-				CommonDialogs.showDialog(LaserTankEE.getArenaManager().getArena().getHint().trim());
+				CommonDialogs.showDialog(ArenaManager.get().getArena().getHint().trim());
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHEATS))) {
 				game.enterCheatCode();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_AMMO))) {
@@ -150,7 +152,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
 				// Time Travel: Distant Past
 				Sounds.play(Sound.ERA_CHANGE);
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.DISTANT_PAST.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.DISTANT_PAST.ordinal());
 				menu.gameEraDistantPast.setSelected(true);
 				menu.gameEraPast.setSelected(false);
 				menu.gameEraPresent.setSelected(false);
@@ -159,7 +161,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
 				// Time Travel: Past
 				Sounds.play(Sound.ERA_CHANGE);
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.PAST.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.PAST.ordinal());
 				menu.gameEraDistantPast.setSelected(false);
 				menu.gameEraPast.setSelected(true);
 				menu.gameEraPresent.setSelected(false);
@@ -168,7 +170,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
 				// Time Travel: Present
 				Sounds.play(Sound.ERA_CHANGE);
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.PRESENT.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.PRESENT.ordinal());
 				menu.gameEraDistantPast.setSelected(false);
 				menu.gameEraPast.setSelected(false);
 				menu.gameEraPresent.setSelected(true);
@@ -177,7 +179,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
 				// Time Travel: Future
 				Sounds.play(Sound.ERA_CHANGE);
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.FUTURE.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.FUTURE.ordinal());
 				menu.gameEraDistantPast.setSelected(false);
 				menu.gameEraPast.setSelected(false);
 				menu.gameEraPresent.setSelected(false);
@@ -186,7 +188,7 @@ class MenubarEventHandler implements ActionListener {
 			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
 				// Time Travel: Distant Future
 				Sounds.play(Sound.ERA_CHANGE);
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
 				menu.gameEraDistantPast.setSelected(false);
 				menu.gameEraPast.setSelected(false);
 				menu.gameEraPresent.setSelected(false);
@@ -194,37 +196,37 @@ class MenubarEventHandler implements ActionListener {
 				menu.gameEraDistantFuture.setSelected(true);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UNDO))) {
 				// Undo most recent action
-				if (LaserTankEE.isInEditorMode()) {
+				if (LaserTankEE.onEditorScreen()) {
 					editor.undo();
-				} else if (LaserTankEE.isInGameMode()) {
-					LaserTankEE.getGame().abortAndWaitForMLOLoop();
-					LaserTankEE.getGame().undoLastMove();
+				} else if (LaserTankEE.onGameScreen()) {
+					Game.get().abortAndWaitForMLOLoop();
+					Game.get().undoLastMove();
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REDO))) {
 				// Redo most recent undone action
-				if (LaserTankEE.isInEditorMode()) {
+				if (LaserTankEE.onEditorScreen()) {
 					editor.redo();
-				} else if (LaserTankEE.isInGameMode()) {
-					LaserTankEE.getGame().abortAndWaitForMLOLoop();
-					LaserTankEE.getGame().redoLastMove();
+				} else if (LaserTankEE.onGameScreen()) {
+					Game.get().abortAndWaitForMLOLoop();
+					Game.get().redoLastMove();
 				}
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL))) {
 				// Cut Level
 				final var level = editor.getEditorLocationU();
-				LaserTankEE.getArenaManager().getArena().cutLevel();
+				ArenaManager.get().getArena().cutLevel();
 				editor.fixLimits();
 				editor.updateEditorLevelAbsolute(level);
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_COPY_LEVEL))) {
 				// Copy Level
-				LaserTankEE.getArenaManager().getArena().copyLevel();
+				ArenaManager.get().getArena().copyLevel();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PASTE_LEVEL))) {
 				// Paste Level
-				LaserTankEE.getArenaManager().getArena().pasteLevel();
+				ArenaManager.get().getArena().pasteLevel();
 				editor.fixLimits();
 				editor.redrawEditor();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_INSERT_LEVEL_FROM_CLIPBOARD))) {
 				// Insert Level From Clipboard
-				LaserTankEE.getArenaManager().getArena().insertLevelFromClipboard();
+				ArenaManager.get().getArena().insertLevelFromClipboard();
 				editor.fixLimits();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY))) {
 				// Clear undo/redo history, confirm first
@@ -272,15 +274,15 @@ class MenubarEventHandler implements ActionListener {
 				editor.changeLayer();
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT))) {
 				// Enable Global Move-Shoot
-				LaserTankEE.getArenaManager().getArena().setMoveShootAllowedGlobally(true);
+				ArenaManager.get().getArena().setMoveShootAllowedGlobally(true);
 				menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT));
 			} else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT))) {
 				// Disable Global Move-Shoot
 				menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT));
-				LaserTankEE.getArenaManager().getArena().setMoveShootAllowedGlobally(false);
+				ArenaManager.get().getArena().setMoveShootAllowedGlobally(false);
 			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_PAST))) {
 				// Time Travel: Distant Past
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.DISTANT_PAST.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.DISTANT_PAST.ordinal());
 				menu.editorEraDistantPast.setSelected(true);
 				menu.editorEraPast.setSelected(false);
 				menu.editorEraPresent.setSelected(false);
@@ -288,7 +290,7 @@ class MenubarEventHandler implements ActionListener {
 				menu.editorEraDistantFuture.setSelected(false);
 			} else if (cmd.equals(Strings.loadEra(Era.PAST))) {
 				// Time Travel: Past
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.PAST.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.PAST.ordinal());
 				menu.editorEraDistantPast.setSelected(false);
 				menu.editorEraPast.setSelected(true);
 				menu.editorEraPresent.setSelected(false);
@@ -296,7 +298,7 @@ class MenubarEventHandler implements ActionListener {
 				menu.editorEraDistantFuture.setSelected(false);
 			} else if (cmd.equals(Strings.loadEra(Era.PRESENT))) {
 				// Time Travel: Present
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.PRESENT.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.PRESENT.ordinal());
 				menu.editorEraDistantPast.setSelected(false);
 				menu.editorEraPast.setSelected(false);
 				menu.editorEraPresent.setSelected(true);
@@ -304,7 +306,7 @@ class MenubarEventHandler implements ActionListener {
 				menu.editorEraDistantFuture.setSelected(false);
 			} else if (cmd.equals(Strings.loadEra(Era.FUTURE))) {
 				// Time Travel: Future
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.FUTURE.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.FUTURE.ordinal());
 				menu.editorEraDistantPast.setSelected(false);
 				menu.editorEraPast.setSelected(false);
 				menu.editorEraPresent.setSelected(false);
@@ -312,7 +314,7 @@ class MenubarEventHandler implements ActionListener {
 				menu.editorEraDistantFuture.setSelected(false);
 			} else if (cmd.equals(Strings.loadEra(Era.DISTANT_FUTURE))) {
 				// Time Travel: Distant Future
-				LaserTankEE.getArenaManager().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
+				ArenaManager.get().getArena().switchEra(Era.DISTANT_FUTURE.ordinal());
 				menu.editorEraDistantPast.setSelected(false);
 				menu.editorEraPast.setSelected(false);
 				menu.editorEraPresent.setSelected(false);

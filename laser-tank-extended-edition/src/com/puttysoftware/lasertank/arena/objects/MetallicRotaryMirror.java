@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
@@ -49,7 +49,7 @@ public class MetallicRotaryMirror extends ArenaObject {
 		// Rotate mirror
 		this.toggleDirection();
 		Sounds.play(Sound.ROTATE);
-		LaserTankEE.getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		ArenaManager.get().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
 		return true;
 	}
 }

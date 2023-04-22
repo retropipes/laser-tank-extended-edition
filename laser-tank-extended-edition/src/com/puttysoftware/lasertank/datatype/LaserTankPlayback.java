@@ -13,7 +13,7 @@ import javax.swing.JFrame;
 import com.puttysoftware.diane.fileio.DataIOUtilities;
 import com.puttysoftware.diane.fileio.utility.FilenameChecker;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
@@ -41,7 +41,7 @@ public class LaserTankPlayback {
 	}
 
 	private static LaserTankPlaybackEntry decodeRawDataPoint(final byte d) throws LPBLoadException {
-		final var game = LaserTankEE.getGame();
+		final var game = Game.get();
 		return switch (d) {
 			case 0x20 -> {
 				game.loadReplay(GameAction.SHOOT, 0, 0);

@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.game;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.settings.Settings;
 
 class ReplayTask extends Thread {
@@ -16,7 +15,7 @@ class ReplayTask extends Thread {
 
 	@Override
 	public void run() {
-		final var gm = LaserTankEE.getGame();
+		final var gm = Game.get();
 		var result = true;
 		while (result) {
 			result = gm.replayLastMove();

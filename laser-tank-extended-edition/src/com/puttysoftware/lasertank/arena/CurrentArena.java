@@ -14,7 +14,6 @@ import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.diane.fileio.XDataReader;
 import com.puttysoftware.diane.fileio.XDataWriter;
 import com.puttysoftware.diane.fileio.utility.FileUtilities;
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.fileio.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.fileio.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
@@ -499,7 +498,7 @@ class CurrentArena extends Arena {
 			this.arenaData = this.clipboard;
 			this.levelInfoData.set(this.activeLevel, this.infoClipboard);
 			this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
-			LaserTankEE.getArenaManager().setDirty(true);
+			ArenaManager.get().setDirty(true);
 		}
 	}
 

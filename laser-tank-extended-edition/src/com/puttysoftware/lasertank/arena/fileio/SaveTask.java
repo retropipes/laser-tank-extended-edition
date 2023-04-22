@@ -12,6 +12,7 @@ import com.puttysoftware.diane.fileio.utility.ZipUtilities;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.MessageString;
@@ -62,23 +63,23 @@ public class SaveTask extends Thread {
 				Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
 		try {
 			// Set prefix handler
-			LaserTankEE.getArenaManager().getArena().setPrefixHandler(new PrefixHandler());
+			ArenaManager.get().getArena().setPrefixHandler(new PrefixHandler());
 			// Set suffix handler
 			if (this.isSavedGame) {
-				LaserTankEE.getArenaManager().getArena().setSuffixHandler(new SuffixHandler());
+				ArenaManager.get().getArena().setSuffixHandler(new SuffixHandler());
 			} else {
-				LaserTankEE.getArenaManager().getArena().setSuffixHandler(null);
+				ArenaManager.get().getArena().setSuffixHandler(null);
 			}
-			LaserTankEE.getArenaManager().getArena().writeArena();
+			ArenaManager.get().getArena().writeArena();
 			if (this.saveProtected) {
-				ZipUtilities.zipDirectory(new File(LaserTankEE.getArenaManager().getArena().getBasePath()), tempLock);
+				ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), tempLock);
 				// Protect the arena
 				ProtectionWrapper.protect(tempLock, arenaFile);
 				tempLock.delete();
-				LaserTankEE.getArenaManager().setArenaProtected(true);
+				ArenaManager.get().setArenaProtected(true);
 			} else {
-				ZipUtilities.zipDirectory(new File(LaserTankEE.getArenaManager().getArena().getBasePath()), arenaFile);
-				LaserTankEE.getArenaManager().setArenaProtected(false);
+				ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), arenaFile);
+				ArenaManager.get().setArenaProtected(false);
 			}
 		} catch (final FileNotFoundException fnfe) {
 			if (this.isSavedGame) {
@@ -97,6 +98,6 @@ public class SaveTask extends Thread {
 		} else {
 			LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
 		}
-		LaserTankEE.getArenaManager().handleDeferredSuccess(success);
+		ArenaManager.get().handleDeferredSuccess(success);
 	}
 }

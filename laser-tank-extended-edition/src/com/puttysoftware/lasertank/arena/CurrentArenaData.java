@@ -10,17 +10,17 @@ import java.io.IOException;
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
 import com.puttysoftware.diane.storage.FlagStorage;
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
-import com.puttysoftware.lasertank.index.GameObjectID;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
@@ -447,7 +447,7 @@ final class CurrentArenaData extends ArenaData {
 
 	@Override
 	public boolean circularScanTank(final Arena arena, final int x, final int y, final int z, final int r) {
-		final var tankLoc = LaserTankEE.getGame().getTankLocation();
+		final var tankLoc = Game.get().getTankLocation();
 		var fX = x;
 		var fY = y;
 		var fZ = z;
@@ -836,7 +836,7 @@ final class CurrentArenaData extends ArenaData {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
 					if (obj.getID() != GameObjectID.GROUND) {
 						// Freeze the ground
-						LaserTankEE.getGame().morph(obj.changesToOnExposure(Material.ICE), y, x,
+						Game.get().morph(obj.changesToOnExposure(Material.ICE), y, x,
 								z, Layer.LOWER_GROUND.ordinal());
 					}
 				}
@@ -853,7 +853,7 @@ final class CurrentArenaData extends ArenaData {
 					final var obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
 					if (obj.getID() == GameObjectID.ANTI_TANK) {
 						// Kill the tank
-						final var gm = LaserTankEE.getGame();
+						final var gm = Game.get();
 						final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 						dat.setSavedObject(obj.getSavedObject());
 						dat.setDirection(obj.getDirection());
@@ -954,7 +954,7 @@ final class CurrentArenaData extends ArenaData {
 		}
 		int u, w;
 		if (d == Direction.NORTH) {
-			final ArenaObject tank = LaserTankEE.getGame().getTank();
+			final ArenaObject tank = Game.get().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -981,7 +981,7 @@ final class CurrentArenaData extends ArenaData {
 			return false;
 		}
 		if (d == Direction.SOUTH) {
-			final ArenaObject tank = LaserTankEE.getGame().getTank();
+			final ArenaObject tank = Game.get().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1006,7 +1006,7 @@ final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.WEST) {
-			final ArenaObject tank = LaserTankEE.getGame().getTank();
+			final ArenaObject tank = Game.get().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}
@@ -1031,7 +1031,7 @@ final class CurrentArenaData extends ArenaData {
 				}
 			}
 		} else if (d == Direction.EAST) {
-			final ArenaObject tank = LaserTankEE.getGame().getTank();
+			final ArenaObject tank = Game.get().getTank();
 			if (tank.getSavedObject().isSolid()) {
 				return false;
 			}

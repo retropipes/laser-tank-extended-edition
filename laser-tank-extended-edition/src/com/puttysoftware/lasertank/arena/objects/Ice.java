@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
@@ -43,7 +43,7 @@ public class Ice extends ArenaObject {
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof HotBox) {
 			final var g = new ArenaObject(GameObjectID.GROUND);
-			LaserTankEE.getGame().morph(g, x, y, z, g.getLayer());
+			Game.get().morph(g, x, y, z, g.getLayer());
 			Sounds.play(Sound.DEFROST);
 		}
 		return true;

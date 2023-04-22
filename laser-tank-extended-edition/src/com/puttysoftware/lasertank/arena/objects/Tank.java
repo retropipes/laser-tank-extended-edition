@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
@@ -21,7 +21,7 @@ public class Tank extends ArenaObject {
 
     @Override
     public void editorPlaceHook(final int x, final int y, final int z) {
-        final var me = LaserTankEE.getEditor();
+        final var me = Editor.get();
         me.setPlayerLocation();
     }
 

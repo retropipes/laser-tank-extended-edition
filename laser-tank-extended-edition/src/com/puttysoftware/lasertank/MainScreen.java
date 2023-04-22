@@ -40,7 +40,7 @@ public class MainScreen extends Screen implements QuitHandler {
 
 	// Methods
 	public boolean quitHandler() {
-		final var mm = LaserTankEE.getArenaManager();
+		final var mm = ArenaManager.get();
 		var saved = true;
 		var status = CommonDialogs.DEFAULT_OPTION;
 		if (mm.getDirty()) {
@@ -74,7 +74,7 @@ public class MainScreen extends Screen implements QuitHandler {
 	}
 
 	public void showGUI() {
-		LaserTankEE.setInMainMode();
+		LaserTankEE.setOnMainScreen();
 	}
 
 	@Override

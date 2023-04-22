@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -37,7 +37,7 @@ public class HotWall extends ArenaObject {
 		if (laserType == LaserType.STUNNER) {
 			// Cool off hot wall
 			Sounds.play(Sound.COOL_OFF);
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.WALL), locX, locY, locZ, this.getLayer());
+			Game.get().morph(new ArenaObject(GameObjectID.WALL), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser

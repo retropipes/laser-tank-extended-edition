@@ -5,7 +5,6 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.game.Game;
@@ -34,8 +33,8 @@ public class PowerTurret extends ArenaObject {
 
 	public void kill(final int locX, final int locY) {
 		if (this.canShoot) {
-			LaserTankEE.getGame().setLaserType(LaserType.POWER);
-			LaserTankEE.getGame().fireLaser(locX, locY, this);
+			Game.get().setLaserType(LaserType.POWER);
+			Game.get().fireLaser(locX, locY, this);
 			this.canShoot = false;
 		}
 	}
@@ -51,7 +50,7 @@ public class PowerTurret extends ArenaObject {
 		final var baseDir = this.getDirection();
 		if (laserType == LaserType.MISSILE) {
 			// Kill
-			final var gm = LaserTankEE.getGame();
+			final var gm = Game.get();
 			final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
@@ -61,7 +60,7 @@ public class PowerTurret extends ArenaObject {
 		}
 		if (laserType == LaserType.STUNNER) {
 			// Stun
-			final var gm = LaserTankEE.getGame();
+			final var gm = Game.get();
 			final var sat = new StunnedAntiTank();
 			sat.setSavedObject(this.getSavedObject());
 			sat.setDirection(baseDir);
@@ -72,7 +71,7 @@ public class PowerTurret extends ArenaObject {
 		final var sourceDir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
 		if (sourceDir == baseDir) {
 			// Kill
-			final var gm = LaserTankEE.getGame();
+			final var gm = Game.get();
 			final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 			dat.setSavedObject(this.getSavedObject());
 			dat.setDirection(baseDir);
@@ -97,7 +96,7 @@ public class PowerTurret extends ArenaObject {
 			if (Game.canObjectMove(locX, locY, unres[0], unres[1])) {
 				if (this.autoMove) {
 					this.autoMove = false;
-					LaserTankEE.getGame().updatePushedPosition(locX, locY, locX + unres[0],
+					Game.get().updatePushedPosition(locX, locY, locX + unres[0],
 							locY + unres[1], this);
 				}
 			} else {

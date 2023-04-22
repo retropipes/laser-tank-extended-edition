@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -42,7 +42,7 @@ public class Wall extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Heat up wall
 			Sounds.play(Sound.MELT);
-			LaserTankEE.getGame().morph(new HotWall(), locX, locY, locZ, this.getLayer());
+			Game.get().morph(new HotWall(), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		if (laserType == LaserType.STUNNER) {
@@ -50,7 +50,7 @@ public class Wall extends ArenaObject {
 			Sounds.play(Sound.FREEZE);
 			final var iw = new IcyWall();
 			iw.setPreviousState(this);
-			LaserTankEE.getGame().morph(iw, locX, locY, locZ, this.getLayer());
+			Game.get().morph(iw, locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser

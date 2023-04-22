@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
@@ -31,6 +31,6 @@ public class PowerfulTank extends ArenaObject {
     @Override
     public void timerExpiredAction(final int x, final int y) {
         Sounds.play(Sound.RETURN);
-        LaserTankEE.getGame().setNormalTank();
+        Game.get().setNormalTank();
     }
 }

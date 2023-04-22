@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class FrostField extends ArenaObject {
@@ -23,6 +23,6 @@ public class FrostField extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
         Sounds.play(Sound.FREEZE);
-        LaserTankEE.getGame().updatePositionRelativeFrozen();
+        Game.get().updatePositionRelativeFrozen();
     }
 }

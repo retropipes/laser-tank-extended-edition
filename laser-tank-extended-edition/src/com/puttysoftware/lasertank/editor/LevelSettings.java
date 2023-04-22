@@ -24,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -108,13 +109,13 @@ class LevelSettings {
 
 	void hideSettings() {
 		this.prefFrame.setVisible(false);
-		LaserTankEE.getEditor().enableOutput();
-		LaserTankEE.getArenaManager().setDirty(true);
-		LaserTankEE.getEditor().redrawEditor();
+		Editor.get().enableOutput();
+		ArenaManager.get().setDirty(true);
+		Editor.get().redrawEditor();
 	}
 
 	private void loadSettings() {
-		final var m = LaserTankEE.getArenaManager().getArena();
+		final var m = ArenaManager.get().getArena();
 		this.horizontalWrap.setSelected(m.isHorizontalWraparoundEnabled());
 		this.verticalWrap.setSelected(m.isVerticalWraparoundEnabled());
 		this.thirdWrap.setSelected(m.isThirdDimensionWraparoundEnabled());
@@ -126,7 +127,7 @@ class LevelSettings {
 	}
 
 	void setSettings() {
-		final var m = LaserTankEE.getArenaManager().getArena();
+		final var m = ArenaManager.get().getArena();
 		if (this.horizontalWrap.isSelected()) {
 			m.enableHorizontalWraparound();
 		} else {
@@ -201,7 +202,7 @@ class LevelSettings {
 	// Methods
 	void showSettings() {
 		this.loadSettings();
-		LaserTankEE.getEditor().disableOutput();
+		Editor.get().disableOutput();
 		this.prefFrame.setVisible(true);
 	}
 }

@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
@@ -33,11 +33,11 @@ public class HottestLava extends ArenaObject {
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		if (pushed instanceof IcyBox) {
-			LaserTankEE.getGame().morph(new LavaBridge(), x, y, z, this.getLayer());
+			Game.get().morph(new LavaBridge(), x, y, z, this.getLayer());
 			Sounds.play(Sound.COOL_OFF);
 			return true;
 		}
-		LaserTankEE.getGame().morph(new HotterLava(), x, y, z, pushed.getLayer());
+		Game.get().morph(new HotterLava(), x, y, z, pushed.getLayer());
 		Sounds.play(Sound.MELT);
 		return false;
 	}

@@ -15,6 +15,7 @@ import javax.swing.JProgressBar;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -41,7 +42,7 @@ class LaserTankPlaybackLoadTask extends Thread {
 	@Override
 	public void run() {
 		MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
-		LaserTankEE.getGame().setSavedGameFlag(false);
+		Game.get().setSavedGameFlag(false);
 		try {
 			LaserTankPlayback.loadFromFile(this.file);
 		} catch (final FileNotFoundException fnfe) {

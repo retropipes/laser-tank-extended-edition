@@ -9,7 +9,7 @@ import java.io.IOException;
 
 import com.puttysoftware.diane.fileio.DataIOReader;
 import com.puttysoftware.diane.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.index.GameFormat;
 
@@ -17,22 +17,22 @@ public class SuffixHandler implements DataIOSuffixHandler {
 	@Override
 	public void readSuffix(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
 		if (GameFormatHelper.isValidG1(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG1(reader);
+			Game.get().loadGameHookG1(reader);
 		} else if (GameFormatHelper.isValidG2(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG2(reader);
+			Game.get().loadGameHookG2(reader);
 		} else if (GameFormatHelper.isValidG3(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG3(reader);
+			Game.get().loadGameHookG3(reader);
 		} else if (GameFormatHelper.isValidG4(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG4(reader);
+			Game.get().loadGameHookG4(reader);
 		} else if (GameFormatHelper.isValidG5(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG5(reader);
+			Game.get().loadGameHookG5(reader);
 		} else if (GameFormatHelper.isValidG6(formatVersion)) {
-			LaserTankEE.getGame().loadGameHookG6(reader);
+			Game.get().loadGameHookG6(reader);
 		}
 	}
 
 	@Override
 	public void writeSuffix(final DataIOWriter writer) throws IOException {
-		LaserTankEE.getGame().saveGameHook(writer);
+		Game.get().saveGameHook(writer);
 	}
 }

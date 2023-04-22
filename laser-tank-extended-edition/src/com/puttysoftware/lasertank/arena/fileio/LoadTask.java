@@ -19,6 +19,8 @@ import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.editor.Editor;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -54,9 +56,9 @@ public class LoadTask extends Thread {
 	public void run() {
 		this.loadFrame.setVisible(true);
 		if (this.isSavedGame) {
-			LaserTankEE.getGame().setSavedGameFlag(true);
+			Game.get().setSavedGameFlag(true);
 		} else {
-			LaserTankEE.getGame().setSavedGameFlag(false);
+			Game.get().setSavedGameFlag(false);
 		}
 		try {
 			final var arenaFile = new File(this.filename);
@@ -68,18 +70,18 @@ public class LoadTask extends Thread {
 				ProtectionWrapper.unprotect(arenaFile, tempLock);
 				try {
 					ZipUtilities.unzipDirectory(tempLock, new File(gameArena.getBasePath()));
-					LaserTankEE.getArenaManager().setArenaProtected(true);
+					ArenaManager.get().setArenaProtected(true);
 				} catch (final ZipException ze) {
 					CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.BAD_PROTECTION_KEY),
 							Strings.loadError(ErrorString.PROTECTION));
-					LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+					ArenaManager.get().handleDeferredSuccess(false);
 					return;
 				} finally {
 					tempLock.delete();
 				}
 			} else {
 				ZipUtilities.unzipDirectory(arenaFile, new File(gameArena.getBasePath()));
-				LaserTankEE.getArenaManager().setArenaProtected(false);
+				ArenaManager.get().setArenaProtected(false);
 			}
 			// Set prefix handler
 			gameArena.setPrefixHandler(new PrefixHandler());
@@ -93,39 +95,39 @@ public class LoadTask extends Thread {
 			if (gameArena == null) {
 				throw new InvalidArenaException(Strings.loadError(ErrorString.UNKNOWN_OBJECT));
 			}
-			LaserTankEE.getArenaManager().setArena(gameArena);
+			ArenaManager.get().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				LaserTankEE.getGame().resetPlayerLocation();
+				Game.get().resetPlayerLocation();
 			}
 			if (!this.isSavedGame) {
 				gameArena.save();
 			}
 			// Final cleanup
-			final var lum = LaserTankEE.getArenaManager().getLastUsedArena();
-			final var lug = LaserTankEE.getArenaManager().getLastUsedGame();
-			LaserTankEE.getArenaManager().clearLastUsedFilenames();
+			final var lum = ArenaManager.get().getLastUsedArena();
+			final var lug = ArenaManager.get().getLastUsedGame();
+			ArenaManager.get().clearLastUsedFilenames();
 			if (this.isSavedGame) {
-				LaserTankEE.getArenaManager().setLastUsedGame(lug);
+				ArenaManager.get().setLastUsedGame(lug);
 			} else {
-				LaserTankEE.getArenaManager().setLastUsedArena(lum);
+				ArenaManager.get().setLastUsedArena(lum);
 			}
-			LaserTankEE.getEditor().arenaChanged();
+			Editor.get().arenaChanged();
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_SUCCESS));
 			} else {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
 			}
-			LaserTankEE.getArenaManager().handleDeferredSuccess(true);
+			ArenaManager.get().handleDeferredSuccess(true);
 		} catch (final FileNotFoundException fnfe) {
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
 			} else {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 			}
-			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+			ArenaManager.get().handleDeferredSuccess(false);
 		} catch (final ProtectionCancelException pce) {
-			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+			ArenaManager.get().handleDeferredSuccess(false);
 		} catch (final IOException ie) {
 			if (this.isSavedGame) {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
@@ -133,7 +135,7 @@ public class LoadTask extends Thread {
 				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 			}
 			LaserTankEE.logWarning(ie);
-			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+			ArenaManager.get().handleDeferredSuccess(false);
 		} catch (final Exception ex) {
 			LaserTankEE.logError(ex);
 		} finally {

@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 
 import com.puttysoftware.lasertank.accelerator.Accelerators;
 import com.puttysoftware.lasertank.arena.Arena;
+import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.locale.MenuString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -52,19 +54,19 @@ public class MenubarHost {
 	// Methods
 	public final void updateMenuItemState() {
 		try {
-			final var editor = LaserTankEE.getEditor();
-			if (LaserTankEE.getArenaManager().getLoaded()) {
+			final var editor = Editor.get();
+			if (ArenaManager.get().getLoaded()) {
 				this.enableLoadedCommands();
 			} else {
 				this.disableLoadedCommands();
 			}
-			if (LaserTankEE.getArenaManager().getDirty()) {
+			if (ArenaManager.get().getDirty()) {
 				this.enableDirtyCommands();
 			} else {
 				this.disableDirtyCommands();
 			}
-			if (LaserTankEE.isInEditorMode()) {
-				final var m = LaserTankEE.getArenaManager().getArena();
+			if (LaserTankEE.onEditorScreen()) {
+				final var m = ArenaManager.get().getArena();
 				if (m.getLevels() == Arena.getMinLevels()) {
 					this.disableRemoveLevel();
 				} else {
@@ -126,8 +128,8 @@ public class MenubarHost {
 					this.enableClearHistory();
 				}
 			}
-			if (LaserTankEE.isInGameMode()) {
-				final var a = LaserTankEE.getArenaManager().getArena();
+			if (LaserTankEE.onGameScreen()) {
+				final var a = ArenaManager.get().getArena();
 				if (a.tryUndo()) {
 					this.enableUndo();
 				} else {
@@ -139,7 +141,7 @@ public class MenubarHost {
 					this.disableRedo();
 				}
 			}
-			final var a = LaserTankEE.getArenaManager().getArena();
+			final var a = ArenaManager.get().getArena();
 			if (a != null && a.isPasteBlocked()) {
 				this.disablePasteLevel();
 				this.disableInsertLevelFromClipboard();
@@ -600,7 +602,7 @@ public class MenubarHost {
 	}
 
 	private void enableLoadedCommands() {
-		if (LaserTankEE.isInMainMode()) {
+		if (LaserTankEE.onMainScreen()) {
 			this.fileClose.setEnabled(false);
 			this.fileSaveAs.setEnabled(false);
 			this.fileSaveAsProtected.setEnabled(false);
@@ -609,7 +611,7 @@ public class MenubarHost {
 			this.fileSaveAs.setEnabled(true);
 			this.fileSaveAsProtected.setEnabled(true);
 		}
-		if (LaserTankEE.getArenaManager().getArena().doesPlayerExist(0)) {
+		if (ArenaManager.get().getArena().doesPlayerExist(0)) {
 			this.playPlay.setEnabled(true);
 		} else {
 			this.playPlay.setEnabled(false);

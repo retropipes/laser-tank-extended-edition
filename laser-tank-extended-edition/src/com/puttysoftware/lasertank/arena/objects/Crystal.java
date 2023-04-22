@@ -5,9 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -17,10 +18,10 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class Crystal extends ArenaObject {
 	private static void laserEnteredActionInnerP2(final int locX, final int locY, final int locZ, final int locW) {
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
 		// Check for nearby exploding barrels and blow them up too
 		try {
-			final var boom2 = LaserTankEE.getArenaManager().getArena()
+			final var boom2 = ArenaManager.get().getArena()
 					.getCell(locX, locY - 1, locZ, locW).getClass().equals(Crystal.class);
 			if (boom2) {
 				Crystal.laserEnteredActionInnerP2(locX, locY - 1, locZ, locW);
@@ -29,7 +30,7 @@ public class Crystal extends ArenaObject {
 			// Ignore
 		}
 		try {
-			final var boom4 = LaserTankEE.getArenaManager().getArena()
+			final var boom4 = ArenaManager.get().getArena()
 					.getCell(locX - 1, locY, locZ, locW).getClass().equals(Crystal.class);
 			if (boom4) {
 				Crystal.laserEnteredActionInnerP2(locX - 1, locY, locZ, locW);
@@ -38,7 +39,7 @@ public class Crystal extends ArenaObject {
 			// Ignore
 		}
 		try {
-			final var boom6 = LaserTankEE.getArenaManager().getArena()
+			final var boom6 = ArenaManager.get().getArena()
 					.getCell(locX + 1, locY, locZ, locW).getClass().equals(Crystal.class);
 			if (boom6) {
 				Crystal.laserEnteredActionInnerP2(locX + 1, locY, locZ, locW);
@@ -47,7 +48,7 @@ public class Crystal extends ArenaObject {
 			// Ignore
 		}
 		try {
-			final var boom8 = LaserTankEE.getArenaManager().getArena()
+			final var boom8 = ArenaManager.get().getArena()
 					.getCell(locX, locY + 1, locZ, locW).getClass().equals(Crystal.class);
 			if (boom8) {
 				Crystal.laserEnteredActionInnerP2(locX, locY + 1, locZ, locW);
@@ -79,7 +80,7 @@ public class Crystal extends ArenaObject {
 		final var dead = this.laserEnteredActionInnerP1(locX, locY, locZ, false);
 		if (dead) {
 			// Kill tank
-			LaserTankEE.getGame().gameOver();
+			Game.get().gameOver();
 			return Direction.NONE;
 		}
 		Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.getLayer());
@@ -92,7 +93,7 @@ public class Crystal extends ArenaObject {
 	}
 
 	private boolean laserEnteredActionInnerP1(final int locX, final int locY, final int locZ, final boolean oldDead) {
-		final var a = LaserTankEE.getArenaManager().getArena();
+		final var a = ArenaManager.get().getArena();
 		var dead = oldDead;
 		// Check if this barrel's been destroyed already
 		if (this.destroyed) {
@@ -105,22 +106,22 @@ public class Crystal extends ArenaObject {
 		// Set destroyed status
 		this.destroyed = true;
 		// Check for nearby exploding barrels and blow them up too
-		final var boom2 = LaserTankEE.getArenaManager().getArena()
+		final var boom2 = ArenaManager.get().getArena()
 				.getCell(locX, locY - 1, locZ, this.getLayer()).getClass().equals(Crystal.class);
 		if (boom2) {
 			return this.laserEnteredActionInnerP1(locX, locY - 1, locZ, dead);
 		}
-		final var boom4 = LaserTankEE.getArenaManager().getArena()
+		final var boom4 = ArenaManager.get().getArena()
 				.getCell(locX - 1, locY, locZ, this.getLayer()).getClass().equals(Crystal.class);
 		if (boom4) {
 			return this.laserEnteredActionInnerP1(locX - 1, locY, locZ, dead);
 		}
-		final var boom6 = LaserTankEE.getArenaManager().getArena()
+		final var boom6 = ArenaManager.get().getArena()
 				.getCell(locX + 1, locY, locZ, this.getLayer()).getClass().equals(Crystal.class);
 		if (boom6) {
 			return this.laserEnteredActionInnerP1(locX + 1, locY, locZ, dead);
 		}
-		final var boom8 = LaserTankEE.getArenaManager().getArena()
+		final var boom8 = ArenaManager.get().getArena()
 				.getCell(locX, locY + 1, locZ, this.getLayer()).getClass().equals(Crystal.class);
 		if (boom8) {
 			return this.laserEnteredActionInnerP1(locX, locY + 1, locZ, dead);
@@ -146,7 +147,7 @@ public class Crystal extends ArenaObject {
 		final var dead = this.laserEnteredActionInnerP1(locX + dirX, locY + dirY, locZ, false);
 		if (dead) {
 			// Kill tank
-			LaserTankEE.getGame().gameOver();
+			Game.get().gameOver();
 			return true;
 		}
 		// Destroy barrel

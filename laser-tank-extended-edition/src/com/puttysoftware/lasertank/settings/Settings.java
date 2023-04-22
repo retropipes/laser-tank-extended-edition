@@ -14,9 +14,10 @@ import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
+import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.index.EditorLayout;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -254,13 +255,13 @@ public class Settings {
 	public static void setEditorLayoutID(final int value) {
 		Settings.storeMgr.setInteger(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_EDITOR_LAYOUT_ID),
 				value);
-		LaserTankEE.getEditor().rebuildGUI();
+		Editor.get().rebuildGUI();
 	}
 
 	public static void setEditorShowAllObjects(final boolean value) {
 		Settings.storeMgr.setBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_EDITOR_SHOW_ALL),
 				value);
-		LaserTankEE.getEditor().rebuildGUI();
+		Editor.get().rebuildGUI();
 	}
 
 	static void setEnableAnimation(final boolean value) {

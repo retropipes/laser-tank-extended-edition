@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -52,7 +52,7 @@ public class IcyWall extends ArenaObject {
 		} else {
 			ao = new ArenaObject(GameObjectID.WALL);
 		}
-		LaserTankEE.getGame().morph(ao, locX, locY, locZ, this.getLayer());
+		Game.get().morph(ao, locX, locY, locZ, this.getLayer());
 		return Direction.NONE;
 	}
 }

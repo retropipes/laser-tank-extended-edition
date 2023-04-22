@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -39,7 +39,7 @@ public class HotCrystalBlock extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy hot crystal block
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		// Stop laser
@@ -52,7 +52,7 @@ public class HotCrystalBlock extends ArenaObject {
 			final RangeType rangeType, final int forceUnits) {
 		if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 			// Destroy hot crystal block
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
+			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 					this.getLayer());
 			return true;
 		}
@@ -61,7 +61,7 @@ public class HotCrystalBlock extends ArenaObject {
 		} else {
 			// Freeze crystal block
 			Sounds.play(Sound.FREEZE);
-			LaserTankEE.getGame().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
+			Game.get().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
 					locY + dirY, locZ, this.getLayer());
 		}
 		// Do nothing

@@ -5,9 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -34,7 +35,7 @@ public class RotaryMirror extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy mirror
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
@@ -46,7 +47,7 @@ public class RotaryMirror extends ArenaObject {
 		// Rotate mirror
 		this.toggleDirection();
 		Sounds.play(Sound.ROTATE);
-		LaserTankEE.getArenaManager().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		ArenaManager.get().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
 		return true;
 	}
 }

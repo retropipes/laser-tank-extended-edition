@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
@@ -38,12 +38,12 @@ public class DeepestWater extends ArenaObject {
 	@Override
 	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 		// Get rid of pushed object
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 		if (pushed.isBox()) {
 			if (pushed.getMaterial() == Material.WOODEN) {
-				LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
+				Game.get().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
 			} else {
-				LaserTankEE.getGame().morph(new DeeperWater(), x, y, z, this.getLayer());
+				Game.get().morph(new DeeperWater(), x, y, z, this.getLayer());
 			}
 		}
 		Sounds.play(Sound.SINK);

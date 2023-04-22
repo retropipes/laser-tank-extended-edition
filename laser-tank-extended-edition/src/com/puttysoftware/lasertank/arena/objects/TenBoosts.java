@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
@@ -26,7 +26,7 @@ public class TenBoosts extends ArenaObject {
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        final var gm = LaserTankEE.getGame();
+        final var gm = Game.get();
         TankInventory.addTenBoosts();
         gm.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }

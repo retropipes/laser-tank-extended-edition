@@ -36,9 +36,10 @@ import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.assets.Images;
 import com.puttysoftware.lasertank.assets.Music;
 import com.puttysoftware.lasertank.assets.Musics;
-import com.puttysoftware.lasertank.index.GameObjectID;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
+import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -228,6 +229,7 @@ public class Editor extends Screen {
 		}
 	}
 
+	private static Editor instance;
 	private static final String[] JUMP_LIST = { Integer.toString(0), Integer.toString(1), Integer.toString(2),
 			Integer.toString(3), Integer.toString(4), Integer.toString(5), Integer.toString(6), Integer.toString(7),
 			Integer.toString(8), Integer.toString(9) };
@@ -251,7 +253,14 @@ public class Editor extends Screen {
 	private final int activePlayer;
 	private final FocusHandler fHandler = new FocusHandler();
 
-	public Editor() {
+	public static Editor get() {
+		if (instance == null) {
+			instance = new Editor();
+		}
+		return instance;
+	}
+
+	private Editor() {
 		this.savedArenaObject = new ArenaObject(GameObjectID.GROUND);
 		this.lSettings = new LevelSettings();
 		this.mhandler = new EventHandler();
@@ -282,14 +291,14 @@ public class Editor extends Screen {
 	}
 
 	private boolean addLevelInternal() {
-		final var saveLevel = LaserTankEE.getArenaManager().getArena().getActiveLevelNumber();
-		final var success = LaserTankEE.getArenaManager().getArena().addLevel();
+		final var saveLevel = ArenaManager.get().getArena().getActiveLevelNumber();
+		final var success = ArenaManager.get().getArena().addLevel();
 		if (success) {
 			this.fixLimits();
-			LaserTankEE.getArenaManager().getArena().fillDefault();
+			ArenaManager.get().getArena().fillDefault();
 			// Save the entire level
-			LaserTankEE.getArenaManager().getArena().save();
-			LaserTankEE.getArenaManager().getArena().switchLevel(saveLevel);
+			ArenaManager.get().getArena().save();
+			ArenaManager.get().getArena().switchLevel(saveLevel);
 			LaserTankEE.getMenus().updateMenuItemState();
 		}
 		return success;
@@ -386,14 +395,14 @@ public class Editor extends Screen {
 	}
 
 	public void editArena() {
-		if (LaserTankEE.getArenaManager().getLoaded()) {
-			LaserTankEE.setInEditorMode();
+		if (ArenaManager.get().getLoaded()) {
+			LaserTankEE.setOnEditorScreen();
 			// Reset game state
-			LaserTankEE.getGame().resetGameState();
+			Game.get().resetGameState();
 			// Create the managers
 			if (this.arenaChanged) {
 				this.elMgr = new EditorLocationManager();
-				this.elMgr.setLimitsFromArena(LaserTankEE.getArenaManager().getArena());
+				this.elMgr.setLimitsFromArena(ArenaManager.get().getArena());
 				this.arenaChanged = false;
 			}
 			this.updatePicker();
@@ -433,7 +442,7 @@ public class Editor extends Screen {
 		final var gridY = y / Images.getGraphicSize() + EditorViewingWindowManager.getViewingWindowLocationY() + xOffset
 				- yOffset;
 		try {
-			this.savedArenaObject = LaserTankEE.getArenaManager().getArena().getCell(gridX, gridY,
+			this.savedArenaObject = ArenaManager.get().getArena().getCell(gridX, gridY,
 					this.elMgr.getEditorLocationZ(), this.elMgr.getEditorLocationW());
 		} catch (final ArrayIndexOutOfBoundsException ae) {
 			return;
@@ -448,13 +457,13 @@ public class Editor extends Screen {
 		try {
 			this.updateUndoHistory(this.savedArenaObject, gridX, gridY, this.elMgr.getEditorLocationZ(),
 					this.elMgr.getEditorLocationW(), this.elMgr.getEditorLocationU());
-			LaserTankEE.getArenaManager().getArena().setCell(instance, gridX, gridY, this.elMgr.getEditorLocationZ(),
+			ArenaManager.get().getArena().setCell(instance, gridX, gridY, this.elMgr.getEditorLocationZ(),
 					this.elMgr.getEditorLocationW());
-			LaserTankEE.getArenaManager().setDirty(true);
+			ArenaManager.get().setDirty(true);
 			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
-			LaserTankEE.getArenaManager().getArena().setCell(this.savedArenaObject, gridX, gridY,
+			ArenaManager.get().getArena().setCell(this.savedArenaObject, gridX, gridY,
 					this.elMgr.getEditorLocationZ(), this.elMgr.getEditorLocationW());
 			this.redrawEditor();
 		}
@@ -468,7 +477,7 @@ public class Editor extends Screen {
 		final var gridY = y / Images.getGraphicSize() + EditorViewingWindowManager.getViewingWindowLocationY() + xOffset
 				- yOffset;
 		try {
-			final var mo = LaserTankEE.getArenaManager().getArena().getCell(gridX, gridY,
+			final var mo = ArenaManager.get().getArena().getCell(gridX, gridY,
 					this.elMgr.getEditorLocationZ(),
 					this.elMgr.getEditorLocationW());
 			this.elMgr.setEditorLocationX(gridX);
@@ -480,10 +489,10 @@ public class Editor extends Screen {
 				} else {
 					this.updateUndoHistory(this.savedArenaObject, gridX, gridY, this.elMgr.getEditorLocationZ(),
 							this.elMgr.getEditorLocationW(), this.elMgr.getEditorLocationU());
-					LaserTankEE.getArenaManager().getArena().setCell(mo2, gridX, gridY, this.elMgr.getEditorLocationZ(),
+					ArenaManager.get().getArena().setCell(mo2, gridX, gridY, this.elMgr.getEditorLocationZ(),
 							this.elMgr.getEditorLocationW());
 					LaserTankEE.getMenus().updateMenuItemState();
-					LaserTankEE.getArenaManager().setDirty(true);
+					ArenaManager.get().setDirty(true);
 				}
 			} else {
 				mo.editorPropertiesHook();
@@ -507,8 +516,8 @@ public class Editor extends Screen {
 	}
 
 	public void exitEditor() {
-		final var mm = LaserTankEE.getArenaManager();
-		final var gm = LaserTankEE.getGame();
+		final var mm = ArenaManager.get();
+		final var gm = Game.get();
 		// Save the entire level
 		mm.getArena().save();
 		// Reset the player location
@@ -521,17 +530,17 @@ public class Editor extends Screen {
 
 	public void fillLevel() {
 		if (this.confirmNonUndoable()) {
-			LaserTankEE.getArenaManager().getArena().fillDefault();
+			ArenaManager.get().getArena().fillDefault();
 			LaserTankEE.showMessage(Strings.loadEditor(EditorString.LEVEL_FILLED));
-			LaserTankEE.getArenaManager().setDirty(true);
+			ArenaManager.get().setDirty(true);
 			this.redrawEditor();
 		}
 	}
 
 	public void fixLimits() {
 		// Fix limits
-		if (LaserTankEE.getArenaManager().getArena() != null && this.elMgr != null) {
-			this.elMgr.setLimitsFromArena(LaserTankEE.getArenaManager().getArena());
+		if (ArenaManager.get().getArena() != null && this.elMgr != null) {
+			this.elMgr.setLimitsFromArena(ArenaManager.get().getArena());
 		}
 	}
 
@@ -563,15 +572,15 @@ public class Editor extends Screen {
 		try {
 			var success = false;
 			var status = CommonDialogs.DEFAULT_OPTION;
-			if (LaserTankEE.getArenaManager().getDirty()) {
+			if (ArenaManager.get().getDirty()) {
 				status = ArenaManager.showSaveDialog();
 				if (status == CommonDialogs.YES_OPTION) {
-					success = LaserTankEE.getArenaManager().saveArena(LaserTankEE.getArenaManager().isArenaProtected());
+					success = ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
 					if (success) {
 						this.exitEditor();
 					}
 				} else if (status == CommonDialogs.NO_OPTION) {
-					LaserTankEE.getArenaManager().setDirty(false);
+					ArenaManager.get().setDirty(false);
 					this.exitEditor();
 				}
 			} else {
@@ -586,18 +595,18 @@ public class Editor extends Screen {
 		var success = true;
 		var saved = true;
 		var status = 0;
-		if (LaserTankEE.getArenaManager().getDirty()) {
+		if (ArenaManager.get().getDirty()) {
 			status = ArenaManager.showSaveDialog();
 			if (status == CommonDialogs.YES_OPTION) {
-				saved = LaserTankEE.getArenaManager().saveArena(LaserTankEE.getArenaManager().isArenaProtected());
+				saved = ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
 			} else if (status == CommonDialogs.CANCEL_OPTION) {
 				saved = false;
 			} else {
-				LaserTankEE.getArenaManager().setDirty(false);
+				ArenaManager.get().setDirty(false);
 			}
 		}
 		if (saved) {
-			LaserTankEE.getGame().resetPlayerLocation();
+			Game.get().resetPlayerLocation();
 			Arena a = null;
 			try {
 				a = ArenaManager.createArena();
@@ -605,10 +614,10 @@ public class Editor extends Screen {
 				throw new InvalidArenaException(ioe);
 			}
 			if (success) {
-				LaserTankEE.getArenaManager().setArena(a);
+				ArenaManager.get().setArena(a);
 				success = this.addLevelInternal();
 				if (success) {
-					LaserTankEE.getArenaManager().clearLastUsedFilenames();
+					ArenaManager.get().clearLastUsedFilenames();
 					this.clearHistory();
 				}
 			}
@@ -635,8 +644,8 @@ public class Editor extends Screen {
 		this.elMgr.setEditorLocationX(x);
 		this.elMgr.setEditorLocationY(y);
 		if (x != -1 && y != -1 && z != -1 && u != -1) {
-			final var oldObj = LaserTankEE.getArenaManager().getArena().getCell(x, y, z, w);
-			LaserTankEE.getArenaManager().getArena().setCell(obj, x, y, z, w);
+			final var oldObj = ArenaManager.get().getArena().getCell(x, y, z, w);
+			ArenaManager.get().getArena().setCell(obj, x, y, z, w);
 			this.updateUndoHistory(oldObj, x, y, z, w, u);
 			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
@@ -649,7 +658,7 @@ public class Editor extends Screen {
 		final var z = this.elMgr.getEditorLocationZ();
 		final var w = this.elMgr.getEditorLocationW();
 		final var u = this.elMgr.getEditorLocationU();
-		final var e = LaserTankEE.getArenaManager().getArena().getActiveEraNumber();
+		final var e = ArenaManager.get().getArena().getActiveEraNumber();
 		if (w == Layer.LOWER_GROUND.ordinal()) {
 			this.redrawEditorBottomGround();
 		} else if (w == Layer.UPPER_GROUND.ordinal()) {
@@ -677,7 +686,7 @@ public class Editor extends Screen {
 					.getLowerRightViewingWindowLocationY(); y++) {
 				xFix = x - EditorViewingWindowManager.getViewingWindowLocationX();
 				yFix = y - EditorViewingWindowManager.getViewingWindowLocationY();
-				final var lgobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var lgobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_GROUND.ordinal());
 				drawGrid.setImageCell(Images.getImage(lgobj, true), xFix, yFix);
@@ -696,10 +705,10 @@ public class Editor extends Screen {
 					.getLowerRightViewingWindowLocationY(); y++) {
 				xFix = x - EditorViewingWindowManager.getViewingWindowLocationX();
 				yFix = y - EditorViewingWindowManager.getViewingWindowLocationY();
-				final var lgobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var lgobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_GROUND.ordinal());
-				final var ugobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var ugobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.UPPER_GROUND.ordinal());
 				drawGrid.setImageCell(Images.getCompositeImage(lgobj, ugobj, true), xFix, yFix);
@@ -718,13 +727,13 @@ public class Editor extends Screen {
 					.getLowerRightViewingWindowLocationY(); y++) {
 				xFix = x - EditorViewingWindowManager.getViewingWindowLocationX();
 				yFix = y - EditorViewingWindowManager.getViewingWindowLocationY();
-				final var lgobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var lgobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_GROUND.ordinal());
-				final var ugobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var ugobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.UPPER_GROUND.ordinal());
-				final var loobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var loobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_OBJECTS.ordinal());
 				drawGrid.setImageCell(Images.getVirtualCompositeImage(lgobj, ugobj, loobj), xFix, yFix);
@@ -743,19 +752,19 @@ public class Editor extends Screen {
 					.getLowerRightViewingWindowLocationY(); y++) {
 				xFix = x - EditorViewingWindowManager.getViewingWindowLocationX();
 				yFix = y - EditorViewingWindowManager.getViewingWindowLocationY();
-				final var lgobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var lgobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_GROUND.ordinal());
-				final var ugobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var ugobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.UPPER_GROUND.ordinal());
-				final var loobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var loobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.LOWER_OBJECTS.ordinal());
-				final var uoobj = LaserTankEE.getArenaManager().getArena().getCell(y, x,
+				final var uoobj = ArenaManager.get().getArena().getCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.UPPER_OBJECTS.ordinal());
-				final var lvobj = LaserTankEE.getArenaManager().getArena().getVirtualCell(y, x,
+				final var lvobj = ArenaManager.get().getArena().getVirtualCell(y, x,
 						this.elMgr.getEditorLocationZ(),
 						Layer.VIRTUAL.ordinal());
 				drawGrid.setImageCell(Images.getVirtualCompositeImage(lgobj, ugobj, loobj, uoobj, lvobj), xFix, yFix);
@@ -776,7 +785,7 @@ public class Editor extends Screen {
 		if (input != null) {
 			for (level = 0; level < choices.length; level++) {
 				if (input.equals(choices[level])) {
-					success = LaserTankEE.getArenaManager().getArena().removeLevel(level);
+					success = ArenaManager.get().getArena().removeLevel(level);
 					if (success) {
 						this.fixLimits();
 						if (level == this.elMgr.getEditorLocationU()) {
@@ -784,7 +793,7 @@ public class Editor extends Screen {
 							this.updateEditorLevelAbsolute(0);
 						}
 						LaserTankEE.getMenus().updateMenuItemState();
-						LaserTankEE.getArenaManager().setDirty(true);
+						ArenaManager.get().setDirty(true);
 					}
 					break;
 				}
@@ -816,7 +825,7 @@ public class Editor extends Screen {
 		var success = true;
 		String input3;
 		input3 = CommonDialogs.showTextInputDialogWithDefault(Strings.loadEditor(EditorString.NUMBER_OF_FLOORS), msg,
-				Integer.toString(LaserTankEE.getArenaManager().getArena().getFloors()));
+				Integer.toString(ArenaManager.get().getArena().getFloors()));
 		if (input3 != null) {
 			try {
 				levelSizeZ = Integer.parseInt(input3);
@@ -826,10 +835,10 @@ public class Editor extends Screen {
 				if (levelSizeZ > maxF) {
 					throw new NumberFormatException(Strings.loadEditor(EditorString.FLOORS_TOO_HIGH));
 				}
-				LaserTankEE.getArenaManager().getArena().resize(levelSizeZ, new ArenaObject(GameObjectID.GROUND));
+				ArenaManager.get().getArena().resize(levelSizeZ, new ArenaObject(GameObjectID.GROUND));
 				this.fixLimits();
 				// Save the entire level
-				LaserTankEE.getArenaManager().getArena().save();
+				ArenaManager.get().getArena().save();
 				LaserTankEE.getMenus().updateMenuItemState();
 				// Redraw
 				this.redrawEditor();
@@ -850,21 +859,21 @@ public class Editor extends Screen {
 
 	public void setPlayerLocation() {
 		final var template = new ArenaObject(GameObjectID.TANK, this.activePlayer + 1);
-		final var oldX = LaserTankEE.getArenaManager().getArena().getStartColumn(this.activePlayer);
-		final var oldY = LaserTankEE.getArenaManager().getArena().getStartRow(this.activePlayer);
-		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
+		final var oldX = ArenaManager.get().getArena().getStartColumn(this.activePlayer);
+		final var oldY = ArenaManager.get().getArena().getStartRow(this.activePlayer);
+		final var oldZ = ArenaManager.get().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
+			ArenaManager.get().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
 					template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}
 		// Set new player
-		LaserTankEE.getArenaManager().getArena().setStartRow(this.activePlayer, this.elMgr.getEditorLocationY());
-		LaserTankEE.getArenaManager().getArena().setStartColumn(this.activePlayer, this.elMgr.getEditorLocationX());
-		LaserTankEE.getArenaManager().getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
-		LaserTankEE.getArenaManager().getArena().setCell(template, this.elMgr.getEditorLocationX(),
+		ArenaManager.get().getArena().setStartRow(this.activePlayer, this.elMgr.getEditorLocationY());
+		ArenaManager.get().getArena().setStartColumn(this.activePlayer, this.elMgr.getEditorLocationX());
+		ArenaManager.get().getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
+		ArenaManager.get().getArena().setCell(template, this.elMgr.getEditorLocationX(),
 				this.elMgr.getEditorLocationY(), this.elMgr.getEditorLocationZ(), template.getLayer());
 	}
 
@@ -876,29 +885,29 @@ public class Editor extends Screen {
 				+ yOffset;
 		final var destY = y / Images.getGraphicSize() + EditorViewingWindowManager.getViewingWindowLocationY() + xOffset
 				- yOffset;
-		final var oldX = LaserTankEE.getArenaManager().getArena().getStartColumn(this.activePlayer);
-		final var oldY = LaserTankEE.getArenaManager().getArena().getStartRow(this.activePlayer);
-		final var oldZ = LaserTankEE.getArenaManager().getArena().getStartFloor(this.activePlayer);
+		final var oldX = ArenaManager.get().getArena().getStartColumn(this.activePlayer);
+		final var oldY = ArenaManager.get().getArena().getStartRow(this.activePlayer);
+		final var oldZ = ArenaManager.get().getArena().getStartFloor(this.activePlayer);
 		// Erase old player
 		try {
-			LaserTankEE.getArenaManager().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
+			ArenaManager.get().getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
 					template.getLayer());
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			// Ignore
 		}
 		// Set new player
 		try {
-			LaserTankEE.getArenaManager().getArena().setStartRow(this.activePlayer, destY);
-			LaserTankEE.getArenaManager().getArena().setStartColumn(this.activePlayer, destX);
-			LaserTankEE.getArenaManager().getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
-			LaserTankEE.getArenaManager().getArena().setCell(template, destX, destY, this.elMgr.getEditorLocationZ(),
+			ArenaManager.get().getArena().setStartRow(this.activePlayer, destY);
+			ArenaManager.get().getArena().setStartColumn(this.activePlayer, destX);
+			ArenaManager.get().getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
+			ArenaManager.get().getArena().setCell(template, destX, destY, this.elMgr.getEditorLocationZ(),
 					template.getLayer());
 			LaserTankEE.showMessage(Strings.loadEditor(EditorString.START_POINT_SET));
 		} catch (final ArrayIndexOutOfBoundsException aioob) {
 			try {
-				LaserTankEE.getArenaManager().getArena().setStartRow(this.activePlayer, oldY);
-				LaserTankEE.getArenaManager().getArena().setStartColumn(this.activePlayer, oldX);
-				LaserTankEE.getArenaManager().getArena().setCell(template, oldX, oldY, oldZ, template.getLayer());
+				ArenaManager.get().getArena().setStartRow(this.activePlayer, oldY);
+				ArenaManager.get().getArena().setStartColumn(this.activePlayer, oldX);
+				ArenaManager.get().getArena().setCell(template, oldX, oldY, oldZ, template.getLayer());
 			} catch (final ArrayIndexOutOfBoundsException aioob2) {
 				// Ignore
 			}
@@ -908,7 +917,7 @@ public class Editor extends Screen {
 		this.secondaryPane.removeMouseListener(this.shandler);
 		this.secondaryPane.addMouseListener(this.mhandler);
 		// Set dirty flag
-		LaserTankEE.getArenaManager().setDirty(true);
+		ArenaManager.get().setDirty(true);
 		this.redrawEditor();
 	}
 
@@ -988,8 +997,8 @@ public class Editor extends Screen {
 		this.elMgr.setEditorLocationX(x);
 		this.elMgr.setEditorLocationY(y);
 		if (x != -1 && y != -1 && z != -1 && u != -1) {
-			final var oldObj = LaserTankEE.getArenaManager().getArena().getCell(x, y, z, w);
-			LaserTankEE.getArenaManager().getArena().setCell(obj, x, y, z, w);
+			final var oldObj = ArenaManager.get().getArena().getCell(x, y, z, w);
+			ArenaManager.get().getArena().setCell(obj, x, y, z, w);
 			this.updateRedoHistory(oldObj, x, y, z, w, u);
 			LaserTankEE.getMenus().updateMenuItemState();
 			this.redrawEditor();
@@ -1001,7 +1010,7 @@ public class Editor extends Screen {
 	public void updateEditorLevelAbsolute(final int w) {
 		this.elMgr.setEditorLocationU(w);
 		// Level Change
-		LaserTankEE.getArenaManager().getArena().switchLevel(w);
+		ArenaManager.get().getArena().switchLevel(w);
 		this.fixLimits();
 		this.rebuildGUI();
 		LaserTankEE.getMenus().updateMenuItemState();
@@ -1013,7 +1022,7 @@ public class Editor extends Screen {
 		this.elMgr.offsetEditorLocationZ(z);
 		if (w != 0) {
 			// Level Change
-			LaserTankEE.getArenaManager().getArena().switchLevelOffset(w);
+			ArenaManager.get().getArena().switchLevelOffset(w);
 			this.fixLimits();
 			this.rebuildGUI();
 		}

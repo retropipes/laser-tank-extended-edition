@@ -20,6 +20,7 @@ import com.puttysoftware.lasertank.arena.fileio.LoadTask;
 import com.puttysoftware.lasertank.arena.fileio.SaveTask;
 import com.puttysoftware.lasertank.arena.v4.V4LevelLoadTask;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
+import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -31,7 +32,17 @@ import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.CleanupTask;
 
 public class ArenaManager {
+	// Static fields
+	private static ArenaManager instance;
+
 	// Methods
+	public static ArenaManager get() {
+		if (instance == null) {
+			instance = new ArenaManager();
+		}
+		return instance;
+	}
+
 	public static Arena createArena() throws IOException {
 		return new CurrentArena();
 	}
@@ -98,10 +109,10 @@ public class ArenaManager {
 
 	public static int showSaveDialog() {
 		String type, source;
-		if (LaserTankEE.isInEditorMode()) {
+		if (LaserTankEE.onEditorScreen()) {
 			type = Strings.loadDialog(DialogString.PROMPT_SAVE_ARENA);
 			source = Strings.loadEditor(EditorString.EDITOR);
-		} else if (LaserTankEE.isInGameMode()) {
+		} else if (LaserTankEE.onGameScreen()) {
 			type = Strings.loadDialog(DialogString.PROMPT_SAVE_GAME);
 			source = GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME);
 		} else {
@@ -120,7 +131,7 @@ public class ArenaManager {
 	private boolean arenaProtected;
 
 	// Constructors
-	public ArenaManager() {
+	private ArenaManager() {
 		this.loaded = false;
 		this.isDirty = false;
 		this.lastUsedArenaFile = Strings.loadCommon(CommonString.EMPTY);
@@ -162,7 +173,7 @@ public class ArenaManager {
 			this.setLoaded(true);
 		}
 		this.setDirty(false);
-		LaserTankEE.getEditor().arenaChanged();
+		Editor.get().arenaChanged();
 		LaserTankEE.getMenus().updateMenuItemState();
 	}
 
@@ -237,7 +248,7 @@ public class ArenaManager {
 	}
 
 	public boolean saveArena(final boolean protect) {
-		if (LaserTankEE.isInGameMode()) {
+		if (LaserTankEE.onGameScreen()) {
 			if (this.lastUsedGameFile == null || this.lastUsedGameFile.equals(Strings.loadCommon(CommonString.EMPTY))) {
 				return this.saveArenaAs(protect);
 			}
@@ -308,7 +319,7 @@ public class ArenaManager {
 						Strings.loadDialog(DialogString.SAVE));
 			} else {
 				Settings.setLastDirSave(dir);
-				if (LaserTankEE.isInGameMode()) {
+				if (LaserTankEE.onGameScreen()) {
 					if (extension != null) {
 						if (!extension.equals(FileExtensions.getGameExtension())) {
 							filename = ArenaManager.getNameWithoutExtension(file)

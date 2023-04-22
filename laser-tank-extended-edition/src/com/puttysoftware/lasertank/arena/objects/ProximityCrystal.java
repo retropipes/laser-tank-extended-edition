@@ -5,9 +5,10 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -27,16 +28,16 @@ public class ProximityCrystal extends ArenaObject {
 	@Override
 	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 			final int dirY, final LaserType laserType, final int forceUnits) {
-		final var a = LaserTankEE.getArenaManager().getArena();
+		final var a = ArenaManager.get().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX, locY, locZ, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getGame().gameOver();
+			Game.get().gameOver();
 		}
 		if (laserType == LaserType.POWER) {
 			// Laser keeps going
@@ -57,18 +58,18 @@ public class ProximityCrystal extends ArenaObject {
 	@Override
 	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final RangeType rangeType, final int forceUnits) {
-		final var a = LaserTankEE.getArenaManager().getArena();
+		final var a = ArenaManager.get().getArena();
 		// Boom!
 		Sounds.play(Sound.PROXIMITY);
 		// Check for tank in range of explosion
 		final var target = a.circularScanTank(locX + dirX, locY + dirY, locZ, 1);
 		if (target) {
 			// Kill tank
-			LaserTankEE.getGame().gameOver();
+			Game.get().gameOver();
 			return true;
 		}
 		// Destroy barrel
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 				this.getLayer());
 		return true;
 	}

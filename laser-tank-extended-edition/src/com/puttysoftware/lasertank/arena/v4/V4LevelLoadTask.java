@@ -16,6 +16,8 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.editor.Editor;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -44,31 +46,31 @@ public class V4LevelLoadTask extends Thread {
 	@Override
 	public void run() {
 		this.loadFrame.setVisible(true);
-		LaserTankEE.getGame().setSavedGameFlag(false);
+		Game.get().setSavedGameFlag(false);
 		try (var arenaFile = new FileInputStream(this.filename)) {
 			final var gameArena = ArenaManager.createArena();
 			V4File.loadOldFile(gameArena, arenaFile);
 			arenaFile.close();
-			LaserTankEE.getArenaManager().setArena(gameArena);
+			ArenaManager.get().setArena(gameArena);
 			final var playerExists = gameArena.doesPlayerExist(0);
 			if (playerExists) {
-				LaserTankEE.getGame().resetPlayerLocation();
+				Game.get().resetPlayerLocation();
 			}
 			gameArena.save();
 			// Final cleanup
-			final var lum = LaserTankEE.getArenaManager().getLastUsedArena();
-			LaserTankEE.getArenaManager().clearLastUsedFilenames();
-			LaserTankEE.getArenaManager().setLastUsedArena(lum);
+			final var lum = ArenaManager.get().getLastUsedArena();
+			ArenaManager.get().clearLastUsedFilenames();
+			ArenaManager.get().setLastUsedArena(lum);
 			LaserTankEE.updateLevelInfoList();
-			LaserTankEE.getEditor().arenaChanged();
+			Editor.get().arenaChanged();
 			CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
-			LaserTankEE.getArenaManager().handleDeferredSuccess(true);
+			ArenaManager.get().handleDeferredSuccess(true);
 		} catch (final FileNotFoundException fnfe) {
 			CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
-			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+			ArenaManager.get().handleDeferredSuccess(false);
 		} catch (final IOException ie) {
 			LaserTankEE.logWarning(ie);
-			LaserTankEE.getArenaManager().handleDeferredSuccess(false);
+			ArenaManager.get().handleDeferredSuccess(false);
 		} catch (final Exception ex) {
 			LaserTankEE.logError(ex);
 		} finally {

@@ -7,6 +7,7 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaLocks;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
@@ -24,9 +25,9 @@ class AnimationTask extends Thread {
 	@Override
 	public void run() {
 		try {
-			final var a = LaserTankEE.getArenaManager().getArena();
+			final var a = ArenaManager.get().getArena();
 			while (!this.stop) {
-				final var pz = LaserTankEE.getGame().getPlayerLocationZ();
+				final var pz = Game.get().getPlayerLocationZ();
 				final var maxX = a.getRows();
 				final var maxY = a.getColumns();
 				final var maxW = LayerHelper.COUNT;
@@ -44,7 +45,7 @@ class AnimationTask extends Thread {
 						}
 					}
 				}
-				LaserTankEE.getGame().redrawArena();
+				Game.get().redrawArena();
 				try {
 					Thread.sleep(200);
 				} catch (final InterruptedException ie) {

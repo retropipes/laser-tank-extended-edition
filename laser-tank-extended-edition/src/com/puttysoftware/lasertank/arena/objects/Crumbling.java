@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
@@ -26,9 +26,9 @@ public class Crumbling extends ArenaObject {
 	@Override
 	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 			final LaserType laserType, final int forceUnits) {
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Destroy whatever we were attached to
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
 				Layer.LOWER_OBJECTS.ordinal());
 		Sounds.play(Sound.CRACK);
 		return Direction.NONE;
@@ -36,9 +36,9 @@ public class Crumbling extends ArenaObject {
 
 	@Override
 	public void moveFailedAction(final int locX, final int locY, final int locZ) {
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 		// Destroy whatever we were attached to
-		LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
+		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
 				Layer.LOWER_OBJECTS.ordinal());
 		Sounds.play(Sound.CRACK);
 	}

@@ -8,7 +8,7 @@ package com.puttysoftware.lasertank.game;
 import java.io.File;
 
 import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.GameString;
@@ -61,7 +61,7 @@ class ScoreTracker {
 		b.append(ScoreTracker.getScoreDirectory());
 		b.append(filename);
 		b.append(Strings.loadCommon(CommonString.UNDERSCORE));
-		b.append(LaserTankEE.getArenaManager().getArena().getActiveLevelNumber() + 1);
+		b.append(ArenaManager.get().getArena().getActiveLevelNumber() + 1);
 		b.append(FileExtensions.getScoresExtensionWithPeriod());
 		return new File(b.toString());
 	}

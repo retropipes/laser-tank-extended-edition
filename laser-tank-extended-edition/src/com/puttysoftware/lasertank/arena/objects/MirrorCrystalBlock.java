@@ -5,9 +5,9 @@
  */
 package com.puttysoftware.lasertank.arena.objects;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.assets.Sound;
 import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.RangeTypeHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -50,7 +50,7 @@ public class MirrorCrystalBlock extends ArenaObject {
 		if (laserType == LaserType.MISSILE) {
 			// Destroy mirror crystal block
 			Sounds.play(Sound.BOOM);
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 			return Direction.NONE;
 		}
 		if (laserType == LaserType.BLUE) {
@@ -72,19 +72,19 @@ public class MirrorCrystalBlock extends ArenaObject {
 			final RangeType rangeType, final int forceUnits) {
 		if (rangeType == RangeType.BOMB || RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 			// Destroy mirror crystal block
-			LaserTankEE.getGame().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
+			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ,
 					this.getLayer());
 			return true;
 		}
 		if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
 			// Heat up mirror crystal block
 			Sounds.play(Sound.MELT);
-			LaserTankEE.getGame().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
+			Game.get().morph(this.changesToOnExposure(Material.FIRE), locX + dirX,
 					locY + dirY, locZ, this.getLayer());
 		} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
 			// Freeze mirror crystal block
 			Sounds.play(Sound.FREEZE);
-			LaserTankEE.getGame().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
+			Game.get().morph(this.changesToOnExposure(Material.ICE), locX + dirX,
 					locY + dirY, locZ, this.getLayer());
 		}
 		return true;
