@@ -912,7 +912,7 @@ final class CurrentArenaData extends ArenaData {
 		if (arena.isThirdDimensionWraparoundEnabled()) {
 			fF = this.normalizeFloor(fF);
 		}
-		return this.virtualData.getArenaDataCell(fC, fR, fF, layer);
+		return this.virtualData.getArenaDataCell(fC, fR, fF, layer - Layer.VIRTUAL.ordinal());
 	}
 
 	@Override
@@ -1451,7 +1451,7 @@ final class CurrentArenaData extends ArenaData {
 		if (arena.isThirdDimensionWraparoundEnabled()) {
 			fF = this.normalizeFloor(fF);
 		}
-		this.virtualData.setArenaDataCell(mo, fC, fR, fF, layer);
+		this.virtualData.setArenaDataCell(mo, fC, fR, fF, layer - Layer.VIRTUAL.ordinal());
 		this.dirtyData.setCell(true, fC, fR, fF);
 	}
 
