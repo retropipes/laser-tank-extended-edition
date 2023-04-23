@@ -21,19 +21,30 @@ import com.puttysoftware.lasertank.utility.InvalidArenaException;
 public class Logos {
 	private static String DEFAULT_LOAD_PATH;
 	private static Class<?> LOAD_CLASS = Logos.class;
-	private static Font LOGO_DRAW_FONT = null;
-	private static String LOGO_DRAW_FONT_FALLBACK;
+	private static Font LOGO_VERSION_FONT = null;
+	private static Font LOGO_EDITION_FONT = null;
+	private static String LOGO_VERSION_FONT_FALLBACK;
+	private static String LOGO_EDITION_FONT_FALLBACK;
 	private static String LOGO_OPENING;
 	private static String LOGO_CONTROL;
+	private static String LOGO_EDITION;
 	private static boolean stringsLoaded = false;
-	private static final int LOGO_FALLBACK_DRAW_HORZ = 100;
-	private static final int LOGO_FALLBACK_DRAW_HORZ_MAX = 16;
-	private static final int LOGO_FALLBACK_DRAW_HORZ_PCO = 8;
-	private static final int LOGO_FALLBACK_DRAW_VERT = 146;
-	private static final int LOGO_DRAW_HORZ = 156;
-	private static final int LOGO_DRAW_HORZ_MAX = 2;
-	private static final int LOGO_DRAW_HORZ_PCO = 2;
-	private static final int LOGO_DRAW_VERT = 146;
+	private static final int LOGO_FALLBACK_VERSION_HORZ = 100;
+	private static final int LOGO_FALLBACK_VERSION_HORZ_MAX = 16;
+	private static final int LOGO_FALLBACK_VERSION_HORZ_PCO = 8;
+	private static final int LOGO_FALLBACK_VERSION_VERT = 140;
+	private static final int LOGO_VERSION_HORZ = 156;
+	private static final int LOGO_VERSION_HORZ_MAX = 2;
+	private static final int LOGO_VERSION_HORZ_PCO = 2;
+	private static final int LOGO_VERSION_VERT = 140;
+	private static final int LOGO_FALLBACK_EDITION_HORZ = 100;
+	private static final int LOGO_FALLBACK_EDITION_HORZ_MAX = 16;
+	private static final int LOGO_FALLBACK_EDITION_HORZ_PCO = 10;
+	private static final int LOGO_FALLBACK_EDITION_VERT = 155;
+	private static final int LOGO_EDITION_HORZ = 156;
+	private static final int LOGO_EDITION_HORZ_MAX = 2;
+	private static final int LOGO_EDITION_HORZ_PCO = 2;
+	private static final int LOGO_EDITION_VERT = 155;
 	private static BufferedImageIcon openingCache, controlCache;
 
 	public static BufferedImageIcon getOpening() {
@@ -65,29 +76,45 @@ public class Logos {
 			final var url = Logos.LOAD_CLASS.getResource(Logos.DEFAULT_LOAD_PATH + Strings.getLanguageName() + name);
 			final var image = ImageIO.read(url);
 			final var g2 = image.createGraphics();
+			// Add text
 			g2.setColor(Color.yellow);
 			final var logoVer = LaserTankEE.getLogoVersionString();
-			if (drawing && Logos.LOGO_DRAW_FONT == null) {
+			if (drawing && (Logos.LOGO_VERSION_FONT == null || Logos.LOGO_EDITION_FONT == null)) {
 				try (var is = Logos.class
 						.getResourceAsStream(GlobalStrings.loadUntranslated(UntranslatedString.FONT_PATH)
 								+ GlobalStrings.loadUntranslated(UntranslatedString.FONT_FILENAME))) {
 					final var baseFont = Font.createFont(Font.TRUETYPE_FONT, is);
-					Logos.LOGO_DRAW_FONT = baseFont.deriveFont((float) 24);
-					g2.setFont(Logos.LOGO_DRAW_FONT);
+					Logos.LOGO_VERSION_FONT = baseFont.deriveFont((float) 24);
+					g2.setFont(Logos.LOGO_VERSION_FONT);
 					g2.drawString(logoVer,
-							Logos.LOGO_DRAW_HORZ
-									+ (Logos.LOGO_DRAW_HORZ_MAX - logoVer.length()) * Logos.LOGO_DRAW_HORZ_PCO,
-							Logos.LOGO_DRAW_VERT);
+							Logos.LOGO_VERSION_HORZ
+									+ (Logos.LOGO_VERSION_HORZ_MAX - logoVer.length()) * Logos.LOGO_VERSION_HORZ_PCO,
+							Logos.LOGO_VERSION_VERT);
+					Logos.LOGO_EDITION_FONT = baseFont.deriveFont((float) 10);
+					g2.setFont(Logos.LOGO_EDITION_FONT);
+					g2.drawString(Logos.LOGO_EDITION,
+							Logos.LOGO_EDITION_HORZ
+									+ (Logos.LOGO_EDITION_HORZ_MAX - logoVer.length()) * Logos.LOGO_EDITION_HORZ_PCO,
+							Logos.LOGO_EDITION_VERT);
 				} catch (final Exception ex) {
-					Logos.LOGO_DRAW_FONT = Font.decode(Logos.LOGO_DRAW_FONT_FALLBACK);
-					g2.setFont(Logos.LOGO_DRAW_FONT);
+					Logos.LOGO_VERSION_FONT = Font.decode(Logos.LOGO_VERSION_FONT_FALLBACK);
+					g2.setFont(Logos.LOGO_VERSION_FONT);
 					g2.drawString(logoVer,
-							Logos.LOGO_FALLBACK_DRAW_HORZ + (Logos.LOGO_FALLBACK_DRAW_HORZ_MAX - logoVer.length())
-									* Logos.LOGO_FALLBACK_DRAW_HORZ_PCO,
-							Logos.LOGO_FALLBACK_DRAW_VERT);
+							Logos.LOGO_FALLBACK_VERSION_HORZ + (Logos.LOGO_FALLBACK_VERSION_HORZ_MAX - logoVer.length())
+									* Logos.LOGO_FALLBACK_VERSION_HORZ_PCO,
+							Logos.LOGO_FALLBACK_VERSION_VERT);
+					Logos.LOGO_EDITION_FONT = Font.decode(Logos.LOGO_EDITION_FONT_FALLBACK);
+					g2.setFont(Logos.LOGO_EDITION_FONT);
+					g2.drawString(Logos.LOGO_EDITION,
+							Logos.LOGO_FALLBACK_EDITION_HORZ + (Logos.LOGO_FALLBACK_EDITION_HORZ_MAX - logoVer.length())
+									* Logos.LOGO_FALLBACK_EDITION_HORZ_PCO,
+							Logos.LOGO_FALLBACK_EDITION_VERT);
 				}
 			}
-			return new BufferedImageIcon(image);
+			// Add objects
+			return Images.getCompositeImageDirectly(new BufferedImageIcon(image),
+					new BufferedImageIcon(ImageIO.read(Logos.LOAD_CLASS.getResource(Logos.DEFAULT_LOAD_PATH
+							+ GlobalStrings.loadUntranslated(UntranslatedString.OBJECT_MASK_IMAGE)))));
 		} catch (final IOException ioe) {
 			throw new InvalidArenaException(ioe);
 		}
@@ -96,7 +123,9 @@ public class Logos {
 	private static void checkLoadStrings() {
 		if (!Logos.stringsLoaded) {
 			Logos.DEFAULT_LOAD_PATH = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_PATH);
-			Logos.LOGO_DRAW_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.DRAW_FONT_FALLBACK);
+			Logos.LOGO_VERSION_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.VERSION_FONT_FALLBACK);
+			Logos.LOGO_EDITION_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.EDITION_FONT_FALLBACK);
+			Logos.LOGO_EDITION = GlobalStrings.loadUntranslated(UntranslatedString.EDITION_NAME);
 			Logos.LOGO_CONTROL = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_CONTROL);
 			Logos.LOGO_OPENING = GlobalStrings.loadUntranslated(UntranslatedString.LOGO_OPENING);
 			Logos.stringsLoaded = true;

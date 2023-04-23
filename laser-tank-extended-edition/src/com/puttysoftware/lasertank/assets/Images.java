@@ -38,7 +38,7 @@ public class Images {
 		return Images.getCompositeImageDirectly(icon1, icon2);
 	}
 
-	private static BufferedImageIcon getCompositeImageDirectly(final BufferedImageIcon icon1,
+	static BufferedImageIcon getCompositeImageDirectly(final BufferedImageIcon icon1,
 			final BufferedImageIcon icon2) {
 		try {
 			final var result = new BufferedImageIcon(icon1);
@@ -54,7 +54,7 @@ public class Images {
 	}
 
 	public static int getGraphicSize() {
-		return 32;
+		return 64;
 	}
 
 	public static BufferedImageIcon getImage(final ArenaObject obj, final boolean useText) {
@@ -104,7 +104,7 @@ public class Images {
 
 	private static void checkLoadStrings() {
 		if (!Images.stringsLoaded) {
-			Images.DRAW_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.DRAW_FONT_FALLBACK);
+			Images.DRAW_FONT_FALLBACK = GlobalStrings.loadUntranslated(UntranslatedString.VERSION_FONT_FALLBACK);
 			Images.stringsLoaded = true;
 		}
 	}
