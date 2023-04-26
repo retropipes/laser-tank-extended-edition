@@ -37,11 +37,11 @@ public class Logos {
 	private static final int LOGO_VERSION_HORZ_MAX = 2;
 	private static final int LOGO_VERSION_HORZ_PCO = 2;
 	private static final int LOGO_VERSION_VERT = 140;
-	private static final int LOGO_FALLBACK_EDITION_HORZ = 100;
-	private static final int LOGO_FALLBACK_EDITION_HORZ_MAX = 16;
-	private static final int LOGO_FALLBACK_EDITION_HORZ_PCO = 10;
+	private static final int LOGO_FALLBACK_EDITION_HORZ = 166;
+	private static final int LOGO_FALLBACK_EDITION_HORZ_MAX = 8;
+	private static final int LOGO_FALLBACK_EDITION_HORZ_PCO = 4;
 	private static final int LOGO_FALLBACK_EDITION_VERT = 155;
-	private static final int LOGO_EDITION_HORZ = 156;
+	private static final int LOGO_EDITION_HORZ = 120;
 	private static final int LOGO_EDITION_HORZ_MAX = 2;
 	private static final int LOGO_EDITION_HORZ_PCO = 2;
 	private static final int LOGO_EDITION_VERT = 155;

@@ -51,7 +51,7 @@ public class LaserTankEE {
 	private static final ProductData VERSION = new ProductData(1, 0, 0, 1, 1);
 
 	public static String getLogoVersionString() {
-		return VERSION.getShortVersionString();
+		return "v" + VERSION.getShortVersionString(); //$NON-NLS-1$
 	}
 
 	private static String getVersionString() {
