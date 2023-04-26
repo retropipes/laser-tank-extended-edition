@@ -14,21 +14,19 @@ import javax.swing.JProgressBar;
 import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
+import com.puttysoftware.diane.Diane;
+import com.puttysoftware.diane.gui.MainContentFactory;
 import com.puttysoftware.diane.gui.MainWindow;
 import com.puttysoftware.diane.gui.Screen;
+import com.puttysoftware.diane.gui.dialog.CommonDialogs;
+import com.puttysoftware.diane.integration.Integration;
+import com.puttysoftware.diane.update.ProductData;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.game.Game;
-import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
-import com.puttysoftware.lasertank.locale.MessageString;
-import com.puttysoftware.lasertank.locale.Strings;
-
-import com.puttysoftware.diane.Diane;
-import com.puttysoftware.diane.gui.MainContentFactory;
-import com.puttysoftware.diane.gui.dialog.CommonDialogs;
-import com.puttysoftware.diane.integration.Integration;
 import com.puttysoftware.lasertank.locale.ErrorString;
+import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
 
 public class LaserTankEE {
@@ -50,37 +48,14 @@ public class LaserTankEE {
 	private static MainScreen mainScreen;
 	private static Screen currentScreen, lastScreen;
 
-	private static final int VERSION_MAJOR = 18;
-	private static final int VERSION_MINOR = 0;
-	private static final int VERSION_BUGFIX = 0;
-	private static final int VERSION_BETA = 2;
+	private static final ProductData VERSION = new ProductData(1, 0, 0, 1, 1);
 
 	public static String getLogoVersionString() {
-		if (isBetaModeEnabled()) {
-			return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + VERSION_MAJOR
-					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
-					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX
-					+ Strings.loadCommon(CommonString.BETA_SHORT) + VERSION_BETA;
-		}
-		return Strings.loadCommon(CommonString.LOGO_VERSION_PREFIX) + VERSION_MAJOR
-				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
-				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX;
+		return VERSION.getShortVersionString();
 	}
 
 	private static String getVersionString() {
-		if (isBetaModeEnabled()) {
-			return Strings.loadCommon(CommonString.EMPTY) + VERSION_MAJOR
-					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
-					+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX
-					+ Strings.loadMessage(MessageString.BETA) + VERSION_BETA;
-		}
-		return Strings.loadCommon(CommonString.EMPTY) + VERSION_MAJOR
-				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_MINOR
-				+ Strings.loadCommon(CommonString.NOTL_PERIOD) + VERSION_BUGFIX;
-	}
-
-	private static boolean isBetaModeEnabled() {
-		return VERSION_BETA > 0;
+		return VERSION.getVersionString();
 	}
 
 	public static void logError(final Throwable t) {
