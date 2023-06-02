@@ -12,16 +12,15 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class SuperPit extends ArenaObject {
     // Constructors
     public SuperPit() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.SUPER_PIT;
+	return GameObjectID.SUPER_PIT;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.FALL);
+	Sounds.play(Sound.FALL);
     }
 }

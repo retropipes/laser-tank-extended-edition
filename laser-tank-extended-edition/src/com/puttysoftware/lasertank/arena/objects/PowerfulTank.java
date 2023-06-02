@@ -13,24 +13,24 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class PowerfulTank extends ArenaObject {
     public PowerfulTank(final Direction dir, final int number) {
-        super(GameObjectID.POWER_TANK, dir, number);
-        this.activateTimer(50);
+	super(GameObjectID.POWER_TANK, dir, number);
+	this.activateTimer(50);
     }
 
     // Constructors
     public PowerfulTank(final int number) {
-        super(GameObjectID.POWER_TANK, number);
-        this.activateTimer(50);
+	super(GameObjectID.POWER_TANK, number);
+	this.activateTimer(50);
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.POWER_TANK;
+	return GameObjectID.POWER_TANK;
     }
 
     @Override
     public void timerExpiredAction(final int x, final int y) {
-        Sounds.play(Sound.RETURN);
-        Game.get().setNormalTank();
+	Sounds.play(Sound.RETURN);
+	Game.get().setNormalTank();
     }
 }

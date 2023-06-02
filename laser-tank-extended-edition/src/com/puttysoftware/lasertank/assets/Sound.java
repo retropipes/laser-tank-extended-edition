@@ -3,11 +3,11 @@ package com.puttysoftware.lasertank.assets;
 import java.net.URL;
 import java.util.Locale;
 
-import com.puttysoftware.diane.asset.sound.DianeSoundIndex;
+import com.puttysoftware.lasertank.engine.asset.sound.LTESoundIndex;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
-public enum Sound implements DianeSoundIndex {
+public enum Sound implements LTESoundIndex {
     ANTI_DIE,
     ANTI_FIRE,
     BREAK_BRICKS,
@@ -65,12 +65,12 @@ public enum Sound implements DianeSoundIndex {
 
     @Override
     public String getName() {
-        return this.toString().toLowerCase(Locale.ENGLISH);
+	return this.toString().toLowerCase(Locale.ENGLISH);
     }
 
     @Override
     public URL getURL() {
-        return Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
-                + GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
+	return Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
+		+ GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
     }
 }

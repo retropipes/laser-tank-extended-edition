@@ -11,39 +11,38 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class IceBridge extends ArenaObject {
-	// Constructors
-	public IceBridge() {
-	}
+    // Constructors
+    public IceBridge() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		switch (materialID) {
-			case FIRE:
-				if (this.hasPreviousState()) {
-					return this.getPreviousState();
-				} else {
-					return new ArenaObject(GameObjectID.BRIDGE);
-				}
-			default:
-				return this;
-		}
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	switch (materialID) {
+	case FIRE:
+	    if (this.hasPreviousState()) {
+		return this.getPreviousState();
+	    }
+	    return new ArenaObject(GameObjectID.BRIDGE);
+	default:
+	    return this;
 	}
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.ICE_BRIDGE;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.ICE_BRIDGE;
+    }
 
-	@Override
-	public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-		Sounds.play(Sound.PUSH_MIRROR);
-	}
+    @Override
+    public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
+	Sounds.play(Sound.PUSH_MIRROR);
+    }
 
-	@Override
-	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-		if (pushed instanceof HotBox) {
-			pushed.setSavedObject(new ArenaObject(GameObjectID.BRIDGE));
-		}
-		return true;
+    @Override
+    public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
+	if (pushed instanceof HotBox) {
+	    pushed.setSavedObject(new ArenaObject(GameObjectID.BRIDGE));
 	}
+	return true;
+    }
 }

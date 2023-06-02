@@ -14,21 +14,21 @@ public class LayerHelper {
     public static final int VIRTUAL_COUNT = 1;
     private static String[] NAMES = null;
 
+    public static void activeLanguageChanged() {
+	LayerHelper.NAMES = new String[] { Strings.loadEditor(EditorString.LOWER_GROUND_LAYER),
+		Strings.loadEditor(EditorString.UPPER_GROUND_LAYER),
+		Strings.loadEditor(EditorString.LOWER_OBJECTS_LAYER),
+		Strings.loadEditor(EditorString.UPPER_OBJECTS_LAYER) };
+    }
+
     public static Layer fromOrdinal(final int value) {
-        return Layer.values()[value];
+	return Layer.values()[value];
     }
 
     public static String[] getNames() {
-        if (LayerHelper.NAMES == null) {
-            LayerHelper.activeLanguageChanged();
-        }
-        return LayerHelper.NAMES;
-    }
-
-    public static void activeLanguageChanged() {
-        LayerHelper.NAMES = new String[] { Strings.loadEditor(EditorString.LOWER_GROUND_LAYER),
-                Strings.loadEditor(EditorString.UPPER_GROUND_LAYER),
-                Strings.loadEditor(EditorString.LOWER_OBJECTS_LAYER),
-                Strings.loadEditor(EditorString.UPPER_OBJECTS_LAYER) };
+	if (LayerHelper.NAMES == null) {
+	    LayerHelper.activeLanguageChanged();
+	}
+	return LayerHelper.NAMES;
     }
 }

@@ -14,6 +14,6 @@ public class MagneticRepelWall extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.MAGNETIC_REPEL_WALL;
+	return GameObjectID.MAGNETIC_REPEL_WALL;
     }
 }

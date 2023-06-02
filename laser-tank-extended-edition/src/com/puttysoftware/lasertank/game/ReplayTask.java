@@ -8,24 +8,24 @@ package com.puttysoftware.lasertank.game;
 import com.puttysoftware.lasertank.settings.Settings;
 
 class ReplayTask extends Thread {
-	// Constructors
-	public ReplayTask() {
-		// Do nothing
-	}
+    // Constructors
+    public ReplayTask() {
+	// Do nothing
+    }
 
-	@Override
-	public void run() {
-		final var gm = Game.get();
-		var result = true;
-		while (result) {
-			result = gm.replayLastMove();
-			// Delay, for animation purposes
-			try {
-				Thread.sleep(Settings.getReplaySpeed());
-			} catch (final InterruptedException ie) {
-				// Ignore
-			}
-		}
-		gm.replayDone();
+    @Override
+    public void run() {
+	final var gm = Game.get();
+	var result = true;
+	while (result) {
+	    result = gm.replayLastMove();
+	    // Delay, for animation purposes
+	    try {
+		Thread.sleep(Settings.getReplaySpeed());
+	    } catch (final InterruptedException ie) {
+		// Ignore
+	    }
 	}
+	gm.replayDone();
+    }
 }

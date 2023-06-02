@@ -14,6 +14,6 @@ public class OneWay extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.ONE_WAY;
+	return GameObjectID.ONE_WAY;
     }
 }

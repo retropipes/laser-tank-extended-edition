@@ -14,6 +14,6 @@ public class InvisibleBoxTeleport extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.INVISIBLE_BOX_TELEPORT;
+	return GameObjectID.INVISIBLE_BOX_TELEPORT;
     }
 }

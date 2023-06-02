@@ -10,16 +10,16 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class MoltenTank extends ArenaObject {
     public MoltenTank(final Direction dir, final int number) {
-        super(GameObjectID.MOLTEN_TANK, dir, number);
+	super(GameObjectID.MOLTEN_TANK, dir, number);
     }
 
     // Constructors
     public MoltenTank(final int number) {
-        super(GameObjectID.MOLTEN_TANK, number);
+	super(GameObjectID.MOLTEN_TANK, number);
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.MOLTEN_TANK;
+	return GameObjectID.MOLTEN_TANK;
     }
 }

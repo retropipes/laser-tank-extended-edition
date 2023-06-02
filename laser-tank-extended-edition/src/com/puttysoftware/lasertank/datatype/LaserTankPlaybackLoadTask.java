@@ -12,9 +12,9 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import com.puttysoftware.diane.gui.MainWindow;
-import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.engine.gui.MainWindow;
+import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
@@ -24,35 +24,35 @@ import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 class LaserTankPlaybackLoadTask extends Thread {
-	// Fields
-	private final File file;
-	private final JPanel loadContent;
+    // Fields
+    private final File file;
+    private final JPanel loadContent;
 
-	// Constructors
-	LaserTankPlaybackLoadTask(final File theFile) {
-		this.file = theFile;
-		this.setName(GlobalStrings.loadUntranslated(UntranslatedString.PLAYBACK_LOADER_NAME));
-		this.loadContent = new JPanel();
-		final var loadBar = new JProgressBar();
-		loadBar.setIndeterminate(true);
-		this.loadContent.add(loadBar);
-	}
+    // Constructors
+    LaserTankPlaybackLoadTask(final File theFile) {
+	this.file = theFile;
+	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.PLAYBACK_LOADER_NAME));
+	this.loadContent = new JPanel();
+	final var loadBar = new JProgressBar();
+	loadBar.setIndeterminate(true);
+	this.loadContent.add(loadBar);
+    }
 
-	// Methods
-	@Override
-	public void run() {
-		MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
-		Game.get().setSavedGameFlag(false);
-		try {
-			LaserTankPlayback.loadFromFile(this.file);
-		} catch (final FileNotFoundException fnfe) {
-			CommonDialogs.showDialog(Strings.loadGame(GameString.PLAYBACK_LOAD_FAILED));
-		} catch (final IOException ioe) {
-			throw new InvalidArenaException(ioe);
-		} catch (final Exception ex) {
-			LaserTankEE.logError(ex);
-		} finally {
-			MainWindow.mainWindow().restoreSaved();
-		}
+    // Methods
+    @Override
+    public void run() {
+	MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
+	Game.get().setSavedGameFlag(false);
+	try {
+	    LaserTankPlayback.loadFromFile(this.file);
+	} catch (final FileNotFoundException fnfe) {
+	    CommonDialogs.showDialog(Strings.loadGame(GameString.PLAYBACK_LOAD_FAILED));
+	} catch (final IOException ioe) {
+	    throw new InvalidArenaException(ioe);
+	} catch (final Exception ex) {
+	    LaserTankEE.logError(ex);
+	} finally {
+	    MainWindow.mainWindow().restoreSaved();
 	}
+    }
 }

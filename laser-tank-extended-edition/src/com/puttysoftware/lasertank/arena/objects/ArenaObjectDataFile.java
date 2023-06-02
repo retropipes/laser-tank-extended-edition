@@ -32,6 +32,6 @@ enum ArenaObjectDataFile {
     JUMP;
 
     public String getName() {
-        return Integer.toString(this.ordinal());
+	return Integer.toString(this.ordinal());
     }
 }

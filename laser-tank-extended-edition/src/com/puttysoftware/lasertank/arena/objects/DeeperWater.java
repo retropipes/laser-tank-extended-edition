@@ -12,43 +12,43 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class DeeperWater extends ArenaObject {
-	// Constructors
-	public DeeperWater() {
-	}
+    // Constructors
+    public DeeperWater() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		return switch (materialID) {
-			case ICE -> {
-				final var i = new ArenaObject(GameObjectID.ICE);
-				i.setPreviousState(this);
-				yield i;
-			}
-			case FIRE -> new DeepWater();
-			default -> this;
-		};
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	return switch (materialID) {
+	case ICE -> {
+	    final var i = new ArenaObject(GameObjectID.ICE);
+	    i.setPreviousState(this);
+	    yield i;
 	}
+	case FIRE -> new DeepWater();
+	default -> this;
+	};
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.DEEPER_WATER;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.DEEPER_WATER;
+    }
 
-	// Scriptability
-	@Override
-	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-		if (pushed.isBox()) {
-			// Get rid of pushed object
-			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
-			if (pushed.getMaterial() == Material.WOODEN) {
-				Game.get().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
-			} else {
-				Game.get().morph(new DeepWater(), x, y, z, this.getLayer());
-			}
-		} else {
-			Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
-		}
-		Sounds.play(Sound.SINK);
-		return false;
+    // Scriptability
+    @Override
+    public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
+	if (pushed.isBox()) {
+	    // Get rid of pushed object
+	    Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	    if (pushed.getMaterial() == Material.WOODEN) {
+		Game.get().morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
+	    } else {
+		Game.get().morph(new DeepWater(), x, y, z, this.getLayer());
+	    }
+	} else {
+	    Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 	}
+	Sounds.play(Sound.SINK);
+	return false;
+    }
 }

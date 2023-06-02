@@ -10,32 +10,30 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class IcyBox extends ArenaObject {
-	// Constructors
-	public IcyBox() {
-		super();
-	}
+    // Constructors
+    public IcyBox() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		switch (materialID) {
-			case FIRE:
-				if (this.hasPreviousState()) {
-					return this.getPreviousState();
-				} else {
-					return new ArenaObject(GameObjectID.BOX);
-				}
-			default:
-				return this;
-		}
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	switch (materialID) {
+	case FIRE:
+	    if (this.hasPreviousState()) {
+		return this.getPreviousState();
+	    }
+	    return new ArenaObject(GameObjectID.BOX);
+	default:
+	    return this;
 	}
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.ICY_BOX;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.ICY_BOX;
+    }
 
-	@Override
-	public Sound laserEnteredSound() {
-		return Sound.PUSH_BOX;
-	}
+    @Override
+    public Sound laserEnteredSound() {
+	return Sound.PUSH_BOX;
+    }
 }

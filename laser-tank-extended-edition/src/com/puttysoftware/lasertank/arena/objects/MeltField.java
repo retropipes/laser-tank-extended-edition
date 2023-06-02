@@ -17,12 +17,12 @@ public class MeltField extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.MELT_FIELD;
+	return GameObjectID.MELT_FIELD;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.MELT);
-        Game.get().updatePositionRelativeMolten();
+	Sounds.play(Sound.MELT);
+	Game.get().updatePositionRelativeMolten();
     }
 }

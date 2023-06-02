@@ -17,12 +17,12 @@ public class FrostField extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.FROST_FIELD;
+	return GameObjectID.FROST_FIELD;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.FREEZE);
-        Game.get().updatePositionRelativeFrozen();
+	Sounds.play(Sound.FREEZE);
+	Game.get().updatePositionRelativeFrozen();
     }
 }

@@ -14,33 +14,32 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class MetallicMirror extends ArenaObject {
     // Constructors
     public MetallicMirror() {
-        super();
     }
 
     @Override
     public boolean doLasersPassThrough() {
-        return true;
+	return true;
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.METALLIC_MIRROR;
+	return GameObjectID.METALLIC_MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-            final LaserType laserType, final int forceUnits) {
-        final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
-        if (this.hitReflectiveSide(dir)) {
-            // Reflect laser
-            return this.getDirection();
-        }
-        // Move mirror
-        return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	    final LaserType laserType, final int forceUnits) {
+	final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	if (this.hitReflectiveSide(dir)) {
+	    // Reflect laser
+	    return this.getDirection();
+	}
+	// Move mirror
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override
     public Sound laserEnteredSound() {
-        return Sound.PUSH_MIRROR;
+	return Sound.PUSH_MIRROR;
     }
 }

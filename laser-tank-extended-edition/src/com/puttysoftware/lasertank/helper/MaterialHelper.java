@@ -9,6 +9,6 @@ import com.puttysoftware.lasertank.index.Material;
 
 public class MaterialHelper {
     public static Material fromStringValue(final String value) {
-        return Material.values()[Integer.parseInt(value)];
+	return Material.values()[Integer.parseInt(value)];
     }
 }

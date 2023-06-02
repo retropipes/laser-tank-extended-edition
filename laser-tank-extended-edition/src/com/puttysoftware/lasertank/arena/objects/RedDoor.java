@@ -14,24 +14,23 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class RedDoor extends ArenaObject {
     // Constructors
     public RedDoor() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.RED_DOOR;
+	return GameObjectID.RED_DOOR;
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-        return TankInventory.getRedKeysLeft() < 1;
+	return TankInventory.getRedKeysLeft() < 1;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.UNLOCK);
-        TankInventory.useRedKey();
-        Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Sounds.play(Sound.UNLOCK);
+	TankInventory.useRedKey();
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

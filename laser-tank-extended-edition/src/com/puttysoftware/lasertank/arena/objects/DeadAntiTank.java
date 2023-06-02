@@ -15,24 +15,23 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class DeadAntiTank extends ArenaObject {
     // Constructors
     public DeadAntiTank() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.DEAD_ANTI_TANK;
+	return GameObjectID.DEAD_ANTI_TANK;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-            final LaserType laserType, final int forceUnits) {
-        Game.get().haltMovingObjects();
-        if (laserType != LaserType.MISSILE) {
-            return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-        }
-        // Destroy
-        Sounds.play(Sound.BOOM);
-        Game.get().morph(this.getSavedObject(), locX, locY, locZ, this.getLayer());
-        return Direction.NONE;
+	    final LaserType laserType, final int forceUnits) {
+	Game.get().haltMovingObjects();
+	if (laserType != LaserType.MISSILE) {
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
+	// Destroy
+	Sounds.play(Sound.BOOM);
+	Game.get().morph(this.getSavedObject(), locX, locY, locZ, this.getLayer());
+	return Direction.NONE;
     }
 }

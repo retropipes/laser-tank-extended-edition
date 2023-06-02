@@ -14,46 +14,46 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Material;
 
 public class Wall extends ArenaObject {
-	// Constructors
-	public Wall() {
-	}
+    // Constructors
+    public Wall() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		return switch (materialID) {
-			case ICE -> {
-				final var iw = new IcyWall();
-				iw.setPreviousState(this);
-				yield iw;
-			}
-			case FIRE -> new HotWall();
-			default -> this;
-		};
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	return switch (materialID) {
+	case ICE -> {
+	    final var iw = new IcyWall();
+	    iw.setPreviousState(this);
+	    yield iw;
 	}
+	case FIRE -> new HotWall();
+	default -> this;
+	};
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.WALL;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.WALL;
+    }
 
-	@Override
-	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-			final LaserType laserType, final int forceUnits) {
-		if (laserType == LaserType.MISSILE) {
-			// Heat up wall
-			Sounds.play(Sound.MELT);
-			Game.get().morph(new HotWall(), locX, locY, locZ, this.getLayer());
-			return Direction.NONE;
-		}
-		if (laserType == LaserType.STUNNER) {
-			// Freeze wall
-			Sounds.play(Sound.FREEZE);
-			final var iw = new IcyWall();
-			iw.setPreviousState(this);
-			Game.get().morph(iw, locX, locY, locZ, this.getLayer());
-			return Direction.NONE;
-		}
-		// Stop laser
-		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+    @Override
+    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+	    final LaserType laserType, final int forceUnits) {
+	if (laserType == LaserType.MISSILE) {
+	    // Heat up wall
+	    Sounds.play(Sound.MELT);
+	    Game.get().morph(new HotWall(), locX, locY, locZ, this.getLayer());
+	    return Direction.NONE;
 	}
+	if (laserType == LaserType.STUNNER) {
+	    // Freeze wall
+	    Sounds.play(Sound.FREEZE);
+	    final var iw = new IcyWall();
+	    iw.setPreviousState(this);
+	    Game.get().morph(iw, locX, locY, locZ, this.getLayer());
+	    return Direction.NONE;
+	}
+	// Stop laser
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+    }
 }

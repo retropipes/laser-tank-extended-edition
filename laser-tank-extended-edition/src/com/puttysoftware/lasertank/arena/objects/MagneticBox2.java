@@ -14,37 +14,35 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class MagneticBox2 extends ArenaObject {
-	// Constructors
-	public MagneticBox2() {
-		super();
-	}
+    // Constructors
+    public MagneticBox2() {
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.MAGNETIC_BOX_2;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.MAGNETIC_BOX_2;
+    }
 
-	@Override
-	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-			final LaserType laserType, final int forceUnits) {
-		final var mo = ArenaManager.get().getArena().getCell(locX - dirX, locY - dirY, locZ,
-				this.getLayer());
-		if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
-			Game.get().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-			Sounds.play(this.laserEnteredSound());
-		} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
-			Game.get().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-			Sounds.play(this.laserEnteredSound());
-		} else if (laserType == LaserType.MISSILE) {
-			Sounds.play(Sound.BOOM);
-		} else {
-			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-		}
-		return Direction.NONE;
+    @Override
+    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+	    final LaserType laserType, final int forceUnits) {
+	final var mo = ArenaManager.get().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+	if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
+	    Game.get().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+	    Sounds.play(this.laserEnteredSound());
+	} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
+	    Game.get().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+	    Sounds.play(this.laserEnteredSound());
+	} else if (laserType == LaserType.MISSILE) {
+	    Sounds.play(Sound.BOOM);
+	} else {
+	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
+	return Direction.NONE;
+    }
 
-	@Override
-	public Sound laserEnteredSound() {
-		return Sound.PUSH_BOX;
-	}
+    @Override
+    public Sound laserEnteredSound() {
+	return Sound.PUSH_BOX;
+    }
 }

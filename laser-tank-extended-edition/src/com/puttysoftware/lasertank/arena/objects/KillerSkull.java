@@ -18,14 +18,14 @@ public class KillerSkull extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.KILLER_SKULL;
+	return GameObjectID.KILLER_SKULL;
     }
 
     // Scriptability
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.KILL);
-        ArenaManager.get().getArena().fullScanKillTanks();
-        Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Sounds.play(Sound.KILL);
+	ArenaManager.get().getArena().fullScanKillTanks();
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

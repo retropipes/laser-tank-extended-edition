@@ -14,24 +14,23 @@ import com.puttysoftware.lasertank.utility.TankInventory;
 public class MagneticDoor extends ArenaObject {
     // Constructors
     public MagneticDoor() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.MAGNETIC_DOOR;
+	return GameObjectID.MAGNETIC_DOOR;
     }
 
     // Scriptability
     @Override
     public boolean isConditionallySolid() {
-        return TankInventory.getGreenKeysLeft() < 1;
+	return TankInventory.getGreenKeysLeft() < 1;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.UNLOCK);
-        TankInventory.useGreenKey();
-        Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Sounds.play(Sound.UNLOCK);
+	TankInventory.useGreenKey();
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

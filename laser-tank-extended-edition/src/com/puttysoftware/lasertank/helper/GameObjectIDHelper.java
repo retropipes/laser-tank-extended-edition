@@ -9,6 +9,6 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 
 public class GameObjectIDHelper {
     public static GameObjectID fromStringValue(final String value) {
-        return GameObjectID.values()[Integer.parseInt(value)];
+	return GameObjectID.values()[Integer.parseInt(value)];
     }
 }

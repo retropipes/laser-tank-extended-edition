@@ -14,6 +14,6 @@ public class SandBridge extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.SAND_BRIDGE;
+	return GameObjectID.SAND_BRIDGE;
     }
 }

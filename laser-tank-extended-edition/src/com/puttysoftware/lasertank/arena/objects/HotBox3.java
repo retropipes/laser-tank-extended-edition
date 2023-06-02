@@ -12,24 +12,23 @@ import com.puttysoftware.lasertank.index.Material;
 public class HotBox3 extends ArenaObject {
     // Constructors
     public HotBox3() {
-        super();
     }
 
     @Override
     public ArenaObject changesToOnExposure(final Material materialID) {
-        return switch (materialID) {
-            case ICE -> new Box3();
-            default -> this;
-        };
+	return switch (materialID) {
+	case ICE -> new Box3();
+	default -> this;
+	};
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.HOT_BOX_3;
+	return GameObjectID.HOT_BOX_3;
     }
 
     @Override
     public Sound laserEnteredSound() {
-        return Sound.PUSH_BOX;
+	return Sound.PUSH_BOX;
     }
 }

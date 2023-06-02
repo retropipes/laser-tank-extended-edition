@@ -14,6 +14,6 @@ public class Tree extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.TREE;
+	return GameObjectID.TREE;
     }
 }

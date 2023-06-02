@@ -11,6 +11,6 @@ public class GameColorHelper {
     public static final int COUNT = 16;
 
     public static GameColor fromOrdinal(final int value) {
-        return GameColor.values()[value];
+	return GameColor.values()[value];
     }
 }

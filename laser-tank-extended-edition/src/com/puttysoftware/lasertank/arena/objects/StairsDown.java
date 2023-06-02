@@ -12,16 +12,15 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class StairsDown extends ArenaObject {
     // Constructors
     public StairsDown() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.STAIRS_DOWN;
+	return GameObjectID.STAIRS_DOWN;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        Sounds.play(Sound.DOWN);
+	Sounds.play(Sound.DOWN);
     }
 }

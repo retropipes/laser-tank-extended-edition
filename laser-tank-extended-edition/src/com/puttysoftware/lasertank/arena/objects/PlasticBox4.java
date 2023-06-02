@@ -10,31 +10,30 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class PlasticBox4 extends ArenaObject {
-	// Constructors
-	public PlasticBox4() {
-		super();
-	}
+    // Constructors
+    public PlasticBox4() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		return switch (materialID) {
-			case ICE -> {
-				final var ib = new IcyBox4();
-				ib.setPreviousState(this);
-				yield ib;
-			}
-			case FIRE -> new HotBox4();
-			default -> this;
-		};
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	return switch (materialID) {
+	case ICE -> {
+	    final var ib = new IcyBox4();
+	    ib.setPreviousState(this);
+	    yield ib;
 	}
+	case FIRE -> new HotBox4();
+	default -> this;
+	};
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.PLASTIC_BOX_4;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.PLASTIC_BOX_4;
+    }
 
-	@Override
-	public Sound laserEnteredSound() {
-		return Sound.PUSH_BOX;
-	}
+    @Override
+    public Sound laserEnteredSound() {
+	return Sound.PUSH_BOX;
+    }
 }

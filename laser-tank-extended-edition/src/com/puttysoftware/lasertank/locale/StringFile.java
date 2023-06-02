@@ -22,6 +22,6 @@ enum StringFile {
     OBJECT_CUSTOM_TEXT;
 
     public String getName() {
-        return this.toString().toLowerCase(Locale.ENGLISH);
+	return this.toString().toLowerCase(Locale.ENGLISH);
     }
 }

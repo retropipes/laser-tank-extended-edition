@@ -13,51 +13,51 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
 class AnimationTask extends Thread {
-	// Fields
-	private boolean stop = false;
+    // Fields
+    private boolean stop = false;
 
-	// Constructors
-	public AnimationTask() {
-		this.setName(GlobalStrings.loadUntranslated(UntranslatedString.ANIMATOR_NAME));
-		this.setPriority(Thread.MIN_PRIORITY);
-	}
+    // Constructors
+    public AnimationTask() {
+	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.ANIMATOR_NAME));
+	this.setPriority(Thread.MIN_PRIORITY);
+    }
 
-	@Override
-	public void run() {
-		try {
-			final var a = ArenaManager.get().getArena();
-			while (!this.stop) {
-				final var pz = Game.get().getPlayerLocationZ();
-				final var maxX = a.getRows();
-				final var maxY = a.getColumns();
-				final var maxW = LayerHelper.COUNT;
-				for (var x = 0; x < maxX; x++) {
-					for (var y = 0; y < maxY; y++) {
-						for (var w = 0; w < maxW; w++) {
-							synchronized (ArenaLocks.LOCK_OBJECT) {
-								final var oldFN = a.getCell(x, y, pz, w).getFrameNumber();
-								a.getCell(x, y, pz, w).nextFrame();
-								final var newFN = a.getCell(x, y, pz, w).getFrameNumber();
-								if (oldFN != newFN) {
-									a.markAsDirty(x, y, pz);
-								}
-							}
-						}
-					}
+    @Override
+    public void run() {
+	try {
+	    final var a = ArenaManager.get().getArena();
+	    while (!this.stop) {
+		final var pz = Game.get().getPlayerLocationZ();
+		final var maxX = a.getRows();
+		final var maxY = a.getColumns();
+		final var maxW = LayerHelper.COUNT;
+		for (var x = 0; x < maxX; x++) {
+		    for (var y = 0; y < maxY; y++) {
+			for (var w = 0; w < maxW; w++) {
+			    synchronized (ArenaLocks.LOCK_OBJECT) {
+				final var oldFN = a.getCell(x, y, pz, w).getFrameNumber();
+				a.getCell(x, y, pz, w).nextFrame();
+				final var newFN = a.getCell(x, y, pz, w).getFrameNumber();
+				if (oldFN != newFN) {
+				    a.markAsDirty(x, y, pz);
 				}
-				Game.get().redrawArena();
-				try {
-					Thread.sleep(200);
-				} catch (final InterruptedException ie) {
-					// Ignore
-				}
+			    }
 			}
-		} catch (final Throwable t) {
-			LaserTankEE.logError(t);
+		    }
 		}
+		Game.get().redrawArena();
+		try {
+		    Thread.sleep(200);
+		} catch (final InterruptedException ie) {
+		    // Ignore
+		}
+	    }
+	} catch (final Throwable t) {
+	    LaserTankEE.logError(t);
 	}
+    }
 
-	void stopAnimator() {
-		this.stop = true;
-	}
+    void stopAnimator() {
+	this.stop = true;
+    }
 }

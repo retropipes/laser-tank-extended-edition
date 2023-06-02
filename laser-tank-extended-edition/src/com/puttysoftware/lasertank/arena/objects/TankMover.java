@@ -14,6 +14,6 @@ public class TankMover extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.TANK_MOVER;
+	return GameObjectID.TANK_MOVER;
     }
 }

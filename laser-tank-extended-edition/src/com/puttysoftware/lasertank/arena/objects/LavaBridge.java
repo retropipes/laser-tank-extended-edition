@@ -14,6 +14,6 @@ public class LavaBridge extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.LAVA_BRIDGE;
+	return GameObjectID.LAVA_BRIDGE;
     }
 }

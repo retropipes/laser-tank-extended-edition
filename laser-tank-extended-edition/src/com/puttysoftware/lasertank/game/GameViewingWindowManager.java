@@ -13,36 +13,36 @@ final class GameViewingWindowManager {
     private static final int VIEWING_WINDOW_SIZE_Y = Arena.getMinRows();
 
     static int getLowerRightViewingWindowLocationX() {
-        return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X - 1;
+	return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X - 1;
     }
 
     static int getLowerRightViewingWindowLocationY() {
-        return GameViewingWindowManager.VIEWING_WINDOW_SIZE_Y - 1;
+	return GameViewingWindowManager.VIEWING_WINDOW_SIZE_Y - 1;
     }
 
     // Methods
     static int getViewingWindowLocationX() {
-        return 0;
+	return 0;
     }
 
     static int getViewingWindowLocationY() {
-        return 0;
+	return 0;
     }
 
     static int getViewingWindowSize() {
-        return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X;
+	return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X;
     }
 
     static int getViewingWindowSizeX() {
-        return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X;
+	return GameViewingWindowManager.VIEWING_WINDOW_SIZE_X;
     }
 
     static int getViewingWindowSizeY() {
-        return GameViewingWindowManager.VIEWING_WINDOW_SIZE_Y;
+	return GameViewingWindowManager.VIEWING_WINDOW_SIZE_Y;
     }
 
     // Constructors
     private GameViewingWindowManager() {
-        // Do nothing
+	// Do nothing
     }
 }

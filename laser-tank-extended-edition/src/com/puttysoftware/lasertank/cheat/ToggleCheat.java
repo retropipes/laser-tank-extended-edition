@@ -6,22 +6,22 @@ class ToggleCheat extends Cheat {
 
     // Constructor
     public ToggleCheat(final String activator, final CheatEffect doesWhat) {
-        super(activator, doesWhat);
-        this.state = false;
+	super(activator, doesWhat);
+	this.state = false;
     }
 
     @Override
     public boolean getState() {
-        return this.state;
+	return this.state;
     }
 
     @Override
     public boolean hasState() {
-        return true;
+	return true;
     }
 
     @Override
     public void toggleState() {
-        this.state = !this.state;
+	this.state = !this.state;
     }
 }

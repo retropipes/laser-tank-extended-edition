@@ -8,12 +8,12 @@ package com.puttysoftware.lasertank.arena.fileio;
 import java.io.File;
 import java.io.FileNotFoundException;
 
-import com.puttysoftware.diane.fileio.utility.ZipUtilities;
-import com.puttysoftware.diane.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
+import com.puttysoftware.lasertank.engine.fileio.utility.ZipUtilities;
+import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.MessageString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -21,83 +21,83 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
 public class SaveTask extends Thread {
-	private static boolean hasExtension(final String s) {
-		String ext = null;
-		final var i = s.lastIndexOf('.');
-		if (i > 0 && i < s.length() - 1) {
-			ext = s.substring(i + 1).toLowerCase();
-		}
-		if (ext == null) {
-			return false;
-		}
-		return true;
+    private static boolean hasExtension(final String s) {
+	String ext = null;
+	final var i = s.lastIndexOf('.');
+	if (i > 0 && i < s.length() - 1) {
+	    ext = s.substring(i + 1).toLowerCase();
 	}
-
-	// Fields
-	private String filename;
-	private final boolean saveProtected;
-	private final boolean isSavedGame;
-
-	// Constructors
-	public SaveTask(final String file, final boolean saved, final boolean protect) {
-		this.filename = file;
-		this.isSavedGame = saved;
-		this.saveProtected = protect;
-		this.setName(GlobalStrings.loadUntranslated(UntranslatedString.NEW_AG_SAVER_NAME));
+	if (ext == null) {
+	    return false;
 	}
+	return true;
+    }
 
-	@Override
-	public void run() {
-		var success = true;
-		// filename check
-		final var hasExtension = SaveTask.hasExtension(this.filename);
-		if (!hasExtension) {
-			if (this.isSavedGame) {
-				this.filename += FileExtensions.getGameExtensionWithPeriod();
-			} else {
-				this.filename += FileExtensions.getArenaExtensionWithPeriod();
-			}
-		}
-		final var arenaFile = new File(this.filename);
-		final var tempLock = new File(
-				Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
-		try {
-			// Set prefix handler
-			ArenaManager.get().getArena().setPrefixHandler(new PrefixHandler());
-			// Set suffix handler
-			if (this.isSavedGame) {
-				ArenaManager.get().getArena().setSuffixHandler(new SuffixHandler());
-			} else {
-				ArenaManager.get().getArena().setSuffixHandler(null);
-			}
-			ArenaManager.get().getArena().writeArena();
-			if (this.saveProtected) {
-				ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), tempLock);
-				// Protect the arena
-				ProtectionWrapper.protect(tempLock, arenaFile);
-				tempLock.delete();
-				ArenaManager.get().setArenaProtected(true);
-			} else {
-				ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), arenaFile);
-				ArenaManager.get().setArenaProtected(false);
-			}
-		} catch (final FileNotFoundException fnfe) {
-			if (this.isSavedGame) {
-				CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_SAVING_FAILED));
-			} else {
-				CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_SAVING_FAILED));
-			}
-			success = false;
-		} catch (final ProtectionCancelException pce) {
-			success = false;
-		} catch (final Exception ex) {
-			LaserTankEE.logError(ex);
-		}
-		if (this.isSavedGame) {
-			LaserTankEE.showMessage(Strings.loadMessage(MessageString.GAME_SAVED));
-		} else {
-			LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
-		}
-		ArenaManager.get().handleDeferredSuccess(success);
+    // Fields
+    private String filename;
+    private final boolean saveProtected;
+    private final boolean isSavedGame;
+
+    // Constructors
+    public SaveTask(final String file, final boolean saved, final boolean protect) {
+	this.filename = file;
+	this.isSavedGame = saved;
+	this.saveProtected = protect;
+	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.NEW_AG_SAVER_NAME));
+    }
+
+    @Override
+    public void run() {
+	var success = true;
+	// filename check
+	final var hasExtension = SaveTask.hasExtension(this.filename);
+	if (!hasExtension) {
+	    if (this.isSavedGame) {
+		this.filename += FileExtensions.getGameExtensionWithPeriod();
+	    } else {
+		this.filename += FileExtensions.getArenaExtensionWithPeriod();
+	    }
 	}
+	final var arenaFile = new File(this.filename);
+	final var tempLock = new File(
+		Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
+	try {
+	    // Set prefix handler
+	    ArenaManager.get().getArena().setPrefixHandler(new PrefixHandler());
+	    // Set suffix handler
+	    if (this.isSavedGame) {
+		ArenaManager.get().getArena().setSuffixHandler(new SuffixHandler());
+	    } else {
+		ArenaManager.get().getArena().setSuffixHandler(null);
+	    }
+	    ArenaManager.get().getArena().writeArena();
+	    if (this.saveProtected) {
+		ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), tempLock);
+		// Protect the arena
+		ProtectionWrapper.protect(tempLock, arenaFile);
+		tempLock.delete();
+		ArenaManager.get().setArenaProtected(true);
+	    } else {
+		ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), arenaFile);
+		ArenaManager.get().setArenaProtected(false);
+	    }
+	} catch (final FileNotFoundException fnfe) {
+	    if (this.isSavedGame) {
+		CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_SAVING_FAILED));
+	    } else {
+		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_SAVING_FAILED));
+	    }
+	    success = false;
+	} catch (final ProtectionCancelException pce) {
+	    success = false;
+	} catch (final Exception ex) {
+	    LaserTankEE.logError(ex);
+	}
+	if (this.isSavedGame) {
+	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.GAME_SAVED));
+	} else {
+	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
+	}
+	ArenaManager.get().handleDeferredSuccess(success);
+    }
 }

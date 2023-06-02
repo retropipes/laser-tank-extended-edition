@@ -11,16 +11,15 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 public class RollingCrystal extends ArenaObject {
     // Constructors
     public RollingCrystal() {
-        super();
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.ROLLING_CRYSTAL;
+	return GameObjectID.ROLLING_CRYSTAL;
     }
 
     @Override
     public Sound laserEnteredSound() {
-        return Sound.ROLL;
+	return Sound.ROLL;
     }
 }

@@ -15,33 +15,32 @@ import com.puttysoftware.lasertank.index.LaserType;
 public class MagneticMirror extends ArenaObject {
     // Constructors
     public MagneticMirror() {
-        super();
     }
 
     @Override
     public boolean doLasersPassThrough() {
-        return true;
+	return true;
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.MAGNETIC_MIRROR;
+	return GameObjectID.MAGNETIC_MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-            final LaserType laserType, final int forceUnits) {
-        if (laserType == LaserType.MISSILE) {
-            // Destroy mirror
-            Sounds.play(Sound.BOOM);
-            Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
-            return Direction.NONE;
-        }
-        return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	    final LaserType laserType, final int forceUnits) {
+	if (laserType == LaserType.MISSILE) {
+	    // Destroy mirror
+	    Sounds.play(Sound.BOOM);
+	    Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	    return Direction.NONE;
+	}
+	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 
     @Override
     public Sound laserEnteredSound() {
-        return Sound.PUSH_MIRROR;
+	return Sound.PUSH_MIRROR;
     }
 }

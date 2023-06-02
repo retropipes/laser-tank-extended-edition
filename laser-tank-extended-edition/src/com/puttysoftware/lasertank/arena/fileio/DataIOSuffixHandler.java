@@ -7,8 +7,8 @@ package com.puttysoftware.lasertank.arena.fileio;
 
 import java.io.IOException;
 
-import com.puttysoftware.diane.fileio.DataIOReader;
-import com.puttysoftware.diane.fileio.DataIOWriter;
+import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
+import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.index.GameFormat;
 
 public interface DataIOSuffixHandler {

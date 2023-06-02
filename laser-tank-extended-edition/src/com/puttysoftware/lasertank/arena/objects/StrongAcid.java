@@ -12,41 +12,41 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
 public class StrongAcid extends ArenaObject {
-	// Constructors
-	public StrongAcid() {
-	}
+    // Constructors
+    public StrongAcid() {
+    }
 
-	@Override
-	public ArenaObject changesToOnExposure(final Material materialID) {
-		return switch (materialID) {
-			case ICE -> {
-				final var i = new ArenaObject(GameObjectID.ICE);
-				i.setPreviousState(this);
-				yield i;
-			}
-			case FIRE -> new Acid();
-			default -> this;
-		};
+    @Override
+    public ArenaObject changesToOnExposure(final Material materialID) {
+	return switch (materialID) {
+	case ICE -> {
+	    final var i = new ArenaObject(GameObjectID.ICE);
+	    i.setPreviousState(this);
+	    yield i;
 	}
+	case FIRE -> new Acid();
+	default -> this;
+	};
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.STRONG_ACID;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.STRONG_ACID;
+    }
 
-	// Scriptability
-	@Override
-	public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-		// Get rid of pushed object
-		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
-		if (pushed.isBox()) {
-			if (pushed.getMaterial() == Material.WOODEN) {
-				Game.get().morph(new ArenaObject(GameObjectID.ACID_BRIDGE), x, y, z, this.getLayer());
-			} else {
-				Game.get().morph(new Acid(), x, y, z, this.getLayer());
-			}
-		}
-		Sounds.play(Sound.SINK);
-		return false;
+    // Scriptability
+    @Override
+    public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
+	// Get rid of pushed object
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	if (pushed.isBox()) {
+	    if (pushed.getMaterial() == Material.WOODEN) {
+		Game.get().morph(new ArenaObject(GameObjectID.ACID_BRIDGE), x, y, z, this.getLayer());
+	    } else {
+		Game.get().morph(new Acid(), x, y, z, this.getLayer());
+	    }
 	}
+	Sounds.play(Sound.SINK);
+	return false;
+    }
 }

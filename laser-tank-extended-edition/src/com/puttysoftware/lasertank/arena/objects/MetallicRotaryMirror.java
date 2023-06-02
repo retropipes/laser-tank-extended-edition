@@ -15,41 +15,41 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class MetallicRotaryMirror extends ArenaObject {
-	// Constructors
-	public MetallicRotaryMirror() {
-	}
+    // Constructors
+    public MetallicRotaryMirror() {
+    }
 
-	@Override
-	public boolean doLasersPassThrough() {
-		return true;
-	}
+    @Override
+    public boolean doLasersPassThrough() {
+	return true;
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.METALLIC_ROTARY_MIRROR;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.METALLIC_ROTARY_MIRROR;
+    }
 
-	@Override
-	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-			final int dirY, final LaserType laserType, final int forceUnits) {
-		final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
-		if (this.hitReflectiveSide(dir)) {
-			// Reflect laser
-			return this.getDirection();
-		}
-		// Rotate mirror
-		this.toggleDirection();
-		Sounds.play(Sound.ROTATE);
-		return Direction.NONE;
+    @Override
+    public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
+	    final int dirY, final LaserType laserType, final int forceUnits) {
+	final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+	if (this.hitReflectiveSide(dir)) {
+	    // Reflect laser
+	    return this.getDirection();
 	}
+	// Rotate mirror
+	this.toggleDirection();
+	Sounds.play(Sound.ROTATE);
+	return Direction.NONE;
+    }
 
-	@Override
-	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-			final RangeType rangeType, final int forceUnits) {
-		// Rotate mirror
-		this.toggleDirection();
-		Sounds.play(Sound.ROTATE);
-		ArenaManager.get().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
-		return true;
-	}
+    @Override
+    public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+	    final RangeType rangeType, final int forceUnits) {
+	// Rotate mirror
+	this.toggleDirection();
+	Sounds.play(Sound.ROTATE);
+	ArenaManager.get().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+	return true;
+    }
 }

@@ -16,18 +16,18 @@ public class TenIceBombs extends ArenaObject {
 
     @Override
     public boolean doLasersPassThrough() {
-        return true;
+	return true;
     }
 
     @Override
     public final GameObjectID getID() {
-        return GameObjectID.TEN_ICE_BOMBS;
+	return GameObjectID.TEN_ICE_BOMBS;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-        final var gm = Game.get();
-        TankInventory.addTenIceBombs();
-        gm.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	final var gm = Game.get();
+	TankInventory.addTenIceBombs();
+	gm.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

@@ -14,32 +14,30 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 
 public class Crumbling extends ArenaObject {
-	// Constructors
-	public Crumbling() {
-	}
+    // Constructors
+    public Crumbling() {
+    }
 
-	@Override
-	public final GameObjectID getID() {
-		return GameObjectID.CRUMBLING;
-	}
+    @Override
+    public final GameObjectID getID() {
+	return GameObjectID.CRUMBLING;
+    }
 
-	@Override
-	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-			final LaserType laserType, final int forceUnits) {
-		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
-		// Destroy whatever we were attached to
-		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
-				Layer.LOWER_OBJECTS.ordinal());
-		Sounds.play(Sound.CRACK);
-		return Direction.NONE;
-	}
+    @Override
+    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+	    final LaserType laserType, final int forceUnits) {
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	// Destroy whatever we were attached to
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+	Sounds.play(Sound.CRACK);
+	return Direction.NONE;
+    }
 
-	@Override
-	public void moveFailedAction(final int locX, final int locY, final int locZ) {
-		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
-		// Destroy whatever we were attached to
-		Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ,
-				Layer.LOWER_OBJECTS.ordinal());
-		Sounds.play(Sound.CRACK);
-	}
+    @Override
+    public void moveFailedAction(final int locX, final int locY, final int locZ) {
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	// Destroy whatever we were attached to
+	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+	Sounds.play(Sound.CRACK);
+    }
 }
