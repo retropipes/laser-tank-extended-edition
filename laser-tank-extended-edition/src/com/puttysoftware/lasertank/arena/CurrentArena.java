@@ -71,7 +71,7 @@ class CurrentArena extends Arena {
 	this.levelInfoList = new ArrayList<>();
 	final var randomID = IDGenerator.getRandomIDString(16);
 	this.basePath = System.getProperty(GlobalStrings.loadUntranslated(UntranslatedString.TEMP_DIR)) + File.separator
-		+ GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME) + File.separator + randomID
+		+ GlobalStrings.loadUntranslated(UntranslatedString.RDNS_COMPANY_NAME) + File.separator + randomID
 		+ GlobalStrings.loadUntranslated(UntranslatedString.FORMAT_FOLDER);
 	final var base = new File(this.basePath);
 	final var res = base.mkdirs();
