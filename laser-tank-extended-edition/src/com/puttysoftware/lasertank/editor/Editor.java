@@ -9,14 +9,6 @@ import java.awt.Adjustable;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowFocusListener;
-import java.awt.event.WindowListener;
 import java.io.IOException;
 
 import javax.swing.ButtonGroup;
@@ -51,184 +43,6 @@ import com.puttysoftware.lasertank.utility.InvalidArenaException;
 import com.puttysoftware.lasertank.utility.RCLGenerator;
 
 public class Editor extends Screen {
-    private class EventHandler implements MouseListener, MouseMotionListener, WindowListener {
-	// handle scroll bars
-	public EventHandler() {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseClicked(final MouseEvent e) {
-	    try {
-		final var me = Editor.this;
-		final var x = e.getX();
-		final var y = e.getY();
-		if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
-		    me.editObjectProperties(x, y);
-		} else {
-		    me.editObject(x, y);
-		}
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-
-	@Override
-	public void mouseDragged(final MouseEvent e) {
-	    try {
-		final var me = Editor.this;
-		final var x = e.getX();
-		final var y = e.getY();
-		me.editObject(x, y);
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-
-	@Override
-	public void mouseEntered(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseExited(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseMoved(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	// handle mouse
-	@Override
-	public void mousePressed(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseReleased(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	// Handle windows
-	@Override
-	public void windowActivated(final WindowEvent we) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowClosed(final WindowEvent we) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowClosing(final WindowEvent we) {
-	    Editor.this.handleCloseWindow();
-	    LaserTankEE.getMainScreen().showGUI();
-	}
-
-	@Override
-	public void windowDeactivated(final WindowEvent we) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowDeiconified(final WindowEvent we) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowIconified(final WindowEvent we) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowOpened(final WindowEvent we) {
-	    // Do nothing
-	}
-    }
-
-    private static class FocusHandler implements WindowFocusListener {
-	public FocusHandler() {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowGainedFocus(final WindowEvent e) {
-	    LaserTankEE.getMenus().updateMenuItemState();
-	}
-
-	@Override
-	public void windowLostFocus(final WindowEvent e) {
-	    // Do nothing
-	}
-    }
-
-    private class StartEventHandler implements MouseListener {
-	// handle scroll bars
-	public StartEventHandler() {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseClicked(final MouseEvent e) {
-	    try {
-		final var x = e.getX();
-		final var y = e.getY();
-		Editor.this.setPlayerLocation(x, y);
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-
-	@Override
-	public void mouseEntered(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseExited(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	// handle mouse
-	@Override
-	public void mousePressed(final MouseEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void mouseReleased(final MouseEvent e) {
-	    // Do nothing
-	}
-    }
-
-    private class SwitcherHandler implements ActionListener {
-	SwitcherHandler() {
-	    // Do nothing
-	}
-
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-	    try {
-		final var cmd = e.getActionCommand();
-		final var ae = Editor.this;
-		if (cmd.equals(Strings.loadEditor(EditorString.LOWER_GROUND_LAYER))) {
-		    ae.changeLayerImpl(Layer.LOWER_GROUND.ordinal());
-		} else if (cmd.equals(Strings.loadEditor(EditorString.UPPER_GROUND_LAYER))) {
-		    ae.changeLayerImpl(Layer.UPPER_GROUND.ordinal());
-		} else if (cmd.equals(Strings.loadEditor(EditorString.LOWER_OBJECTS_LAYER))) {
-		    ae.changeLayerImpl(Layer.LOWER_OBJECTS.ordinal());
-		} else if (cmd.equals(Strings.loadEditor(EditorString.UPPER_OBJECTS_LAYER))) {
-		    ae.changeLayerImpl(Layer.UPPER_OBJECTS.ordinal());
-		}
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-    }
-
     private static Editor instance;
     private static final String[] JUMP_LIST = { Integer.toString(0), Integer.toString(1), Integer.toString(2),
 	    Integer.toString(3), Integer.toString(4), Integer.toString(5), Integer.toString(6), Integer.toString(7),
@@ -248,8 +62,9 @@ public class Editor extends Screen {
     private JLabel messageLabel;
     private ArenaObject savedArenaObject;
     private JScrollBar vertScroll, horzScroll;
-    private final EventHandler mhandler;
-    private final StartEventHandler shandler;
+    private final EditorWindowEventHandler ewhandler;
+    private final EditorMouseEventHandler emhandler;
+    private final EditorStartEventHandler shandler;
     private final LevelSettings lSettings;
     private AnonymousPicturePicker picker;
     private ArenaObject[] objects;
@@ -259,13 +74,14 @@ public class Editor extends Screen {
     private EditorLocationManager elMgr;
     private boolean arenaChanged;
     private final int activePlayer;
-    private final FocusHandler fHandler = new FocusHandler();
+    private final EditorFocusHandler fHandler = new EditorFocusHandler();
 
     private Editor() {
 	this.savedArenaObject = new ArenaObject(GameObjectID.GROUND);
 	this.lSettings = new LevelSettings();
-	this.mhandler = new EventHandler();
-	this.shandler = new StartEventHandler();
+	this.ewhandler = new EditorWindowEventHandler(this);
+	this.emhandler = new EditorMouseEventHandler(this);
+	this.shandler = new EditorStartEventHandler(this);
 	this.engine = new EditorUndoRedoEngine();
 	this.objects = ArenaObjectList.getAllObjectsOnLayer(Layer.LOWER_GROUND.ordinal(),
 		Settings.getEditorShowAllObjects());
@@ -505,7 +321,7 @@ public class Editor extends Screen {
 
     public void editPlayerLocation() {
 	// Swap event handlers
-	this.secondaryPane.removeMouseListener(this.mhandler);
+	this.secondaryPane.removeMouseListener(this.emhandler);
 	this.secondaryPane.addMouseListener(this.shandler);
 	LaserTankEE.showMessage(Strings.loadEditor(EditorString.SET_START_POINT));
     }
@@ -593,7 +409,7 @@ public class Editor extends Screen {
 
     @Override
     public void hideScreenHook() {
-	this.removeWindowListener(this.mhandler);
+	this.removeWindowListener(this.ewhandler);
 	this.removeWindowFocusListener(this.fHandler);
     }
 
@@ -662,10 +478,10 @@ public class Editor extends Screen {
 		EditorViewingWindowManager.getMinimumViewingWindowLocationX(),
 		EditorViewingWindowManager.getViewingWindowSizeX());
 	this.outputPane.add(this.secondaryPane);
-	this.secondaryPane.addMouseListener(this.mhandler);
-	this.secondaryPane.addMouseMotionListener(this.mhandler);
+	this.secondaryPane.addMouseListener(this.emhandler);
+	this.secondaryPane.addMouseMotionListener(this.emhandler);
 	this.switcherPane = new JPanel();
-	final var switcherHandler = new SwitcherHandler();
+	final var switcherHandler = new EditorSwitcherHandler(this);
 	final var switcherGroup = new ButtonGroup();
 	this.lowerGround = new JToggleButton(Strings.loadEditor(EditorString.LOWER_GROUND_LAYER));
 	this.upperGround = new JToggleButton(Strings.loadEditor(EditorString.UPPER_GROUND_LAYER));
@@ -957,7 +773,7 @@ public class Editor extends Screen {
 	}
 	// Swap event handlers
 	this.secondaryPane.removeMouseListener(this.shandler);
-	this.secondaryPane.addMouseListener(this.mhandler);
+	this.secondaryPane.addMouseListener(this.emhandler);
 	// Set dirty flag
 	ArenaManager.get().setDirty(true);
 	this.redrawEditor();
@@ -969,7 +785,7 @@ public class Editor extends Screen {
 
     @Override
     public void showScreenHook() {
-	this.addWindowListener(this.mhandler);
+	this.addWindowListener(this.ewhandler);
 	this.addWindowFocusListener(this.fHandler);
 	Musics.play(Music.EDITOR);
     }
