@@ -73,7 +73,7 @@ public class ArenaObject {
     private boolean imageEnabled;
     private ArenaObject savedObject;
     private ArenaObject previousState;
-    private GameObjectID gameObjectID;
+    private final GameObjectID gameObjectID;
     private boolean waitingOnTunnel;
     private boolean pairTriggered;
     private int pairX;
@@ -108,6 +108,7 @@ public class ArenaObject {
 	this.direction = this.getInitialDirection();
 	this.color = GameColor.NONE;
 	this.imageEnabled = true;
+	this.gameObjectID = GameObjectID.NOTHING;
 	this.waitingOnTunnel = false;
 	if (this.canMove() || this.canControl()) {
 	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);

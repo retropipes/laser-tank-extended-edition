@@ -229,5 +229,6 @@ public enum GameObjectID {
     ENERGY_SPHERE,
     SIGN,
     POOF,
-    ZAP;
+    ZAP,
+    NOTHING;
 }
