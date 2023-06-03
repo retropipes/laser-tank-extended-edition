@@ -9,5 +9,6 @@ public enum PrivateErrorString {
     PRINT_ERROR_TITLE,
     PRINT_ERROR_MESSAGE,
     CANCEL_BUTTON,
-    OK_BUTTON
+    OK_BUTTON,
+    SWITCH_TO_INVALID_LEVEL
 }

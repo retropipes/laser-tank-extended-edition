@@ -9,6 +9,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.fileio.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.fileio.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
@@ -18,6 +19,9 @@ import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.engine.fileio.XDataReader;
 import com.puttysoftware.lasertank.engine.fileio.XDataWriter;
 import com.puttysoftware.lasertank.engine.fileio.utility.FileUtilities;
+import com.puttysoftware.lasertank.engine.internal.PrivateErrorString;
+import com.puttysoftware.lasertank.engine.internal.PrivateStrings;
+import com.puttysoftware.lasertank.engine.locale.LTEStrings;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -720,6 +724,11 @@ class CurrentArena extends Arena {
 
     @Override
     protected void switchInternal(final int level) {
+	if (level < 0 || level >= this.levelCount) {
+	    System.err.println(LTEStrings.subst(PrivateStrings.error(PrivateErrorString.SWITCH_TO_INVALID_LEVEL),
+		    Integer.toString(level)));
+	    return;
+	}
 	if (this.activeLevel != level || this.arenaData == null) {
 	    if (this.arenaData != null) {
 		try (var writer = this.getLevelWriter()) {
@@ -734,7 +743,7 @@ class CurrentArena extends Arena {
 		// Load new level
 		this.readArenaLevel(reader);
 	    } catch (final IOException ioe) {
-		throw new InvalidArenaException(ioe);
+		LaserTankEE.logError(ioe);
 	    }
 	}
     }

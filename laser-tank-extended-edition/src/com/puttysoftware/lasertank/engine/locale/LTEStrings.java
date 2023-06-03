@@ -13,11 +13,11 @@ public final class LTEStrings {
     public static final String EMPTY = "";
 
     public static String direction(final Direction item) {
-	return ResourceBundle.getBundle("locale.diane.direction").getString(Integer.toString(item.ordinal()));
+	return ResourceBundle.getBundle("locale.engine.direction").getString(Integer.toString(item.ordinal()));
     }
 
     public static String directionSuffix(final Direction item) {
-	return ResourceBundle.getBundle("locale.diane.dirsuffix").getString(Integer.toString(item.ordinal()));
+	return ResourceBundle.getBundle("locale.engine.dirsuffix").getString(Integer.toString(item.ordinal()));
     }
 
     public static String subst(final String orig, final String... values) {
