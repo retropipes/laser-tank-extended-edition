@@ -135,6 +135,7 @@ public class LaserTankEE {
 	LaserTankEE.menus = new MenubarHost();
 	LaserTankEE.about = new AboutDialog(LaserTankEE.getVersionString());
 	LaserTankEE.mainScreen = new MainScreen();
+	LaserTankEE.arenaMgr = ArenaManager.get();
 	LaserTankEE.game = Game.get();
 	LaserTankEE.editor = Editor.get();
 	// Initialize preferences
