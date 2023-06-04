@@ -8,7 +8,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 class EditorWindowEventHandler extends WindowAdapter {
     private final Editor editor;
 
-    public EditorWindowEventHandler(Editor theEditor) {
+    public EditorWindowEventHandler(final Editor theEditor) {
 	this.editor = theEditor;
     }
 

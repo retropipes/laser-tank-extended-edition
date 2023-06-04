@@ -25,17 +25,20 @@ public class DirectionResolver {
 	}
 	if (dirX == 1 && dirY == 0) {
 	    return Direction.EAST;
-	} else if (dirX == 1 && dirY == 1) {
-	    return Direction.SOUTH_EAST;
-	} else if (dirX == -1 && dirY == 1) {
-	    return Direction.SOUTH_WEST;
-	} else if (dirX == -1 && dirY == -1) {
-	    return Direction.NORTH_WEST;
-	} else if (dirX == 1 && dirY == -1) {
-	    return Direction.NORTH_EAST;
-	} else {
-	    return Direction.NONE;
 	}
+	if (dirX == 1 && dirY == 1) {
+	    return Direction.SOUTH_EAST;
+	}
+	if (dirX == -1 && dirY == 1) {
+	    return Direction.SOUTH_WEST;
+	}
+	if (dirX == -1 && dirY == -1) {
+	    return Direction.NORTH_WEST;
+	}
+	if (dirX == 1 && dirY == -1) {
+	    return Direction.NORTH_EAST;
+	}
+	return Direction.NONE;
     }
 
     public static Direction resolveInvert(final int dX, final int dY) {
@@ -55,17 +58,20 @@ public class DirectionResolver {
 	}
 	if (dirX == 1 && dirY == 0) {
 	    return Direction.WEST;
-	} else if (dirX == 1 && dirY == 1) {
-	    return Direction.NORTH_WEST;
-	} else if (dirX == -1 && dirY == 1) {
-	    return Direction.NORTH_EAST;
-	} else if (dirX == -1 && dirY == -1) {
-	    return Direction.SOUTH_EAST;
-	} else if (dirX == 1 && dirY == -1) {
-	    return Direction.SOUTH_WEST;
-	} else {
-	    return Direction.NONE;
 	}
+	if (dirX == 1 && dirY == 1) {
+	    return Direction.NORTH_WEST;
+	}
+	if (dirX == -1 && dirY == 1) {
+	    return Direction.NORTH_EAST;
+	}
+	if (dirX == -1 && dirY == -1) {
+	    return Direction.SOUTH_EAST;
+	}
+	if (dirX == 1 && dirY == -1) {
+	    return Direction.SOUTH_WEST;
+	}
+	return Direction.NONE;
     }
 
     public static int[] unresolve(final Direction dir) {

@@ -8,7 +8,7 @@ import com.puttysoftware.lasertank.LaserTankEE;
 class EditorMouseEventHandler extends MouseAdapter {
     private final Editor editor;
 
-    public EditorMouseEventHandler(Editor theEditor) {
+    public EditorMouseEventHandler(final Editor theEditor) {
 	this.editor = theEditor;
     }
 

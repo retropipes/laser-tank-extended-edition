@@ -7,12 +7,12 @@ import com.puttysoftware.lasertank.LaserTankEE;
 
 class EditorStartEventHandler implements MouseListener {
     /**
-     * 
+     *
      */
     private final Editor editor;
 
     // handle scroll bars
-    public EditorStartEventHandler(Editor theEditor) {
+    public EditorStartEventHandler(final Editor theEditor) {
 	this.editor = theEditor;
 	// Do nothing
     }

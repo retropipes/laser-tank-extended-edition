@@ -49,11 +49,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadCloak(final GameObjectID objID) {
@@ -62,11 +58,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadControl(final GameObjectID objID) {
@@ -75,11 +67,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static Direction[] loadDirection(final GameObjectID objID) {
@@ -136,11 +124,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static int loadHeight(final GameObjectID objID) {
@@ -162,11 +146,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static int[] loadIndex(final GameObjectID objID) {
@@ -197,11 +177,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static int loadLayer(final GameObjectID objID) {
@@ -235,11 +211,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static Material loadMaterial(final GameObjectID objID) {
@@ -273,11 +245,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadMovableMirror(final GameObjectID objID, final Direction dir) {
@@ -298,11 +266,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadMovesBoxes(final GameObjectID objID, final Direction dir) {
@@ -323,11 +287,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadMovesHostiles(final GameObjectID objID, final Direction dir) {
@@ -348,11 +308,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadMovesMirrors(final GameObjectID objID, final Direction dir) {
@@ -373,11 +329,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadMovesTanks(final GameObjectID objID, final Direction dir) {
@@ -398,11 +350,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static int loadNavigate(final GameObjectID objID) {
@@ -449,11 +397,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadRoll(final GameObjectID objID) {
@@ -462,11 +406,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadShoot(final GameObjectID objID) {
@@ -475,11 +415,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadSolid(final GameObjectID objID, final Direction dir) {
@@ -500,11 +436,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(subkey)) {
 	    return false;
 	}
-	final var subvalue = data.getString(subkey);
-	if (subvalue == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadTrigger(final GameObjectID objID) {
@@ -513,11 +445,7 @@ class ArenaObjectDataLoader {
 	if (!data.containsKey(key)) {
 	    return false;
 	}
-	final var value = data.getString(key);
-	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
-	    return true;
-	}
-	return false;
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static int loadWeight(final GameObjectID objID) {

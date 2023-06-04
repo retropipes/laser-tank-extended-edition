@@ -10,11 +10,11 @@ import com.puttysoftware.lasertank.locale.Strings;
 
 class GameDifficultyEventHandler implements ActionListener, WindowListener {
     /**
-     * 
+     *
      */
     private final Game game;
 
-    public GameDifficultyEventHandler(Game theGame) {
+    public GameDifficultyEventHandler(final Game theGame) {
 	this.game = theGame;
 	// Do nothing
     }

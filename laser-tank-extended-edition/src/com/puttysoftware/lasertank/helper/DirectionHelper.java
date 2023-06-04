@@ -129,13 +129,14 @@ public class DirectionHelper {
 	}
 	if (dirX == -1 && dirY == 1) {
 	    return Direction.SOUTHWEST;
-	} else if (dirX == -1 && dirY == -1) {
-	    return Direction.NORTHWEST;
-	} else if (dirX == 1 && dirY == -1) {
-	    return Direction.NORTHEAST;
-	} else {
-	    return Direction.NONE;
 	}
+	if (dirX == -1 && dirY == -1) {
+	    return Direction.NORTHWEST;
+	}
+	if (dirX == 1 && dirY == -1) {
+	    return Direction.NORTHEAST;
+	}
+	return Direction.NONE;
     }
 
     public static Direction resolveRelativeHV(final int dX, final int dY) {
@@ -188,13 +189,14 @@ public class DirectionHelper {
 	}
 	if (dirX == -1 && dirY == 1) {
 	    return Direction.NORTHEAST;
-	} else if (dirX == -1 && dirY == -1) {
-	    return Direction.SOUTHEAST;
-	} else if (dirX == 1 && dirY == -1) {
-	    return Direction.SOUTHWEST;
-	} else {
-	    return Direction.NONE;
 	}
+	if (dirX == -1 && dirY == -1) {
+	    return Direction.SOUTHEAST;
+	}
+	if (dirX == 1 && dirY == -1) {
+	    return Direction.SOUTHWEST;
+	}
+	return Direction.NONE;
     }
 
     public static String toStringValue(final Direction thing) {

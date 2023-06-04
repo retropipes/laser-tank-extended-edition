@@ -24,12 +24,23 @@ import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.TankInventory;
 
 class GameEventHandler implements KeyListener, WindowListener, MouseListener {
+    private static Direction mapKeyToDirection(final KeyEvent e) {
+	final var keyCode = e.getKeyCode();
+	return switch (keyCode) {
+	case KeyEvent.VK_LEFT -> Direction.WEST;
+	case KeyEvent.VK_DOWN -> Direction.SOUTH;
+	case KeyEvent.VK_RIGHT -> Direction.EAST;
+	case KeyEvent.VK_UP -> Direction.NORTH;
+	default -> Direction.NONE;
+	};
+    }
+
     /**
-     * 
+     *
      */
     private final Game game;
 
-    public GameEventHandler(Game theGame) {
+    public GameEventHandler(final Game theGame) {
 	this.game = theGame;
 	// Do nothing
     }
@@ -341,17 +352,6 @@ class GameEventHandler implements KeyListener, WindowListener, MouseListener {
     @Override
     public void keyTyped(final KeyEvent e) {
 	// Do nothing
-    }
-
-    private static Direction mapKeyToDirection(final KeyEvent e) {
-	final var keyCode = e.getKeyCode();
-	return switch (keyCode) {
-	case KeyEvent.VK_LEFT -> Direction.WEST;
-	case KeyEvent.VK_DOWN -> Direction.SOUTH;
-	case KeyEvent.VK_RIGHT -> Direction.EAST;
-	case KeyEvent.VK_UP -> Direction.NORTH;
-	default -> Direction.NONE;
-	};
     }
 
     private Direction mapMouseToDirection(final MouseEvent me) {

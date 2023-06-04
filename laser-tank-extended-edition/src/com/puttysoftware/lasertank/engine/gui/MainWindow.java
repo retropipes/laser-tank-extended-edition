@@ -205,6 +205,21 @@ public final class MainWindow {
 	this.currentDefault = null;
     }
 
+    public void setAndSave(final JComponent customContent, final String title, final JButton defaultButton) {
+	this.savedContentStack.push(this.content);
+	this.savedTitleStack.push(this.frame.getTitle());
+	this.savedMusicStack.push(this.currentMusic);
+	this.savedDefaultButtonStack.push(this.currentDefault);
+	this.savedDepth++;
+	this.savedTitleDepth++;
+	this.content = customContent;
+	this.frame.setContentPane(this.content);
+	this.frame.setTitle(title);
+	this.currentMusic = DefaultAssets.NO_MUSIC;
+	this.currentDefault = defaultButton;
+	this.frame.getRootPane().setDefaultButton(defaultButton);
+    }
+
     public void setAndSave(final JComponent customContent, final String title, final LTEMusicIndex music) {
 	this.savedContentStack.push(this.content);
 	this.savedTitleStack.push(this.frame.getTitle());
@@ -247,21 +262,6 @@ public final class MainWindow {
 		LaserTankEngine.handleError(e);
 	    }
 	}
-	this.currentDefault = defaultButton;
-	this.frame.getRootPane().setDefaultButton(defaultButton);
-    }
-
-    public void setAndSave(final JComponent customContent, final String title, final JButton defaultButton) {
-	this.savedContentStack.push(this.content);
-	this.savedTitleStack.push(this.frame.getTitle());
-	this.savedMusicStack.push(this.currentMusic);
-	this.savedDefaultButtonStack.push(this.currentDefault);
-	this.savedDepth++;
-	this.savedTitleDepth++;
-	this.content = customContent;
-	this.frame.setContentPane(this.content);
-	this.frame.setTitle(title);
-	this.currentMusic = DefaultAssets.NO_MUSIC;
 	this.currentDefault = defaultButton;
 	this.frame.getRootPane().setDefaultButton(defaultButton);
     }
