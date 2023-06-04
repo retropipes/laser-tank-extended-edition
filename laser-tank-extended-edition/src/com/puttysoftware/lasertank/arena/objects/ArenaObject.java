@@ -1160,9 +1160,6 @@ public class ArenaObject {
 
     public final ArenaObject readArenaObjectG2(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
-	if (!ident.equals(this.getIdentifier())) {
-	    return null;
-	}
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    this.direction = Direction.values()[reader.readInt()];
@@ -1181,9 +1178,6 @@ public class ArenaObject {
 
     public final ArenaObject readArenaObjectG3(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
-	if (!ident.equals(this.getIdentifier())) {
-	    return null;
-	}
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    this.direction = Direction.values()[reader.readInt()];
@@ -1205,9 +1199,6 @@ public class ArenaObject {
 
     public final ArenaObject readArenaObjectG4(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
-	if (!ident.equals(this.getIdentifier())) {
-	    return null;
-	}
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    this.direction = Direction.values()[reader.readInt()];
@@ -1225,9 +1216,6 @@ public class ArenaObject {
 
     public final ArenaObject readArenaObjectG5(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
-	if (!ident.equals(this.getIdentifier())) {
-	    return null;
-	}
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    this.direction = Direction.values()[reader.readInt()];
@@ -1245,9 +1233,6 @@ public class ArenaObject {
 
     public final ArenaObject readArenaObjectG6(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
-	if (!ident.equals(this.getIdentifier())) {
-	    return null;
-	}
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    this.direction = Direction.values()[reader.readInt()];
