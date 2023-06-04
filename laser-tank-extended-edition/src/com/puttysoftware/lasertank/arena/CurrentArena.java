@@ -651,7 +651,9 @@ class CurrentArena extends Arena {
     public void setData(final ArenaData newData, final int count) {
 	if (newData instanceof CurrentArenaData) {
 	    this.arenaData = (CurrentArenaData) newData;
-	    this.levelCount = count;
+	    if (count >= 0) {
+		this.levelCount = count;
+	    }
 	}
     }
 
