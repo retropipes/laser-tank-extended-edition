@@ -43,6 +43,7 @@ class V4FileLevel {
 	    V4FileLevel.author = new byte[V4FileLevel.AUTHOR_SIZE];
 	    V4FileLevel.difficulty = new byte[V4FileLevel.DIFFICULTY_SIZE];
 	    final var t = ArenaManager.createArenaData();
+	    a.setData(t, -2);
 	    // Convert object byte map
 	    var bytesRead = file.read(V4FileLevel.objects, 0, V4FileLevel.OBJECTS_SIZE);
 	    if (bytesRead != V4FileLevel.OBJECTS_SIZE) {
@@ -244,9 +245,10 @@ class V4FileLevel {
 		a.setDifficulty(3);
 		break;
 	    }
+	    t.resize(a, Arena.getMinFloors(), null);
 	    t.fillNulls(a, new ArenaObject(GameObjectID.GROUND), new ArenaObject(GameObjectID.WALL), true);
-	    t.resize(a, Arena.getMinFloors(), new ArenaObject(GameObjectID.PLACEHOLDER));
 	    t.fillVirtual();
+	    a.setData(t, -1);
 	    return t;
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);

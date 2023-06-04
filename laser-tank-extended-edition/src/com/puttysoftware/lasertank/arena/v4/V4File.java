@@ -17,12 +17,13 @@ class V4File {
     static void loadOldFile(final Arena a, final FileInputStream file) throws InvalidArenaException {
 	ArenaData t = null;
 	var levelCount = 0;
+	a.addLevel();
 	do {
 	    a.switchLevel(levelCount);
 	    t = V4FileLevel.loadAndConvert(file, a);
 	    if (t != null) {
 		levelCount++;
-		a.setData(t, levelCount);
+		a.setData(t, -1);
 		final var found = a.findPlayer(1);
 		if (found == null) {
 		    throw new InvalidArenaException(Strings.loadError(ErrorString.TANK_LOCATION));
@@ -31,6 +32,7 @@ class V4File {
 		a.setStartRow(0, found[1]);
 		a.setStartFloor(0, found[2]);
 		a.save();
+		a.addLevel();
 		a.switchLevel(levelCount);
 	    }
 	} while (t != null);
