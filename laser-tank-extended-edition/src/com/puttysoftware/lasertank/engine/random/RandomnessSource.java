@@ -61,9 +61,6 @@ class RandomnessSource {
 	return RandomnessSource.getSource().nextLong();
     }
 
-    /**
-     * Instantiates a new randomness source.
-     */
     // Constructor
     private RandomnessSource() {
 	// Do nothing

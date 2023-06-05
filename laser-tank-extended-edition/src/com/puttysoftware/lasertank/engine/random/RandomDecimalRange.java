@@ -62,9 +62,6 @@ public class RandomDecimalRange {
 	RandomDecimalRange.minimum = newMin;
     }
 
-    /**
-     * Instantiates a new random decimal range.
-     */
     // Constructor
     private RandomDecimalRange() {
 	// Do nothing

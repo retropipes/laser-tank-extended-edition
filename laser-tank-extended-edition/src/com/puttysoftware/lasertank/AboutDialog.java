@@ -10,8 +10,6 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.desktop.AboutEvent;
 import java.awt.desktop.AboutHandler;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -25,26 +23,6 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
 public class AboutDialog extends Screen implements AboutHandler {
-    private class EventHandler implements ActionListener {
-	public EventHandler() {
-	    // Do nothing
-	}
-
-	// Handle buttons
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-	    try {
-		final var ad = AboutDialog.this;
-		final var cmd = e.getActionCommand();
-		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-		    ad.hideScreen();
-		}
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-    }
-
     // Fields
     private final String ver;
 
@@ -62,8 +40,8 @@ public class AboutDialog extends Screen implements AboutHandler {
     protected void populateMainPanel() {
 	JPanel textPane, buttonPane, logoPane;
 	JButton aboutOK;
-	EventHandler handler;
-	handler = new EventHandler();
+	AboutDialogEventHandler handler;
+	handler = new AboutDialogEventHandler(this);
 	this.setTitle(Strings.loadDialog(DialogString.ABOUT) + Strings.loadCommon(CommonString.SPACE)
 		+ GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
 	textPane = new JPanel();

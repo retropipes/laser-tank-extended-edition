@@ -35,14 +35,10 @@ class GameEventHandler implements KeyListener, WindowListener, MouseListener {
 	};
     }
 
-    /**
-     *
-     */
     private final Game game;
 
     public GameEventHandler(final Game theGame) {
 	this.game = theGame;
-	// Do nothing
     }
 
     private void handleBlueLasers() {

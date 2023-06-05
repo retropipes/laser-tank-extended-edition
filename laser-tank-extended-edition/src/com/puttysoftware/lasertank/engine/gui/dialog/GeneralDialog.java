@@ -30,9 +30,6 @@ class GeneralDialog {
     private static JComponent dialogPane;
     private static CompletableFuture<Void> completer = new CompletableFuture<>();
 
-    /**
-     * Set up and show the dialog.
-     */
     public static Future<Void> showDialog(final String text, final String title, final BufferedImageIcon icon) {
 	Executors.newSingleThreadExecutor().submit(() -> {
 	    // Create and initialize the dialog.

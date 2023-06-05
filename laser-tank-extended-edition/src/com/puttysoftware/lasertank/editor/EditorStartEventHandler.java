@@ -6,15 +6,11 @@ import java.awt.event.MouseListener;
 import com.puttysoftware.lasertank.LaserTankEE;
 
 class EditorStartEventHandler implements MouseListener {
-    /**
-     *
-     */
     private final Editor editor;
 
     // handle scroll bars
     public EditorStartEventHandler(final Editor theEditor) {
 	this.editor = theEditor;
-	// Do nothing
     }
 
     @Override

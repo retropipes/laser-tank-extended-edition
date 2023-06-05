@@ -140,9 +140,6 @@ public class DirectionStorage {
 	return this.dataShape;
     }
 
-    /**
-     * Hashing support.
-     */
     @Override
     public int hashCode() {
 	final var prime = 31;

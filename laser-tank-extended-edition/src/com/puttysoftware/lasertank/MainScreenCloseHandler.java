@@ -1,27 +1,13 @@
 package com.puttysoftware.lasertank;
 
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
-class MainScreenCloseHandler implements WindowListener {
-    /**
-     *
-     */
+class MainScreenCloseHandler extends WindowAdapter {
     private final MainScreen mainScreen;
 
     public MainScreenCloseHandler(final MainScreen theMainScreen) {
 	this.mainScreen = theMainScreen;
-	// Do nothing
-    }
-
-    @Override
-    public void windowActivated(final WindowEvent arg0) {
-	// Do nothing
-    }
-
-    @Override
-    public void windowClosed(final WindowEvent arg0) {
-	// Do nothing
     }
 
     @Override
@@ -29,25 +15,5 @@ class MainScreenCloseHandler implements WindowListener {
 	if (this.mainScreen.quitHandler()) {
 	    System.exit(0);
 	}
-    }
-
-    @Override
-    public void windowDeactivated(final WindowEvent arg0) {
-	// Do nothing
-    }
-
-    @Override
-    public void windowDeiconified(final WindowEvent arg0) {
-	// Do nothing
-    }
-
-    @Override
-    public void windowIconified(final WindowEvent arg0) {
-	// Do nothing
-    }
-
-    @Override
-    public void windowOpened(final WindowEvent arg0) {
-	// Do nothing
     }
 }

@@ -1,31 +1,37 @@
-package com.puttysoftware.lasertank.game;
+package com.puttysoftware.lasertank.settings;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
+import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
 
-class GameDifficultyEventHandler implements ActionListener, WindowListener {
-    private final Game game;
+class SettingsGUIEventHandler implements ActionListener, WindowListener {
+    private final SettingsGUI settingsGUI;
 
-    public GameDifficultyEventHandler(final Game theGame) {
-	this.game = theGame;
+    public SettingsGUIEventHandler(final SettingsGUI theSettingsGUI) {
+	this.settingsGUI = theSettingsGUI;
     }
 
+    // Handle buttons
     @Override
     public void actionPerformed(final ActionEvent e) {
 	new Thread() {
 	    @Override
 	    public void run() {
-		final var cmd = e.getActionCommand();
-		final var gm = GameDifficultyEventHandler.this.game;
-		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-		    gm.okButtonClicked();
-		} else {
-		    gm.cancelButtonClicked();
+		try {
+		    final var pm = SettingsGUIEventHandler.this.settingsGUI;
+		    final var cmd = e.getActionCommand();
+		    if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
+			pm.setSettings();
+		    } else if (cmd.equals(Strings.loadDialog(DialogString.CANCEL_BUTTON))) {
+			pm.hideSettings();
+		    }
+		} catch (final Exception ex) {
+		    LaserTankEE.logError(ex);
 		}
 	    }
 	}.start();
@@ -33,12 +39,12 @@ class GameDifficultyEventHandler implements ActionListener, WindowListener {
 
     @Override
     public void windowActivated(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 
     @Override
     public void windowClosed(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 
     @Override
@@ -46,28 +52,28 @@ class GameDifficultyEventHandler implements ActionListener, WindowListener {
 	new Thread() {
 	    @Override
 	    public void run() {
-		GameDifficultyEventHandler.this.game.cancelButtonClicked();
+		SettingsGUIEventHandler.this.settingsGUI.hideSettings();
 	    }
 	}.start();
     }
 
     @Override
     public void windowDeactivated(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 
     @Override
     public void windowDeiconified(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 
     @Override
     public void windowIconified(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 
     @Override
     public void windowOpened(final WindowEvent e) {
-	// Ignore
+	// Do nothing
     }
 }

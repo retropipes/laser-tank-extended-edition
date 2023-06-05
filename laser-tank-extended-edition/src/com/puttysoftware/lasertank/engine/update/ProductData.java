@@ -130,66 +130,39 @@ public class ProductData {
 	return new UpdateCheckResults();
     }
 
-    /**
-     * @return the bugfix version
-     */
     public int getBugfixVersion() {
 	return this.bugfixVersion;
     }
 
-    /**
-     * @return the code version
-     */
     public int getCodeVersion() {
 	return this.codeVersion;
     }
 
-    /**
-     * @return the major version
-     */
     public int getMajorVersion() {
 	return this.majorVersion;
     }
 
-    /**
-     * @return the minor version
-     */
     public int getMinorVersion() {
 	return this.minorVersion;
     }
 
-    /**
-     * @return the newVersionURL
-     */
     public URL getNewVersionURL() {
 	return this.newVersionURL;
     }
 
-    /**
-     * @return the prerelease version
-     */
     public int getPrereleaseVersion() {
 	return this.prereleaseVersion;
     }
 
-    /**
-     * @return the version as a short string
-     */
     public String getShortVersionString() {
 	return this.shortVersionString;
     }
 
     // Methods
-    /**
-     * @return the updateURL
-     */
     public URL getUpdateURL() {
 	return this.updateURL;
     }
 
-    /**
-     * @return the version as a string
-     */
     public String getVersionString() {
 	return this.versionString;
     }

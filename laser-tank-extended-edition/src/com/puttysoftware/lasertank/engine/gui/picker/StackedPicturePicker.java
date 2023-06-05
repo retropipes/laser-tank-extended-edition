@@ -33,9 +33,6 @@ public final class StackedPicturePicker {
 	}
     }
 
-    /**
-     * @version 2.0.0
-     */
     // Fields
     private BufferedImageIcon[] choices;
     private JLabel[] choiceArray;

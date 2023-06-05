@@ -39,30 +39,18 @@ public final class UpdateCheckResults {
 	this.prereleaseVersion = beta;
     }
 
-    /**
-     * @return the bug fix version
-     */
     public int getBugfixVersion() {
 	return this.bugfixVersion;
     }
 
-    /**
-     * @return the major version
-     */
     public int getMajorVersion() {
 	return this.majorVersion;
     }
 
-    /**
-     * @return the minor version
-     */
     public int getMinorVersion() {
 	return this.minorVersion;
     }
 
-    /**
-     * @return the prerelease version
-     */
     public int getPrereleaseVersion() {
 	return this.prereleaseVersion;
     }

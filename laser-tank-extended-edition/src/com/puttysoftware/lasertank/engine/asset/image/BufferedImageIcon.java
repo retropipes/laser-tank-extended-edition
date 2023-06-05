@@ -18,9 +18,6 @@ public class BufferedImageIcon extends BufferedImage implements Icon {
     private static final int DEFAULT_TYPE = BufferedImage.TYPE_INT_ARGB;
     private static final int SCALE_MIN = 100;
     private static final double SCALE_MULT = 100.0;
-    /**
-     * The global scale factor (default: 100 = 100% scaling)
-     */
     protected static int SCALE = 100;
 
     /**

@@ -36,9 +36,6 @@ public final class PicturePicker {
 	}
     }
 
-    /**
-     * @version 1.0.0
-     */
     // Fields
     private BufferedImageIcon[] choices;
     private String[] choiceNames;

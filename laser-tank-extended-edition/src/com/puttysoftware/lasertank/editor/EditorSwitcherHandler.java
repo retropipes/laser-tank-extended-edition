@@ -9,14 +9,10 @@ import com.puttysoftware.lasertank.locale.EditorString;
 import com.puttysoftware.lasertank.locale.Strings;
 
 class EditorSwitcherHandler implements ActionListener {
-    /**
-     *
-     */
     private final Editor editor;
 
     EditorSwitcherHandler(final Editor theEditor) {
 	this.editor = theEditor;
-	// Do nothing
     }
 
     @Override

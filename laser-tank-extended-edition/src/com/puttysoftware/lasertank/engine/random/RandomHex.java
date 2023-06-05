@@ -80,9 +80,6 @@ public class RandomHex {
 	return sb.toString();
     }
 
-    /**
-     * Instantiates a new random hexer.
-     */
     // Constructor
     private RandomHex() {
 	// Do nothing

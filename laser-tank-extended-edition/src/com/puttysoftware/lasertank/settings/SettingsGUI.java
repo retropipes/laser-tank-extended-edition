@@ -9,10 +9,6 @@ import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
@@ -20,7 +16,6 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.engine.gui.MainWindow;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.locale.DialogString;
@@ -28,64 +23,6 @@ import com.puttysoftware.lasertank.locale.SettingsString;
 import com.puttysoftware.lasertank.locale.Strings;
 
 class SettingsGUI {
-    private class EventHandler implements ActionListener, WindowListener {
-	public EventHandler() {
-	    // Do nothing
-	}
-
-	// Handle buttons
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-	    try {
-		final var pm = SettingsGUI.this;
-		final var cmd = e.getActionCommand();
-		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-		    pm.setSettings();
-		} else if (cmd.equals(Strings.loadDialog(DialogString.CANCEL_BUTTON))) {
-		    pm.hideSettings();
-		}
-	    } catch (final Exception ex) {
-		LaserTankEE.logError(ex);
-	    }
-	}
-
-	@Override
-	public void windowActivated(final WindowEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowClosed(final WindowEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowClosing(final WindowEvent e) {
-	    final var pm = SettingsGUI.this;
-	    pm.hideSettings();
-	}
-
-	@Override
-	public void windowDeactivated(final WindowEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowDeiconified(final WindowEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowIconified(final WindowEvent e) {
-	    // Do nothing
-	}
-
-	@Override
-	public void windowOpened(final WindowEvent e) {
-	    // Do nothing
-	}
-    }
-
     private static final int GRID_LENGTH = 12;
     // Fields
     private MainWindow settingsWindow;
@@ -149,7 +86,7 @@ class SettingsGUI {
     }
 
     private void setUpGUI() {
-	final var handler = new EventHandler();
+	final var handler = new SettingsGUIEventHandler(this);
 	this.settingsWindow = MainWindow.mainWindow();
 	this.mainSettingsPane = this.settingsWindow.createContent();
 	final var buttonPane = new Container();

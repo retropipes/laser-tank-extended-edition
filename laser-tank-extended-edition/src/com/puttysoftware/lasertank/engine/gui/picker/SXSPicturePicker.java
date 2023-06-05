@@ -36,9 +36,6 @@ public final class SXSPicturePicker {
 	}
     }
 
-    /**
-     * @version 1.0.0
-     */
     // Fields
     private BufferedImageIcon[] choices;
     private JLabel[] choiceArray;

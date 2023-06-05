@@ -141,9 +141,6 @@ public class StringStorage {
 	return this.dataShape;
     }
 
-    /**
-     * Hashing support.
-     */
     @Override
     public int hashCode() {
 	return Objects.hash(Arrays.hashCode(this.dataStore));

@@ -261,9 +261,6 @@ class IBXM {
 	this.interpolation = newInterpolation;
     }
 
-    /*
-     * Set the pattern in the sequence to play. The tempo is reset to the default.
-     */
     public void setSequencePos(final int pos) {
 	var newPos = pos;
 	if (newPos >= this.module.sequenceLength) {
