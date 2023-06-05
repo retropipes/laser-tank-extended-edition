@@ -17,6 +17,7 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.engine.LaserTankEngine;
+import com.puttysoftware.lasertank.engine.asset.music.LTEMusicIndex;
 import com.puttysoftware.lasertank.engine.gui.MainContentFactory;
 import com.puttysoftware.lasertank.engine.gui.MainWindow;
 import com.puttysoftware.lasertank.engine.gui.Screen;
@@ -168,6 +169,13 @@ public class LaserTankEE {
 
     public static boolean onMainScreen() {
 	return LaserTankEE.currentScreen == LaserTankEE.mainScreen;
+    }
+
+    public static LTEMusicIndex getScreenMusic() {
+	if (LaserTankEE.currentScreen != null) {
+	    return LaserTankEE.currentScreen.music();
+	}
+	return null;
     }
 
     public static void setOnEditorScreen() {

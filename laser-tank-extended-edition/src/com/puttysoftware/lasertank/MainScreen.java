@@ -36,6 +36,7 @@ public class MainScreen extends Screen implements QuitHandler {
 
     // Constructors
     public MainScreen() {
+	this.setMusic(Music.MAIN_SCREEN);
     }
 
     @Override

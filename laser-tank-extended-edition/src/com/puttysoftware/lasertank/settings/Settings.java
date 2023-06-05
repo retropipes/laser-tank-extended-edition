@@ -14,6 +14,7 @@ import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
+import com.puttysoftware.lasertank.assets.Musics;
 import com.puttysoftware.lasertank.datatype.FileExtensions;
 import com.puttysoftware.lasertank.editor.Editor;
 import com.puttysoftware.lasertank.index.EditorLayout;
@@ -306,6 +307,14 @@ public class Settings {
     static void setMusicEnabled(final boolean status) {
 	Settings.storeMgr.setBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_ENABLE_MUSIC),
 		status);
+	if (status) {
+	    var music = LaserTankEE.getScreenMusic();
+	    if (music != null) {
+		Musics.play(music);
+	    }
+	} else {
+	    Musics.stopPlaying();
+	}
     }
 
     static void setOneMove(final boolean value) {

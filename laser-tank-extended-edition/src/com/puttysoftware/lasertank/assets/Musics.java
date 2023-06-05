@@ -3,6 +3,7 @@ package com.puttysoftware.lasertank.assets;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.engine.asset.music.LTEMusicIndex;
 import com.puttysoftware.lasertank.engine.asset.music.LTEMusicPlayer;
 import com.puttysoftware.lasertank.engine.random.RandomRange;
 import com.puttysoftware.lasertank.settings.Settings;
@@ -30,6 +31,20 @@ public class Musics {
 		LaserTankEE.logError(e);
 	    }
 	}
+    }
+
+    public static void play(final LTEMusicIndex musicID) {
+	if (Settings.isMusicEnabled()) {
+	    try {
+		LTEMusicPlayer.play(musicID);
+	    } catch (final IOException e) {
+		LaserTankEE.logError(e);
+	    }
+	}
+    }
+
+    public static void stopPlaying() {
+	LTEMusicPlayer.stopPlaying();
     }
 
     private Musics() {
