@@ -10,6 +10,7 @@ import com.puttysoftware.lasertank.assets.Sounds;
 import com.puttysoftware.lasertank.engine.ErrorHandler;
 import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.engine.internal.ErrorLogger;
+import com.puttysoftware.lasertank.utility.CleanupTask;
 
 class CustomErrorHandler implements ErrorHandler {
     private static boolean DIALOG_SHOWING = false;
@@ -24,8 +25,10 @@ class CustomErrorHandler implements ErrorHandler {
     public void handleError(final Throwable t) {
 	if (LaserTankEE.DEBUG) {
 	    t.printStackTrace();
+	    CleanupTask.cleanUp();
 	    System.exit(1);
 	} else if (!CustomErrorHandler.DIALOG_SHOWING) {
+	    CleanupTask.cleanUp();
 	    CustomErrorHandler.DIALOG_SHOWING = true;
 	    new Thread() {
 		@Override
@@ -37,11 +40,13 @@ class CustomErrorHandler implements ErrorHandler {
 		}
 	    }.start();
 	} else {
+	    CleanupTask.cleanUp();
 	    this.logger.logError(t);
 	}
     }
 
     public void handleErrorDirectly(final Throwable t) {
+	CleanupTask.cleanUp();
 	this.logger.logError(t);
     }
 
