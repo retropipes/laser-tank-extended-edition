@@ -88,6 +88,45 @@ public class Game extends Screen {
 	    Strings.loadGame(GameString.MAGNETS) };
     private static String[] OTHER_RANGE_CHOICES = { Strings.loadGame(GameString.BOMBS),
 	    Strings.loadGame(GameString.HEAT_BOMBS), Strings.loadGame(GameString.ICE_BOMBS) };
+    private static Container borderPane, scorePane, infoPane, outerOutputPane;
+    private static GameDraw outputPane;
+    static ArenaObject tank;
+    private static boolean savedGameFlag;
+    private static LaserType activeLaserType;
+    static final PlayerLocationManager plMgr = new PlayerLocationManager();
+    private static final Cheats cMgr = new Cheats();
+    private static final ScoreTracker st = new ScoreTracker();
+    private static JLabel scoreMoves;
+    private static JLabel scoreShots;
+    private static JLabel scoreOthers;
+    private static JLabel otherAmmoLeft;
+    private static JLabel otherToolsLeft;
+    private static JLabel otherRangesLeft;
+    private static JLabel levelInfo;
+    private static boolean delayedDecayActive;
+    private static ArenaObject delayedDecayObject;
+    static boolean laserActive;
+    static boolean moving;
+    private static boolean remoteDecay;
+    private static AnimationTask animator;
+    private static GameReplayEngine gre;
+    private static boolean recording;
+    private static boolean replaying;
+    private static boolean newGameResult;
+    private static MLOTask mlot;
+    private static JDialog difficultyFrame;
+    private static JList<String> difficultyList;
+    private static boolean lpbLoaded;
+    private static final boolean[] cheatStatus = new boolean[Game.cMgr.getCheatCount()];
+    private static boolean autoMove;
+    private static boolean dead;
+    static int otherAmmoMode;
+    static int otherToolMode;
+    static RangeType otherRangeMode;
+    private static final GameKeyEventHandler kHandler = new GameKeyEventHandler();
+    private static final GameMouseEventHandler mHandler = new GameMouseEventHandler();
+    private static final GameWindowEventHandler wHandler = new GameWindowEventHandler();
+    private static final GameFocusHandler fHandler = new GameFocusHandler();
 
     public static boolean canObjectMove(final int locX, final int locY, final int dirX, final int dirY) {
 	return MLOTask.checkSolid(locX + dirX, locY + dirY);
@@ -141,75 +180,30 @@ public class Game extends Screen {
 	LaserTankEE.updateMenuItemState();
     }
 
-    // Fields
-    private Container borderPane, scorePane, infoPane, outerOutputPane;
-    private GameDraw outputPane;
-    ArenaObject tank;
-    private boolean savedGameFlag;
-    private LaserType activeLaserType;
-    final PlayerLocationManager plMgr;
-    private final Cheats cMgr;
-    private final ScoreTracker st;
-    private JLabel scoreMoves;
-    private JLabel scoreShots;
-    private JLabel scoreOthers;
-    private JLabel otherAmmoLeft;
-    private JLabel otherToolsLeft;
-    private JLabel otherRangesLeft;
-    private JLabel levelInfo;
-    private boolean delayedDecayActive;
-    private ArenaObject delayedDecayObject;
-    boolean laserActive;
-    boolean moving;
-    private boolean remoteDecay;
-    private AnimationTask animator;
-    private GameReplayEngine gre;
-    private boolean recording;
-    private boolean replaying;
-    private boolean newGameResult;
-    private MLOTask mlot;
-    private JDialog difficultyFrame;
-    private JList<String> difficultyList;
-    private boolean lpbLoaded;
-    private final boolean[] cheatStatus;
-    private boolean autoMove;
-    private boolean dead;
-    int otherAmmoMode;
-    int otherToolMode;
-    RangeType otherRangeMode;
-    private final GameKeyEventHandler kHandler = new GameKeyEventHandler();
-    private final GameMouseEventHandler mHandler = new GameMouseEventHandler();
-    private final GameWindowEventHandler wHandler = new GameWindowEventHandler();
-    private final GameFocusHandler fHandler = new GameFocusHandler();
-
     // Constructors
     private Game() {
-	this.plMgr = new PlayerLocationManager();
-	this.cMgr = new Cheats();
-	this.st = new ScoreTracker();
-	this.savedGameFlag = false;
-	this.delayedDecayActive = false;
-	this.delayedDecayObject = null;
-	this.laserActive = false;
-	this.activeLaserType = LaserType.GREEN;
-	this.remoteDecay = false;
-	this.moving = false;
-	this.gre = new GameReplayEngine();
-	this.recording = false;
-	this.replaying = false;
-	this.newGameResult = false;
-	this.lpbLoaded = false;
-	this.cheatStatus = new boolean[this.cMgr.getCheatCount()];
-	this.autoMove = false;
-	this.dead = false;
-	this.otherAmmoMode = Game.OTHER_AMMO_MODE_MISSILES;
-	this.otherToolMode = Game.OTHER_TOOL_MODE_BOOSTS;
-	this.otherRangeMode = RangeType.BOMB;
+	Game.savedGameFlag = false;
+	Game.delayedDecayActive = false;
+	Game.delayedDecayObject = null;
+	Game.laserActive = false;
+	Game.activeLaserType = LaserType.GREEN;
+	Game.remoteDecay = false;
+	Game.moving = false;
+	Game.gre = new GameReplayEngine();
+	Game.recording = false;
+	Game.replaying = false;
+	Game.newGameResult = false;
+	Game.lpbLoaded = false;
+	Game.autoMove = false;
+	Game.dead = false;
+	Game.otherAmmoMode = Game.OTHER_AMMO_MODE_MISSILES;
+	Game.otherToolMode = Game.OTHER_TOOL_MODE_BOOSTS;
+	Game.otherRangeMode = RangeType.BOMB;
     }
 
     public void abortAndWaitForMLOLoop() {
 	if (Game.actionThread != null && Game.actionThread.isAlive()) {
-	    this.mlot.abortLoop();
+	    Game.mlot.abortLoop();
 	    var waiting = true;
 	    while (waiting) {
 		try {
@@ -225,7 +219,7 @@ public class Game extends Screen {
     }
 
     private void abortMovementLaserObjectLoop() {
-	this.mlot.abortLoop();
+	Game.mlot.abortLoop();
 	this.moveLoopDone();
 	this.laserDone();
     }
@@ -243,41 +237,41 @@ public class Game extends Screen {
     }
 
     void cancelButtonClicked() {
-	this.difficultyFrame.setVisible(false);
-	this.newGameResult = false;
+	Game.difficultyFrame.setVisible(false);
+	Game.newGameResult = false;
     }
 
     public void changeOtherAmmoMode() {
 	final var choice = CommonDialogs.showInputDialog(Strings.loadGame(GameString.WHICH_AMMO),
 		Strings.loadGame(GameString.CHANGE_AMMO), Game.OTHER_AMMO_CHOICES,
-		Game.OTHER_AMMO_CHOICES[this.otherAmmoMode]);
+		Game.OTHER_AMMO_CHOICES[Game.otherAmmoMode]);
 	if (choice != null) {
 	    for (var z = 0; z < Game.OTHER_AMMO_CHOICES.length; z++) {
 		if (choice.equals(Game.OTHER_AMMO_CHOICES[z])) {
-		    this.otherAmmoMode = z;
+		    Game.otherAmmoMode = z;
 		    break;
 		}
 	    }
 	    this.updateScoreText();
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.AMMO_CHANGED) + Strings.loadCommon(CommonString.SPACE)
-		    + Game.OTHER_AMMO_CHOICES[this.otherAmmoMode] + Strings.loadCommon(CommonString.NOTL_PERIOD));
+		    + Game.OTHER_AMMO_CHOICES[Game.otherAmmoMode] + Strings.loadCommon(CommonString.NOTL_PERIOD));
 	}
     }
 
     public void changeOtherRangeMode() {
 	final var choice = CommonDialogs.showInputDialog(Strings.loadGame(GameString.WHICH_RANGE),
 		Strings.loadGame(GameString.CHANGE_RANGE), Game.OTHER_RANGE_CHOICES,
-		Game.OTHER_RANGE_CHOICES[this.otherRangeMode.ordinal()]);
+		Game.OTHER_RANGE_CHOICES[Game.otherRangeMode.ordinal()]);
 	if (choice != null) {
 	    for (var z = 0; z < Game.OTHER_RANGE_CHOICES.length; z++) {
 		if (choice.equals(Game.OTHER_RANGE_CHOICES[z])) {
-		    this.otherRangeMode = RangeTypeHelper.fromOrdinal(z);
+		    Game.otherRangeMode = RangeTypeHelper.fromOrdinal(z);
 		    break;
 		}
 	    }
 	    this.updateScoreText();
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.RANGE_CHANGED) + Strings.loadCommon(CommonString.SPACE)
-		    + Game.OTHER_RANGE_CHOICES[this.otherRangeMode.ordinal()]
+		    + Game.OTHER_RANGE_CHOICES[Game.otherRangeMode.ordinal()]
 		    + Strings.loadCommon(CommonString.NOTL_PERIOD));
 	}
     }
@@ -285,44 +279,44 @@ public class Game extends Screen {
     public void changeOtherToolMode() {
 	final var choice = CommonDialogs.showInputDialog(Strings.loadGame(GameString.WHICH_TOOL),
 		Strings.loadGame(GameString.CHANGE_TOOL), Game.OTHER_TOOL_CHOICES,
-		Game.OTHER_TOOL_CHOICES[this.otherToolMode]);
+		Game.OTHER_TOOL_CHOICES[Game.otherToolMode]);
 	if (choice != null) {
 	    for (var z = 0; z < Game.OTHER_TOOL_CHOICES.length; z++) {
 		if (choice.equals(Game.OTHER_TOOL_CHOICES[z])) {
-		    this.otherToolMode = z;
+		    Game.otherToolMode = z;
 		    break;
 		}
 	    }
 	    this.updateScoreText();
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.TOOL_CHANGED) + Strings.loadCommon(CommonString.SPACE)
-		    + Game.OTHER_TOOL_CHOICES[this.otherToolMode] + Strings.loadCommon(CommonString.NOTL_PERIOD));
+		    + Game.OTHER_TOOL_CHOICES[Game.otherToolMode] + Strings.loadCommon(CommonString.NOTL_PERIOD));
 	}
     }
 
     void clearDead() {
-	this.dead = false;
+	Game.dead = false;
     }
 
     public void clearReplay() {
-	this.gre = new GameReplayEngine();
-	this.lpbLoaded = true;
+	Game.gre = new GameReplayEngine();
+	Game.lpbLoaded = true;
     }
 
     public void decay() {
-	if (this.tank != null) {
-	    this.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
+	if (Game.tank != null) {
+	    Game.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
 	}
     }
 
     void doAction(final GameAction action, final int x, final int y) {
 	final var px = this.getPlayerLocationX();
 	final var py = this.getPlayerLocationY();
-	final var currDir = this.tank.getDirection();
+	final var currDir = Game.tank.getDirection();
 	final var newDir = DirectionHelper.resolveRelative(x, y);
 	switch (action) {
 	case MOVE:
 	    if (currDir != newDir) {
-		this.tank.setDirection(newDir);
+		Game.tank.setDirection(newDir);
 		Sounds.play(Sound.TURN);
 		this.redrawArena();
 	    } else {
@@ -331,7 +325,7 @@ public class Game extends Screen {
 	    break;
 	case SHOOT:
 	case SHOOT_ALT_AMMO:
-	    this.fireLaser(px, py, this.tank);
+	    this.fireLaser(px, py, Game.tank);
 	    break;
 	case USE_RANGE:
 	    this.fireRange();
@@ -345,34 +339,34 @@ public class Game extends Screen {
     }
 
     void doDelayedDecay() {
-	this.tank.setSavedObject(this.delayedDecayObject);
-	this.delayedDecayActive = false;
+	Game.tank.setSavedObject(Game.delayedDecayObject);
+	Game.delayedDecayActive = false;
     }
 
     void doRemoteDelayedDecay(final ArenaObject o) {
-	o.setSavedObject(this.delayedDecayObject);
-	this.remoteDecay = false;
-	this.delayedDecayActive = false;
+	o.setSavedObject(Game.delayedDecayObject);
+	Game.remoteDecay = false;
+	Game.delayedDecayActive = false;
     }
 
     public void enterCheatCode() {
-	final var rawCheat = this.cMgr.enterCheat();
+	final var rawCheat = Game.cMgr.enterCheat();
 	if (rawCheat != null) {
 	    if (rawCheat.contains(Strings.loadGame(GameString.ENABLE_CHEAT))) {
 		// Enable cheat
 		final var cheat = rawCheat.substring(7);
-		for (var x = 0; x < this.cMgr.getCheatCount(); x++) {
-		    if (this.cMgr.queryCheatCache(cheat) == x) {
-			this.cheatStatus[x] = true;
+		for (var x = 0; x < Game.cMgr.getCheatCount(); x++) {
+		    if (Game.cMgr.queryCheatCache(cheat) == x) {
+			Game.cheatStatus[x] = true;
 			break;
 		    }
 		}
 	    } else {
 		// Disable cheat
 		final var cheat = rawCheat.substring(8);
-		for (var x = 0; x < this.cMgr.getCheatCount(); x++) {
-		    if (this.cMgr.queryCheatCache(cheat) == x) {
-			this.cheatStatus[x] = false;
+		for (var x = 0; x < Game.cMgr.getCheatCount(); x++) {
+		    if (Game.cMgr.queryCheatCache(cheat) == x) {
+			Game.cheatStatus[x] = false;
 			break;
 		    }
 		}
@@ -382,19 +376,19 @@ public class Game extends Screen {
 
     public void exitGame() {
 	// Halt the animator
-	if (this.animator != null) {
-	    this.animator.stopAnimator();
-	    this.animator = null;
+	if (Game.animator != null) {
+	    Game.animator.stopAnimator();
+	    Game.animator = null;
 	}
 	// Halt the movement/laser processor
-	if (this.mlot != null) {
+	if (Game.mlot != null) {
 	    this.abortMovementLaserObjectLoop();
 	}
-	this.mlot = null;
+	Game.mlot = null;
 	final var m = ArenaManager.getArena();
 	// Restore the arena
 	m.restore();
-	final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
+	final var playerExists = m.doesPlayerExist(Game.plMgr.getActivePlayerNumber());
 	if (playerExists) {
 	    try {
 		this.resetPlayerToStart();
@@ -405,42 +399,42 @@ public class Game extends Screen {
 	    ArenaManager.setLoaded(false);
 	}
 	// Reset saved game flag
-	this.savedGameFlag = false;
+	Game.savedGameFlag = false;
 	ArenaManager.setDirty(false);
 	// Exit game
 	LaserTankEE.showGUI();
     }
 
     public boolean fireLaser(final int ox, final int oy, final ArenaObject shooter) {
-	if (this.otherAmmoMode == Game.OTHER_AMMO_MODE_MISSILES && this.activeLaserType == LaserType.MISSILE
+	if (Game.otherAmmoMode == Game.OTHER_AMMO_MODE_MISSILES && Game.activeLaserType == LaserType.MISSILE
 		&& TankInventory.getMissilesLeft() == 0 && !this.getCheatStatus(Game.CHEAT_MISSILES)) {
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_MISSILES));
-	} else if (this.otherAmmoMode == Game.OTHER_AMMO_MODE_STUNNERS && this.activeLaserType == LaserType.STUNNER
+	} else if (Game.otherAmmoMode == Game.OTHER_AMMO_MODE_STUNNERS && Game.activeLaserType == LaserType.STUNNER
 		&& TankInventory.getStunnersLeft() == 0 && !this.getCheatStatus(Game.CHEAT_STUNNERS)) {
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_STUNNERS));
-	} else if (this.otherAmmoMode == Game.OTHER_AMMO_MODE_BLUE_LASERS && this.activeLaserType == LaserType.BLUE
+	} else if (Game.otherAmmoMode == Game.OTHER_AMMO_MODE_BLUE_LASERS && Game.activeLaserType == LaserType.BLUE
 		&& TankInventory.getBlueLasersLeft() == 0 && !this.getCheatStatus(Game.CHEAT_BLUE_LASERS)) {
 	    CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_BLUE_LASERS));
 	} else {
 	    final var a = ArenaManager.getArena();
-	    if (!a.isMoveShootAllowed() && !this.laserActive || a.isMoveShootAllowed()) {
-		this.laserActive = true;
+	    if (!a.isMoveShootAllowed() && !Game.laserActive || a.isMoveShootAllowed()) {
+		Game.laserActive = true;
 		final var currDirection = DirectionHelper.unresolveRelative(shooter.getDirection());
 		final var x = currDirection[0];
 		final var y = currDirection[1];
-		if (this.mlot == null) {
-		    this.mlot = new MLOTask();
+		if (Game.mlot == null) {
+		    Game.mlot = new MLOTask();
 		}
 		if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-		    Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+		    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 		}
-		this.mlot.activateLasers(x, y, ox, oy, this.activeLaserType, shooter);
+		Game.mlot.activateLasers(x, y, ox, oy, Game.activeLaserType, shooter);
 		if (!Game.actionThread.isAlive()) {
-		    Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+		    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 		}
-		if (this.replaying) {
+		if (Game.replaying) {
 		    // Wait
-		    while (this.laserActive) {
+		    while (Game.laserActive) {
 			try {
 			    Thread.sleep(100);
 			} catch (final InterruptedException ie) {
@@ -458,19 +452,19 @@ public class Game extends Screen {
 	// Boom!
 	Sounds.play(Sound.BOOM);
 	this.updateScore(0, 0, 1);
-	if (this.otherRangeMode == RangeType.BOMB) {
+	if (Game.otherRangeMode == RangeType.BOMB) {
 	    Game.updateUndo(false, false, false, false, false, false, false, true, false, false);
-	} else if (this.otherRangeMode == RangeType.HEAT_BOMB) {
+	} else if (Game.otherRangeMode == RangeType.HEAT_BOMB) {
 	    Game.updateUndo(false, false, false, false, false, false, false, false, true, false);
-	} else if (this.otherRangeMode == RangeType.ICE_BOMB) {
+	} else if (Game.otherRangeMode == RangeType.ICE_BOMB) {
 	    Game.updateUndo(false, false, false, false, false, false, false, false, false, true);
 	}
 	final var a = ArenaManager.getArena();
-	final var px = this.plMgr.getPlayerLocationX();
-	final var py = this.plMgr.getPlayerLocationY();
-	final var pz = this.plMgr.getPlayerLocationZ();
-	a.circularScanRange(px, py, pz, 1, this.otherRangeMode,
-		ArenaObject.getImbuedForce(RangeTypeHelper.material(this.otherRangeMode)));
+	final var px = Game.plMgr.getPlayerLocationX();
+	final var py = Game.plMgr.getPlayerLocationY();
+	final var pz = Game.plMgr.getPlayerLocationZ();
+	a.circularScanRange(px, py, pz, 1, Game.otherRangeMode,
+		ArenaObject.getImbuedForce(RangeTypeHelper.material(Game.otherRangeMode)));
 	ArenaManager.getArena().tickTimers(pz, GameAction.USE_RANGE);
 	this.updateScoreText();
     }
@@ -481,17 +475,17 @@ public class Game extends Screen {
 	    return;
 	}
 	// Check dead
-	if (this.dead) {
+	if (Game.dead) {
 	    // Already dead
 	    throw new AlreadyDeadException();
 	}
 	// We are dead
-	this.dead = true;
+	Game.dead = true;
 	// Stop the movement/laser/object loop
 	if (Game.actionThread != null && Game.actionThread.isAlive()) {
 	    this.abortMovementLaserObjectLoop();
 	}
-	this.mlot = null;
+	Game.mlot = null;
 	Sounds.play(Sound.DEAD);
 	final var choice = CustomDialogs.showDeadDialog();
 	switch (choice) {
@@ -522,80 +516,80 @@ public class Game extends Screen {
     }
 
     public int getActivePlayerNumber() {
-	return this.plMgr.getActivePlayerNumber();
+	return Game.plMgr.getActivePlayerNumber();
     }
 
     boolean getCheatStatus(final int cheatID) {
-	return this.cheatStatus[cheatID];
+	return Game.cheatStatus[cheatID];
     }
 
     public int getPlayerLocationX() {
-	return this.plMgr.getPlayerLocationX();
+	return Game.plMgr.getPlayerLocationX();
     }
 
     public int getPlayerLocationY() {
-	return this.plMgr.getPlayerLocationY();
+	return Game.plMgr.getPlayerLocationY();
     }
 
     public int getPlayerLocationZ() {
-	return this.plMgr.getPlayerLocationZ();
+	return Game.plMgr.getPlayerLocationZ();
     }
 
     public ArenaObject getTank() {
-	return this.tank;
+	return Game.tank;
     }
 
     public int[] getTankLocation() {
-	return new int[] { this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-		this.plMgr.getPlayerLocationZ() };
+	return new int[] { Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+		Game.plMgr.getPlayerLocationZ() };
     }
 
     public void haltMovingObjects() {
 	if (Game.actionThread != null && Game.actionThread.isAlive()) {
-	    this.mlot.haltMovingObjects();
+	    Game.mlot.haltMovingObjects();
 	}
     }
 
     @Override
     public void hideScreenHook() {
-	this.removeKeyListener(this.kHandler);
-	this.removeWindowListener(this.wHandler);
-	this.removeWindowFocusListener(this.fHandler);
+	this.removeKeyListener(Game.kHandler);
+	this.removeWindowListener(Game.wHandler);
+	this.removeWindowFocusListener(Game.fHandler);
     }
 
     boolean isAutoMoveScheduled() {
-	return this.autoMove;
+	return Game.autoMove;
     }
 
     boolean isDelayedDecayActive() {
-	return this.delayedDecayActive;
+	return Game.delayedDecayActive;
     }
 
     boolean isRemoteDecayActive() {
-	return this.remoteDecay;
+	return Game.remoteDecay;
     }
 
     boolean isReplaying() {
-	return this.replaying;
+	return Game.replaying;
     }
 
     void laserDone() {
-	this.laserActive = false;
+	Game.laserActive = false;
 	LaserTankEE.updateMenuItemState();
     }
 
     public void loadGameHookG1(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
     }
 
     public void loadGameHookG2(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
 	TankInventory.setRedKeysLeft(arenaFile.readInt());
 	TankInventory.setGreenKeysLeft(arenaFile.readInt());
 	TankInventory.setBlueKeysLeft(arenaFile.readInt());
@@ -603,33 +597,33 @@ public class Game extends Screen {
 
     public void loadGameHookG3(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
 	TankInventory.readInventory(arenaFile);
     }
 
     public void loadGameHookG4(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
 	TankInventory.readInventory(arenaFile);
     }
 
     public void loadGameHookG5(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
 	TankInventory.readInventory(arenaFile);
     }
 
     public void loadGameHookG6(final DataIOReader arenaFile) throws IOException {
 	ArenaManager.setScoresFileName(arenaFile.readString());
-	this.st.setMoves(arenaFile.readLong());
-	this.st.setShots(arenaFile.readLong());
-	this.st.setOthers(arenaFile.readLong());
+	Game.st.setMoves(arenaFile.readLong());
+	Game.st.setShots(arenaFile.readLong());
+	Game.st.setOthers(arenaFile.readLong());
 	TankInventory.readInventory(arenaFile);
     }
 
@@ -648,21 +642,21 @@ public class Game extends Screen {
 	    this.suspendAnimator();
 	    m.restore();
 	    m.switchLevel(number);
-	    ArenaManager.getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
+	    ArenaManager.getArena().setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 	    m.resetHistoryEngine();
-	    this.gre = new GameReplayEngine();
+	    Game.gre = new GameReplayEngine();
 	    LaserTankEE.updateMenuItemState();
 	    this.processLevelExists();
 	}
     }
 
     public void loadReplay(final GameAction a, final int x, final int y) {
-	this.gre.updateRedoHistory(a, x, y);
+	Game.gre.updateRedoHistory(a, x, y);
     }
 
     void markTankAsDirty() {
-	ArenaManager.getArena().markAsDirty(this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-		this.plMgr.getPlayerLocationZ());
+	ArenaManager.getArena().markAsDirty(Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+		Game.plMgr.getPlayerLocationZ());
     }
 
     public void morph(final ArenaObject morphInto, final int x, final int y, final int z, final int w) {
@@ -676,54 +670,54 @@ public class Game extends Screen {
     }
 
     void moveLoopDone() {
-	this.moving = false;
+	Game.moving = false;
 	LaserTankEE.updateMenuItemState();
     }
 
     public boolean newGame() {
-	this.difficultyList.clearSelection();
+	Game.difficultyList.clearSelection();
 	final var retVal = Game.getEnabledDifficulties();
-	this.difficultyList.setSelectedIndices(retVal);
-	this.difficultyFrame.setVisible(true);
-	return this.newGameResult;
+	Game.difficultyList.setSelectedIndices(retVal);
+	Game.difficultyFrame.setVisible(true);
+	return Game.newGameResult;
     }
 
     void offsetPlayerLocationX(final int val) {
-	this.plMgr.offsetPlayerLocationX(val);
+	Game.plMgr.offsetPlayerLocationX(val);
     }
 
     void offsetPlayerLocationY(final int val) {
-	this.plMgr.offsetPlayerLocationY(val);
+	Game.plMgr.offsetPlayerLocationY(val);
     }
 
     void okButtonClicked() {
-	this.difficultyFrame.setVisible(false);
-	if (this.difficultyList.isSelectedIndex(Difficulty.KIDS.ordinal() - 1)) {
+	Game.difficultyFrame.setVisible(false);
+	if (Game.difficultyList.isSelectedIndex(Difficulty.KIDS.ordinal() - 1)) {
 	    Settings.setKidsDifficultyEnabled(true);
 	} else {
 	    Settings.setKidsDifficultyEnabled(false);
 	}
-	if (this.difficultyList.isSelectedIndex(Difficulty.EASY.ordinal() - 1)) {
+	if (Game.difficultyList.isSelectedIndex(Difficulty.EASY.ordinal() - 1)) {
 	    Settings.setEasyDifficultyEnabled(true);
 	} else {
 	    Settings.setEasyDifficultyEnabled(false);
 	}
-	if (this.difficultyList.isSelectedIndex(Difficulty.MEDIUM.ordinal() - 1)) {
+	if (Game.difficultyList.isSelectedIndex(Difficulty.MEDIUM.ordinal() - 1)) {
 	    Settings.setMediumDifficultyEnabled(true);
 	} else {
 	    Settings.setMediumDifficultyEnabled(false);
 	}
-	if (this.difficultyList.isSelectedIndex(Difficulty.HARD.ordinal() - 1)) {
+	if (Game.difficultyList.isSelectedIndex(Difficulty.HARD.ordinal() - 1)) {
 	    Settings.setHardDifficultyEnabled(true);
 	} else {
 	    Settings.setHardDifficultyEnabled(false);
 	}
-	if (this.difficultyList.isSelectedIndex(Difficulty.DEADLY.ordinal() - 1)) {
+	if (Game.difficultyList.isSelectedIndex(Difficulty.DEADLY.ordinal() - 1)) {
 	    Settings.setDeadlyDifficultyEnabled(true);
 	} else {
 	    Settings.setDeadlyDifficultyEnabled(false);
 	}
-	this.newGameResult = true;
+	Game.newGameResult = true;
     }
 
     public void playArena() {
@@ -741,26 +735,26 @@ public class Game extends Screen {
 		    return;
 		}
 		this.updateTank();
-		this.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
-		this.st.setScoreFile(ArenaManager.getScoresFileName());
-		if (!this.savedGameFlag) {
-		    this.st.resetScore(ArenaManager.getScoresFileName());
+		Game.tank.setSavedObject(new ArenaObject(GameObjectID.PLACEHOLDER));
+		Game.st.setScoreFile(ArenaManager.getScoresFileName());
+		if (!Game.savedGameFlag) {
+		    Game.st.resetScore(ArenaManager.getScoresFileName());
 		}
 		this.updateInfo();
-		this.borderPane.removeAll();
-		this.borderPane.add(this.outerOutputPane, BorderLayout.CENTER);
-		this.borderPane.add(this.scorePane, BorderLayout.NORTH);
-		this.borderPane.add(this.infoPane, BorderLayout.SOUTH);
+		Game.borderPane.removeAll();
+		Game.borderPane.add(Game.outerOutputPane, BorderLayout.CENTER);
+		Game.borderPane.add(Game.scorePane, BorderLayout.NORTH);
+		Game.borderPane.add(Game.infoPane, BorderLayout.SOUTH);
 		LaserTankEE.updateMenuItemState();
-		ArenaManager.getArena().setDirtyFlags(this.plMgr.getPlayerLocationZ());
+		ArenaManager.getArena().setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 		this.redrawArena();
 		this.updateScoreText();
 		this.pack();
-		this.replaying = false;
+		Game.replaying = false;
 		// Start animator, if enabled
 		if (Settings.enableAnimation()) {
-		    this.animator = new AnimationTask();
-		    Game.animatorThread = TaskRunner.runTrackedTask(this.animator);
+		    Game.animator = new AnimationTask();
+		    Game.animatorThread = TaskRunner.runTrackedTask(Game.animator);
 		}
 	    } else {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.NO_LEVEL_WITH_DIFFICULTY));
@@ -773,54 +767,54 @@ public class Game extends Screen {
 
     @Override
     protected void populateMainPanel() {
-	this.borderPane = new Container();
-	this.borderPane.setLayout(new BorderLayout());
-	this.outerOutputPane = RCLGenerator.generateRowColumnLabels();
-	this.outputPane = new GameDraw();
-	this.outputPane.setLayout(new GridLayout(GameViewingWindowManager.getViewingWindowSizeX(),
+	Game.borderPane = new Container();
+	Game.borderPane.setLayout(new BorderLayout());
+	Game.outerOutputPane = RCLGenerator.generateRowColumnLabels();
+	Game.outputPane = new GameDraw();
+	Game.outputPane.setLayout(new GridLayout(GameViewingWindowManager.getViewingWindowSizeX(),
 		GameViewingWindowManager.getViewingWindowSizeY()));
-	this.outputPane.addMouseListener(this.mHandler);
-	this.scoreMoves = new JLabel(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
+	Game.outputPane.addMouseListener(Game.mHandler);
+	Game.scoreMoves = new JLabel(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	this.scoreShots = new JLabel(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
+	Game.scoreShots = new JLabel(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	this.scoreOthers = new JLabel(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
+	Game.scoreOthers = new JLabel(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	this.otherAmmoLeft = new JLabel(
+	Game.otherAmmoLeft = new JLabel(
 		Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.MISSILES)
 			+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 			+ Strings.loadCommon(CommonString.ZERO) + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
-	this.otherToolsLeft = new JLabel(
+	Game.otherToolsLeft = new JLabel(
 		Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.BOOSTS)
 			+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 			+ Strings.loadCommon(CommonString.ZERO) + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
-	this.otherRangesLeft = new JLabel(
+	Game.otherRangesLeft = new JLabel(
 		Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.BOMBS)
 			+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 			+ Strings.loadCommon(CommonString.ZERO) + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
-	this.scorePane = new Container();
-	this.scorePane.setLayout(new FlowLayout());
-	this.scorePane.add(this.scoreMoves);
-	this.scorePane.add(this.scoreShots);
-	this.scorePane.add(this.scoreOthers);
-	this.scorePane.add(this.otherAmmoLeft);
-	this.scorePane.add(this.otherToolsLeft);
-	this.scorePane.add(this.otherRangesLeft);
-	this.levelInfo = new JLabel(Strings.loadCommon(CommonString.SPACE));
-	this.infoPane = new Container();
-	this.infoPane.setLayout(new FlowLayout());
-	this.infoPane.add(this.levelInfo);
-	this.scoreMoves.setLabelFor(this.outputPane);
-	this.scoreShots.setLabelFor(this.outputPane);
-	this.scoreOthers.setLabelFor(this.outputPane);
-	this.otherAmmoLeft.setLabelFor(this.outputPane);
-	this.otherToolsLeft.setLabelFor(this.outputPane);
-	this.otherRangesLeft.setLabelFor(this.outputPane);
-	this.levelInfo.setLabelFor(this.outputPane);
-	this.outerOutputPane.add(this.outputPane, BorderLayout.CENTER);
-	this.borderPane.add(this.outerOutputPane, BorderLayout.CENTER);
-	this.borderPane.add(this.scorePane, BorderLayout.NORTH);
-	this.borderPane.add(this.infoPane, BorderLayout.SOUTH);
+	Game.scorePane = new Container();
+	Game.scorePane.setLayout(new FlowLayout());
+	Game.scorePane.add(Game.scoreMoves);
+	Game.scorePane.add(Game.scoreShots);
+	Game.scorePane.add(Game.scoreOthers);
+	Game.scorePane.add(Game.otherAmmoLeft);
+	Game.scorePane.add(Game.otherToolsLeft);
+	Game.scorePane.add(Game.otherRangesLeft);
+	Game.levelInfo = new JLabel(Strings.loadCommon(CommonString.SPACE));
+	Game.infoPane = new Container();
+	Game.infoPane.setLayout(new FlowLayout());
+	Game.infoPane.add(Game.levelInfo);
+	Game.scoreMoves.setLabelFor(Game.outputPane);
+	Game.scoreShots.setLabelFor(Game.outputPane);
+	Game.scoreOthers.setLabelFor(Game.outputPane);
+	Game.otherAmmoLeft.setLabelFor(Game.outputPane);
+	Game.otherToolsLeft.setLabelFor(Game.outputPane);
+	Game.otherRangesLeft.setLabelFor(Game.outputPane);
+	Game.levelInfo.setLabelFor(Game.outputPane);
+	Game.outerOutputPane.add(Game.outputPane, BorderLayout.CENTER);
+	Game.borderPane.add(Game.outerOutputPane, BorderLayout.CENTER);
+	Game.borderPane.add(Game.scorePane, BorderLayout.NORTH);
+	Game.borderPane.add(Game.infoPane, BorderLayout.SOUTH);
 	this.setUpDifficultyDialog();
 	this.setTitle(GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
     }
@@ -828,7 +822,7 @@ public class Game extends Screen {
     public void previousLevel() {
 	final var m = ArenaManager.getArena();
 	m.resetHistoryEngine();
-	this.gre = new GameReplayEngine();
+	Game.gre = new GameReplayEngine();
 	LaserTankEE.updateMenuItemState();
 	this.suspendAnimator();
 	m.restore();
@@ -836,7 +830,7 @@ public class Game extends Screen {
 	    m.switchLevelOffset(-1);
 	    final var levelExists = m.switchToPreviousLevelWithDifficulty(Game.getEnabledDifficulties());
 	    if (levelExists) {
-		m.setDirtyFlags(this.plMgr.getPlayerLocationZ());
+		m.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 		this.processLevelExists();
 	    } else {
 		CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.NO_PREVIOUS_LEVEL),
@@ -858,23 +852,23 @@ public class Game extends Screen {
 	    return;
 	}
 	this.updateTank();
-	this.st.resetScore(ArenaManager.getScoresFileName());
+	Game.st.resetScore(ArenaManager.getScoresFileName());
 	TankInventory.resetInventory();
-	this.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
+	Game.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	this.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
+	Game.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	this.scoreOthers.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
+	Game.scoreOthers.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO));
-	switch (this.otherAmmoMode) {
+	switch (Game.otherAmmoMode) {
 	case Game.OTHER_AMMO_MODE_MISSILES:
 	    if (this.getCheatStatus(Game.CHEAT_MISSILES)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.MISSILES) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.MISSILES) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -882,12 +876,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_STUNNERS:
 	    if (this.getCheatStatus(Game.CHEAT_STUNNERS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.STUNNERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.STUNNERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -895,12 +889,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_BLUE_LASERS:
 	    if (this.getCheatStatus(Game.CHEAT_BLUE_LASERS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BLUE_LASERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BLUE_LASERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -908,12 +902,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_DISRUPTORS:
 	    if (this.getCheatStatus(Game.CHEAT_DISRUPTORS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.DISRUPTORS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.DISRUPTORS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadCommon(CommonString.ZERO)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -935,7 +929,7 @@ public class Game extends Screen {
 		    + FileExtensions.getSolutionExtensionWithPeriod();
 	    try (DataIOReader file = new XDataReader(filename,
 		    GlobalStrings.loadUntranslated(UntranslatedString.SOLUTION))) {
-		this.gre = GameReplayEngine.readReplay(file);
+		Game.gre = GameReplayEngine.readReplay(file);
 	    }
 	    return true;
 	} catch (final IOException ioe) {
@@ -946,8 +940,8 @@ public class Game extends Screen {
     public void redoLastMove() {
 	final var a = ArenaManager.getArena();
 	if (a.tryRedo()) {
-	    this.moving = false;
-	    this.laserActive = false;
+	    Game.moving = false;
+	    Game.laserActive = false;
 	    a.redo();
 	    final var laser = a.getWhatWas().wasSomething(HistoryStatus.WAS_LASER);
 	    final var missile = a.getWhatWas().wasSomething(HistoryStatus.WAS_MISSILE);
@@ -999,16 +993,16 @@ public class Game extends Screen {
 	}
 	LaserTankEE.updateMenuItemState();
 	this.updateScoreText();
-	a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
+	a.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 	this.redrawArena();
     }
 
     public synchronized void redrawArena() {
 	// Draw the arena
 	final var a = ArenaManager.getArena();
-	final var drawGrid = this.outputPane.getGrid();
+	final var drawGrid = Game.outputPane.getGrid();
 	int x, y;
-	final var pz = this.plMgr.getPlayerLocationZ();
+	final var pz = Game.plMgr.getPlayerLocationZ();
 	for (x = GameViewingWindowManager.getViewingWindowLocationX(); x <= GameViewingWindowManager
 		.getLowerRightViewingWindowLocationX(); x++) {
 	    for (y = GameViewingWindowManager.getViewingWindowLocationY(); y <= GameViewingWindowManager
@@ -1030,26 +1024,26 @@ public class Game extends Screen {
 		}
 	    }
 	}
-	a.clearDirtyFlags(this.plMgr.getPlayerLocationZ());
-	this.outputPane.repaint();
+	a.clearDirtyFlags(Game.plMgr.getPlayerLocationZ());
+	Game.outputPane.repaint();
     }
 
     public void remoteDelayedDecayTo(final ArenaObject obj) {
-	this.delayedDecayActive = true;
-	this.delayedDecayObject = obj;
-	this.remoteDecay = true;
+	Game.delayedDecayActive = true;
+	Game.delayedDecayObject = obj;
+	Game.remoteDecay = true;
     }
 
     void replayDone() {
-	this.replaying = false;
+	Game.replaying = false;
     }
 
     boolean replayLastMove() {
-	if (this.gre.tryRedo()) {
-	    this.gre.redo();
-	    final var action = this.gre.getAction();
-	    final var x = this.gre.getX();
-	    final var y = this.gre.getY();
+	if (Game.gre.tryRedo()) {
+	    Game.gre.redo();
+	    final var action = Game.gre.getAction();
+	    final var x = Game.gre.getX();
+	    final var y = Game.gre.getY();
 	    this.doAction(action, x, y);
 	    return true;
 	}
@@ -1057,10 +1051,10 @@ public class Game extends Screen {
     }
 
     public void replaySolution() {
-	if (this.lpbLoaded) {
-	    this.replaying = true;
+	if (Game.lpbLoaded) {
+	    Game.replaying = true;
 	    // Turn recording off
-	    this.recording = false;
+	    Game.recording = false;
 	    LaserTankEE.disableRecording();
 	    try {
 		this.resetCurrentLevel(false);
@@ -1078,9 +1072,9 @@ public class Game extends Screen {
 		CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.NO_SOLUTION_FILE),
 			GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
 	    } else {
-		this.replaying = true;
+		Game.replaying = true;
 		// Turn recording off
-		this.recording = false;
+		Game.recording = false;
 		LaserTankEE.disableRecording();
 		try {
 		    this.resetCurrentLevel(false);
@@ -1109,10 +1103,10 @@ public class Game extends Screen {
 	ArenaManager.setDirty(false);
 	m.restore();
 	this.setSavedGameFlag(false);
-	this.st.resetScore();
-	final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
+	Game.st.resetScore();
+	final var playerExists = m.doesPlayerExist(Game.plMgr.getActivePlayerNumber());
 	if (playerExists) {
-	    this.plMgr.setPlayerLocation(m.getStartColumn(0), m.getStartRow(0), m.getStartFloor(0));
+	    Game.plMgr.setPlayerLocation(m.getStartColumn(0), m.getStartRow(0), m.getStartFloor(0));
 	}
     }
 
@@ -1125,14 +1119,14 @@ public class Game extends Screen {
 	if (Game.actionThread != null && Game.actionThread.isAlive()) {
 	    this.abortMovementLaserObjectLoop();
 	}
-	this.moving = false;
-	this.laserActive = false;
+	Game.moving = false;
+	Game.laserActive = false;
 	TankInventory.resetInventory();
 	m.restore();
-	m.setDirtyFlags(this.plMgr.getPlayerLocationZ());
-	final var playerExists = m.doesPlayerExist(this.plMgr.getActivePlayerNumber());
+	m.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
+	final var playerExists = m.doesPlayerExist(Game.plMgr.getActivePlayerNumber());
 	if (playerExists) {
-	    this.st.resetScore(ArenaManager.getScoresFileName());
+	    Game.st.resetScore(ArenaManager.getScoresFileName());
 	    this.resetPlayerToStart();
 	    this.updateTank();
 	    m.clearVirtualGrid();
@@ -1144,7 +1138,7 @@ public class Game extends Screen {
     }
 
     public void resetPlayerLocation() {
-	this.plMgr.resetPlayerLocation();
+	Game.plMgr.resetPlayerLocation();
     }
 
     public void resetPlayerToStart() throws InvalidArenaException {
@@ -1153,111 +1147,111 @@ public class Game extends Screen {
 	if (found == null) {
 	    throw new InvalidArenaException(Strings.loadError(ErrorString.TANK_LOCATION));
 	}
-	this.plMgr.setPlayerLocation(found[0], found[1], found[2]);
+	Game.plMgr.setPlayerLocation(found[0], found[1], found[2]);
     }
 
     private void resetTank() {
-	ArenaManager.getArena().setCell(this.tank, this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-		this.plMgr.getPlayerLocationZ(), this.tank.getLayer());
+	ArenaManager.getArena().setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+		Game.plMgr.getPlayerLocationZ(), Game.tank.getLayer());
 	this.markTankAsDirty();
     }
 
     void restorePlayerLocation() {
-	this.plMgr.restorePlayerLocation();
+	Game.plMgr.restorePlayerLocation();
     }
 
     private void resumeAnimator() {
-	if (this.animator == null) {
-	    this.animator = new AnimationTask();
-	    Game.animatorThread = TaskRunner.runTrackedTask(this.animator);
+	if (Game.animator == null) {
+	    Game.animator = new AnimationTask();
+	    Game.animatorThread = TaskRunner.runTrackedTask(Game.animator);
 	}
     }
 
     public void saveGameHook(final DataIOWriter arenaFile) throws IOException {
 	arenaFile.writeString(ArenaManager.getScoresFileName());
-	arenaFile.writeLong(this.st.getMoves());
-	arenaFile.writeLong(this.st.getShots());
-	arenaFile.writeLong(this.st.getOthers());
+	arenaFile.writeLong(Game.st.getMoves());
+	arenaFile.writeLong(Game.st.getShots());
+	arenaFile.writeLong(Game.st.getOthers());
 	TankInventory.writeInventory(arenaFile);
     }
 
     void savePlayerLocation() {
-	this.plMgr.savePlayerLocation();
+	Game.plMgr.savePlayerLocation();
     }
 
     void scheduleAutoMove() {
-	this.autoMove = true;
+	Game.autoMove = true;
     }
 
     public void setActivePlayerNumber(final int value) {
-	this.plMgr.setActivePlayerNumber(value);
+	Game.plMgr.setActivePlayerNumber(value);
     }
 
     public void setLaserType(final LaserType type) {
-	this.activeLaserType = type;
+	Game.activeLaserType = type;
     }
 
     public void setNormalTank() {
-	final var saveTank = this.tank;
-	this.tank = new ArenaObject(GameObjectID.TANK, saveTank.getDirection(), saveTank.getNumber());
+	final var saveTank = Game.tank;
+	Game.tank = new ArenaObject(GameObjectID.TANK, saveTank.getDirection(), saveTank.getNumber());
 	this.resetTank();
     }
 
     public void setPlayerLocation(final int valX, final int valY, final int valZ) {
-	this.plMgr.setPlayerLocation(valX, valY, valZ);
+	Game.plMgr.setPlayerLocation(valX, valY, valZ);
     }
 
     public void setPowerfulTank() {
-	final var saveTank = this.tank;
-	this.tank = new ArenaObject(GameObjectID.POWER_TANK, saveTank.getDirection(), saveTank.getNumber());
+	final var saveTank = Game.tank;
+	Game.tank = new ArenaObject(GameObjectID.POWER_TANK, saveTank.getDirection(), saveTank.getNumber());
 	this.resetTank();
     }
 
     public void setSavedGameFlag(final boolean value) {
-	this.savedGameFlag = value;
+	Game.savedGameFlag = value;
     }
 
     private void setUpDifficultyDialog() {
 	// Set up Difficulty Dialog
-	final var dahandler = new GameDifficultyActionEventHandler(this);
-	final var dwhandler = new GameDifficultyWindowEventHandler(this);
-	this.difficultyFrame = new JDialog((JFrame) null, Strings.loadGame(GameString.SELECT_DIFFICULTY));
+	final var dahandler = new GameDifficultyActionEventHandler();
+	final var dwhandler = new GameDifficultyWindowEventHandler();
+	Game.difficultyFrame = new JDialog((JFrame) null, Strings.loadGame(GameString.SELECT_DIFFICULTY));
 	final var difficultyPane = new Container();
 	final var listPane = new Container();
 	final var buttonPane = new Container();
-	this.difficultyList = new JList<>(DifficultyHelper.getNames());
+	Game.difficultyList = new JList<>(DifficultyHelper.getNames());
 	final var okButton = new JButton(Strings.loadDialog(DialogString.OK_BUTTON));
 	final var cancelButton = new JButton(Strings.loadDialog(DialogString.CANCEL_BUTTON));
 	buttonPane.setLayout(new FlowLayout());
 	buttonPane.add(okButton);
 	buttonPane.add(cancelButton);
 	listPane.setLayout(new FlowLayout());
-	listPane.add(this.difficultyList);
+	listPane.add(Game.difficultyList);
 	difficultyPane.setLayout(new BorderLayout());
 	difficultyPane.add(listPane, BorderLayout.CENTER);
 	difficultyPane.add(buttonPane, BorderLayout.SOUTH);
-	this.difficultyFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-	this.difficultyFrame.setModal(true);
-	this.difficultyFrame.setResizable(false);
+	Game.difficultyFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+	Game.difficultyFrame.setModal(true);
+	Game.difficultyFrame.setResizable(false);
 	okButton.setDefaultCapable(true);
 	cancelButton.setDefaultCapable(false);
-	this.difficultyFrame.getRootPane().setDefaultButton(okButton);
-	this.difficultyFrame.addWindowListener(dwhandler);
+	Game.difficultyFrame.getRootPane().setDefaultButton(okButton);
+	Game.difficultyFrame.addWindowListener(dwhandler);
 	okButton.addActionListener(dahandler);
 	cancelButton.addActionListener(dahandler);
-	this.difficultyFrame.setContentPane(difficultyPane);
-	this.difficultyFrame.pack();
+	Game.difficultyFrame.setContentPane(difficultyPane);
+	Game.difficultyFrame.pack();
     }
 
     public void showScoreTable() {
-	this.st.showScoreTable();
+	Game.st.showScoreTable();
     }
 
     @Override
     public void showScreenHook() {
-	this.addKeyListener(this.kHandler);
-	this.addWindowListener(this.wHandler);
-	this.addWindowFocusListener(this.fHandler);
+	this.addKeyListener(Game.kHandler);
+	this.addWindowListener(Game.wHandler);
+	this.addWindowFocusListener(Game.fHandler);
 	Musics.play(Music.GAME);
     }
 
@@ -1272,15 +1266,15 @@ public class Game extends Screen {
 	}
 	final var m = ArenaManager.getArena();
 	if (playSound) {
-	    if (this.recording) {
+	    if (Game.recording) {
 		this.writeSolution();
 	    }
-	    if (this.st.checkScore()) {
-		this.st.commitScore();
+	    if (Game.st.checkScore()) {
+		Game.st.commitScore();
 	    }
 	}
 	m.resetHistoryEngine();
-	this.gre = new GameReplayEngine();
+	Game.gre = new GameReplayEngine();
 	LaserTankEE.updateMenuItemState();
 	this.suspendAnimator();
 	m.restore();
@@ -1288,7 +1282,7 @@ public class Game extends Screen {
 	    m.switchLevelOffset(1);
 	    final var levelExists = m.switchToNextLevelWithDifficulty(Game.getEnabledDifficulties());
 	    if (levelExists) {
-		m.setDirtyFlags(this.plMgr.getPlayerLocationZ());
+		m.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 		this.processLevelExists();
 	    } else {
 		this.solvedArena();
@@ -1299,31 +1293,31 @@ public class Game extends Screen {
     }
 
     private void suspendAnimator() {
-	if (this.animator != null && Game.animatorThread != null) {
-	    this.animator.stopAnimator();
+	if (Game.animator != null && Game.animatorThread != null) {
+	    Game.animator.stopAnimator();
 	    try {
 		Game.animatorThread.join();
 	    } catch (final InterruptedException ie) {
 		// Ignore
 	    }
-	    this.animator = null;
+	    Game.animator = null;
 	    Game.animatorThread = null;
 	}
     }
 
     public void togglePlayerInstance() {
-	this.plMgr.togglePlayerInstance();
+	Game.plMgr.togglePlayerInstance();
     }
 
     public void toggleRecording() {
-	this.recording = !this.recording;
+	Game.recording = !Game.recording;
     }
 
     public void undoLastMove() {
 	final var a = ArenaManager.getArena();
 	if (a.tryUndo()) {
-	    this.moving = false;
-	    this.laserActive = false;
+	    Game.moving = false;
+	    Game.laserActive = false;
 	    a.undo();
 	    final var laser = a.getWhatWas().wasSomething(HistoryStatus.WAS_LASER);
 	    final var missile = a.getWhatWas().wasSomething(HistoryStatus.WAS_MISSILE);
@@ -1375,17 +1369,17 @@ public class Game extends Screen {
 	}
 	LaserTankEE.updateMenuItemState();
 	this.updateScoreText();
-	a.setDirtyFlags(this.plMgr.getPlayerLocationZ());
+	a.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 	this.redrawArena();
     }
 
     void unscheduleAutoMove() {
-	this.autoMove = false;
+	Game.autoMove = false;
     }
 
     private void updateInfo() {
 	final var a = ArenaManager.getArena();
-	this.levelInfo.setText(Strings.loadGame(GameString.LEVEL) + Strings.loadCommon(CommonString.SPACE)
+	Game.levelInfo.setText(Strings.loadGame(GameString.LEVEL) + Strings.loadCommon(CommonString.SPACE)
 		+ (a.getActiveLevelNumber() + 1) + Strings.loadCommon(CommonString.COLON)
 		+ Strings.loadCommon(CommonString.SPACE) + a.getName().trim() + Strings.loadCommon(CommonString.SPACE)
 		+ Strings.loadDialog(DialogString.ARENA_LEVEL_BY) + Strings.loadCommon(CommonString.SPACE)
@@ -1393,56 +1387,56 @@ public class Game extends Screen {
     }
 
     public void updatePositionAbsoluteNoEvents(final int z) {
-	final var x = this.plMgr.getPlayerLocationX();
-	final var y = this.plMgr.getPlayerLocationY();
+	final var x = Game.plMgr.getPlayerLocationX();
+	final var y = Game.plMgr.getPlayerLocationY();
 	this.updatePositionAbsoluteNoEvents(x, y, z);
     }
 
     public void updatePositionAbsoluteNoEvents(final int x, final int y, final int z) {
 	final var template = new ArenaObject(GameObjectID.TANK);
-	template.setIndex(this.plMgr.getActivePlayerNumber() + 1);
+	template.setIndex(Game.plMgr.getActivePlayerNumber() + 1);
 	final var m = ArenaManager.getArena();
-	this.plMgr.savePlayerLocation();
+	Game.plMgr.savePlayerLocation();
 	try {
 	    if (!m.getCell(x, y, z, template.getLayer()).isConditionallySolid()) {
 		if (z != 0) {
 		    this.suspendAnimator();
-		    m.setDirtyFlags(this.plMgr.getPlayerLocationZ());
+		    m.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 		    m.setDirtyFlags(z);
 		}
-		m.setCell(this.tank.getSavedObject(), this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-			this.plMgr.getPlayerLocationZ(), template.getLayer());
-		this.plMgr.setPlayerLocation(x, y, z);
-		this.tank.setSavedObject(m.getCell(this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-			this.plMgr.getPlayerLocationZ(), template.getLayer()));
-		m.setCell(this.tank, this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-			this.plMgr.getPlayerLocationZ(), template.getLayer());
+		m.setCell(Game.tank.getSavedObject(), Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+			Game.plMgr.getPlayerLocationZ(), template.getLayer());
+		Game.plMgr.setPlayerLocation(x, y, z);
+		Game.tank.setSavedObject(m.getCell(Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+			Game.plMgr.getPlayerLocationZ(), template.getLayer()));
+		m.setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+			Game.plMgr.getPlayerLocationZ(), template.getLayer());
 		ArenaManager.setDirty(true);
 		if (z != 0) {
 		    this.resumeAnimator();
 		}
 	    }
 	} catch (final ArrayIndexOutOfBoundsException | NullPointerException np) {
-	    this.plMgr.restorePlayerLocation();
-	    m.setCell(this.tank, this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-		    this.plMgr.getPlayerLocationZ(), template.getLayer());
+	    Game.plMgr.restorePlayerLocation();
+	    m.setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+		    Game.plMgr.getPlayerLocationZ(), template.getLayer());
 	    LaserTankEE.showMessage(Strings.loadGame(GameString.OUTSIDE_ARENA));
 	}
     }
 
     void updatePositionRelative(final int x, final int y) {
-	if (!this.moving) {
-	    this.moving = true;
-	    if (this.mlot == null) {
-		this.mlot = new MLOTask();
+	if (!Game.moving) {
+	    Game.moving = true;
+	    if (Game.mlot == null) {
+		Game.mlot = new MLOTask();
 	    }
-	    this.mlot.activateMovement(x, y);
+	    Game.mlot.activateMovement(x, y);
 	    if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-		Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+		Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 	    }
-	    if (this.replaying) {
+	    if (Game.replaying) {
 		// Wait
-		while (this.moving) {
+		while (Game.moving) {
 		    try {
 			Thread.sleep(100);
 		    } catch (final InterruptedException ie) {
@@ -1454,20 +1448,20 @@ public class Game extends Screen {
     }
 
     public void updatePositionRelativeFrozen() {
-	if (this.mlot == null) {
-	    this.mlot = new MLOTask();
+	if (Game.mlot == null) {
+	    Game.mlot = new MLOTask();
 	}
 	final var dir = this.getTank().getDirection();
 	final var unres = DirectionHelper.unresolveRelative(dir);
 	final var x = unres[0];
 	final var y = unres[1];
-	this.mlot.activateFrozenMovement(x, y);
+	Game.mlot.activateFrozenMovement(x, y);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 	}
-	if (this.replaying) {
+	if (Game.replaying) {
 	    // Wait
-	    while (this.moving) {
+	    while (Game.moving) {
 		try {
 		    Thread.sleep(100);
 		} catch (final InterruptedException ie) {
@@ -1478,20 +1472,20 @@ public class Game extends Screen {
     }
 
     public void updatePositionRelativeMolten() {
-	if (this.mlot == null) {
-	    this.mlot = new MLOTask();
+	if (Game.mlot == null) {
+	    Game.mlot = new MLOTask();
 	}
 	final var dir = this.getTank().getDirection();
 	final var unres = DirectionHelper.unresolveRelative(dir);
 	final var x = unres[0];
 	final var y = unres[1];
-	this.mlot.activateMoltenMovement(x, y);
+	Game.mlot.activateMoltenMovement(x, y);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 	}
-	if (this.replaying) {
+	if (Game.replaying) {
 	    // Wait
-	    while (this.moving) {
+	    while (Game.moving) {
 		try {
 		    Thread.sleep(100);
 		} catch (final InterruptedException ie) {
@@ -1502,9 +1496,9 @@ public class Game extends Screen {
     }
 
     public void updatePositionRelativeNoEvents(final int z) {
-	final var dx = this.plMgr.getPlayerLocationX();
-	final var dy = this.plMgr.getPlayerLocationY();
-	final var pz = this.plMgr.getPlayerLocationZ();
+	final var dx = Game.plMgr.getPlayerLocationX();
+	final var dy = Game.plMgr.getPlayerLocationY();
+	final var pz = Game.plMgr.getPlayerLocationZ();
 	final var dz = pz + z;
 	this.updatePositionAbsoluteNoEvents(dx, dy, dz);
     }
@@ -1512,7 +1506,7 @@ public class Game extends Screen {
     public void updatePushedIntoPositionAbsolute(final int x, final int y, final int z, final int x2, final int y2,
 	    final int z2, final ArenaObject pushedInto, final ArenaObject source) {
 	final var template = new ArenaObject(GameObjectID.TANK);
-	template.setIndex(this.plMgr.getActivePlayerNumber() + 1);
+	template.setIndex(Game.plMgr.getActivePlayerNumber() + 1);
 	final var m = ArenaManager.getArena();
 	var needsFixup1 = false;
 	var needsFixup2 = false;
@@ -1527,16 +1521,16 @@ public class Game extends Screen {
 		    needsFixup2 = true;
 		}
 		if (needsFixup2) {
-		    m.setCell(this.tank, x, y, z, template.getLayer());
+		    m.setCell(Game.tank, x, y, z, template.getLayer());
 		    pushedInto.setSavedObject(saved.getSavedObject());
-		    this.tank.setSavedObject(pushedInto);
+		    Game.tank.setSavedObject(pushedInto);
 		} else {
 		    m.setCell(pushedInto, x, y, z, pushedInto.getLayer());
 		    pushedInto.setSavedObject(saved);
 		}
 		if (needsFixup1) {
-		    m.setCell(this.tank, x2, y2, z2, template.getLayer());
-		    this.tank.setSavedObject(source);
+		    m.setCell(Game.tank, x2, y2, z2, template.getLayer());
+		    Game.tank.setSavedObject(source);
 		} else {
 		    m.setCell(source, x2, y2, z2, pushedInto.getLayer());
 		}
@@ -1550,12 +1544,12 @@ public class Game extends Screen {
 
     public synchronized void updatePushedPosition(final int x, final int y, final int pushX, final int pushY,
 	    final ArenaObject o) {
-	if (this.mlot == null) {
-	    this.mlot = new MLOTask();
+	if (Game.mlot == null) {
+	    Game.mlot = new MLOTask();
 	}
-	this.mlot.activateObjects(x, y, pushX, pushY, o);
+	Game.mlot.activateObjects(x, y, pushX, pushY, o);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(this.mlot);
+	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
 	}
     }
 
@@ -1566,55 +1560,55 @@ public class Game extends Screen {
     }
 
     void updateReplay(final GameAction a, final int x, final int y) {
-	this.gre.updateUndoHistory(a, x, y);
+	Game.gre.updateUndoHistory(a, x, y);
     }
 
     private void updateScore() {
-	this.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getMoves());
-	this.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getShots());
-	this.scoreShots.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getOthers());
+	Game.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getMoves());
+	Game.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getShots());
+	Game.scoreShots.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getOthers());
 	this.updateScoreText();
     }
 
     void updateScore(final int moves, final int shots, final int others) {
 	if (moves > 0) {
-	    this.st.incrementMoves();
+	    Game.st.incrementMoves();
 	} else if (moves < 0) {
-	    this.st.decrementMoves();
+	    Game.st.decrementMoves();
 	}
 	if (shots > 0) {
-	    this.st.incrementShots();
+	    Game.st.incrementShots();
 	} else if (shots < 0) {
-	    this.st.decrementShots();
+	    Game.st.decrementShots();
 	}
 	if (others > 0) {
-	    this.st.incrementOthers();
+	    Game.st.incrementOthers();
 	} else if (others < 0) {
-	    this.st.decrementOthers();
+	    Game.st.decrementOthers();
 	}
-	this.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getMoves());
-	this.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getShots());
-	this.scoreOthers.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
-		+ Strings.loadCommon(CommonString.SPACE) + this.st.getOthers());
+	Game.scoreMoves.setText(Strings.loadGame(GameString.MOVES) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getMoves());
+	Game.scoreShots.setText(Strings.loadGame(GameString.SHOTS) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getShots());
+	Game.scoreOthers.setText(Strings.loadGame(GameString.OTHERS) + Strings.loadCommon(CommonString.COLON)
+		+ Strings.loadCommon(CommonString.SPACE) + Game.st.getOthers());
 	this.updateScoreText();
     }
 
     private void updateScoreText() {
 	// Ammo
-	switch (this.otherAmmoMode) {
+	switch (Game.otherAmmoMode) {
 	case Game.OTHER_AMMO_MODE_MISSILES:
 	    if (this.getCheatStatus(Game.CHEAT_MISSILES)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.MISSILES) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(
+		Game.otherAmmoLeft.setText(
 			Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.MISSILES)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getMissilesLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -1622,12 +1616,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_STUNNERS:
 	    if (this.getCheatStatus(Game.CHEAT_STUNNERS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.STUNNERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(
+		Game.otherAmmoLeft.setText(
 			Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.STUNNERS)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getStunnersLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -1635,12 +1629,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_BLUE_LASERS:
 	    if (this.getCheatStatus(Game.CHEAT_BLUE_LASERS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BLUE_LASERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BLUE_LASERS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + TankInventory.getBlueLasersLeft()
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -1648,12 +1642,12 @@ public class Game extends Screen {
 	    break;
 	case Game.OTHER_AMMO_MODE_DISRUPTORS:
 	    if (this.getCheatStatus(Game.CHEAT_DISRUPTORS)) {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.DISRUPTORS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherAmmoLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.DISRUPTORS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + TankInventory.getDisruptorsLeft()
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -1663,64 +1657,64 @@ public class Game extends Screen {
 	    break;
 	}
 	// Tools
-	if (this.otherToolMode == Game.OTHER_TOOL_MODE_BOOSTS) {
+	if (Game.otherToolMode == Game.OTHER_TOOL_MODE_BOOSTS) {
 	    if (this.getCheatStatus(Game.CHEAT_BOOSTS)) {
-		this.otherToolsLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherToolsLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BOOSTS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherToolsLeft
+		Game.otherToolsLeft
 			.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.BOOSTS)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getBoostsLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    }
-	} else if (this.otherToolMode == Game.OTHER_TOOL_MODE_MAGNETS) {
+	} else if (Game.otherToolMode == Game.OTHER_TOOL_MODE_MAGNETS) {
 	    if (this.getCheatStatus(Game.CHEAT_MAGNETS)) {
-		this.otherToolsLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherToolsLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.MAGNETS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherToolsLeft.setText(
+		Game.otherToolsLeft.setText(
 			Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.MAGNETS)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getMagnetsLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    }
 	}
 	// Ranges
-	if (this.otherRangeMode == RangeType.BOMB) {
+	if (Game.otherRangeMode == RangeType.BOMB) {
 	    if (this.getCheatStatus(Game.CHEAT_BOMBS)) {
-		this.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.BOMBS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherRangesLeft
+		Game.otherRangesLeft
 			.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.BOMBS)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getBombsLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    }
-	} else if (this.otherRangeMode == RangeType.HEAT_BOMB) {
+	} else if (Game.otherRangeMode == RangeType.HEAT_BOMB) {
 	    if (this.getCheatStatus(Game.CHEAT_HEAT_BOMBS)) {
-		this.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.HEAT_BOMBS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.HEAT_BOMBS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + TankInventory.getHeatBombsLeft()
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    }
-	} else if (this.otherRangeMode == RangeType.ICE_BOMB) {
+	} else if (Game.otherRangeMode == RangeType.ICE_BOMB) {
 	    if (this.getCheatStatus(Game.CHEAT_ICE_BOMBS)) {
-		this.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
+		Game.otherRangesLeft.setText(Strings.loadCommon(CommonString.OPEN_PARENTHESES)
 			+ Strings.loadGame(GameString.ICE_BOMBS) + Strings.loadCommon(CommonString.COLON)
 			+ Strings.loadCommon(CommonString.SPACE) + Strings.loadGame(GameString.INFINITE)
 			+ Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
 	    } else {
-		this.otherRangesLeft.setText(
+		Game.otherRangesLeft.setText(
 			Strings.loadCommon(CommonString.OPEN_PARENTHESES) + Strings.loadGame(GameString.ICE_BOMBS)
 				+ Strings.loadCommon(CommonString.COLON) + Strings.loadCommon(CommonString.SPACE)
 				+ TankInventory.getIceBombsLeft() + Strings.loadCommon(CommonString.CLOSE_PARENTHESES));
@@ -1730,9 +1724,9 @@ public class Game extends Screen {
 
     void updateTank() {
 	final var template = new ArenaObject(GameObjectID.TANK);
-	template.setIndex(this.plMgr.getActivePlayerNumber() + 1);
-	this.tank = ArenaManager.getArena().getCell(this.plMgr.getPlayerLocationX(), this.plMgr.getPlayerLocationY(),
-		this.plMgr.getPlayerLocationZ(), template.getLayer());
+	template.setIndex(Game.plMgr.getActivePlayerNumber() + 1);
+	Game.tank = ArenaManager.getArena().getCell(Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
+		Game.plMgr.getPlayerLocationZ(), template.getLayer());
     }
 
     void waitForMLOLoop() {
@@ -1757,7 +1751,7 @@ public class Game extends Screen {
 		    + FileExtensions.getSolutionExtensionWithPeriod();
 	    try (DataIOWriter file = new XDataWriter(filename,
 		    GlobalStrings.loadUntranslated(UntranslatedString.SOLUTION))) {
-		this.gre.writeReplay(file);
+		Game.gre.writeReplay(file);
 	    }
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);

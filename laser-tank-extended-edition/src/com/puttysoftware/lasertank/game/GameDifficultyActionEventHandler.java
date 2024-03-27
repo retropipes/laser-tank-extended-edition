@@ -8,11 +8,9 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.TaskRunner;
 
 class GameDifficultyActionEventHandler implements ActionListener, Runnable {
-    private final Game game;
     private ActionEvent event;
 
-    public GameDifficultyActionEventHandler(final Game theGame) {
-	this.game = theGame;
+    public GameDifficultyActionEventHandler() {
     }
 
     @Override
@@ -24,11 +22,10 @@ class GameDifficultyActionEventHandler implements ActionListener, Runnable {
     @Override
     public void run() {
 	final var cmd = this.event.getActionCommand();
-	final var gm = GameDifficultyActionEventHandler.this.game;
 	if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-	    gm.okButtonClicked();
+	    Game.get().okButtonClicked();
 	} else {
-	    gm.cancelButtonClicked();
+	    Game.get().cancelButtonClicked();
 	}
     }
 }

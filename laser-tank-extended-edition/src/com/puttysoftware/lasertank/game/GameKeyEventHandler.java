@@ -37,7 +37,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    Game.get().setLaserType(LaserType.BLUE);
 	    final var px = Game.get().getPlayerLocationX();
 	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.get().tank);
+	    Game.get().fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
@@ -118,7 +118,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
     private void handleKeystrokes(final KeyEvent e) {
 	if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 	    if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
-		switch (Game.get().otherAmmoMode) {
+		switch (Game.otherAmmoMode) {
 		case Game.OTHER_AMMO_MODE_MISSILES:
 		    this.handleMissiles();
 		    break;
@@ -136,24 +136,30 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    }
 	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 	    if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
-		if (Game.get().otherRangeMode == RangeType.BOMB) {
+		if (Game.otherRangeMode == RangeType.BOMB) {
 		    this.handleBombs();
-		} else if (Game.get().otherRangeMode == RangeType.HEAT_BOMB) {
-		    this.handleHeatBombs();
-		} else if (Game.get().otherRangeMode == RangeType.ICE_BOMB) {
-		    this.handleIceBombs();
+		} else {
+		    if (Game.otherRangeMode == RangeType.HEAT_BOMB) {
+			this.handleHeatBombs();
+		    } else {
+			if (Game.otherRangeMode == RangeType.ICE_BOMB) {
+			    this.handleIceBombs();
+			}
+		    }
 		}
 	    }
 	} else {
-	    final var currDir = Game.get().tank.getDirection();
+	    final var currDir = Game.tank.getDirection();
 	    final var newDir = GameKeyEventHandler.mapKeyToDirection(e);
 	    if (currDir != newDir) {
 		CommonGameEventHandlers.handleTurns(newDir);
 	    } else if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
-		if (Game.get().otherToolMode == Game.OTHER_TOOL_MODE_BOOSTS) {
+		if (Game.otherToolMode == Game.OTHER_TOOL_MODE_BOOSTS) {
 		    this.handleBoosts(e);
-		} else if (Game.get().otherToolMode == Game.OTHER_TOOL_MODE_MAGNETS) {
-		    this.handleMagnets(e);
+		} else {
+		    if (Game.otherToolMode == Game.OTHER_TOOL_MODE_MAGNETS) {
+			this.handleMagnets(e);
+		    }
 		}
 	    } else {
 		this.handleMovement(e);
@@ -166,7 +172,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    Game.get().setLaserType(LaserType.GREEN);
 	    final var px = Game.get().getPlayerLocationX();
 	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.get().tank);
+	    Game.get().fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
@@ -207,7 +213,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    Game.get().setLaserType(LaserType.MISSILE);
 	    final var px = Game.get().getPlayerLocationX();
 	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.get().tank);
+	    Game.get().fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
@@ -242,7 +248,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    Game.get().setLaserType(LaserType.STUNNER);
 	    final var px = Game.get().getPlayerLocationX();
 	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.get().tank);
+	    Game.get().fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
@@ -263,7 +269,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
     @Override
     public void run() {
 	final var a = ArenaManager.getArena();
-	if ((!a.isMoveShootAllowed() && !Game.get().laserActive || a.isMoveShootAllowed()) && !Game.get().moving) {
+	if ((!a.isMoveShootAllowed() && !Game.laserActive || a.isMoveShootAllowed()) && !Game.moving) {
 	    if (!Settings.oneMove()) {
 		GameKeyEventHandler.this.handleKeystrokes(this.event);
 	    }

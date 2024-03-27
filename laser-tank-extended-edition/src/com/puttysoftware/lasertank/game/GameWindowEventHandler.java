@@ -30,8 +30,8 @@ class GameWindowEventHandler extends WindowAdapter implements Runnable {
 		    LaserTankEE.showGUI();
 		} else {
 		    // Don't stop controls from working
-		    Game.get().moving = false;
-		    Game.get().laserActive = false;
+		    Game.moving = false;
+		    Game.laserActive = false;
 		}
 	    } else {
 		Game.get().exitGame();

@@ -38,7 +38,7 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
 	    if (this.event.getButton() == MouseEvent.BUTTON1) {
 		// Move
 		final var dir = GameMouseEventHandler.this.mapMouseToDirection(this.event);
-		final var tankDir = Game.get().tank.getDirection();
+		final var tankDir = Game.tank.getDirection();
 		if (tankDir != dir) {
 		    CommonGameEventHandlers.handleTurns(dir);
 		} else {
@@ -55,7 +55,7 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
 		Game.get().setLaserType(LaserType.GREEN);
 		final var px = Game.get().getPlayerLocationX();
 		final var py = Game.get().getPlayerLocationY();
-		Game.get().fireLaser(px, py, Game.get().tank);
+		Game.get().fireLaser(px, py, Game.tank);
 	    }
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
