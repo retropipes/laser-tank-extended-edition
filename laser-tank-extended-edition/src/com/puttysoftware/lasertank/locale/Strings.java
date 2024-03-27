@@ -11,7 +11,6 @@ import java.util.ResourceBundle;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Images;
-import com.puttysoftware.lasertank.direction.Direction;
 import com.puttysoftware.lasertank.fileio.utility.ResourceStreamReader;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.EraHelper;
@@ -69,14 +68,6 @@ public class Strings {
 
     public static String loadDifficulty(final Difficulty d) {
 	return Strings.loadFile(StringFile.DIFFICULTY).getString(Integer.toString(d.ordinal()));
-    }
-
-    public static String loadDirection(final Direction item) {
-	return ResourceBundle.getBundle("locale.engine.direction").getString(Integer.toString(item.ordinal())); //$NON-NLS-1$
-    }
-
-    public static String loadDirectionSuffix(final Direction item) {
-	return ResourceBundle.getBundle("locale.engine.dirsuffix").getString(Integer.toString(item.ordinal())); //$NON-NLS-1$
     }
 
     public static String loadEditor(final EditorString str, final Object... values) {

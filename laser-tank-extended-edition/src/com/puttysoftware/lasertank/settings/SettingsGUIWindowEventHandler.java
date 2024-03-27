@@ -8,7 +8,7 @@ import com.puttysoftware.lasertank.utility.TaskRunner;
 class SettingsGUIWindowEventHandler extends WindowAdapter implements Runnable {
     private final SettingsGUI settingsGUI;
 
-    public SettingsGUIWindowEventHandler(final SettingsGUI theSettingsGUI) {
+    SettingsGUIWindowEventHandler(final SettingsGUI theSettingsGUI) {
 	this.settingsGUI = theSettingsGUI;
     }
 

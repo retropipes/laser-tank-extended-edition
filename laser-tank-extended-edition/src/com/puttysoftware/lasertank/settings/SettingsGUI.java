@@ -132,7 +132,7 @@ class SettingsGUI {
 	prefsCancel.addActionListener(ahandler);
     }
 
-    public void showSettings() {
+    void showSettings() {
 	this.settingsWindow.setAndSave(this.mainSettingsPane, Strings.loadSettings(SettingsString.TITLE));
     }
 }

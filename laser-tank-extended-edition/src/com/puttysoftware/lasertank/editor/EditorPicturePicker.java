@@ -3,14 +3,12 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.gui.picker;
+package com.puttysoftware.lasertank.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
@@ -23,20 +21,7 @@ import javax.swing.SwingConstants;
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
 import com.puttysoftware.lasertank.locale.Strings;
 
-public final class AnonymousPicturePicker {
-    private class EventHandler implements ActionListener {
-	public EventHandler() {
-	    // Do nothing
-	}
-
-	@Override
-	public void actionPerformed(final ActionEvent e) {
-	    final var cmd = e.getActionCommand();
-	    // A radio button
-	    AnonymousPicturePicker.this.index = Integer.parseInt(cmd);
-	}
-    }
-
+final class EditorPicturePicker {
     // Fields
     private BufferedImageIcon[] choices;
     private JLabel[] choiceArray;
@@ -54,11 +39,11 @@ public final class AnonymousPicturePicker {
     private Color savedRCColor;
     private Color savedCRCColor;
     private Color savedCHColor;
-    private final EventHandler handler;
+    private final EditorPicturePickerEventHandler handler;
 
     // Constructors
-    public AnonymousPicturePicker(final BufferedImageIcon[] pictures, final boolean[] enabled) {
-	this.handler = new EventHandler();
+    EditorPicturePicker(final BufferedImageIcon[] pictures, final boolean[] enabled) {
+	this.handler = new EditorPicturePickerEventHandler(this);
 	this.pickerJPanel = new JPanel();
 	this.pickerJPanel.setLayout(new BorderLayout());
 	this.choiceJPanel = new JPanel();
@@ -82,9 +67,9 @@ public final class AnonymousPicturePicker {
 	this.savedCHColor = this.scrollPane.getBackground();
     }
 
-    public AnonymousPicturePicker(final BufferedImageIcon[] pictures, final boolean[] enabled,
+    EditorPicturePicker(final BufferedImageIcon[] pictures, final boolean[] enabled,
 	    final Color choiceColor) {
-	this.handler = new EventHandler();
+	this.handler = new EditorPicturePickerEventHandler(this);
 	this.pickerJPanel = new JPanel();
 	this.pickerJPanel.setLayout(new BorderLayout());
 	this.choiceJPanel = new JPanel();
@@ -108,7 +93,7 @@ public final class AnonymousPicturePicker {
 	this.savedCHColor = choiceColor;
     }
 
-    public void changePickerColor(final Color c) {
+    void changePickerColor(final Color c) {
 	this.pickerJPanel.setBackground(c);
 	this.choiceJPanel.setBackground(c);
 	this.radioJPanel.setBackground(c);
@@ -127,7 +112,7 @@ public final class AnonymousPicturePicker {
 	this.savedCHColor = c;
     }
 
-    public void disablePicker() {
+    void disablePicker() {
 	this.pickerJPanel.setEnabled(false);
 	this.pickerJPanel.setBackground(Color.gray);
 	this.choiceJPanel.setBackground(Color.gray);
@@ -139,7 +124,7 @@ public final class AnonymousPicturePicker {
 	}
     }
 
-    public void enablePicker() {
+    void enablePicker() {
 	this.pickerJPanel.setEnabled(true);
 	this.pickerJPanel.setBackground(this.savedPCColor);
 	this.choiceJPanel.setBackground(this.savedCCColor);
@@ -155,20 +140,20 @@ public final class AnonymousPicturePicker {
      *
      * @return the index of the picture picked
      */
-    public int getPicked() {
+    int getPicked() {
 	return this.index;
     }
 
     // Methods
-    public JPanel getPicker() {
+    JPanel getPicker() {
 	return this.pickerJPanel;
     }
 
-    public void selectLastPickedChoice(final int lastPicked) {
+    void selectLastPickedChoice(final int lastPicked) {
 	this.radioButtons[lastPicked].setSelected(true);
     }
 
-    public void updatePicker(final BufferedImageIcon[] newImages, final boolean[] enabled) {
+    void updatePicker(final BufferedImageIcon[] newImages, final boolean[] enabled) {
 	this.choices = newImages;
 	this.choiceJPanel.removeAll();
 	this.radioJPanel.removeAll();
@@ -199,7 +184,7 @@ public final class AnonymousPicturePicker {
 	}
     }
 
-    public void updatePickerLayout(final int maxHeight) {
+    void updatePickerLayout(final int maxHeight) {
 	final var newPreferredWidth = this.pickerJPanel.getLayout().preferredLayoutSize(this.pickerJPanel).width
 		+ this.scrollPane.getVerticalScrollBar().getWidth();
 	final var newPreferredHeight = Math.min(maxHeight,

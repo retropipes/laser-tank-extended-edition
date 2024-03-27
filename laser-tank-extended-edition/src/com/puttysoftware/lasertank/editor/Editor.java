@@ -28,7 +28,6 @@ import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.gui.Screen;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.gui.picker.AnonymousPicturePicker;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.helper.LayerHelper;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -67,7 +66,7 @@ public class Editor extends Screen {
     private final EditorMouseDraggedEventHandler emdhandler;
     private final EditorStartEventHandler shandler;
     private final LevelSettings lSettings;
-    private AnonymousPicturePicker picker;
+    private EditorPicturePicker picker;
     private ArenaObject[] objects;
     private BufferedImageIcon[] editorAppearances;
     private boolean[] objectsEnabled;
@@ -862,7 +861,7 @@ public class Editor extends Screen {
 	    if (this.picker != null) {
 		this.picker.updatePicker(newImages, enabled);
 	    } else {
-		this.picker = new AnonymousPicturePicker(newImages, enabled);
+		this.picker = new EditorPicturePicker(newImages, enabled);
 	    }
 	    this.updatePickerLayout();
 	}

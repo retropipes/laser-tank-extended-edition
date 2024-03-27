@@ -12,7 +12,7 @@ class SettingsGUIActionEventHandler implements ActionListener, Runnable {
     private final SettingsGUI settingsGUI;
     private ActionEvent event;
 
-    public SettingsGUIActionEventHandler(final SettingsGUI theSettingsGUI) {
+    SettingsGUIActionEventHandler(final SettingsGUI theSettingsGUI) {
 	this.settingsGUI = theSettingsGUI;
     }
 
