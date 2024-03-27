@@ -11,7 +11,7 @@ class GameDifficultyWindowEventHandler extends WindowAdapter implements Runnable
 
     @Override
     public void run() {
-	Game.get().cancelButtonClicked();
+	Game.cancelButtonClicked();
     }
 
     @Override

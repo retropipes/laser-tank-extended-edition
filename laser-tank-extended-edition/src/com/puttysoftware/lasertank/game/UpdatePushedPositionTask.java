@@ -35,9 +35,9 @@ class UpdatePushedPositionTask implements Runnable {
 	try {
 	    this.other.laserEnteredAction(this.x2, this.y2, Game.plMgr.getPlayerLocationZ(), this.pushX, this.pushY,
 		    this.laserType, this.forceUnits);
-	    Game.get().waitForMLOLoop();
-	    Game.get().updatePushedPosition(this.x, this.y, this.x + this.pushX, this.y + this.pushY, this.o);
-	    Game.get().waitForMLOLoop();
+	    Game.waitForMLOLoop();
+	    Game.updatePushedPosition(this.x, this.y, this.x + this.pushX, this.y + this.pushY, this.o);
+	    Game.waitForMLOLoop();
 	} catch (final Throwable t) {
 	    LaserTankEE.logError(t);
 	}

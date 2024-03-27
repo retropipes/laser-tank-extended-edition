@@ -26,49 +26,49 @@ import com.puttysoftware.lasertank.utility.AlreadyDeadException;
 
 final class MLOTask implements Runnable {
     static void activateAutomaticMovement() {
-	Game.get().scheduleAutoMove();
+	Game.scheduleAutoMove();
     }
 
     private static boolean checkSolid(final ArenaObject next) {
 	// Check cheats
-	if (Game.get().getCheatStatus(Game.CHEAT_GHOSTLY)) {
+	if (Game.getCheatStatus(Game.CHEAT_GHOSTLY)) {
 	    return true;
 	}
 	return !next.isConditionallySolid();
     }
 
     static boolean checkSolid(final int zx, final int zy) {
-	final var next = ArenaManager.getArena().getCell(zx, zy, Game.get().getPlayerLocationZ(),
+	final var next = ArenaManager.getArena().getCell(zx, zy, Game.getPlayerLocationZ(),
 		Layer.LOWER_OBJECTS.ordinal());
 	// Check cheats
-	if (Game.get().getCheatStatus(Game.CHEAT_GHOSTLY)) {
+	if (Game.getCheatStatus(Game.CHEAT_GHOSTLY)) {
 	    return true;
 	}
 	return !next.isConditionallySolid();
     }
 
     private static void freezeTank() {
-	final var tank = Game.get().getTank();
+	final var tank = Game.getTank();
 	final var dir = tank.getDirection();
-	final var px = Game.get().getPlayerLocationX();
-	final var py = Game.get().getPlayerLocationY();
-	final var pz = Game.get().getPlayerLocationZ();
+	final var px = Game.getPlayerLocationX();
+	final var py = Game.getPlayerLocationY();
+	final var pz = Game.getPlayerLocationZ();
 	final var ft = new ArenaObject(GameObjectID.FROZEN_TANK, dir, tank.getNumber());
 	ft.setSavedObject(tank.getSavedObject());
-	Game.get().morph(ft, px, py, pz, ft.getLayer());
-	Game.get().updateTank();
+	Game.morph(ft, px, py, pz, ft.getLayer());
+	Game.updateTank();
     }
 
     private static void meltTank() {
-	final var tank = Game.get().getTank();
+	final var tank = Game.getTank();
 	final var dir = tank.getDirection();
-	final var px = Game.get().getPlayerLocationX();
-	final var py = Game.get().getPlayerLocationY();
-	final var pz = Game.get().getPlayerLocationZ();
+	final var px = Game.getPlayerLocationX();
+	final var py = Game.getPlayerLocationY();
+	final var pz = Game.getPlayerLocationZ();
 	final var mt = new ArenaObject(GameObjectID.MOLTEN_TANK, dir, tank.getNumber());
 	mt.setSavedObject(tank.getSavedObject());
-	Game.get().morph(mt, px, py, pz, mt.getLayer());
-	Game.get().updateTank();
+	Game.morph(mt, px, py, pz, mt.getLayer());
+	Game.updateTank();
     }
 
     private static int normalizeColumn(final int column, final int columns) {
@@ -132,13 +132,13 @@ final class MLOTask implements Runnable {
 	// Moving under the influence of a Frost Field
 	this.frozen = true;
 	MLOTask.freezeTank();
-	Game.get().updateScore(1, 0, 0);
+	Game.updateScore(1, 0, 0);
 	this.sx = zx;
 	this.sy = zy;
 	Game.updateUndo(false, false, false, false, false, false, false, false, false, false);
 	this.move = true;
-	if (!Game.get().isReplaying()) {
-	    Game.get().updateReplay(GameAction.MOVE, zx, zy);
+	if (!Game.isReplaying()) {
+	    Game.updateReplay(GameAction.MOVE, zx, zy);
 	}
     }
 
@@ -152,13 +152,13 @@ final class MLOTask implements Runnable {
     void activateMoltenMovement(final int zx, final int zy) {
 	// Melt the tank - stepped into a Melt Field
 	MLOTask.meltTank();
-	Game.get().updateScore(1, 0, 0);
+	Game.updateScore(1, 0, 0);
 	this.sx = zx;
 	this.sy = zy;
 	Game.updateUndo(false, false, false, false, false, false, false, false, false, false);
 	this.move = true;
-	if (!Game.get().isReplaying()) {
-	    Game.get().updateReplay(GameAction.MOVE, zx, zy);
+	if (!Game.isReplaying()) {
+	    Game.updateReplay(GameAction.MOVE, zx, zy);
 	}
     }
 
@@ -166,21 +166,21 @@ final class MLOTask implements Runnable {
 	if (zx == 2 || zy == 2 || zx == -2 || zy == -2) {
 	    // Boosting
 	    Sounds.play(Sound.BOOST);
-	    Game.get().updateScore(0, 0, 1);
+	    Game.updateScore(0, 0, 1);
 	    this.sx = zx;
 	    this.sy = zy;
 	    this.magnet = false;
 	    Game.updateUndo(false, false, false, true, false, false, false, false, false, false);
-	    if (!Game.get().isReplaying()) {
-		Game.get().updateReplay(GameAction.USE_TOOL, zx, zy);
+	    if (!Game.isReplaying()) {
+		Game.updateReplay(GameAction.USE_TOOL, zx, zy);
 	    }
 	} else if (zx == 3 || zy == 3 || zx == -3 || zy == -3) {
 	    // Using a Magnet
-	    Game.get().updateScore(0, 0, 1);
+	    Game.updateScore(0, 0, 1);
 	    final var a = ArenaManager.getArena();
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    final var pz = Game.get().getPlayerLocationZ();
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    final var pz = Game.getPlayerLocationZ();
 	    if (zx == 3) {
 		this.sx = a.checkForMagnetic(pz, px, py, Direction.EAST);
 		this.sy = 0;
@@ -204,19 +204,19 @@ final class MLOTask implements Runnable {
 		Sounds.play(Sound.MAGNET);
 	    }
 	    Game.updateUndo(false, false, false, false, true, false, false, false, false, false);
-	    if (!Game.get().isReplaying()) {
-		Game.get().updateReplay(GameAction.USE_TOOL, zx, zy);
+	    if (!Game.isReplaying()) {
+		Game.updateReplay(GameAction.USE_TOOL, zx, zy);
 	    }
 	} else {
 	    // Moving normally
 	    Sounds.play(Sound.MOVE);
-	    Game.get().updateScore(1, 0, 0);
+	    Game.updateScore(1, 0, 0);
 	    this.sx = zx;
 	    this.sy = zy;
 	    this.magnet = false;
 	    Game.updateUndo(false, false, false, false, false, false, false, false, false, false);
-	    if (!Game.get().isReplaying()) {
-		Game.get().updateReplay(GameAction.MOVE, zx, zy);
+	    if (!Game.isReplaying()) {
+		Game.updateReplay(GameAction.MOVE, zx, zy);
 	    }
 	}
 	this.move = true;
@@ -260,9 +260,9 @@ final class MLOTask implements Runnable {
     }
 
     private boolean canMoveThere() {
-	final var px = Game.get().getPlayerLocationX();
-	final var py = Game.get().getPlayerLocationY();
-	final var pz = Game.get().getPlayerLocationZ();
+	final var px = Game.getPlayerLocationX();
+	final var py = Game.getPlayerLocationY();
+	final var pz = Game.getPlayerLocationZ();
 	final var pw = Layer.UPPER_OBJECTS.ordinal();
 	final var m = ArenaManager.getArena();
 	ArenaObject lgo = null;
@@ -292,9 +292,9 @@ final class MLOTask implements Runnable {
     }
 
     private boolean checkLoopCondition(final boolean zproceed) {
-	final var px = Game.get().getPlayerLocationX();
-	final var py = Game.get().getPlayerLocationY();
-	final var pz = Game.get().getPlayerLocationZ();
+	final var px = Game.getPlayerLocationX();
+	final var py = Game.getPlayerLocationY();
+	final var pz = Game.getPlayerLocationZ();
 	final var m = ArenaManager.getArena();
 	ArenaObject lgo = null;
 	ArenaObject ugo = null;
@@ -335,22 +335,22 @@ final class MLOTask implements Runnable {
     private void defrostTank() {
 	if (this.frozen) {
 	    this.frozen = false;
-	    final var tank = Game.get().getTank();
+	    final var tank = Game.getTank();
 	    final var dir = tank.getDirection();
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    final var pz = Game.get().getPlayerLocationZ();
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    final var pz = Game.getPlayerLocationZ();
 	    final var t = new ArenaObject(GameObjectID.TANK, dir, tank.getNumber());
 	    t.setSavedObject(tank.getSavedObject());
-	    Game.get().morph(t, px, py, pz, t.getLayer());
-	    Game.get().updateTank();
+	    Game.morph(t, px, py, pz, t.getLayer());
+	    Game.updateTank();
 	    Sounds.play(Sound.DEFROST);
 	}
     }
 
     private void doMovementLasersObjects() {
 	synchronized (ArenaLocks.LOCK_OBJECT) {
-	    final var pz = Game.get().getPlayerLocationZ();
+	    final var pz = Game.getPlayerLocationZ();
 	    this.loopCheck = true;
 	    var objs = new ArenaObject[4];
 	    objs[Layer.LOWER_GROUND.ordinal()] = new ArenaObject(GameObjectID.WALL);
@@ -410,7 +410,7 @@ final class MLOTask implements Runnable {
 			    if (this.move) {
 				ArenaManager.setDirty(true);
 				this.defrostTank();
-				Game.get().moveLoopDone();
+				Game.moveLoopDone();
 				this.move = false;
 			    }
 			    for (final MovingLaserTracker tracker : this.laserTrackers) {
@@ -418,7 +418,7 @@ final class MLOTask implements Runnable {
 				    tracker.clearLastLaser();
 				}
 			    }
-			    Game.get().solvedLevel(true);
+			    Game.solvedLevel(true);
 			    return;
 			}
 		    } else {
@@ -427,7 +427,7 @@ final class MLOTask implements Runnable {
 		    if (this.move && !this.loopCheck) {
 			ArenaManager.setDirty(true);
 			this.defrostTank();
-			Game.get().moveLoopDone();
+			Game.moveLoopDone();
 			this.move = false;
 		    }
 		    for (final MovingObjectTracker tracker : this.objectTrackers) {
@@ -436,15 +436,15 @@ final class MLOTask implements Runnable {
 			}
 		    }
 		    // Check auto-move flag
-		    if (Game.get().isAutoMoveScheduled() && this.canMoveThere()) {
-			Game.get().unscheduleAutoMove();
+		    if (Game.isAutoMoveScheduled() && this.canMoveThere()) {
+			Game.unscheduleAutoMove();
 			this.move = true;
 			this.loopCheck = true;
 		    }
 		    ArenaManager.getArena().tickTimers(pz, actionType);
-		    final var px = Game.get().getPlayerLocationX();
-		    final var py = Game.get().getPlayerLocationY();
-		    ArenaManager.getArena().checkForEnemies(pz, px, py, Game.get().getTank());
+		    final var px = Game.getPlayerLocationX();
+		    final var py = Game.getPlayerLocationY();
+		    ArenaManager.getArena().checkForEnemies(pz, px, py, Game.getTank());
 		    // Delay
 		    try {
 			Thread.sleep(Settings.getActionSpeed());
@@ -463,16 +463,16 @@ final class MLOTask implements Runnable {
 	    } while (!this.abort
 		    && (this.loopCheck || this.areLaserTrackersChecking() || this.areObjectTrackersChecking()));
 	    // Check cheats
-	    if (objs[Layer.LOWER_GROUND.ordinal()].killsOnMove() && !Game.get().getCheatStatus(Game.CHEAT_SWIMMING)) {
-		Game.get().gameOver();
+	    if (objs[Layer.LOWER_GROUND.ordinal()].killsOnMove() && !Game.getCheatStatus(Game.CHEAT_SWIMMING)) {
+		Game.gameOver();
 	    }
 	}
     }
 
     private ArenaObject[] doMovementOnce() {
-	var px = Game.get().getPlayerLocationX();
-	var py = Game.get().getPlayerLocationY();
-	final var pz = Game.get().getPlayerLocationZ();
+	var px = Game.getPlayerLocationX();
+	var py = Game.getPlayerLocationY();
+	final var pz = Game.getPlayerLocationZ();
 	final var pw = Layer.UPPER_OBJECTS.ordinal();
 	final var m = ArenaManager.getArena();
 	this.proceed = true;
@@ -501,23 +501,23 @@ final class MLOTask implements Runnable {
 	    uoo = new ArenaObject(GameObjectID.WALL);
 	}
 	if (this.proceed) {
-	    Game.get().savePlayerLocation();
+	    Game.savePlayerLocation();
 	    try {
 		if (this.canMoveThere()) {
-		    if (Game.get().isDelayedDecayActive()) {
-			Game.get().doDelayedDecay();
+		    if (Game.isDelayedDecayActive()) {
+			Game.doDelayedDecay();
 		    }
 		    // Preserve other objects
 		    if (m.getCell(px, py, pz, pw) != null) {
-			Game.get().getTank().setSavedObject(m.getCell(px, py, pz, pw));
+			Game.getTank().setSavedObject(m.getCell(px, py, pz, pw));
 		    }
-		    m.setCell(Game.get().getTank().getSavedObject(), px, py, pz, pw);
-		    Game.get().offsetPlayerLocationX(this.sx);
-		    Game.get().offsetPlayerLocationY(this.sy);
+		    m.setCell(Game.getTank().getSavedObject(), px, py, pz, pw);
+		    Game.offsetPlayerLocationX(this.sx);
+		    Game.offsetPlayerLocationY(this.sy);
 		    px = MLOTask.normalizeColumn(px + this.sx, Arena.getMinColumns());
 		    py = MLOTask.normalizeRow(py + this.sy, Arena.getMinRows());
-		    Game.get().getTank().setSavedObject(m.getCell(px, py, pz, pw));
-		    m.setCell(Game.get().getTank(), px, py, pz, pw);
+		    Game.getTank().setSavedObject(m.getCell(px, py, pz, pw));
+		    m.setCell(Game.getTank(), px, py, pz, pw);
 		    lgo.postMoveAction(px, py, pz);
 		    ugo.postMoveAction(px, py, pz);
 		    loo.postMoveAction(px, py, pz);
@@ -533,32 +533,31 @@ final class MLOTask implements Runnable {
 		    }
 		} else {
 		    // Move failed - object is solid in that direction
-		    if (Game.get().isDelayedDecayActive()) {
-			Game.get().doDelayedDecay();
+		    if (Game.isDelayedDecayActive()) {
+			Game.doDelayedDecay();
 		    }
 		    if (lgo == null) {
 			lgo = new ArenaObject(GameObjectID.GROUND);
 		    }
-		    lgo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			    Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		    lgo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			    Game.getPlayerLocationZ());
 		    if (ugo == null) {
 			ugo = new ArenaObject(GameObjectID.GROUND);
 		    }
-		    ugo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			    Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		    ugo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			    Game.getPlayerLocationZ());
 		    if (loo == null) {
 			loo = new ArenaObject(GameObjectID.GROUND);
 		    }
-		    loo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			    Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		    loo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			    Game.getPlayerLocationZ());
 		    if (uoo == null) {
 			uoo = new ArenaObject(GameObjectID.GROUND);
 		    }
-		    uoo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			    Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
-		    if (Game.get().getTank().getSavedObject()
-			    .movesTanks(Game.get().getTank().getSavedObject().getDirection())) {
-			final var dir = Game.get().getTank().getSavedObject().getDirection();
+		    uoo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			    Game.getPlayerLocationZ());
+		    if (Game.getTank().getSavedObject().movesTanks(Game.getTank().getSavedObject().getDirection())) {
+			final var dir = Game.getTank().getSavedObject().getDirection();
 			final var unres = DirectionHelper.unresolveRelative(dir);
 			this.sx = unres[0];
 			this.sy = unres[1];
@@ -569,30 +568,30 @@ final class MLOTask implements Runnable {
 		    this.proceed = false;
 		}
 	    } catch (final ArrayIndexOutOfBoundsException ae) {
-		Game.get().restorePlayerLocation();
-		m.setCell(Game.get().getTank(), Game.get().getPlayerLocationX(), Game.get().getPlayerLocationY(),
-			Game.get().getPlayerLocationZ(), pw);
+		Game.restorePlayerLocation();
+		m.setCell(Game.getTank(), Game.getPlayerLocationX(), Game.getPlayerLocationY(),
+			Game.getPlayerLocationZ(), pw);
 		// Move failed - attempted to go outside the arena
 		if (lgo == null) {
 		    lgo = new ArenaObject(GameObjectID.GROUND);
 		}
-		lgo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		lgo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			Game.getPlayerLocationZ());
 		if (ugo == null) {
 		    ugo = new ArenaObject(GameObjectID.GROUND);
 		}
-		ugo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		ugo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			Game.getPlayerLocationZ());
 		if (loo == null) {
 		    loo = new ArenaObject(GameObjectID.GROUND);
 		}
-		loo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		loo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			Game.getPlayerLocationZ());
 		if (uoo == null) {
 		    uoo = new ArenaObject(GameObjectID.GROUND);
 		}
-		uoo.moveFailedAction(Game.get().getPlayerLocationX() + this.sx,
-			Game.get().getPlayerLocationY() + this.sy, Game.get().getPlayerLocationZ());
+		uoo.moveFailedAction(Game.getPlayerLocationX() + this.sx, Game.getPlayerLocationY() + this.sy,
+			Game.getPlayerLocationZ());
 		this.proceed = false;
 	    }
 	} else {
@@ -603,7 +602,7 @@ final class MLOTask implements Runnable {
 	    uoo.moveFailedAction(px + this.sx, py + this.sy, pz);
 	    this.proceed = false;
 	}
-	Game.get().redrawArena();
+	Game.redrawArena();
 	return new ArenaObject[] { lgo, ugo, loo, uoo };
     }
 
@@ -618,11 +617,11 @@ final class MLOTask implements Runnable {
     @Override
     public void run() {
 	try {
-	    Game.get().clearDead();
+	    Game.clearDead();
 	    this.doMovementLasersObjects();
 	    // Check auto-move flag
-	    if (Game.get().isAutoMoveScheduled() && this.canMoveThere()) {
-		Game.get().unscheduleAutoMove();
+	    if (Game.isAutoMoveScheduled() && this.canMoveThere()) {
+		Game.unscheduleAutoMove();
 		this.doMovementLasersObjects();
 	    }
 	} catch (final AlreadyDeadException ade) {

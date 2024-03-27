@@ -36,26 +36,25 @@ public class LaserTankPlayback {
     }
 
     private static LaserTankPlaybackEntry decodeRawDataPoint(final byte d) throws LPBLoadException {
-	final var game = Game.get();
 	return switch (d) {
 	case 0x20 -> {
-	    game.loadReplay(GameAction.SHOOT, 0, 0);
+	    Game.loadReplay(GameAction.SHOOT, 0, 0);
 	    yield new LaserTankPlaybackEntry(GameAction.SHOOT, 0, 0, 0, 0);
 	}
 	case 0x25 -> {
-	    game.loadReplay(GameAction.MOVE, -1, 0);
+	    Game.loadReplay(GameAction.MOVE, -1, 0);
 	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
 	}
 	case 0x26 -> {
-	    game.loadReplay(GameAction.MOVE, 0, -1);
+	    Game.loadReplay(GameAction.MOVE, 0, -1);
 	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, -1, 0, 0);
 	}
 	case 0x27 -> {
-	    game.loadReplay(GameAction.MOVE, 1, 0);
+	    Game.loadReplay(GameAction.MOVE, 1, 0);
 	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 1, 0, 0, 0);
 	}
 	case 0x28 -> {
-	    game.loadReplay(GameAction.MOVE, 0, 1);
+	    Game.loadReplay(GameAction.MOVE, 0, 1);
 	    yield new LaserTankPlaybackEntry(GameAction.MOVE, 0, 1, 0, 0);
 	}
 	default -> throw new LPBLoadException();

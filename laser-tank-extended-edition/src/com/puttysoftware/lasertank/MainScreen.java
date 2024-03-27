@@ -31,7 +31,7 @@ import com.puttysoftware.lasertank.utility.CleanupTask;
 class MainScreen extends Screen implements QuitHandler {
     // Fields
     private JLabel logoLabel;
-    private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler(this);
+    private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler();
     private final MainScreenFocusHandler fHandler = new MainScreenFocusHandler();
 
     // Constructors
@@ -41,7 +41,7 @@ class MainScreen extends Screen implements QuitHandler {
 
     @Override
     public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response) {
-	final var okToQuit = this.quitHandler();
+	final var okToQuit = MainScreen.quitHandler();
 	if (okToQuit) {
 	    response.performQuit();
 	} else {
@@ -68,7 +68,7 @@ class MainScreen extends Screen implements QuitHandler {
     }
 
     // Methods
-    boolean quitHandler() {
+    static boolean quitHandler() {
 	var saved = true;
 	var status = CommonDialogs.DEFAULT_OPTION;
 	if (ArenaManager.getDirty()) {
@@ -89,7 +89,7 @@ class MainScreen extends Screen implements QuitHandler {
 	return saved;
     }
 
-    void showGUI() {
+    static void showGUI() {
 	LaserTankEE.setOnMainScreen();
     }
 

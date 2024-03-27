@@ -32,23 +32,23 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
     public GameKeyEventHandler() {
     }
 
-    private void handleBlueLasers() {
+    private static void handleBlueLasers() {
 	try {
-	    Game.get().setLaserType(LaserType.BLUE);
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.tank);
+	    Game.setLaserType(LaserType.BLUE);
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
     }
 
-    private void handleBombs() {
+    private static void handleBombs() {
 	try {
-	    if (!Game.get().getCheatStatus(Game.CHEAT_BOMBS) && TankInventory.getBombsLeft() > 0
-		    || Game.get().getCheatStatus(Game.CHEAT_BOMBS)) {
+	    if (!Game.getCheatStatus(Game.CHEAT_BOMBS) && TankInventory.getBombsLeft() > 0
+		    || Game.getCheatStatus(Game.CHEAT_BOMBS)) {
 		TankInventory.fireBomb();
-		Game.get().fireRange();
+		Game.fireRange();
 	    } else {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_BOMBS));
 	    }
@@ -57,24 +57,24 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleBoosts(final KeyEvent e) {
+    private static void handleBoosts(final KeyEvent e) {
 	try {
-	    if (!Game.get().getCheatStatus(Game.CHEAT_BOOSTS) && TankInventory.getBoostsLeft() > 0
-		    || Game.get().getCheatStatus(Game.CHEAT_BOOSTS)) {
+	    if (!Game.getCheatStatus(Game.CHEAT_BOOSTS) && TankInventory.getBoostsLeft() > 0
+		    || Game.getCheatStatus(Game.CHEAT_BOOSTS)) {
 		TankInventory.fireBoost();
 		final var keyCode = e.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.VK_LEFT:
-		    Game.get().updatePositionRelative(-2, 0);
+		    Game.updatePositionRelative(-2, 0);
 		    break;
 		case KeyEvent.VK_DOWN:
-		    Game.get().updatePositionRelative(0, 2);
+		    Game.updatePositionRelative(0, 2);
 		    break;
 		case KeyEvent.VK_RIGHT:
-		    Game.get().updatePositionRelative(2, 0);
+		    Game.updatePositionRelative(2, 0);
 		    break;
 		case KeyEvent.VK_UP:
-		    Game.get().updatePositionRelative(0, -2);
+		    Game.updatePositionRelative(0, -2);
 		    break;
 		default:
 		    break;
@@ -87,12 +87,12 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleHeatBombs() {
+    private static void handleHeatBombs() {
 	try {
-	    if (!Game.get().getCheatStatus(Game.CHEAT_HEAT_BOMBS) && TankInventory.getHeatBombsLeft() > 0
-		    || Game.get().getCheatStatus(Game.CHEAT_HEAT_BOMBS)) {
+	    if (!Game.getCheatStatus(Game.CHEAT_HEAT_BOMBS) && TankInventory.getHeatBombsLeft() > 0
+		    || Game.getCheatStatus(Game.CHEAT_HEAT_BOMBS)) {
 		TankInventory.fireHeatBomb();
-		Game.get().fireRange();
+		Game.fireRange();
 	    } else {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_HEAT_BOMBS));
 	    }
@@ -101,12 +101,12 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleIceBombs() {
+    private static void handleIceBombs() {
 	try {
-	    if (!Game.get().getCheatStatus(Game.CHEAT_ICE_BOMBS) && TankInventory.getIceBombsLeft() > 0
-		    || Game.get().getCheatStatus(Game.CHEAT_ICE_BOMBS)) {
+	    if (!Game.getCheatStatus(Game.CHEAT_ICE_BOMBS) && TankInventory.getIceBombsLeft() > 0
+		    || Game.getCheatStatus(Game.CHEAT_ICE_BOMBS)) {
 		TankInventory.fireIceBomb();
-		Game.get().fireRange();
+		Game.fireRange();
 	    } else {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_ICE_BOMBS));
 	    }
@@ -115,35 +115,35 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleKeystrokes(final KeyEvent e) {
+    private static void handleKeystrokes(final KeyEvent e) {
 	if (e.getKeyCode() == KeyEvent.VK_SPACE) {
 	    if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
 		switch (Game.otherAmmoMode) {
 		case Game.OTHER_AMMO_MODE_MISSILES:
-		    this.handleMissiles();
+		    GameKeyEventHandler.handleMissiles();
 		    break;
 		case Game.OTHER_AMMO_MODE_STUNNERS:
-		    this.handleStunners();
+		    GameKeyEventHandler.handleStunners();
 		    break;
 		case Game.OTHER_AMMO_MODE_BLUE_LASERS:
-		    this.handleBlueLasers();
+		    GameKeyEventHandler.handleBlueLasers();
 		    break;
 		default:
 		    break;
 		}
 	    } else {
-		this.handleLasers();
+		GameKeyEventHandler.handleLasers();
 	    }
 	} else if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 	    if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
 		if (Game.otherRangeMode == RangeType.BOMB) {
-		    this.handleBombs();
+		    GameKeyEventHandler.handleBombs();
 		} else {
 		    if (Game.otherRangeMode == RangeType.HEAT_BOMB) {
-			this.handleHeatBombs();
+			GameKeyEventHandler.handleHeatBombs();
 		    } else {
 			if (Game.otherRangeMode == RangeType.ICE_BOMB) {
-			    this.handleIceBombs();
+			    GameKeyEventHandler.handleIceBombs();
 			}
 		    }
 		}
@@ -155,47 +155,47 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonGameEventHandlers.handleTurns(newDir);
 	    } else if (e.isAltDown() || e.isAltGraphDown() || e.isControlDown()) {
 		if (Game.otherToolMode == Game.OTHER_TOOL_MODE_BOOSTS) {
-		    this.handleBoosts(e);
+		    GameKeyEventHandler.handleBoosts(e);
 		} else {
 		    if (Game.otherToolMode == Game.OTHER_TOOL_MODE_MAGNETS) {
-			this.handleMagnets(e);
+			GameKeyEventHandler.handleMagnets(e);
 		    }
 		}
 	    } else {
-		this.handleMovement(e);
+		GameKeyEventHandler.handleMovement(e);
 	    }
 	}
     }
 
-    private void handleLasers() {
+    private static void handleLasers() {
 	try {
-	    Game.get().setLaserType(LaserType.GREEN);
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.tank);
+	    Game.setLaserType(LaserType.GREEN);
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
     }
 
-    private void handleMagnets(final KeyEvent e) {
+    private static void handleMagnets(final KeyEvent e) {
 	try {
-	    if (!Game.get().getCheatStatus(Game.CHEAT_MAGNETS) && TankInventory.getMagnetsLeft() > 0
-		    || Game.get().getCheatStatus(Game.CHEAT_MAGNETS)) {
+	    if (!Game.getCheatStatus(Game.CHEAT_MAGNETS) && TankInventory.getMagnetsLeft() > 0
+		    || Game.getCheatStatus(Game.CHEAT_MAGNETS)) {
 		TankInventory.fireMagnet();
 		final var keyCode = e.getKeyCode();
 		switch (keyCode) {
 		case KeyEvent.VK_LEFT:
-		    Game.get().updatePositionRelative(-3, 0);
+		    Game.updatePositionRelative(-3, 0);
 		    break;
 		case KeyEvent.VK_DOWN:
-		    Game.get().updatePositionRelative(0, 3);
+		    Game.updatePositionRelative(0, 3);
 		    break;
 		case KeyEvent.VK_RIGHT:
-		    Game.get().updatePositionRelative(3, 0);
+		    Game.updatePositionRelative(3, 0);
 		    break;
 		case KeyEvent.VK_UP:
-		    Game.get().updatePositionRelative(0, -3);
+		    Game.updatePositionRelative(0, -3);
 		    break;
 		default:
 		    break;
@@ -208,32 +208,32 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleMissiles() {
+    private static void handleMissiles() {
 	try {
-	    Game.get().setLaserType(LaserType.MISSILE);
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.tank);
+	    Game.setLaserType(LaserType.MISSILE);
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
     }
 
-    private void handleMovement(final KeyEvent e) {
+    private static void handleMovement(final KeyEvent e) {
 	try {
 	    final var keyCode = e.getKeyCode();
 	    switch (keyCode) {
 	    case KeyEvent.VK_LEFT:
-		Game.get().updatePositionRelative(-1, 0);
+		Game.updatePositionRelative(-1, 0);
 		break;
 	    case KeyEvent.VK_DOWN:
-		Game.get().updatePositionRelative(0, 1);
+		Game.updatePositionRelative(0, 1);
 		break;
 	    case KeyEvent.VK_RIGHT:
-		Game.get().updatePositionRelative(1, 0);
+		Game.updatePositionRelative(1, 0);
 		break;
 	    case KeyEvent.VK_UP:
-		Game.get().updatePositionRelative(0, -1);
+		Game.updatePositionRelative(0, -1);
 		break;
 	    default:
 		break;
@@ -243,12 +243,12 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	}
     }
 
-    private void handleStunners() {
+    private static void handleStunners() {
 	try {
-	    Game.get().setLaserType(LaserType.STUNNER);
-	    final var px = Game.get().getPlayerLocationX();
-	    final var py = Game.get().getPlayerLocationY();
-	    Game.get().fireLaser(px, py, Game.tank);
+	    Game.setLaserType(LaserType.STUNNER);
+	    final var px = Game.getPlayerLocationX();
+	    final var py = Game.getPlayerLocationY();
+	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
@@ -271,7 +271,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	final var a = ArenaManager.getArena();
 	if ((!a.isMoveShootAllowed() && !Game.laserActive || a.isMoveShootAllowed()) && !Game.moving) {
 	    if (!Settings.oneMove()) {
-		GameKeyEventHandler.this.handleKeystrokes(this.event);
+		GameKeyEventHandler.handleKeystrokes(this.event);
 	    }
 	}
     }

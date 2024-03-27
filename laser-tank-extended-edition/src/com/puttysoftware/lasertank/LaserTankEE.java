@@ -42,7 +42,6 @@ public class LaserTankEE {
     private static final int CONTENT_SIZE = 768;
     private static MainWindow masterFrame;
     private static AboutDialog about;
-    private static Game game;
     private static MenubarHost menus;
     private static Editor editor;
     private static MainScreen mainScreen;
@@ -53,7 +52,7 @@ public class LaserTankEE {
 	// Rebuild menus
 	LaserTankEE.menus.populateMenuBar();
 	// Fire hooks
-	Game.get().activeLanguageChanged();
+	Game.activeLanguageChanged();
 	Editor.get().activeLanguageChanged();
     }
 
@@ -142,7 +141,6 @@ public class LaserTankEE {
 	LaserTankEE.menus = new MenubarHost();
 	LaserTankEE.about = new AboutDialog(LaserTankEE.getVersionString());
 	LaserTankEE.mainScreen = new MainScreen();
-	LaserTankEE.game = Game.get();
 	LaserTankEE.editor = Editor.get();
 	// Initialize preferences
 	Settings.readSettings();
@@ -161,7 +159,7 @@ public class LaserTankEE {
 	    LaserTankEE.logError(e);
 	}
 	// Display GUI
-	LaserTankEE.mainScreen.showGUI();
+	MainScreen.showGUI();
     }
 
     public static boolean onEditorScreen() {
@@ -169,7 +167,7 @@ public class LaserTankEE {
     }
 
     public static boolean onGameScreen() {
-	return LaserTankEE.currentScreen == LaserTankEE.game;
+	return LaserTankEE.currentScreen == Game.get();
     }
 
     public static boolean onMainScreen() {
@@ -177,7 +175,7 @@ public class LaserTankEE {
     }
 
     public static boolean quitHandler() {
-	return LaserTankEE.mainScreen.quitHandler();
+	return MainScreen.quitHandler();
     }
 
     public static void setOnEditorScreen() {
@@ -190,9 +188,9 @@ public class LaserTankEE {
 
     public static void setOnGameScreen() {
 	LaserTankEE.lastScreen = LaserTankEE.currentScreen;
-	LaserTankEE.currentScreen = LaserTankEE.game;
+	LaserTankEE.currentScreen = Game.get();
 	LaserTankEE.tearDownFormerMode();
-	LaserTankEE.game.showScreen();
+	Game.get().showScreen();
 	LaserTankEE.menus.activateGameCommands();
     }
 
@@ -206,11 +204,11 @@ public class LaserTankEE {
     }
 
     public static void showGUI() {
-	LaserTankEE.mainScreen.showGUI();
+	MainScreen.showGUI();
     }
 
     public static void showMessage(final String msg) {
-	LaserTankEE.currentScreen.statusMessage(msg);
+	Screen.statusMessage(msg);
     }
 
     private static void tearDownFormerMode() {

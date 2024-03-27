@@ -43,7 +43,7 @@ public class LaserTankV4LevelLoadTask implements Runnable {
     @Override
     public void run() {
 	this.loadFrame.setVisible(true);
-	Game.get().setSavedGameFlag(false);
+	Game.setSavedGameFlag(false);
 	try (var arenaFile = new FileInputStream(this.filename)) {
 	    final var gameArena = ArenaManager.createArena();
 	    LaserTankV4File.loadOldFile(gameArena, arenaFile);
@@ -51,7 +51,7 @@ public class LaserTankV4LevelLoadTask implements Runnable {
 	    ArenaManager.setArena(gameArena);
 	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
-		Game.get().resetPlayerLocation();
+		Game.resetPlayerLocation();
 	    }
 	    gameArena.save();
 	    // Final cleanup

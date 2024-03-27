@@ -19,7 +19,7 @@ class AnimationTask implements Runnable {
 	try {
 	    final var a = ArenaManager.getArena();
 	    while (!this.stop) {
-		final var pz = Game.get().getPlayerLocationZ();
+		final var pz = Game.getPlayerLocationZ();
 		final var maxX = a.getRows();
 		final var maxY = a.getColumns();
 		final var maxW = LayerHelper.COUNT;
@@ -37,7 +37,7 @@ class AnimationTask implements Runnable {
 			}
 		    }
 		}
-		Game.get().redrawArena();
+		Game.redrawArena();
 		try {
 		    Thread.sleep(200);
 		} catch (final InterruptedException ie) {

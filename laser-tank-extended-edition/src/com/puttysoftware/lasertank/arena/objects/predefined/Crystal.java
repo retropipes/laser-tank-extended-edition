@@ -19,7 +19,7 @@ import com.puttysoftware.lasertank.index.RangeType;
 public class Crystal extends ArenaObject {
     private static void laserEnteredActionInnerP2(final int locX, final int locY, final int locZ, final int locW) {
 	// Destroy crystal
-	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
 	// Check for nearby crystals and blow them up too
 	try {
 	    final var boom2 = ArenaManager.getArena().getCell(locX, locY - 1, locZ, locW).getClass()
@@ -81,7 +81,7 @@ public class Crystal extends ArenaObject {
 	final var dead = this.laserEnteredActionInnerP1(locX, locY, locZ, false);
 	if (dead) {
 	    // Kill tank
-	    Game.get().gameOver();
+	    Game.gameOver();
 	    return Direction.NONE;
 	}
 	Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.getLayer());
@@ -148,7 +148,7 @@ public class Crystal extends ArenaObject {
 	final var dead = this.laserEnteredActionInnerP1(locX + dirX, locY + dirY, locZ, false);
 	if (dead) {
 	    // Kill tank
-	    Game.get().gameOver();
+	    Game.gameOver();
 	    return true;
 	}
 	// Destroy crystal

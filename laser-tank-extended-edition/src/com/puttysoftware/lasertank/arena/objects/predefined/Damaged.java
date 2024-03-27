@@ -26,14 +26,14 @@ public class Damaged extends ArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	Game.get().morph(new ArenaObject(GameObjectID.CRUMBLING), locX, locY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.CRUMBLING), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CRACK);
 	return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	Game.get().morph(new ArenaObject(GameObjectID.CRUMBLING), locX, locY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.CRUMBLING), locX, locY, locZ, this.getLayer());
 	Sounds.play(Sound.CRACK);
     }
 }

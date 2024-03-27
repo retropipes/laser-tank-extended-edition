@@ -24,7 +24,7 @@ public class PowerBolt extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	Sounds.play(Sound.POWERFUL);
-	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
-	Game.get().setPowerfulTank();
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Game.setPowerfulTank();
     }
 }

@@ -16,11 +16,11 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
     public GameMouseEventHandler() {
     }
 
-    private Direction mapMouseToDirection(final MouseEvent me) {
+    private static Direction mapMouseToDirection(final MouseEvent me) {
 	final var x = me.getX();
 	final var y = me.getY();
-	final var px = Game.get().getPlayerLocationX();
-	final var py = Game.get().getPlayerLocationY();
+	final var px = Game.getPlayerLocationX();
+	final var py = Game.getPlayerLocationY();
 	final var destX = (int) Math.signum(x / Images.getGraphicSize() - px);
 	final var destY = (int) Math.signum(y / Images.getGraphicSize() - py);
 	return DirectionHelper.resolveRelative(destX, destY);
@@ -37,25 +37,25 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
 	try {
 	    if (this.event.getButton() == MouseEvent.BUTTON1) {
 		// Move
-		final var dir = GameMouseEventHandler.this.mapMouseToDirection(this.event);
+		final var dir = GameMouseEventHandler.mapMouseToDirection(this.event);
 		final var tankDir = Game.tank.getDirection();
 		if (tankDir != dir) {
 		    CommonGameEventHandlers.handleTurns(dir);
 		} else {
 		    final var x = this.event.getX();
 		    final var y = this.event.getY();
-		    final var px = Game.get().getPlayerLocationX();
-		    final var py = Game.get().getPlayerLocationY();
+		    final var px = Game.getPlayerLocationX();
+		    final var py = Game.getPlayerLocationY();
 		    final var destX = (int) Math.signum(x / Images.getGraphicSize() - px);
 		    final var destY = (int) Math.signum(y / Images.getGraphicSize() - py);
-		    Game.get().updatePositionRelative(destX, destY);
+		    Game.updatePositionRelative(destX, destY);
 		}
 	    } else if (this.event.getButton() == MouseEvent.BUTTON2 || this.event.getButton() == MouseEvent.BUTTON3) {
 		// Fire Laser
-		Game.get().setLaserType(LaserType.GREEN);
-		final var px = Game.get().getPlayerLocationX();
-		final var py = Game.get().getPlayerLocationY();
-		Game.get().fireLaser(px, py, Game.tank);
+		Game.setLaserType(LaserType.GREEN);
+		final var px = Game.getPlayerLocationX();
+		final var py = Game.getPlayerLocationY();
+		Game.fireLaser(px, py, Game.tank);
 	    }
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);

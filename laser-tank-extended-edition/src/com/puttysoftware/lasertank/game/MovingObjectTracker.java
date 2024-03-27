@@ -36,8 +36,7 @@ final class MovingObjectTracker {
     }
 
     void activateObject(final int zx, final int zy, final int pushX, final int pushY, final ArenaObject gmo) {
-	final var gm = Game.get();
-	final var pz = gm.getPlayerLocationZ();
+	final var pz = Game.getPlayerLocationZ();
 	this.objIncX = pushX - zx;
 	this.objIncY = pushY - zy;
 	if (gmo != null) {
@@ -70,14 +69,13 @@ final class MovingObjectTracker {
 
     private void doJumpObjectOnce(final ArenaObject jumper) {
 	final var m = ArenaManager.getArena();
-	final var gm = Game.get();
-	final var pz = gm.getPlayerLocationZ();
+	final var pz = Game.getPlayerLocationZ();
 	try {
 	    this.jumpOnMover = false;
 	    this.objMultX = jumper.getColumnsToJump();
 	    this.objMultY = jumper.getRowsToJump();
-	    if (gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
-		gm.doRemoteDelayedDecay(jumper);
+	    if (Game.isDelayedDecayActive() && Game.isRemoteDecayActive()) {
+		Game.doRemoteDelayedDecay(jumper);
 	    }
 	    final var oldSave = jumper.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
@@ -171,16 +169,15 @@ final class MovingObjectTracker {
 	    this.objectMoving = false;
 	    this.objectCheck = false;
 	}
-	gm.redrawArena();
+	Game.redrawArena();
     }
 
     private void doNormalObjectOnce() {
 	final var m = ArenaManager.getArena();
-	final var gm = Game.get();
-	final var pz = gm.getPlayerLocationZ();
+	final var pz = Game.getPlayerLocationZ();
 	try {
-	    if (gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
-		gm.doRemoteDelayedDecay(this.movingObj);
+	    if (Game.isDelayedDecayActive() && Game.isRemoteDecayActive()) {
+		Game.doRemoteDelayedDecay(this.movingObj);
 	    }
 	    final var oldSave = this.movingObj.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
@@ -260,7 +257,7 @@ final class MovingObjectTracker {
 	    this.objectMoving = false;
 	    this.objectCheck = false;
 	}
-	gm.redrawArena();
+	Game.redrawArena();
     }
 
     private void doObjectOnce() {
@@ -300,8 +297,7 @@ final class MovingObjectTracker {
 
     void trackPart2() {
 	try {
-	    final var gm = Game.get();
-	    final var pz = gm.getPlayerLocationZ();
+	    final var pz = Game.getPlayerLocationZ();
 	    if (this.objectMoving) {
 		// Make objects pushed into ice move 2 squares first time
 		if (this.objectCheck && this.objectNewlyActivated
@@ -312,8 +308,8 @@ final class MovingObjectTracker {
 	    } else {
 		this.objectCheck = false;
 		// Check for moving object stopped on thin ice
-		if (this.movingObj != null && gm.isDelayedDecayActive() && gm.isRemoteDecayActive()) {
-		    gm.doRemoteDelayedDecay(this.movingObj);
+		if (this.movingObj != null && Game.isDelayedDecayActive() && Game.isRemoteDecayActive()) {
+		    Game.doRemoteDelayedDecay(this.movingObj);
 		    this.belowUpper.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);
 		    this.belowLower.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);
 		}

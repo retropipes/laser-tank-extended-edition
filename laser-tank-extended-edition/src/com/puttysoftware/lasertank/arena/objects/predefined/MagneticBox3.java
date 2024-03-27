@@ -29,10 +29,10 @@ public class MagneticBox3 extends ArenaObject {
 	    final LaserType laserType, final int forceUnits) {
 	final var mo = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 	if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
-	    Game.get().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+	    Game.updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 	    Sounds.play(this.laserEnteredSound());
 	} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
-	    Game.get().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+	    Game.updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
 	    Sounds.play(this.laserEnteredSound());
 	} else if (laserType == LaserType.MISSILE) {
 	    Sounds.play(Sound.BOOM);

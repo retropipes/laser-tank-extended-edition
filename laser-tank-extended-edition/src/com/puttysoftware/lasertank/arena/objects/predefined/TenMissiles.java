@@ -22,8 +22,7 @@ public class TenMissiles extends ArenaObject {
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	final var gm = Game.get();
 	TankInventory.addTenMissiles();
-	gm.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

@@ -7,15 +7,12 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.utility.TaskRunner;
 
 class EditorWindowEventHandler extends WindowAdapter implements Runnable {
-    private final Editor editor;
-
-    public EditorWindowEventHandler(final Editor theEditor) {
-	this.editor = theEditor;
+    public EditorWindowEventHandler() {
     }
 
     @Override
     public void run() {
-	this.editor.handleCloseWindow();
+	Editor.handleCloseWindow();
 	LaserTankEE.showGUI();
     }
 

@@ -33,12 +33,12 @@ public class ProximityCrystal extends ArenaObject {
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Destroy barrel
-	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
 	// Check for tank in range of explosion
 	final var target = a.circularScanTank(locX, locY, locZ, 1);
 	if (target) {
 	    // Kill tank
-	    Game.get().gameOver();
+	    Game.gameOver();
 	}
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going
@@ -66,11 +66,11 @@ public class ProximityCrystal extends ArenaObject {
 	final var target = a.circularScanTank(locX + dirX, locY + dirY, locZ, 1);
 	if (target) {
 	    // Kill tank
-	    Game.get().gameOver();
+	    Game.gameOver();
 	    return true;
 	}
 	// Destroy barrel
-	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
 	return true;
     }
 }

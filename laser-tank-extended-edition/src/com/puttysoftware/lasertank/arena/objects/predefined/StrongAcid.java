@@ -38,12 +38,12 @@ public class StrongAcid extends ArenaObject {
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 	// Get rid of pushed object
-	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
 	if (pushed.isBox()) {
 	    if (pushed.getMaterial() == Material.WOODEN) {
-		Game.get().morph(new ArenaObject(GameObjectID.ACID_BRIDGE), x, y, z, this.getLayer());
+		Game.morph(new ArenaObject(GameObjectID.ACID_BRIDGE), x, y, z, this.getLayer());
 	    } else {
-		Game.get().morph(new ArenaObject(GameObjectID.ACID), x, y, z, this.getLayer());
+		Game.morph(new ArenaObject(GameObjectID.ACID), x, y, z, this.getLayer());
 	    }
 	}
 	Sounds.play(Sound.SINK);

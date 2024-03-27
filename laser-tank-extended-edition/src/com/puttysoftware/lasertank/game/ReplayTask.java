@@ -15,10 +15,9 @@ class ReplayTask implements Runnable {
 
     @Override
     public void run() {
-	final var gm = Game.get();
 	var result = true;
 	while (result) {
-	    result = gm.replayLastMove();
+	    result = Game.replayLastMove();
 	    // Delay, for animation purposes
 	    try {
 		Thread.sleep(Settings.getReplaySpeed());
@@ -26,6 +25,6 @@ class ReplayTask implements Runnable {
 		// Ignore
 	    }
 	}
-	gm.replayDone();
+	Game.replayDone();
     }
 }

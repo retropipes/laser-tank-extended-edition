@@ -37,7 +37,6 @@ class MenubarEventHandler implements ActionListener, Runnable {
     @Override
     public void run() {
 	try {
-	    final var game = Game.get();
 	    final var editor = Editor.get();
 	    final var menu = MenubarEventHandler.this.menubarHost;
 	    var loaded = false;
@@ -52,7 +51,8 @@ class MenubarEventHandler implements ActionListener, Runnable {
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLOSE))) {
 		// Close the window
 		if (LaserTankEE.onEditorScreen()) {
-		    Editor.get().handleCloseWindow();
+		    Editor.get();
+		    Editor.handleCloseWindow();
 		} else if (LaserTankEE.onGameScreen()) {
 		    var saved = true;
 		    var status = 0;
@@ -67,7 +67,7 @@ class MenubarEventHandler implements ActionListener, Runnable {
 			}
 		    }
 		    if (saved) {
-			Game.get().exitGame();
+			Game.exitGame();
 		    }
 		}
 		LaserTankEE.showGUI();
@@ -102,10 +102,10 @@ class MenubarEventHandler implements ActionListener, Runnable {
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PLAY))) {
 		// Play the current arena
-		final var proceed = Game.get().newGame();
+		final var proceed = Game.newGame();
 		if (proceed) {
 		    LaserTankEE.leaveScreen();
-		    Game.get().playArena();
+		    Game.playArena();
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_EDIT))) {
 		// Edit the current arena
@@ -119,53 +119,53 @@ class MenubarEventHandler implements ActionListener, Runnable {
 			Strings.loadDialog(DialogString.CONFIRM_RESET_CURRENT_LEVEL),
 			GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
 		if (result == CommonDialogs.YES_OPTION) {
-		    game.abortAndWaitForMLOLoop();
-		    game.resetCurrentLevel();
+		    Game.abortAndWaitForMLOLoop();
+		    Game.resetCurrentLevel();
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_SCORE_TABLE))) {
-		game.showScoreTable();
+		Game.showScoreTable();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REPLAY_SOLUTION))) {
-		game.abortAndWaitForMLOLoop();
-		game.replaySolution();
+		Game.abortAndWaitForMLOLoop();
+		Game.replaySolution();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_RECORD_SOLUTION))) {
-		game.toggleRecording();
+		Game.toggleRecording();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_LOAD_PLAYBACK_FILE))) {
-		game.abortAndWaitForMLOLoop();
+		Game.abortAndWaitForMLOLoop();
 		LaserTankPlayback.loadLPB();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PREVIOUS_LEVEL))) {
-		game.abortAndWaitForMLOLoop();
-		game.previousLevel();
+		Game.abortAndWaitForMLOLoop();
+		Game.previousLevel();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SKIP_LEVEL))) {
-		game.abortAndWaitForMLOLoop();
-		game.solvedLevel(false);
+		Game.abortAndWaitForMLOLoop();
+		Game.solvedLevel(false);
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_LOAD_LEVEL))) {
-		game.abortAndWaitForMLOLoop();
-		game.loadLevel();
+		Game.abortAndWaitForMLOLoop();
+		Game.loadLevel();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_HINT))) {
 		CommonDialogs.showDialog(ArenaManager.getArena().getHint().trim());
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHEATS))) {
-		game.enterCheatCode();
+		Game.enterCheatCode();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_AMMO))) {
-		game.changeOtherAmmoMode();
+		Game.changeOtherAmmoMode();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_TOOL))) {
-		game.changeOtherToolMode();
+		Game.changeOtherToolMode();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_RANGE))) {
-		game.changeOtherRangeMode();
+		Game.changeOtherRangeMode();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_UNDO))) {
 		// Undo most recent action
 		if (LaserTankEE.onEditorScreen()) {
 		    editor.undo();
 		} else if (LaserTankEE.onGameScreen()) {
-		    Game.get().abortAndWaitForMLOLoop();
-		    Game.get().undoLastMove();
+		    Game.abortAndWaitForMLOLoop();
+		    Game.undoLastMove();
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_REDO))) {
 		// Redo most recent undone action
 		if (LaserTankEE.onEditorScreen()) {
 		    editor.redo();
 		} else if (LaserTankEE.onGameScreen()) {
-		    Game.get().abortAndWaitForMLOLoop();
-		    Game.get().redoLastMove();
+		    Game.abortAndWaitForMLOLoop();
+		    Game.redoLastMove();
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL))) {
 		// Cut Level

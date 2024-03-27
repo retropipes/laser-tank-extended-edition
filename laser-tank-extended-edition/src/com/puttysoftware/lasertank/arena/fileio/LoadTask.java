@@ -55,9 +55,9 @@ public class LoadTask implements Runnable {
     public void run() {
 	this.loadFrame.setVisible(true);
 	if (this.isSavedGame) {
-	    Game.get().setSavedGameFlag(true);
+	    Game.setSavedGameFlag(true);
 	} else {
-	    Game.get().setSavedGameFlag(false);
+	    Game.setSavedGameFlag(false);
 	}
 	try {
 	    final var arenaFile = new File(this.filename);
@@ -97,7 +97,7 @@ public class LoadTask implements Runnable {
 	    ArenaManager.setArena(gameArena);
 	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
-		Game.get().resetPlayerLocation();
+		Game.resetPlayerLocation();
 	    }
 	    if (!this.isSavedGame) {
 		gameArena.save();

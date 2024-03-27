@@ -17,22 +17,22 @@ public class SuffixHandler implements DataIOSuffixHandler {
     @Override
     public void readSuffix(final DataIOReader reader, final GameFormat formatVersion) throws IOException {
 	if (GameFormatHelper.isValidG1(formatVersion)) {
-	    Game.get().loadGameHookG1(reader);
+	    Game.loadGameHookG1(reader);
 	} else if (GameFormatHelper.isValidG2(formatVersion)) {
-	    Game.get().loadGameHookG2(reader);
+	    Game.loadGameHookG2(reader);
 	} else if (GameFormatHelper.isValidG3(formatVersion)) {
-	    Game.get().loadGameHookG3(reader);
+	    Game.loadGameHookG3(reader);
 	} else if (GameFormatHelper.isValidG4(formatVersion)) {
-	    Game.get().loadGameHookG4(reader);
+	    Game.loadGameHookG4(reader);
 	} else if (GameFormatHelper.isValidG5(formatVersion)) {
-	    Game.get().loadGameHookG5(reader);
+	    Game.loadGameHookG5(reader);
 	} else if (GameFormatHelper.isValidG6(formatVersion)) {
-	    Game.get().loadGameHookG6(reader);
+	    Game.loadGameHookG6(reader);
 	}
     }
 
     @Override
     public void writeSuffix(final DataIOWriter writer) throws IOException {
-	Game.get().saveGameHook(writer);
+	Game.saveGameHook(writer);
     }
 }

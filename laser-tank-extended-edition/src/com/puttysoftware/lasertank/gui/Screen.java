@@ -139,7 +139,7 @@ public abstract class Screen extends WindowAdapter {
 	return this.value;
     }
 
-    public void statusMessage(final String msg) {
+    public static void statusMessage(final String msg) {
 	CommonDialogs.showDialogLater(msg);
     }
 

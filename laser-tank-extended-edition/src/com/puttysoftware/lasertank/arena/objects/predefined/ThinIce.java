@@ -38,12 +38,12 @@ public class ThinIce extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	Sounds.play(Sound.PUSH_MIRROR);
-	Game.get().remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
+	Game.remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
     }
 
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-	Game.get().remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
+	Game.remoteDelayedDecayTo(new ArenaObject(GameObjectID.WATER));
 	return true;
     }
 }

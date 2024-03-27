@@ -22,11 +22,11 @@ class GameWindowEventHandler extends WindowAdapter implements Runnable {
 		if (status == CommonDialogs.YES_OPTION) {
 		    success = ArenaManager.saveArena(ArenaManager.isArenaProtected());
 		    if (success) {
-			Game.get().exitGame();
+			Game.exitGame();
 			LaserTankEE.showGUI();
 		    }
 		} else if (status == CommonDialogs.NO_OPTION) {
-		    Game.get().exitGame();
+		    Game.exitGame();
 		    LaserTankEE.showGUI();
 		} else {
 		    // Don't stop controls from working
@@ -34,7 +34,7 @@ class GameWindowEventHandler extends WindowAdapter implements Runnable {
 		    Game.laserActive = false;
 		}
 	    } else {
-		Game.get().exitGame();
+		Game.exitGame();
 		LaserTankEE.showGUI();
 	    }
 	} catch (final Exception ex) {

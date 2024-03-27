@@ -80,7 +80,7 @@ public class Editor extends Screen {
     private Editor() {
 	this.savedArenaObject = new ArenaObject(GameObjectID.GROUND);
 	this.lSettings = new LevelSettings();
-	this.ewhandler = new EditorWindowEventHandler(this);
+	this.ewhandler = new EditorWindowEventHandler();
 	this.emchandler = new EditorMouseClickedEventHandler(this);
 	this.emdhandler = new EditorMouseDraggedEventHandler(this);
 	this.shandler = new EditorStartEventHandler(this);
@@ -102,9 +102,9 @@ public class Editor extends Screen {
     public boolean addLevel() {
 	final var success = this.addLevelInternal();
 	if (success) {
-	    this.statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDED));
+	    Screen.statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDED));
 	} else {
-	    this.statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDING_FAILED));
+	    Screen.statusMessage(Strings.loadEditor(EditorString.LEVEL_ADDING_FAILED));
 	}
 	return success;
     }
@@ -217,7 +217,7 @@ public class Editor extends Screen {
 	if (ArenaManager.getLoaded()) {
 	    LaserTankEE.setOnEditorScreen();
 	    // Reset game state
-	    Game.get().resetGameState();
+	    Game.resetGameState();
 	    // Create the managers
 	    if (this.arenaChanged) {
 		this.elMgr = new EditorLocationManager();
@@ -231,11 +231,11 @@ public class Editor extends Screen {
 	    this.rebuildGUI();
 	    LaserTankEE.updateMenuItemState();
 	} else {
-	    this.statusMessage(Strings.loadError(ErrorString.NO_ARENA_OPENED));
+	    Screen.statusMessage(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 	}
     }
 
-    public void editJumpBox(final ArenaObject jumper) {
+    public static void editJumpBox(final ArenaObject jumper) {
 	final var currentX = jumper.getJumpCols();
 	final var currentY = jumper.getJumpRows();
 	final var newXStr = CommonDialogs.showInputDialog(Strings.loadEditor(EditorString.HORZ_JUMP),
@@ -334,13 +334,12 @@ public class Editor extends Screen {
 	LaserTankEE.updateMenuItemState();
     }
 
-    public void exitEditor() {
-	final var gm = Game.get();
+    public static void exitEditor() {
 	// Save the entire level
 	ArenaManager.getArena().save();
 	// Reset the player location
 	try {
-	    gm.resetPlayerToStart();
+	    Game.resetPlayerToStart();
 	} catch (final InvalidArenaException iae) {
 	    // Harmless error, ignore it
 	}
@@ -386,7 +385,7 @@ public class Editor extends Screen {
 	}
     }
 
-    public void handleCloseWindow() {
+    public static void handleCloseWindow() {
 	try {
 	    var success = false;
 	    var status = CommonDialogs.DEFAULT_OPTION;
@@ -395,14 +394,14 @@ public class Editor extends Screen {
 		if (status == CommonDialogs.YES_OPTION) {
 		    success = ArenaManager.saveArena(ArenaManager.isArenaProtected());
 		    if (success) {
-			this.exitEditor();
+			Editor.exitEditor();
 		    }
 		} else if (status == CommonDialogs.NO_OPTION) {
 		    ArenaManager.setDirty(false);
-		    this.exitEditor();
+		    Editor.exitEditor();
 		}
 	    } else {
-		this.exitEditor();
+		Editor.exitEditor();
 	    }
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
@@ -430,7 +429,7 @@ public class Editor extends Screen {
 	    }
 	}
 	if (saved) {
-	    Game.get().resetPlayerLocation();
+	    Game.resetPlayerLocation();
 	    Arena a = null;
 	    try {
 		a = ArenaManager.createArena();
@@ -450,9 +449,9 @@ public class Editor extends Screen {
 	}
 	if (success) {
 	    this.arenaChanged = true;
-	    this.statusMessage(Strings.loadEditor(EditorString.ARENA_CREATED));
+	    Screen.statusMessage(Strings.loadEditor(EditorString.ARENA_CREATED));
 	} else {
-	    this.statusMessage(Strings.loadEditor(EditorString.ARENA_CREATION_FAILED));
+	    Screen.statusMessage(Strings.loadEditor(EditorString.ARENA_CREATION_FAILED));
 	}
 	return success;
     }
@@ -703,7 +702,7 @@ public class Editor extends Screen {
 		// Redraw
 		this.redrawEditor();
 	    } catch (final NumberFormatException nf) {
-		this.statusMessage(nf.getMessage());
+		Screen.statusMessage(nf.getMessage());
 		success = false;
 	    }
 	} else {

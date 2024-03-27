@@ -448,7 +448,7 @@ final class CurrentArenaData extends ArenaData {
 
     @Override
     public boolean circularScanTank(final Arena arena, final int x, final int y, final int z, final int r) {
-	final var tankLoc = Game.get().getTankLocation();
+	final var tankLoc = Game.getTankLocation();
 	var fX = x;
 	var fY = y;
 	var fZ = z;
@@ -717,7 +717,7 @@ final class CurrentArenaData extends ArenaData {
 		    final var obj = this.getCell(arena, y, x, z, Layer.LOWER_GROUND.ordinal());
 		    if (obj.getID() != GameObjectID.GROUND) {
 			// Freeze the ground
-			Game.get().morph(obj.changesToOnExposure(Material.ICE), y, x, z, Layer.LOWER_GROUND.ordinal());
+			Game.morph(obj.changesToOnExposure(Material.ICE), y, x, z, Layer.LOWER_GROUND.ordinal());
 		    }
 		}
 	    }
@@ -733,11 +733,10 @@ final class CurrentArenaData extends ArenaData {
 		    final var obj = this.getCell(arena, y, x, z, Layer.LOWER_OBJECTS.ordinal());
 		    if (obj.getID() == GameObjectID.ANTI_TANK) {
 			// Kill the tank
-			final var gm = Game.get();
 			final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 			dat.setSavedObject(obj.getSavedObject());
 			dat.setDirection(obj.getDirection());
-			gm.morph(dat, y, x, z, Layer.LOWER_OBJECTS.ordinal());
+			Game.morph(dat, y, x, z, Layer.LOWER_OBJECTS.ordinal());
 		    }
 		}
 	    }
@@ -952,7 +951,7 @@ final class CurrentArenaData extends ArenaData {
 	}
 	int u, w;
 	if (d == Direction.NORTH) {
-	    final var tank = Game.get().getTank();
+	    final var tank = Game.getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
 	    }
@@ -979,7 +978,7 @@ final class CurrentArenaData extends ArenaData {
 	    return false;
 	}
 	if (d == Direction.SOUTH) {
-	    final var tank = Game.get().getTank();
+	    final var tank = Game.getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
 	    }
@@ -1004,7 +1003,7 @@ final class CurrentArenaData extends ArenaData {
 		}
 	    }
 	} else if (d == Direction.WEST) {
-	    final var tank = Game.get().getTank();
+	    final var tank = Game.getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
 	    }
@@ -1029,7 +1028,7 @@ final class CurrentArenaData extends ArenaData {
 		}
 	    }
 	} else if (d == Direction.EAST) {
-	    final var tank = Game.get().getTank();
+	    final var tank = Game.getTank();
 	    if (tank.getSavedObject().isSolid()) {
 		return false;
 	    }

@@ -13,29 +13,29 @@ class CommonGameEventHandlers {
 	    switch (dir) {
 	    case WEST:
 		Game.tank.setDirection(Direction.WEST);
-		if (!Game.get().isReplaying()) {
-		    Game.get().updateReplay(GameAction.MOVE, -1, 0);
+		if (!Game.isReplaying()) {
+		    Game.updateReplay(GameAction.MOVE, -1, 0);
 		}
 		fired = true;
 		break;
 	    case SOUTH:
 		Game.tank.setDirection(Direction.SOUTH);
-		if (!Game.get().isReplaying()) {
-		    Game.get().updateReplay(GameAction.MOVE, 0, 1);
+		if (!Game.isReplaying()) {
+		    Game.updateReplay(GameAction.MOVE, 0, 1);
 		}
 		fired = true;
 		break;
 	    case EAST:
 		Game.tank.setDirection(Direction.EAST);
-		if (!Game.get().isReplaying()) {
-		    Game.get().updateReplay(GameAction.MOVE, 1, 0);
+		if (!Game.isReplaying()) {
+		    Game.updateReplay(GameAction.MOVE, 1, 0);
 		}
 		fired = true;
 		break;
 	    case NORTH:
 		Game.tank.setDirection(Direction.NORTH);
-		if (!Game.get().isReplaying()) {
-		    Game.get().updateReplay(GameAction.MOVE, 0, -1);
+		if (!Game.isReplaying()) {
+		    Game.updateReplay(GameAction.MOVE, 0, -1);
 		}
 		fired = true;
 		break;
@@ -44,8 +44,8 @@ class CommonGameEventHandlers {
 	    }
 	    if (fired) {
 		Sounds.play(Sound.TURN);
-		Game.get().markTankAsDirty();
-		Game.get().redrawArena();
+		Game.markTankAsDirty();
+		Game.redrawArena();
 	    }
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);

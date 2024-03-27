@@ -39,7 +39,7 @@ class LaserTankPlaybackLoadTask implements Runnable {
     @Override
     public void run() {
 	MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
-	Game.get().setSavedGameFlag(false);
+	Game.setSavedGameFlag(false);
 	try {
 	    LaserTankPlayback.loadFromFile(this.file);
 	} catch (final FileNotFoundException fnfe) {
