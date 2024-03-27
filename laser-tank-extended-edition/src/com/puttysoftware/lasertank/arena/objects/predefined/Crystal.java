@@ -22,7 +22,7 @@ public class Crystal extends ArenaObject {
 	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, locW);
 	// Check for nearby crystals and blow them up too
 	try {
-	    final var boom2 = ArenaManager.get().getArena().getCell(locX, locY - 1, locZ, locW).getClass()
+	    final var boom2 = ArenaManager.getArena().getCell(locX, locY - 1, locZ, locW).getClass()
 		    .equals(Crystal.class);
 	    if (boom2) {
 		Crystal.laserEnteredActionInnerP2(locX, locY - 1, locZ, locW);
@@ -31,7 +31,7 @@ public class Crystal extends ArenaObject {
 	    // Ignore
 	}
 	try {
-	    final var boom4 = ArenaManager.get().getArena().getCell(locX - 1, locY, locZ, locW).getClass()
+	    final var boom4 = ArenaManager.getArena().getCell(locX - 1, locY, locZ, locW).getClass()
 		    .equals(Crystal.class);
 	    if (boom4) {
 		Crystal.laserEnteredActionInnerP2(locX - 1, locY, locZ, locW);
@@ -40,7 +40,7 @@ public class Crystal extends ArenaObject {
 	    // Ignore
 	}
 	try {
-	    final var boom6 = ArenaManager.get().getArena().getCell(locX + 1, locY, locZ, locW).getClass()
+	    final var boom6 = ArenaManager.getArena().getCell(locX + 1, locY, locZ, locW).getClass()
 		    .equals(Crystal.class);
 	    if (boom6) {
 		Crystal.laserEnteredActionInnerP2(locX + 1, locY, locZ, locW);
@@ -49,7 +49,7 @@ public class Crystal extends ArenaObject {
 	    // Ignore
 	}
 	try {
-	    final var boom8 = ArenaManager.get().getArena().getCell(locX, locY + 1, locZ, locW).getClass()
+	    final var boom8 = ArenaManager.getArena().getCell(locX, locY + 1, locZ, locW).getClass()
 		    .equals(Crystal.class);
 	    if (boom8) {
 		Crystal.laserEnteredActionInnerP2(locX, locY + 1, locZ, locW);
@@ -94,7 +94,7 @@ public class Crystal extends ArenaObject {
     }
 
     private boolean laserEnteredActionInnerP1(final int locX, final int locY, final int locZ, final boolean oldDead) {
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	var dead = oldDead;
 	// Check if this crystal's been destroyed already
 	if (this.destroyed) {
@@ -107,22 +107,22 @@ public class Crystal extends ArenaObject {
 	// Set destroyed status
 	this.destroyed = true;
 	// Check for nearby crystals and blow them up too
-	final var boom2 = ArenaManager.get().getArena().getCell(locX, locY - 1, locZ, this.getLayer()).getClass()
+	final var boom2 = ArenaManager.getArena().getCell(locX, locY - 1, locZ, this.getLayer()).getClass()
 		.equals(Crystal.class);
 	if (boom2) {
 	    return this.laserEnteredActionInnerP1(locX, locY - 1, locZ, dead);
 	}
-	final var boom4 = ArenaManager.get().getArena().getCell(locX - 1, locY, locZ, this.getLayer()).getClass()
+	final var boom4 = ArenaManager.getArena().getCell(locX - 1, locY, locZ, this.getLayer()).getClass()
 		.equals(Crystal.class);
 	if (boom4) {
 	    return this.laserEnteredActionInnerP1(locX - 1, locY, locZ, dead);
 	}
-	final var boom6 = ArenaManager.get().getArena().getCell(locX + 1, locY, locZ, this.getLayer()).getClass()
+	final var boom6 = ArenaManager.getArena().getCell(locX + 1, locY, locZ, this.getLayer()).getClass()
 		.equals(Crystal.class);
 	if (boom6) {
 	    return this.laserEnteredActionInnerP1(locX + 1, locY, locZ, dead);
 	}
-	final var boom8 = ArenaManager.get().getArena().getCell(locX, locY + 1, locZ, this.getLayer()).getClass()
+	final var boom8 = ArenaManager.getArena().getCell(locX, locY + 1, locZ, this.getLayer()).getClass()
 		.equals(Crystal.class);
 	if (boom8) {
 	    return this.laserEnteredActionInnerP1(locX, locY + 1, locZ, dead);

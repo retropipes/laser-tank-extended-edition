@@ -45,12 +45,12 @@ class LevelSettings {
     void hideSettings() {
 	this.prefFrame.setVisible(false);
 	Editor.get().enableOutput();
-	ArenaManager.get().setDirty(true);
+	ArenaManager.setDirty(true);
 	Editor.get().redrawEditor();
     }
 
     private void loadSettings() {
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	this.horizontalWrap.setSelected(m.isHorizontalWraparoundEnabled());
 	this.verticalWrap.setSelected(m.isVerticalWraparoundEnabled());
 	this.thirdWrap.setSelected(m.isThirdDimensionWraparoundEnabled());
@@ -62,7 +62,7 @@ class LevelSettings {
     }
 
     void setSettings() {
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	if (this.horizontalWrap.isSelected()) {
 	    m.enableHorizontalWraparound();
 	} else {

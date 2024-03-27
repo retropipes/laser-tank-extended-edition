@@ -17,10 +17,10 @@ class GameWindowEventHandler extends WindowAdapter implements Runnable {
 	try {
 	    var success = false;
 	    var status = 0;
-	    if (ArenaManager.get().getDirty()) {
+	    if (ArenaManager.getDirty()) {
 		status = ArenaManager.showSaveDialog();
 		if (status == CommonDialogs.YES_OPTION) {
-		    success = ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
+		    success = ArenaManager.saveArena(ArenaManager.isArenaProtected());
 		    if (success) {
 			Game.get().exitGame();
 			LaserTankEE.showGUI();

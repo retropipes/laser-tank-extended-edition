@@ -29,7 +29,7 @@ public class ProximityCrystal extends ArenaObject {
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Destroy barrel
@@ -59,7 +59,7 @@ public class ProximityCrystal extends ArenaObject {
     @Override
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Check for tank in range of explosion

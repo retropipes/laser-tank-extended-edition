@@ -24,7 +24,7 @@ final class MovingLaserTracker {
 	final var px = gm.getPlayerLocationX();
 	final var py = gm.getPlayerLocationY();
 	final var pz = gm.getPlayerLocationZ();
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	var zproceed = true;
 	ArenaObject zo = null;
 	try {
@@ -143,7 +143,7 @@ final class MovingLaserTracker {
 	    } else {
 		Sounds.play(Sound.FIRE_LASER);
 	    }
-	    ArenaManager.get().setDirty(true);
+	    ArenaManager.setDirty(true);
 	    Game.updateUndo(true, false, false, false, false, false, false, false, false, false);
 	    gm.updateScore(0, 1, 0);
 	    if (!gm.isReplaying()) {
@@ -163,7 +163,7 @@ final class MovingLaserTracker {
 		this.res = true;
 	    }
 	} else if (this.lt == LaserType.MISSILE) {
-	    ArenaManager.get().setDirty(true);
+	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, true, false, false, false, false, false, false, false, false);
 	    TankInventory.fireMissile();
 	    Sounds.play(Sound.MISSILE);
@@ -174,7 +174,7 @@ final class MovingLaserTracker {
 	    this.laser = true;
 	    this.res = true;
 	} else if (this.lt == LaserType.STUNNER) {
-	    ArenaManager.get().setDirty(true);
+	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, false, true, false, false, false, false, false, false, false);
 	    TankInventory.fireStunner();
 	    Sounds.play(Sound.STUNNER);
@@ -185,7 +185,7 @@ final class MovingLaserTracker {
 	    this.laser = true;
 	    this.res = true;
 	} else if (this.lt == LaserType.BLUE) {
-	    ArenaManager.get().setDirty(true);
+	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, false, false, false, false, true, false, false, false, false);
 	    TankInventory.fireBlueLaser();
 	    Sounds.play(Sound.FIRE_LASER);
@@ -204,7 +204,7 @@ final class MovingLaserTracker {
 	if (this.laser) {
 	    // Clear last laser
 	    try {
-		ArenaManager.get().getArena().setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER),
+		ArenaManager.getArena().setVirtualCell(new ArenaObject(GameObjectID.PLACEHOLDER),
 			this.ox + this.cumX - this.incX, this.oy + this.cumY - this.incY, pz, this.l.getLayer());
 		gm.redrawArena();
 	    } catch (final ArrayIndexOutOfBoundsException aioobe) {
@@ -224,7 +224,7 @@ final class MovingLaserTracker {
 	final var px = gm.getPlayerLocationX();
 	final var py = gm.getPlayerLocationY();
 	final var pz = gm.getPlayerLocationZ();
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	ArenaObject lol = null;
 	ArenaObject lou = null;
 	try {

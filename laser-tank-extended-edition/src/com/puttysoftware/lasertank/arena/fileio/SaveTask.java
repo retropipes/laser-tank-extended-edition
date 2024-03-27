@@ -62,23 +62,23 @@ public class SaveTask implements Runnable {
 		Arena.getArenaTempFolder() + GlobalStrings.loadUntranslated(UntranslatedString.LOCK_TEMP_FILE));
 	try {
 	    // Set prefix handler
-	    ArenaManager.get().getArena().setPrefixHandler(new PrefixHandler());
+	    ArenaManager.getArena().setPrefixHandler(new PrefixHandler());
 	    // Set suffix handler
 	    if (this.isSavedGame) {
-		ArenaManager.get().getArena().setSuffixHandler(new SuffixHandler());
+		ArenaManager.getArena().setSuffixHandler(new SuffixHandler());
 	    } else {
-		ArenaManager.get().getArena().setSuffixHandler(null);
+		ArenaManager.getArena().setSuffixHandler(null);
 	    }
-	    ArenaManager.get().getArena().writeArena();
+	    ArenaManager.getArena().writeArena();
 	    if (this.saveProtected) {
-		ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), tempLock);
+		ZipUtilities.zipDirectory(new File(ArenaManager.getArena().getBasePath()), tempLock);
 		// Protect the arena
 		ProtectionWrapper.protect(tempLock, arenaFile);
 		tempLock.delete();
-		ArenaManager.get().setArenaProtected(true);
+		ArenaManager.setArenaProtected(true);
 	    } else {
-		ZipUtilities.zipDirectory(new File(ArenaManager.get().getArena().getBasePath()), arenaFile);
-		ArenaManager.get().setArenaProtected(false);
+		ZipUtilities.zipDirectory(new File(ArenaManager.getArena().getBasePath()), arenaFile);
+		ArenaManager.setArenaProtected(false);
 	    }
 	} catch (final FileNotFoundException fnfe) {
 	    if (this.isSavedGame) {
@@ -97,6 +97,6 @@ public class SaveTask implements Runnable {
 	} else {
 	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
 	}
-	ArenaManager.get().handlePostFileLoad(success);
+	ArenaManager.handlePostFileLoad(success);
     }
 }

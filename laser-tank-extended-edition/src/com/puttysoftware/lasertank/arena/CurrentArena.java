@@ -169,7 +169,8 @@ class CurrentArena extends Arena {
 
     @Override
     public void disableThirdDimensionWraparound() {
-	this.levelInfoData.get(this.activeLevel).disableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
+	this.levelInfoData.get(this.activeLevel)
+		.disableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -199,7 +200,8 @@ class CurrentArena extends Arena {
 
     @Override
     public void enableThirdDimensionWraparound() {
-	this.levelInfoData.get(this.activeLevel).enableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
+	this.levelInfoData.get(this.activeLevel)
+		.enableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -434,7 +436,8 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean isHorizontalWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isHorizontalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
+	return this.levelInfoData.get(this.activeLevel)
+		.isHorizontalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -459,12 +462,14 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean isThirdDimensionWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isThirdDimensionWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
+	return this.levelInfoData.get(this.activeLevel)
+		.isThirdDimensionWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public boolean isVerticalWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isVerticalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
+	return this.levelInfoData.get(this.activeLevel)
+		.isVerticalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -478,7 +483,7 @@ class CurrentArena extends Arena {
 	    this.arenaData = this.clipboard;
 	    this.levelInfoData.set(this.activeLevel, this.infoClipboard);
 	    this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
-	    ArenaManager.get().setDirty(true);
+	    ArenaManager.setDirty(true);
 	}
     }
 
@@ -698,12 +703,14 @@ class CurrentArena extends Arena {
 
     @Override
     public void setStartColumn(final int pi, final int newStartColumn) {
-	this.levelInfoData.get(this.activeLevel).setStartColumn(pi, newStartColumn, this.levelInfoData.get(this.activeLevel));
+	this.levelInfoData.get(this.activeLevel).setStartColumn(pi, newStartColumn,
+		this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void setStartFloor(final int pi, final int newStartFloor) {
-	this.levelInfoData.get(this.activeLevel).setStartFloor(pi, newStartFloor, this.levelInfoData.get(this.activeLevel));
+	this.levelInfoData.get(this.activeLevel).setStartFloor(pi, newStartFloor,
+		this.levelInfoData.get(this.activeLevel));
     }
 
     @Override

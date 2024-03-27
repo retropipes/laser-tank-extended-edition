@@ -44,11 +44,11 @@ class MenubarEventHandler implements ActionListener, Runnable {
 	    final var cmd = this.event.getActionCommand();
 	    if (cmd.equals(Strings.loadMenu(MenuString.ITEM_NEW))) {
 		loaded = Editor.get().newArena();
-		ArenaManager.get().setLoaded(loaded);
+		ArenaManager.setLoaded(loaded);
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN))) {
-		ArenaManager.get().loadArena();
+		ArenaManager.loadArena();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_OPEN_DEFAULT))) {
-		ArenaManager.get().loadArenaDefault();
+		ArenaManager.loadArenaDefault();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLOSE))) {
 		// Close the window
 		if (LaserTankEE.onEditorScreen()) {
@@ -56,14 +56,14 @@ class MenubarEventHandler implements ActionListener, Runnable {
 		} else if (LaserTankEE.onGameScreen()) {
 		    var saved = true;
 		    var status = 0;
-		    if (ArenaManager.get().getDirty()) {
+		    if (ArenaManager.getDirty()) {
 			status = ArenaManager.showSaveDialog();
 			if (status == CommonDialogs.YES_OPTION) {
-			    saved = ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
+			    saved = ArenaManager.saveArena(ArenaManager.isArenaProtected());
 			} else if (status == CommonDialogs.CANCEL_OPTION) {
 			    saved = false;
 			} else {
-			    ArenaManager.get().setDirty(false);
+			    ArenaManager.setDirty(false);
 			}
 		    }
 		    if (saved) {
@@ -72,20 +72,20 @@ class MenubarEventHandler implements ActionListener, Runnable {
 		}
 		LaserTankEE.showGUI();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE))) {
-		if (ArenaManager.get().getLoaded()) {
-		    ArenaManager.get().saveArena(ArenaManager.get().isArenaProtected());
+		if (ArenaManager.getLoaded()) {
+		    ArenaManager.saveArena(ArenaManager.isArenaProtected());
 		} else {
 		    CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS))) {
-		if (ArenaManager.get().getLoaded()) {
-		    ArenaManager.get().saveArenaAs(false);
+		if (ArenaManager.getLoaded()) {
+		    ArenaManager.saveArenaAs(false);
 		} else {
 		    CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		}
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SAVE_AS_PROTECTED))) {
-		if (ArenaManager.get().getLoaded()) {
-		    ArenaManager.get().saveArenaAs(true);
+		if (ArenaManager.getLoaded()) {
+		    ArenaManager.saveArenaAs(true);
 		} else {
 		    CommonDialogs.showDialog(Strings.loadError(ErrorString.NO_ARENA_OPENED));
 		}
@@ -142,7 +142,7 @@ class MenubarEventHandler implements ActionListener, Runnable {
 		game.abortAndWaitForMLOLoop();
 		game.loadLevel();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_SHOW_HINT))) {
-		CommonDialogs.showDialog(ArenaManager.get().getArena().getHint().trim());
+		CommonDialogs.showDialog(ArenaManager.getArena().getHint().trim());
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHEATS))) {
 		game.enterCheatCode();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CHANGE_OTHER_AMMO))) {
@@ -170,20 +170,20 @@ class MenubarEventHandler implements ActionListener, Runnable {
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CUT_LEVEL))) {
 		// Cut Level
 		final var level = editor.getEditorLocationU();
-		ArenaManager.get().getArena().cutLevel();
+		ArenaManager.getArena().cutLevel();
 		editor.fixLimits();
 		editor.updateEditorLevelAbsolute(level);
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_COPY_LEVEL))) {
 		// Copy Level
-		ArenaManager.get().getArena().copyLevel();
+		ArenaManager.getArena().copyLevel();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_PASTE_LEVEL))) {
 		// Paste Level
-		ArenaManager.get().getArena().pasteLevel();
+		ArenaManager.getArena().pasteLevel();
 		editor.fixLimits();
 		editor.redrawEditor();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_INSERT_LEVEL_FROM_CLIPBOARD))) {
 		// Insert Level From Clipboard
-		ArenaManager.get().getArena().insertLevelFromClipboard();
+		ArenaManager.getArena().insertLevelFromClipboard();
 		editor.fixLimits();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_CLEAR_HISTORY))) {
 		// Clear undo/redo history, confirm first
@@ -230,12 +230,12 @@ class MenubarEventHandler implements ActionListener, Runnable {
 		editor.changeLayer();
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT))) {
 		// Enable Global Move-Shoot
-		ArenaManager.get().getArena().setMoveShootAllowedGlobally(true);
+		ArenaManager.getArena().setMoveShootAllowedGlobally(true);
 		menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT));
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_DISABLE_GLOBAL_MOVE_SHOOT))) {
 		// Disable Global Move-Shoot
 		menu.editorGlobalMoveShoot.setText(Strings.loadMenu(MenuString.ITEM_ENABLE_GLOBAL_MOVE_SHOOT));
-		ArenaManager.get().getArena().setMoveShootAllowedGlobally(false);
+		ArenaManager.getArena().setMoveShootAllowedGlobally(false);
 	    } else if (cmd.equals(Strings.loadMenu(MenuString.ITEM_ABOUT_LASERTANK))) {
 		LaserTankEE.getAboutDialog().showScreen();
 	    }

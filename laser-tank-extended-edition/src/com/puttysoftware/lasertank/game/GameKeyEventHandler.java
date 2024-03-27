@@ -262,7 +262,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 
     @Override
     public void run() {
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	if ((!a.isMoveShootAllowed() && !Game.get().laserActive || a.isMoveShootAllowed()) && !Game.get().moving) {
 	    if (!Settings.oneMove()) {
 		GameKeyEventHandler.this.handleKeystrokes(this.event);

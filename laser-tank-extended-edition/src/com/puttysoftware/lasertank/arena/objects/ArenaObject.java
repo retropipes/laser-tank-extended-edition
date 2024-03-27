@@ -45,8 +45,8 @@ public class ArenaObject {
     private static void checkTunnelsOfColor(final GameColor color) {
 	final var tx = Game.get().getPlayerLocationX();
 	final var ty = Game.get().getPlayerLocationY();
-	final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(0, 0, 0, ArenaData.TUNNEL_SCAN_RADIUS, tx,
-		ty, ArenaObject.getTunnelOfColor(color), false);
+	final var pgrmdest = ArenaManager.getArena().circularScanTunnel(0, 0, 0, ArenaData.TUNNEL_SCAN_RADIUS, tx, ty,
+		ArenaObject.getTunnelOfColor(color), false);
 	ArenaObject.tunnelsFull[color.ordinal()] = pgrmdest != null;
     }
 
@@ -296,14 +296,14 @@ public class ArenaObject {
 	if (this.canControl()) {
 	    Editor.get().setPlayerLocation();
 	} else if (this.pairedWith != null && this.usesTrigger()) {
-	    final var loc = ArenaManager.get().getArena().findObject(z, this.getPairedWith());
+	    final var loc = ArenaManager.getArena().findObject(z, this.getPairedWith());
 	    if (loc != null) {
 		this.setPairX(loc[0]);
 		this.setPairY(loc[1]);
 		this.setPairTriggered(false);
 	    }
 	    if (this.usesTrigger()) {
-		ArenaManager.get().getArena().fullScanPairCleanup(x, y, z, this);
+		ArenaManager.getArena().fullScanPairCleanup(x, y, z, this);
 	    }
 	    Editor.get().redrawEditor();
 	}
@@ -645,10 +645,8 @@ public class ArenaObject {
 	if (forceUnits >= this.getMinimumReactionForce()) {
 	    if (this.canMove()) {
 		try {
-		    final var mof = ArenaManager.get().getArena().getCell(locX + dirX, locY + dirY, locZ,
-			    this.getLayer());
-		    final var mor = ArenaManager.get().getArena().getCell(locX - dirX, locY - dirY, locZ,
-			    this.getLayer());
+		    final var mof = ArenaManager.getArena().getCell(locX + dirX, locY + dirY, locZ, this.getLayer());
+		    final var mor = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 		    if (this.getMaterial() == Material.MAGNETIC) {
 			if (laserType == LaserType.BLUE && mof != null && (mof.canControl() || !mof.isSolid())) {
 			    Game.get().updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
@@ -740,10 +738,10 @@ public class ArenaObject {
 	    if (this.isSolid()) {
 		if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
 		    try {
-			final var nextObj = ArenaManager.get().getArena().getCell(locX + dirX, locY + dirY, locZ,
+			final var nextObj = ArenaManager.getArena().getCell(locX + dirX, locY + dirY, locZ,
 				this.getLayer());
-			final var nextObj2 = ArenaManager.get().getArena().getCell(locX + dirX * 2, locY + dirY * 2,
-				locZ, this.getLayer());
+			final var nextObj2 = ArenaManager.getArena().getCell(locX + dirX * 2, locY + dirY * 2, locZ,
+				this.getLayer());
 			if (nextObj.canMove()
 				&& (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
 			    Game.get().updatePushedPositionLater(locX, locY, dirX, dirY, this, locX + dirX, locY + dirY,
@@ -757,8 +755,7 @@ public class ArenaObject {
 			this.pushCrushAction(locX, locY, locZ);
 		    }
 		} else {
-		    final var adj = ArenaManager.get().getArena().getCell(locX - dirX, locY - dirY, locZ,
-			    this.getLayer());
+		    final var adj = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 		    if (adj != null && !adj.rangeAction(locX - 2 * dirX, locY - 2 * dirY, locZ, dirX, dirY,
 			    LaserTypeHelper.rangeType(laserType), 1)) {
 			Sounds.play(Sound.LASER_DIE);
@@ -896,7 +893,7 @@ public class ArenaObject {
 	if (this.isTunnel()) {
 	    final var tx = Game.get().getPlayerLocationX();
 	    final var ty = Game.get().getPlayerLocationY();
-	    final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(dirX, dirY, dirZ,
+	    final var pgrmdest = ArenaManager.getArena().circularScanTunnel(dirX, dirY, dirZ,
 		    ArenaData.TUNNEL_SCAN_RADIUS, tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), true);
 	    if (pgrmdest != null) {
 		Game.get().updatePositionAbsoluteNoEvents(pgrmdest[0], pgrmdest[1], pgrmdest[2]);
@@ -940,8 +937,8 @@ public class ArenaObject {
 	    final var tx = Game.get().getPlayerLocationX();
 	    final var ty = Game.get().getPlayerLocationY();
 	    final var objColor = this.getColor();
-	    final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(x, y, z, ArenaData.TUNNEL_SCAN_RADIUS,
-		    tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), false);
+	    final var pgrmdest = ArenaManager.getArena().circularScanTunnel(x, y, z, ArenaData.TUNNEL_SCAN_RADIUS, tx,
+		    ty, ArenaObject.getTunnelOfColor(this.getColor()), false);
 	    if (pgrmdest != null) {
 		ArenaObject.tunnelsFull[objColor.ordinal()] = false;
 		Game.get().updatePushedIntoPositionAbsolute(pgrmdest[0], pgrmdest[1], pgrmdest[2], x, y, z, pushed,
@@ -958,7 +955,7 @@ public class ArenaObject {
 	    if (!this.isPairTriggered()) {
 		// Check to open door at location
 		this.setPairTriggered(true);
-		ArenaManager.get().getArena().fullScanPairOpen(z, this);
+		ArenaManager.getArena().fullScanPairOpen(z, this);
 	    }
 	}
 	// Do nothing
@@ -977,7 +974,7 @@ public class ArenaObject {
 		&& this.isPairTriggered()) {
 	    // Check to close door at location
 	    this.setPairTriggered(false);
-	    ArenaManager.get().getArena().fullScanPairClose(z, this);
+	    ArenaManager.getArena().fullScanPairClose(z, this);
 	}
 	// Do nothing
     }

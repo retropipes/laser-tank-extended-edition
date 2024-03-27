@@ -69,17 +69,16 @@ class MainScreen extends Screen implements QuitHandler {
 
     // Methods
     boolean quitHandler() {
-	final var mm = ArenaManager.get();
 	var saved = true;
 	var status = CommonDialogs.DEFAULT_OPTION;
-	if (mm.getDirty()) {
+	if (ArenaManager.getDirty()) {
 	    status = ArenaManager.showSaveDialog();
 	    if (status == CommonDialogs.YES_OPTION) {
-		saved = mm.saveArena(mm.isArenaProtected());
+		saved = ArenaManager.saveArena(ArenaManager.isArenaProtected());
 	    } else if (status == CommonDialogs.CANCEL_OPTION) {
 		saved = false;
 	    } else {
-		mm.setDirty(false);
+		ArenaManager.setDirty(false);
 	    }
 	}
 	if (saved) {

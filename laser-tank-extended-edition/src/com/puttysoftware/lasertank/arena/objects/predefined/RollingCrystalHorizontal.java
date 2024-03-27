@@ -34,7 +34,7 @@ public class RollingCrystalHorizontal extends ArenaObject {
 	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	}
 	// Break up
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Destroy barrel
@@ -61,7 +61,7 @@ public class RollingCrystalHorizontal extends ArenaObject {
     @Override
     public void pushCollideAction(final ArenaObject pushed, final int x, final int y, final int z) {
 	// Break up
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	// Boom!
 	Sounds.play(Sound.PROXIMITY);
 	// Destroy barrel

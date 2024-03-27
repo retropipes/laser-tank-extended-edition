@@ -59,9 +59,9 @@ final class MovingObjectTracker {
 	this.objCumX = zx;
 	this.objCumY = zy;
 	this.movingObj = gmo;
-	this.belowUpper = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	this.belowUpper = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		this.objCumY + this.objIncY * this.objMultY, pz, Layer.UPPER_GROUND.ordinal());
-	this.belowLower = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	this.belowLower = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		this.objCumY + this.objIncY * this.objMultY, pz, Layer.LOWER_GROUND.ordinal());
 	this.objectMoving = true;
 	this.objectCheck = true;
@@ -69,7 +69,7 @@ final class MovingObjectTracker {
     }
 
     private void doJumpObjectOnce(final ArenaObject jumper) {
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	final var gm = Game.get();
 	final var pz = gm.getPlayerLocationZ();
 	try {
@@ -82,9 +82,9 @@ final class MovingObjectTracker {
 	    final var oldSave = jumper.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, jumper.getLayer());
-	    this.belowUpper = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	    this.belowUpper = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.UPPER_GROUND.ordinal());
-	    this.belowLower = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	    this.belowLower = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.LOWER_GROUND.ordinal());
 	    if (MovingObjectTracker.checkSolid(saved) && this.objMultX != 0 && this.objMultY != 0) {
 		jumper.jumpSound(true);
@@ -155,7 +155,7 @@ final class MovingObjectTracker {
 		    this.objCumX += this.objIncX * this.objMultX;
 		    this.objCumY += this.objIncY * this.objMultY;
 		}
-		ArenaManager.get().setDirty(true);
+		ArenaManager.setDirty(true);
 	    } else {
 		// Movement failed
 		jumper.jumpSound(false);
@@ -175,7 +175,7 @@ final class MovingObjectTracker {
     }
 
     private void doNormalObjectOnce() {
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	final var gm = Game.get();
 	final var pz = gm.getPlayerLocationZ();
 	try {
@@ -185,9 +185,9 @@ final class MovingObjectTracker {
 	    final var oldSave = this.movingObj.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.getLayer());
-	    this.belowUpper = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	    this.belowUpper = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.UPPER_GROUND.ordinal());
-	    this.belowLower = ArenaManager.get().getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
+	    this.belowLower = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.LOWER_GROUND.ordinal());
 	    if (MovingObjectTracker.checkSolid(saved)) {
 		this.belowLower.pushOutAction(this.movingObj, this.objCumX, this.objCumY, pz);
@@ -244,7 +244,7 @@ final class MovingObjectTracker {
 		    this.objCumX += this.objIncX;
 		    this.objCumY += this.objIncY;
 		}
-		ArenaManager.get().setDirty(true);
+		ArenaManager.setDirty(true);
 	    } else {
 		// Movement failed
 		this.belowLower.pushIntoAction(this.movingObj, this.objCumX, this.objCumY, pz);

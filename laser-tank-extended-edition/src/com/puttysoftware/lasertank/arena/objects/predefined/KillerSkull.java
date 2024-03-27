@@ -25,7 +25,7 @@ public class KillerSkull extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	Sounds.play(Sound.KILL);
-	ArenaManager.get().getArena().fullScanKillTanks();
+	ArenaManager.getArena().fullScanKillTanks();
 	Game.get().morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
     }
 }

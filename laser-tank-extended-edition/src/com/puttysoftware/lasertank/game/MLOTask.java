@@ -40,7 +40,7 @@ final class MLOTask implements Runnable {
 
     static boolean checkSolid(final int zx, final int zy) {
 	final var gm = Game.get();
-	final var next = ArenaManager.get().getArena().getCell(zx, zy, gm.getPlayerLocationZ(),
+	final var next = ArenaManager.getArena().getCell(zx, zy, gm.getPlayerLocationZ(),
 		Layer.LOWER_OBJECTS.ordinal());
 	// Check cheats
 	if (gm.getCheatStatus(Game.CHEAT_GHOSTLY)) {
@@ -184,7 +184,7 @@ final class MLOTask implements Runnable {
 	} else if (zx == 3 || zy == 3 || zx == -3 || zy == -3) {
 	    // Using a Magnet
 	    gm.updateScore(0, 0, 1);
-	    final var a = ArenaManager.get().getArena();
+	    final var a = ArenaManager.getArena();
 	    final var px = gm.getPlayerLocationX();
 	    final var py = gm.getPlayerLocationY();
 	    final var pz = gm.getPlayerLocationZ();
@@ -272,7 +272,7 @@ final class MLOTask implements Runnable {
 	final var py = gm.getPlayerLocationY();
 	final var pz = gm.getPlayerLocationZ();
 	final var pw = Layer.UPPER_OBJECTS.ordinal();
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	ArenaObject lgo = null;
 	ArenaObject ugo = null;
 	ArenaObject loo = null;
@@ -304,7 +304,7 @@ final class MLOTask implements Runnable {
 	final var px = gm.getPlayerLocationX();
 	final var py = gm.getPlayerLocationY();
 	final var pz = gm.getPlayerLocationZ();
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	ArenaObject lgo = null;
 	ArenaObject ugo = null;
 	try {
@@ -419,7 +419,7 @@ final class MLOTask implements Runnable {
 			if (objs[Layer.LOWER_OBJECTS.ordinal()].solvesOnMove()) {
 			    this.abort = true;
 			    if (this.move) {
-				ArenaManager.get().setDirty(true);
+				ArenaManager.setDirty(true);
 				this.defrostTank();
 				gm.moveLoopDone();
 				this.move = false;
@@ -436,7 +436,7 @@ final class MLOTask implements Runnable {
 			this.loopCheck = false;
 		    }
 		    if (this.move && !this.loopCheck) {
-			ArenaManager.get().setDirty(true);
+			ArenaManager.setDirty(true);
 			this.defrostTank();
 			gm.moveLoopDone();
 			this.move = false;
@@ -452,10 +452,10 @@ final class MLOTask implements Runnable {
 			this.move = true;
 			this.loopCheck = true;
 		    }
-		    ArenaManager.get().getArena().tickTimers(pz, actionType);
+		    ArenaManager.getArena().tickTimers(pz, actionType);
 		    final var px = gm.getPlayerLocationX();
 		    final var py = gm.getPlayerLocationY();
-		    ArenaManager.get().getArena().checkForEnemies(pz, px, py, Game.get().getTank());
+		    ArenaManager.getArena().checkForEnemies(pz, px, py, Game.get().getTank());
 		    // Delay
 		    try {
 			Thread.sleep(Settings.getActionSpeed());
@@ -486,7 +486,7 @@ final class MLOTask implements Runnable {
 	var py = gm.getPlayerLocationY();
 	final var pz = gm.getPlayerLocationZ();
 	final var pw = Layer.UPPER_OBJECTS.ordinal();
-	final var m = ArenaManager.get().getArena();
+	final var m = ArenaManager.getArena();
 	this.proceed = true;
 	this.mover = false;
 	ArenaObject lgo = null;

@@ -69,18 +69,18 @@ public class LoadTask implements Runnable {
 		ProtectionWrapper.unprotect(arenaFile, tempLock);
 		try {
 		    ZipUtilities.unzipDirectory(tempLock, new File(gameArena.getBasePath()));
-		    ArenaManager.get().setArenaProtected(true);
+		    ArenaManager.setArenaProtected(true);
 		} catch (final ZipException ze) {
 		    CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.BAD_PROTECTION_KEY),
 			    Strings.loadError(ErrorString.PROTECTION));
-		    ArenaManager.get().handlePostFileLoad(false);
+		    ArenaManager.handlePostFileLoad(false);
 		    return;
 		} finally {
 		    tempLock.delete();
 		}
 	    } else {
 		ZipUtilities.unzipDirectory(arenaFile, new File(gameArena.getBasePath()));
-		ArenaManager.get().setArenaProtected(false);
+		ArenaManager.setArenaProtected(false);
 	    }
 	    // Set prefix handler
 	    gameArena.setPrefixHandler(new PrefixHandler());
@@ -94,7 +94,7 @@ public class LoadTask implements Runnable {
 	    if (gameArena == null) {
 		throw new InvalidArenaException(Strings.loadError(ErrorString.UNKNOWN_OBJECT));
 	    }
-	    ArenaManager.get().setArena(gameArena);
+	    ArenaManager.setArena(gameArena);
 	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
 		Game.get().resetPlayerLocation();
@@ -103,13 +103,13 @@ public class LoadTask implements Runnable {
 		gameArena.save();
 	    }
 	    // Final cleanup
-	    final var lum = ArenaManager.get().getLastUsedArena();
-	    final var lug = ArenaManager.get().getLastUsedGame();
-	    ArenaManager.get().clearLastUsedFilenames();
+	    final var lum = ArenaManager.getLastUsedArena();
+	    final var lug = ArenaManager.getLastUsedGame();
+	    ArenaManager.clearLastUsedFilenames();
 	    if (this.isSavedGame) {
-		ArenaManager.get().setLastUsedGame(lug);
+		ArenaManager.setLastUsedGame(lug);
 	    } else {
-		ArenaManager.get().setLastUsedArena(lum);
+		ArenaManager.setLastUsedArena(lum);
 	    }
 	    Editor.get().arenaChanged();
 	    if (this.isSavedGame) {
@@ -117,16 +117,16 @@ public class LoadTask implements Runnable {
 	    } else {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
 	    }
-	    ArenaManager.get().handlePostFileLoad(true);
+	    ArenaManager.handlePostFileLoad(true);
 	} catch (final FileNotFoundException fnfe) {
 	    if (this.isSavedGame) {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
 	    } else {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    }
-	    ArenaManager.get().handlePostFileLoad(false);
+	    ArenaManager.handlePostFileLoad(false);
 	} catch (final ProtectionCancelException pce) {
-	    ArenaManager.get().handlePostFileLoad(false);
+	    ArenaManager.handlePostFileLoad(false);
 	} catch (final IOException ie) {
 	    if (this.isSavedGame) {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
@@ -134,7 +134,7 @@ public class LoadTask implements Runnable {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    }
 	    LaserTankEE.logWarning(ie);
-	    ArenaManager.get().handlePostFileLoad(false);
+	    ArenaManager.handlePostFileLoad(false);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	} finally {

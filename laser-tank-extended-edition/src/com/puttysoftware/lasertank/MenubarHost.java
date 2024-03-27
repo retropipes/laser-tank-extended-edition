@@ -515,7 +515,7 @@ class MenubarHost {
 	    this.fileSaveAs.setEnabled(true);
 	    this.fileSaveAsProtected.setEnabled(true);
 	}
-	if (ArenaManager.get().getArena().doesPlayerExist(0)) {
+	if (ArenaManager.getArena().doesPlayerExist(0)) {
 	    this.playPlay.setEnabled(true);
 	} else {
 	    this.playPlay.setEnabled(false);
@@ -585,18 +585,18 @@ class MenubarHost {
     final void updateMenuItemState() {
 	try {
 	    final var editor = Editor.get();
-	    if (ArenaManager.get().getLoaded()) {
+	    if (ArenaManager.getLoaded()) {
 		this.enableLoadedCommands();
 	    } else {
 		this.disableLoadedCommands();
 	    }
-	    if (ArenaManager.get().getDirty()) {
+	    if (ArenaManager.getDirty()) {
 		this.enableDirtyCommands();
 	    } else {
 		this.disableDirtyCommands();
 	    }
 	    if (LaserTankEE.onEditorScreen()) {
-		final var m = ArenaManager.get().getArena();
+		final var m = ArenaManager.getArena();
 		if (m.getLevels() == Arena.getMinLevels()) {
 		    this.disableRemoveLevel();
 		} else {
@@ -659,7 +659,7 @@ class MenubarHost {
 		}
 	    }
 	    if (LaserTankEE.onGameScreen()) {
-		final var a = ArenaManager.get().getArena();
+		final var a = ArenaManager.getArena();
 		if (a.tryUndo()) {
 		    this.enableUndo();
 		} else {
@@ -671,7 +671,7 @@ class MenubarHost {
 		    this.disableRedo();
 		}
 	    }
-	    final var a = ArenaManager.get().getArena();
+	    final var a = ArenaManager.getArena();
 	    if (a != null && a.isPasteBlocked()) {
 		this.disablePasteLevel();
 		this.disableInsertLevelFromClipboard();

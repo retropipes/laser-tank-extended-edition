@@ -43,7 +43,6 @@ public class LaserTankEE {
     private static MainWindow masterFrame;
     private static AboutDialog about;
     private static Game game;
-    private static ArenaManager arenaMgr;
     private static MenubarHost menus;
     private static Editor editor;
     private static MainScreen mainScreen;
@@ -71,7 +70,7 @@ public class LaserTankEE {
     }
 
     public static String[] getLevelInfoList() {
-	return LaserTankEE.arenaMgr.getArena().getLevelInfoList();
+	return ArenaManager.getArena().getLevelInfoList();
     }
 
     public static String getLogoVersionString() {
@@ -143,7 +142,6 @@ public class LaserTankEE {
 	LaserTankEE.menus = new MenubarHost();
 	LaserTankEE.about = new AboutDialog(LaserTankEE.getVersionString());
 	LaserTankEE.mainScreen = new MainScreen();
-	LaserTankEE.arenaMgr = ArenaManager.get();
 	LaserTankEE.game = Game.get();
 	LaserTankEE.editor = Editor.get();
 	// Initialize preferences
@@ -233,7 +231,7 @@ public class LaserTankEE {
 	loadFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
 	loadFrame.pack();
 	loadFrame.setVisible(true);
-	LaserTankEE.arenaMgr.getArena().generateLevelInfoList();
+	ArenaManager.getArena().generateLevelInfoList();
 	loadFrame.setVisible(false);
     }
 

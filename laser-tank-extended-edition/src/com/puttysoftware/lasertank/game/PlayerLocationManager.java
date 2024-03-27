@@ -59,7 +59,7 @@ final class PlayerLocationManager {
     }
 
     void resetPlayerLocation() {
-	final var a = ArenaManager.get().getArena();
+	final var a = ArenaManager.getArena();
 	if (a != null) {
 	    for (var pi = 0; pi < Players.COUNT; pi++) {
 		final var found = a.findPlayer(pi);

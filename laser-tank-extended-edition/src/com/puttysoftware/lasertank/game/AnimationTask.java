@@ -17,7 +17,7 @@ class AnimationTask implements Runnable {
     @Override
     public void run() {
 	try {
-	    final var a = ArenaManager.get().getArena();
+	    final var a = ArenaManager.getArena();
 	    while (!this.stop) {
 		final var pz = Game.get().getPlayerLocationZ();
 		final var maxX = a.getRows();

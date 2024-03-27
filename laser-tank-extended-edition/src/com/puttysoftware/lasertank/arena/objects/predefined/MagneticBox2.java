@@ -27,7 +27,7 @@ public class MagneticBox2 extends ArenaObject {
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final LaserType laserType, final int forceUnits) {
-	final var mo = ArenaManager.get().getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+	final var mo = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
 	if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
 	    Game.get().updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
 	    Sounds.play(this.laserEnteredSound());

@@ -48,26 +48,26 @@ public class LaserTankV4LevelLoadTask implements Runnable {
 	    final var gameArena = ArenaManager.createArena();
 	    LaserTankV4File.loadOldFile(gameArena, arenaFile);
 	    arenaFile.close();
-	    ArenaManager.get().setArena(gameArena);
+	    ArenaManager.setArena(gameArena);
 	    final var playerExists = gameArena.doesPlayerExist(0);
 	    if (playerExists) {
 		Game.get().resetPlayerLocation();
 	    }
 	    gameArena.save();
 	    // Final cleanup
-	    final var lum = ArenaManager.get().getLastUsedArena();
-	    ArenaManager.get().clearLastUsedFilenames();
-	    ArenaManager.get().setLastUsedArena(lum);
+	    final var lum = ArenaManager.getLastUsedArena();
+	    ArenaManager.clearLastUsedFilenames();
+	    ArenaManager.setLastUsedArena(lum);
 	    LaserTankEE.updateLevelInfoList();
 	    Editor.get().arenaChanged();
 	    CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
-	    ArenaManager.get().handlePostFileLoad(true);
+	    ArenaManager.handlePostFileLoad(true);
 	} catch (final FileNotFoundException fnfe) {
 	    CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
-	    ArenaManager.get().handlePostFileLoad(false);
+	    ArenaManager.handlePostFileLoad(false);
 	} catch (final IOException ie) {
 	    LaserTankEE.logWarning(ie);
-	    ArenaManager.get().handlePostFileLoad(false);
+	    ArenaManager.handlePostFileLoad(false);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	} finally {

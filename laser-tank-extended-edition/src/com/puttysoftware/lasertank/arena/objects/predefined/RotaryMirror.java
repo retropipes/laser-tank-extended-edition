@@ -43,7 +43,7 @@ public class RotaryMirror extends ArenaObject {
 	// Rotate mirror
 	this.toggleDirection();
 	Sounds.play(Sound.ROTATE);
-	ArenaManager.get().getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+	ArenaManager.getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
 	return true;
     }
 }
