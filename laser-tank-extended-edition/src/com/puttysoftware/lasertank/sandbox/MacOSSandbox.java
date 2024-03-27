@@ -39,22 +39,22 @@ final class MacOSSandbox extends Sandbox {
 
     @Override
     public void cacheFlags() {
-	final var noCapsLockLM = System.getProperty("LaunchModifierFlagCapsLock") == null;
+	final var noCapsLockLM = System.getProperty("LaunchModifierFlagCapsLock") == null; //$NON-NLS-1$
 	boolean capsLockFlag;
 	if (noCapsLockLM) {
 	    capsLockFlag = Toolkit.getDefaultToolkit().getLockingKeyState(KeyEvent.VK_CAPS_LOCK);
 	} else {
-	    capsLockFlag = System.getProperty("LaunchModifierFlagCapsLock") == "true";
+	    capsLockFlag = System.getProperty("LaunchModifierFlagCapsLock") == "true"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	this.flagCache.put(SandboxFlag.ALT_OPTION, System.getProperty("LaunchModifierFlagOption") == "true");
+	this.flagCache.put(SandboxFlag.ALT_OPTION, System.getProperty("LaunchModifierFlagOption") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
 	this.flagCache.put(SandboxFlag.CAPS_LOCK, capsLockFlag);
-	this.flagCache.put(SandboxFlag.CONTROL, System.getProperty("LaunchModifierFlagControl") == "true");
-	this.flagCache.put(SandboxFlag.FUNCTION, System.getProperty("LaunchModifierFlagFunction") == "true");
-	this.flagCache.put(SandboxFlag.INSERT_HELP, System.getProperty("LaunchModifierFlagHelp") == "true");
-	this.flagCache.put(SandboxFlag.NUMERIC_PAD, System.getProperty("LaunchModifierFlagNumericPad") == "true");
-	this.flagCache.put(SandboxFlag.OS_ENABLED, System.getProperty("SandboxEnabled") == "true");
-	this.flagCache.put(SandboxFlag.SHIFT, System.getProperty("LaunchModifierFlagShift") == "true");
-	this.flagCache.put(SandboxFlag.SUPER_COMMAND, System.getProperty("LaunchModifierFlagCommand") == "true");
+	this.flagCache.put(SandboxFlag.CONTROL, System.getProperty("LaunchModifierFlagControl") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.FUNCTION, System.getProperty("LaunchModifierFlagFunction") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.INSERT_HELP, System.getProperty("LaunchModifierFlagHelp") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.NUMERIC_PAD, System.getProperty("LaunchModifierFlagNumericPad") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.OS_ENABLED, System.getProperty("SandboxEnabled") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.SHIFT, System.getProperty("LaunchModifierFlagShift") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
+	this.flagCache.put(SandboxFlag.SUPER_COMMAND, System.getProperty("LaunchModifierFlagCommand") == "true"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
     // Methods

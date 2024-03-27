@@ -13,6 +13,9 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
 
+import com.puttysoftware.lasertank.locale.DialogString;
+import com.puttysoftware.lasertank.locale.Strings;
+
 public class ProductData {
     public static final int CODE_ALPHA = 1;
     public static final int CODE_BETA = 2;
@@ -32,26 +35,27 @@ public class ProductData {
 	String rt_vl, rt_vs;
 	if (code == ProductData.CODE_ALPHA) {
 	    if (beta > 0) {
-		rt_vl = "-alpha" + beta;
-		rt_vs = "a" + beta;
+		rt_vl = Strings.loadDialog(DialogString.ALPHA_VERSION) + beta;
+		rt_vs = Strings.VERSION_ALPHA_INDICATOR + beta;
 	    } else {
-		rt_vl = "-alpha";
-		rt_vs = "a";
+		rt_vl = Strings.loadDialog(DialogString.ALPHA_VERSION);
+		rt_vs = Strings.VERSION_ALPHA_INDICATOR;
 	    }
 	} else if (code == ProductData.CODE_BETA) {
 	    if (beta > 0) {
-		rt_vl = "-beta" + beta;
-		rt_vs = "b" + beta;
+		rt_vl = Strings.loadDialog(DialogString.BETA_VERSION) + beta;
+		rt_vs = Strings.VERSION_BETA_INDICATOR + beta;
 	    } else {
-		rt_vl = "-beta";
-		rt_vs = "b";
+		rt_vl = Strings.loadDialog(DialogString.BETA_VERSION);
+		rt_vs = Strings.VERSION_BETA_INDICATOR;
 	    }
 	} else {
-	    rt_vl = "";
-	    rt_vs = "";
+	    rt_vl = Strings.EMPTY;
+	    rt_vs = Strings.EMPTY;
 	}
-	this.versionString = major + "." + minor + "." + bugfix + rt_vl;
-	this.shortVersionString = major + "." + minor + "." + bugfix + rt_vs;
+	this.versionString = major + Strings.VERSION_SEPARATOR + minor + Strings.VERSION_SEPARATOR + bugfix + rt_vl;
+	this.shortVersionString = major + Strings.VERSION_SEPARATOR + minor + Strings.VERSION_SEPARATOR + bugfix
+		+ rt_vs;
 	this.updateURL = null;
 	this.newVersionURL = null;
 	this.majorVersion = major;
@@ -67,30 +71,31 @@ public class ProductData {
 	String rt_vl, rt_vs;
 	if (code == ProductData.CODE_ALPHA) {
 	    if (beta > 0) {
-		rt_vl = "-alpha" + beta;
-		rt_vs = "a" + beta;
+		rt_vl = Strings.loadDialog(DialogString.ALPHA_VERSION) + beta;
+		rt_vs = Strings.VERSION_ALPHA_INDICATOR + beta;
 	    } else {
-		rt_vl = "-alpha";
-		rt_vs = "a";
+		rt_vl = Strings.loadDialog(DialogString.ALPHA_VERSION);
+		rt_vs = Strings.VERSION_ALPHA_INDICATOR;
 	    }
-	    rt_url = "alpha_"; //$NON-NLS-1$
+	    rt_url = Strings.ALPHA_URL_PART;
 	} else if (code == ProductData.CODE_BETA) {
 	    if (beta > 0) {
-		rt_vl = "-beta" + beta;
-		rt_vs = "b" + beta;
+		rt_vl = Strings.loadDialog(DialogString.BETA_VERSION) + beta;
+		rt_vs = Strings.VERSION_BETA_INDICATOR + beta;
 	    } else {
-		rt_vl = "-beta";
-		rt_vs = "b";
+		rt_vl = Strings.loadDialog(DialogString.BETA_VERSION);
+		rt_vs = Strings.VERSION_BETA_INDICATOR;
 	    }
-	    rt_url = "beta_"; //$NON-NLS-1$
+	    rt_url = Strings.BETA_URL_PART;
 	} else {
-	    rt_url = "stable_"; //$NON-NLS-1$
-	    rt_vl = "";
-	    rt_vs = "";
+	    rt_url = Strings.STABLE_URL_PART;
+	    rt_vl = Strings.EMPTY;
+	    rt_vs = Strings.EMPTY;
 	}
-	this.versionString = major + "." + minor + "." + bugfix + rt_vl;
-	this.shortVersionString = major + "." + minor + "." + bugfix + rt_vs;
-	final var updatetxt = "version.txt"; //$NON-NLS-1$
+	this.versionString = major + Strings.VERSION_SEPARATOR + minor + Strings.VERSION_SEPARATOR + bugfix + rt_vl;
+	this.shortVersionString = major + Strings.VERSION_SEPARATOR + minor + Strings.VERSION_SEPARATOR + bugfix
+		+ rt_vs;
+	final var updatetxt = Strings.VERSION_FILE;
 	this.updateURL = new URI(update + rt_url + updatetxt).toURL();
 	this.newVersionURL = new URI(newVersion).toURL();
 	this.majorVersion = major;

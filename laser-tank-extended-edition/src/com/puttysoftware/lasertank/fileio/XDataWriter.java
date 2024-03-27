@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+import com.puttysoftware.lasertank.locale.Strings;
+
 public class XDataWriter implements DataIOWriter {
     private static final String END_OF_LINE = "\r\n"; //$NON-NLS-1$
 
@@ -22,7 +24,7 @@ public class XDataWriter implements DataIOWriter {
 	r = r.replace(">", "&gt;"); //$NON-NLS-1$ //$NON-NLS-2$
 	r = r.replace("\"", "&quot;"); //$NON-NLS-1$ //$NON-NLS-2$
 	r = r.replace("\'", "&apos;"); //$NON-NLS-1$ //$NON-NLS-2$
-	r = r.replace("\r", ""); //$NON-NLS-1$ //$NON-NLS-2$
+	r = r.replace("\r", Strings.EMPTY); //$NON-NLS-1$
 	return r.replace("\n", "&#xA;"); //$NON-NLS-1$ //$NON-NLS-2$
     }
 
@@ -109,7 +111,7 @@ public class XDataWriter implements DataIOWriter {
 
     public void writeClosingGroup(final String groupName) throws DataIOException {
 	try {
-	    this.fileIO.write("</" + XDataWriter.replaceSpecialCharacters(groupName) + ">" + XDataWriter.END_OF_LINE);
+	    this.fileIO.write("</" + XDataWriter.replaceSpecialCharacters(groupName) + ">" + XDataWriter.END_OF_LINE); //$NON-NLS-1$ //$NON-NLS-2$
 	} catch (final IOException e) {
 	    throw new DataIOException(e);
 	}
@@ -158,7 +160,7 @@ public class XDataWriter implements DataIOWriter {
 
     public void writeOpeningGroup(final String groupName) throws DataIOException {
 	try {
-	    this.fileIO.write("<" + XDataWriter.replaceSpecialCharacters(groupName) + ">" + XDataWriter.END_OF_LINE);
+	    this.fileIO.write("<" + XDataWriter.replaceSpecialCharacters(groupName) + ">" + XDataWriter.END_OF_LINE); //$NON-NLS-1$ //$NON-NLS-2$
 	} catch (final IOException e) {
 	    throw new DataIOException(e);
 	}

@@ -294,7 +294,7 @@ public final class MainWindow {
     }
 
     public void setDirty(final boolean newDirty) {
-	this.frame.getRootPane().putClientProperty("Window.documentModified", Boolean.valueOf(newDirty));
+	this.frame.getRootPane().putClientProperty("Window.documentModified", Boolean.valueOf(newDirty)); //$NON-NLS-1$
     }
 
     public void setEnabled(final boolean value) {

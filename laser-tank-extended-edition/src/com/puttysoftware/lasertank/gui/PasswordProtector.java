@@ -19,6 +19,7 @@ import javax.swing.JPasswordField;
 
 import com.puttysoftware.lasertank.fileio.XDataReader;
 import com.puttysoftware.lasertank.fileio.XDataWriter;
+import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.Hash;
 import com.puttysoftware.lasertank.utility.HexBytes;
 
@@ -49,7 +50,7 @@ public class PasswordProtector {
 	try {
 	    check = this.passwordRead.readString();
 	} catch (final IOException ioe) {
-	    check = ""; //$NON-NLS-1$
+	    check = Strings.EMPTY;
 	}
 	this.success = hashedInput.equals(check);
     }
@@ -120,7 +121,7 @@ public class PasswordProtector {
 	    }
 	    return HexBytes.hexBytes(hashed);
 	} catch (final UnsupportedEncodingException uee) {
-	    return ""; //$NON-NLS-1$
+	    return Strings.EMPTY;
 	}
     }
 

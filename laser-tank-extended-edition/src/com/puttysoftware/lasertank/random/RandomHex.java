@@ -15,7 +15,7 @@ public class RandomHex {
      * @return the hex string
      */
     public static String next2() {
-	return String.format("%02x", RandomnessSource.nextBoundedInt(Byte.MAX_VALUE + 1));
+	return String.format("%02x", RandomnessSource.nextBoundedInt(Byte.MAX_VALUE + 1)); //$NON-NLS-1$
     }
 
     /**
@@ -24,7 +24,7 @@ public class RandomHex {
      * @return the hex string
      */
     public static String next4() {
-	return String.format("%04x", RandomnessSource.nextBoundedInt(Short.MAX_VALUE + 1));
+	return String.format("%04x", RandomnessSource.nextBoundedInt(Short.MAX_VALUE + 1)); //$NON-NLS-1$
     }
 
     /**
@@ -33,7 +33,7 @@ public class RandomHex {
      * @return the hex string
      */
     public static String next8() {
-	return String.format("%08x", RandomnessSource.nextInt());
+	return String.format("%08x", RandomnessSource.nextInt()); //$NON-NLS-1$
     }
 
     /**

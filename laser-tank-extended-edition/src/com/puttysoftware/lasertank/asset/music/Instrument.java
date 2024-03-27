@@ -5,8 +5,10 @@
  */
 package com.puttysoftware.lasertank.asset.music;
 
+import com.puttysoftware.lasertank.locale.Strings;
+
 class Instrument {
-    public String name = ""; //$NON-NLS-1$
+    public String name = Strings.EMPTY;
     public int numSamples = 1;
     public int vibratoType = 0, vibratoSweep = 0, vibratoDepth = 0, vibratoRate = 0;
     public int volumeFadeOut = 0;

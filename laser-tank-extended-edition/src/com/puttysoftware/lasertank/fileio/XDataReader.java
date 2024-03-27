@@ -12,6 +12,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.puttysoftware.lasertank.locale.ErrorString;
+import com.puttysoftware.lasertank.locale.Strings;
+
 public class XDataReader implements DataIOReader {
     private static String replaceSpecialCharacters(final String s) {
 	var r = s;
@@ -28,8 +31,7 @@ public class XDataReader implements DataIOReader {
 	final var loc0 = line.indexOf('>') + 1;
 	final var loc2 = line.indexOf('<', loc0);
 	if (loc0 == -1 || loc2 == -1) {
-	    throw new DataIOException("Unexpected string found: " //$NON-NLS-1$
-		    + line + "!"); //$NON-NLS-1$
+	    throw new DataIOException(Strings.loadError(ErrorString.UNEXPECTED_STRING, line));
 	}
 	split[0] = line.substring(0, loc0);
 	split[1] = line.substring(loc0, loc2);
@@ -39,15 +41,13 @@ public class XDataReader implements DataIOReader {
 
     private static void validateClosingTag(final String tag, final String tagType) throws DataIOException {
 	if (!("</" + tagType + ">").equals(tag)) { //$NON-NLS-1$ //$NON-NLS-2$
-	    throw new DataIOException("Expected closing tag of </" //$NON-NLS-1$
-		    + tagType + ">, found " + tag + "!"); //$NON-NLS-1$ //$NON-NLS-2$
+	    throw new DataIOException(Strings.loadError(ErrorString.UNEXPECTED_CLOSING_TAG, tagType, tag));
 	}
     }
 
     private static void validateOpeningTag(final String tag, final String tagType) throws DataIOException {
 	if (!("<" + tagType + ">").equals(tag)) { //$NON-NLS-1$ //$NON-NLS-2$
-	    throw new DataIOException("Expected opening tag of <" //$NON-NLS-1$
-		    + tagType + ">, found " + tag + "!"); //$NON-NLS-1$ //$NON-NLS-2$
+	    throw new DataIOException(Strings.loadError(ErrorString.UNEXPECTED_OPENING_TAG, tagType, tag));
 	}
     }
 
@@ -83,7 +83,7 @@ public class XDataReader implements DataIOReader {
 
     @Override
     public boolean atEOF() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -115,7 +115,7 @@ public class XDataReader implements DataIOReader {
 
     @Override
     public boolean readBoolean() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -127,12 +127,12 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.BOOLEAN_TAG);
 	    return Boolean.parseBoolean(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     @Override
     public byte readByte() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -144,7 +144,7 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.BYTE_TAG);
 	    return Byte.parseByte(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     @Override
@@ -161,34 +161,33 @@ public class XDataReader implements DataIOReader {
     }
 
     private void readClosingDocTag() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
 	    throw new DataIOException(e);
 	}
 	if (line != null && !("</" + this.docTag + ">").equals(line)) { //$NON-NLS-1$ //$NON-NLS-2$
-	    throw new DataIOException("Closing doc tag does not match: expected </" + this.docTag //$NON-NLS-1$
-		    + ">, found " + line + "!"); //$NON-NLS-1$ //$NON-NLS-2$
+	    throw new DataIOException(Strings.loadError(ErrorString.UNEXPECTED_END_OF_DOCUMENT_TAG, this.docTag, line));
 	}
     }
 
     public void readClosingGroup(final String groupName) throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
 	    throw new DataIOException(e);
 	}
 	if (line == null) {
-	    throw new DataIOException("End of file!");
+	    throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
 	}
 	XDataReader.validateClosingTag(XDataReader.replaceSpecialCharacters(line), groupName);
     }
 
     @Override
     public double readDouble() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -200,12 +199,12 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.DOUBLE_TAG);
 	    return Double.parseDouble(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     @Override
     public int readInt() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -217,12 +216,12 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.INT_TAG);
 	    return Integer.parseInt(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     @Override
     public long readLong() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -234,11 +233,11 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.LONG_TAG);
 	    return Long.parseLong(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     private void readOpeningDocTag() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -251,21 +250,21 @@ public class XDataReader implements DataIOReader {
     }
 
     public void readOpeningGroup(final String groupName) throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
 	    throw new DataIOException(e);
 	}
 	if (line == null) {
-	    throw new DataIOException("End of file!");
+	    throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
 	}
 	XDataReader.validateOpeningTag(XDataReader.replaceSpecialCharacters(line), groupName);
     }
 
     @Override
     public String readString() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {
@@ -277,7 +276,7 @@ public class XDataReader implements DataIOReader {
 	    XDataReader.validateClosingTag(split[2], XDataConstants.STRING_TAG);
 	    return XDataReader.replaceSpecialCharacters(split[1]);
 	}
-	throw new DataIOException("End of file!"); //$NON-NLS-1$
+	throw new DataIOException(Strings.loadError(ErrorString.END_OF_FILE));
     }
 
     @Override
@@ -312,7 +311,7 @@ public class XDataReader implements DataIOReader {
     }
 
     private void readXHeader() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {

@@ -9,8 +9,12 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.util.concurrent.ExecutionException;
 
+import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
 import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
+import com.puttysoftware.lasertank.locale.DialogString;
+import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public class CommonDialogs {
@@ -168,13 +172,16 @@ public class CommonDialogs {
     public static File showFileOpenDialog(final File dir, final FilenameFilter filter, final String prompt) {
 	final var choices = dir.list(filter);
 	if (choices == null || choices.length == 0) {
-	    CommonDialogs.showErrorDialog("No Files To Open!", "Open");
+	    Sounds.play(Sound.WARNING);
+	    CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.EMPTY_FILE_LIST),
+		    Strings.loadDialog(DialogString.LOAD));
 	} else {
 	    final var ext = CommonDialogs.getExtension(choices[0]);
 	    for (var z = 0; z < choices.length; z++) {
 		choices[z] = CommonDialogs.getNameWithoutExtension(choices[z]);
 	    }
-	    final var value = CommonDialogs.showInputDialog(prompt, "Open", choices, choices[0]);
+	    final var value = CommonDialogs.showInputDialog(prompt, Strings.loadDialog(DialogString.LOAD), choices,
+		    choices[0]);
 	    if (value != null) {
 		return new File(dir.getAbsolutePath() + File.separator + value + ext);
 	    }
@@ -183,7 +190,7 @@ public class CommonDialogs {
     }
 
     public static File showFileSaveDialog(final File dir, final String prompt) {
-	final var value = CommonDialogs.showTextInputDialog(prompt, "Save");
+	final var value = CommonDialogs.showTextInputDialog(prompt, Strings.loadDialog(DialogString.SAVE));
 	if (value != null) {
 	    return new File(dir.getAbsolutePath() + File.separator + value);
 	}

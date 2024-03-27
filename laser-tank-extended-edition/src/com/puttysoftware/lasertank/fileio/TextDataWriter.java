@@ -13,7 +13,7 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
 public class TextDataWriter implements DataIOWriter {
-    private static final String END_OF_LINE = "\n";
+    private static final String END_OF_LINE = "\n"; //$NON-NLS-1$
     // Fields
     private final BufferedWriter fileIO;
     private final File file;

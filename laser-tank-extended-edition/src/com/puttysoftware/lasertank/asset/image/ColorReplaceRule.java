@@ -8,6 +8,9 @@ package com.puttysoftware.lasertank.asset.image;
 import java.awt.Color;
 import java.util.Objects;
 
+import com.puttysoftware.lasertank.locale.ErrorString;
+import com.puttysoftware.lasertank.locale.Strings;
+
 final class ColorReplaceRule {
     // Fields
     private final Color findColor;
@@ -22,7 +25,7 @@ final class ColorReplaceRule {
     // Methods
     public BufferedImageIcon apply(final BufferedImageIcon input) {
 	if (input == null) {
-	    throw new IllegalArgumentException("input == NULL!");
+	    throw new IllegalArgumentException(Strings.loadError(ErrorString.NULL_INPUT));
 	}
 	final var width = input.getWidth();
 	final var height = input.getHeight();

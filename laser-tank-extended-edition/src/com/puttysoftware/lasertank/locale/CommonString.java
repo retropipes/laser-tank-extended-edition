@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.locale;
 
 public enum CommonString {
     LOGO_VERSION_PREFIX("V"), //$NON-NLS-1$
-    EMPTY(""), //$NON-NLS-1$
+    EMPTY(Strings.EMPTY),
     SPACE(" "), //$NON-NLS-1$
     UNDERSCORE("_"), //$NON-NLS-1$
     NOTL_PERIOD("."), //$NON-NLS-1$

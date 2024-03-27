@@ -21,6 +21,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
+import com.puttysoftware.lasertank.locale.Strings;
 
 public final class AnonymousPicturePicker {
     private class EventHandler implements ActionListener {
@@ -176,8 +177,7 @@ public final class AnonymousPicturePicker {
 	this.radioJPanel.setLayout(new GridLayout(this.choices.length, 1));
 	this.choiceArray = new JLabel[this.choices.length];
 	for (var x = 0; x < this.choices.length; x++) {
-	    this.choiceArray[x] = new JLabel("", this.choices[x], //$NON-NLS-1$
-		    SwingConstants.LEFT);
+	    this.choiceArray[x] = new JLabel(Strings.EMPTY, this.choices[x], SwingConstants.LEFT);
 	    this.choiceArray[x].setOpaque(true);
 	    this.choiceArray[x].setBackground(this.savedCHColor);
 	    this.choiceJPanel.add(this.choiceArray[x]);

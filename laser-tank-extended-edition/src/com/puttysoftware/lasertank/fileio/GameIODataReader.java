@@ -16,7 +16,7 @@ public class GameIODataReader implements DataIOReader {
 
     // Constructors
     public GameIODataReader(final String filename) throws IOException {
-	this.fileIO = new RandomAccessFile(filename, "r");
+	this.fileIO = new RandomAccessFile(filename, "r"); //$NON-NLS-1$
 	this.file = new File(filename);
     }
 

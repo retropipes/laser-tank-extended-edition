@@ -9,6 +9,9 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Objects;
 
+import com.puttysoftware.lasertank.locale.ErrorString;
+import com.puttysoftware.lasertank.locale.Strings;
+
 public final class ColorReplaceRules {
     // Fields
     private final ArrayList<ColorReplaceRule> rules;
@@ -26,7 +29,7 @@ public final class ColorReplaceRules {
 
     public BufferedImageIcon applyAll(final BufferedImageIcon input) {
 	if (input == null) {
-	    throw new IllegalArgumentException("input == NULL!");
+	    throw new IllegalArgumentException(Strings.loadError(ErrorString.NULL_INPUT));
 	}
 	var result = input;
 	for (final ColorReplaceRule rule : this.rules) {

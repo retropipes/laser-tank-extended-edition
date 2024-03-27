@@ -33,7 +33,7 @@ public class GUIPrinter {
 	    final var bi = new BufferedImage(d.width, d.height, BufferedImage.TYPE_INT_ARGB);
 	    board.paintComponents(bi.createGraphics());
 	    final var baos = new ByteArrayOutputStream();
-	    ImageIO.write(bi, "PNG", baos);
+	    ImageIO.write(bi, "PNG", baos); //$NON-NLS-1$
 	    final var data = baos.toByteArray();
 	    final var bais = new ByteArrayInputStream(data);
 	    final PrintRequestAttributeSet pras = new HashPrintRequestAttributeSet();

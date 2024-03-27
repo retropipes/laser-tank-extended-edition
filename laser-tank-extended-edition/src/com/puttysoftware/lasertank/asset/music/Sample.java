@@ -5,6 +5,8 @@
  */
 package com.puttysoftware.lasertank.asset.music;
 
+import com.puttysoftware.lasertank.locale.Strings;
+
 class Sample {
     public static final int FP_SHIFT = 15, FP_ONE = 1 << Sample.FP_SHIFT, FP_MASK = Sample.FP_ONE - 1;
     public static final int C2_PAL = 8287, C2_NTSC = 8363;
@@ -30,7 +32,7 @@ class Sample {
 	    -707, 257, -74, 15, -1, 0, 2, -18, 78, -248, 648, -1549, 4259, 31887, -3167, 1246, -516, 190, -56, 12, -1,
 	    0, 1, -8, 37, -118, 312, -747, 2006, 32546, -1731, 671, -279, 103, -31, 7, -1, 0, 0, 0, 0, 0, 0, 0, 0,
 	    32767, 0, 0, 0, 0, 0, 0, 0 };
-    public String name = ""; //$NON-NLS-1$
+    public String name = Strings.EMPTY;
     public int volume = 0, panning = -1, relNote = 0, fineTune = 0, c2Rate = Sample.C2_NTSC;
     private int loopStart = 0, loopLength = 0;
     private short[] sampleData;

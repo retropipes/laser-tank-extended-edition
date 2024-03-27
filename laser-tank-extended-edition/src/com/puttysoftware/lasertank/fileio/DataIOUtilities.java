@@ -149,7 +149,7 @@ public class DataIOUtilities {
 	    public int numberOfColorsUsed;
 
 	    public DIBHeaderBitmapInfo() {
-		super("BitmapInfo", 40);
+		super("BitmapInfo", 40); //$NON-NLS-1$
 	    }
 
 	    public DIBHeaderBitmapInfo(final int newSizeInBytes, final Coords newImageSizeInPixels,
@@ -209,13 +209,13 @@ public class DataIOUtilities {
 
 	    @Override
 	    public String toString() {
-		return "<DIBHeader " + "size='" + this.sizeInBytes + "' " + "imageSizeInPixels='"
-			+ this.imageSizeInPixels.x + "," + this.imageSizeInPixels.y + "' " + "planes='" + this.planes
-			+ "' " + "bitsPerPixel='" + this.bitsPerPixel + "' " + "compression='" + this.compression + "' "
-			+ "imageSizeInBytes='" + this.imageSizeInBytes + "' " + "pixelsPerMeter='"
-			+ this.pixelsPerMeter.x + "," + this.pixelsPerMeter.y + "' " + "numberOfColorsInPalette='"
-			+ this.numberOfColorsInPalette + "' " + "numberOfColorsUsed='" + this.numberOfColorsUsed + "' "
-			+ "/>";
+		return "<DIBHeader " + "size='" + this.sizeInBytes + "' " + "imageSizeInPixels='" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$
+			+ this.imageSizeInPixels.x + "," + this.imageSizeInPixels.y + "' " + "planes='" + this.planes //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			+ "' " + "bitsPerPixel='" + this.bitsPerPixel + "' " + "compression='" + this.compression + "' " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			+ "imageSizeInBytes='" + this.imageSizeInBytes + "' " + "pixelsPerMeter='" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			+ this.pixelsPerMeter.x + "," + this.pixelsPerMeter.y + "' " + "numberOfColorsInPalette='" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			+ this.numberOfColorsInPalette + "' " + "numberOfColorsUsed='" + this.numberOfColorsUsed + "' " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+			+ "/>"; //$NON-NLS-1$
 	    }
 	}
 
@@ -254,8 +254,8 @@ public class DataIOUtilities {
 
 	    @Override
 	    public String toString() {
-		return "<FileHeader " + "signature='" + this.signature + "' " + "fileSize='" + this.fileSize + "' "
-			+ "fileOffsetToPixelArray ='" + this.fileOffsetToPixelArray + "' " + "/>";
+		return "<FileHeader " + "signature='" + this.signature + "' " + "fileSize='" + this.fileSize + "' " //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+			+ "fileOffsetToPixelArray ='" + this.fileOffsetToPixelArray + "' " + "/>"; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 	    }
 	}
 
@@ -315,7 +315,7 @@ public class DataIOUtilities {
     }
 
     public static String decodeWindowsStringData(final byte[] data) {
-	return Charset.forName("ISO-8859-1").decode(ByteBuffer.wrap(data)).toString();
+	return Charset.forName("ISO-8859-1").decode(ByteBuffer.wrap(data)).toString(); //$NON-NLS-1$
     }
 
     public static long readUnsignedInt(final DataInput data) throws IOException {

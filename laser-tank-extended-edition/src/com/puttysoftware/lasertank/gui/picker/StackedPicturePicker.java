@@ -18,6 +18,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
+import com.puttysoftware.lasertank.locale.Strings;
 
 public final class StackedPicturePicker {
     private class EventHandler implements ActionListener {
@@ -134,14 +135,14 @@ public final class StackedPicturePicker {
 	for (var x = 0; x < rows; x++) {
 	    for (var y = 0; y < this.stackCount; y++) {
 		if (picCounter < this.choices.length) {
-		    this.choiceArray[picCounter] = new JLabel("", //$NON-NLS-1$
-			    this.choices[picCounter], SwingConstants.LEFT);
+		    this.choiceArray[picCounter] = new JLabel(Strings.EMPTY, this.choices[picCounter],
+			    SwingConstants.LEFT);
 		    this.choiceArray[picCounter].setOpaque(true);
 		    this.choiceArray[picCounter].setBackground(this.savedCHColor);
 		    this.pickerJPanel.add(this.choiceArray[picCounter]);
 		} else if (rowCounter == rows - 2) {
 		    // Add spacer
-		    final var spacer = new JLabel("", //$NON-NLS-1$
+		    final var spacer = new JLabel(Strings.EMPTY,
 			    new BufferedImageIcon(this.imageSize, this.savedCHColor), SwingConstants.LEFT);
 		    this.pickerJPanel.add(spacer);
 		}
@@ -161,7 +162,7 @@ public final class StackedPicturePicker {
 		    this.pickerJPanel.add(this.radioButtons[radioCounter]);
 		} else if (rowCounter == rows - 1) {
 		    // Add spacer
-		    final var spacer = new JLabel("", //$NON-NLS-1$
+		    final var spacer = new JLabel(Strings.EMPTY,
 			    new BufferedImageIcon(this.imageSize, this.savedCHColor), SwingConstants.LEFT);
 		    this.pickerJPanel.add(spacer);
 		}

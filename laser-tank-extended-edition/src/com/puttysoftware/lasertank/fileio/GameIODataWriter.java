@@ -16,7 +16,7 @@ public class GameIODataWriter implements DataIOWriter {
 
     // Constructors
     public GameIODataWriter(final String filename) throws IOException {
-	this.raf = new RandomAccessFile(filename, "rwd");
+	this.raf = new RandomAccessFile(filename, "rwd"); //$NON-NLS-1$
 	this.file = new File(filename);
     }
 

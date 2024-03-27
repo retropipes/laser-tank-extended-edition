@@ -11,7 +11,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 public class DataIOFactory {
-    private static final String CUSTOM_XML = "customxml";
+    private static final String CUSTOM_XML = "customxml"; //$NON-NLS-1$
 
     public static DataIOReader createReader(final DataMode mode, final File file) throws IOException {
 	return switch (mode) {

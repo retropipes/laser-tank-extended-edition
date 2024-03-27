@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+import com.puttysoftware.lasertank.locale.Strings;
+
 public class TextDataReader implements DataIOReader {
     // Fields
     private final BufferedReader fileIO;
@@ -35,7 +37,7 @@ public class TextDataReader implements DataIOReader {
 
     @Override
     public boolean atEOF() throws DataIOException {
-	var line = "";
+	var line = Strings.EMPTY;
 	try {
 	    line = this.fileIO.readLine();
 	} catch (final IOException e) {

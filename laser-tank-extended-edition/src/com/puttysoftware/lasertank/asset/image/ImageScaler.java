@@ -17,11 +17,11 @@ class ImageScaler {
     // Methods
     private static void computeImageScale() {
 	if (!ImageScaler.SCALE_COMPUTED) {
-	    if (System.getProperty("os.name").startsWith("Mac OS X")) {
+	    if (System.getProperty("os.name").startsWith("Mac OS X")) { //$NON-NLS-1$ //$NON-NLS-2$
 		try {
 		    final var graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment()
 			    .getDefaultScreenDevice();
-		    final var field = graphicsDevice.getClass().getDeclaredField("scale");
+		    final var field = graphicsDevice.getClass().getDeclaredField("scale"); //$NON-NLS-1$
 		    if (field != null) {
 			field.setAccessible(true);
 			final var scale = field.get(graphicsDevice);

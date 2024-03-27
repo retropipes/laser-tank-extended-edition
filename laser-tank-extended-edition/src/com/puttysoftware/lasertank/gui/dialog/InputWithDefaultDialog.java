@@ -22,6 +22,7 @@ import javax.swing.JTextArea;
 
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
 import com.puttysoftware.lasertank.gui.MainWindow;
+import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 
@@ -93,7 +94,8 @@ class InputWithDefaultDialog {
 	    final String defaultButton) {
 	InputWithDefaultDialog.completer = new CompletableFuture<>();
 	Executors.newSingleThreadExecutor().submit(() -> {
-	    final String[] possibleValues = { "Yes", "No" };
+	    final String[] possibleValues = { Strings.loadDialog(DialogString.YES),
+		    Strings.loadDialog(DialogString.NO) };
 	    InputWithDefaultDialog.initializeDialog(text, title, icon, possibleValues, defaultButton);
 	});
 	return InputWithDefaultDialog.completer;
@@ -112,7 +114,8 @@ class InputWithDefaultDialog {
 	    final BufferedImageIcon icon, final String defaultButton) {
 	InputWithDefaultDialog.completer = new CompletableFuture<>();
 	Executors.newSingleThreadExecutor().submit(() -> {
-	    final String[] possibleValues = { "Yes", "No", Strings.loadError(ErrorString.CANCEL_BUTTON) };
+	    final String[] possibleValues = { Strings.loadDialog(DialogString.YES), Strings.loadDialog(DialogString.NO),
+		    Strings.loadError(ErrorString.CANCEL_BUTTON) };
 	    InputWithDefaultDialog.initializeDialog(text, title, icon, possibleValues, defaultButton);
 	});
 	return InputWithDefaultDialog.completer;

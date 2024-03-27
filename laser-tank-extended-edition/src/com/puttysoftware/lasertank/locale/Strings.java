@@ -23,7 +23,14 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.settings.Settings;
 
 public class Strings {
-    public static final String EMPTY = "";
+    public static final String EMPTY = ""; //$NON-NLS-1$
+    public static final String VERSION_SEPARATOR = "."; //$NON-NLS-1$
+    public static final String VERSION_ALPHA_INDICATOR = "a"; //$NON-NLS-1$
+    public static final String VERSION_BETA_INDICATOR = "b"; //$NON-NLS-1$
+    public static final String ALPHA_URL_PART = "alpha_"; //$NON-NLS-1$
+    public static final String BETA_URL_PART = "beta_"; //$NON-NLS-1$
+    public static final String STABLE_URL_PART = "stable_"; //$NON-NLS-1$
+    public static final String VERSION_FILE = "version.txt"; //$NON-NLS-1$
     private static final String REPLACE_PREFIX = "$"; //$NON-NLS-1$
     private static final String LANGUAGES_FILE_NAME = "languages.list"; //$NON-NLS-1$
     private static final String LOAD_PATH = "/locale/"; //$NON-NLS-1$
@@ -65,11 +72,11 @@ public class Strings {
     }
 
     public static String loadDirection(final Direction item) {
-	return ResourceBundle.getBundle("locale.engine.direction").getString(Integer.toString(item.ordinal()));
+	return ResourceBundle.getBundle("locale.engine.direction").getString(Integer.toString(item.ordinal())); //$NON-NLS-1$
     }
 
     public static String loadDirectionSuffix(final Direction item) {
-	return ResourceBundle.getBundle("locale.engine.dirsuffix").getString(Integer.toString(item.ordinal()));
+	return ResourceBundle.getBundle("locale.engine.dirsuffix").getString(Integer.toString(item.ordinal())); //$NON-NLS-1$
     }
 
     public static String loadEditor(final EditorString str, final Object... values) {
@@ -198,7 +205,7 @@ public class Strings {
     public static String subst(final String orig, final String... values) {
 	var result = orig;
 	for (var s = 0; s < values.length; s++) {
-	    result = result.replace("%" + s, values[s]);
+	    result = result.replace("%" + s, values[s]); //$NON-NLS-1$
 	}
 	return result;
     }
