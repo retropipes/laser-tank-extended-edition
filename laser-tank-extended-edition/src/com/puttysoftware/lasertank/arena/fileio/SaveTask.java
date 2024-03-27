@@ -11,16 +11,16 @@ import java.io.FileNotFoundException;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.datatype.FileExtensions;
-import com.puttysoftware.lasertank.engine.fileio.utility.ZipUtilities;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.fileio.utility.ZipUtilities;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.MessageString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
+import com.puttysoftware.lasertank.utility.FileExtensions;
 
-public class SaveTask extends Thread {
+public class SaveTask implements Runnable {
     private static boolean hasExtension(final String s) {
 	String ext = null;
 	final var i = s.lastIndexOf('.');
@@ -43,7 +43,6 @@ public class SaveTask extends Thread {
 	this.filename = file;
 	this.isSavedGame = saved;
 	this.saveProtected = protect;
-	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.NEW_AG_SAVER_NAME));
     }
 
     @Override
@@ -98,6 +97,6 @@ public class SaveTask extends Thread {
 	} else {
 	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.ARENA_SAVED));
 	}
-	ArenaManager.get().handleDeferredSuccess(success);
+	ArenaManager.get().handlePostFileLoad(success);
     }
 }

@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.settings.Settings;
 
-class ReplayTask extends Thread {
+class ReplayTask implements Runnable {
     // Constructors
     public ReplayTask() {
 	// Do nothing

@@ -7,7 +7,7 @@ package com.puttysoftware.lasertank.cheat;
 
 import java.util.ResourceBundle;
 
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;

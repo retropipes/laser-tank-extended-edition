@@ -6,8 +6,8 @@
 package com.puttysoftware.lasertank.game;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.engine.storage.NumberStorage;
 import com.puttysoftware.lasertank.helper.Players;
+import com.puttysoftware.lasertank.storage.NumberStorage;
 
 final class PlayerLocationManager {
     // Fields

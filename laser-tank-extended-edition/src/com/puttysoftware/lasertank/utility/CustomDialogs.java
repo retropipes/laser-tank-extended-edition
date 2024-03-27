@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.utility;
 
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
 

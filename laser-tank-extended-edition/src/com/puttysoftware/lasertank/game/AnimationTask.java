@@ -9,18 +9,10 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaLocks;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.helper.LayerHelper;
-import com.puttysoftware.lasertank.locale.global.GlobalStrings;
-import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
-class AnimationTask extends Thread {
+class AnimationTask implements Runnable {
     // Fields
     private boolean stop = false;
-
-    // Constructors
-    public AnimationTask() {
-	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.ANIMATOR_NAME));
-	this.setPriority(Thread.MIN_PRIORITY);
-    }
 
     @Override
     public void run() {

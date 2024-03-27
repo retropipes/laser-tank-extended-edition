@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.scoring;
 
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;

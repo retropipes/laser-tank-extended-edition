@@ -13,4 +13,8 @@ public class GameColorHelper {
     public static GameColor fromOrdinal(final int value) {
 	return GameColor.values()[value];
     }
+
+    public static GameColor fromStringValue(final String value) {
+	return GameColor.values()[Integer.parseInt(value)];
+    }
 }

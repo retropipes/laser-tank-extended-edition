@@ -15,14 +15,14 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.puttysoftware.lasertank.engine.gui.Screen;
+import com.puttysoftware.lasertank.gui.Screen;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
-public class AboutDialog extends Screen implements AboutHandler {
+class AboutDialog extends Screen implements AboutHandler {
     // Fields
     private final String ver;
 

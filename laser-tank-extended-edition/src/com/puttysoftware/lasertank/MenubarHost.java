@@ -20,7 +20,7 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 
-public class MenubarHost {
+class MenubarHost {
     // Fields
     private final JMenuBar menuBar;
     private JMenuItem fileNew, fileOpen, fileOpenDefault, fileClose, fileSave, fileSaveAs, fileSaveAsProtected,
@@ -449,7 +449,7 @@ public class MenubarHost {
 	this.editPasteLevel.setEnabled(false);
     }
 
-    public final void disableRecording() {
+    final void disableRecording() {
 	this.gameRecordSolution.setSelected(false);
     }
 
@@ -551,7 +551,7 @@ public class MenubarHost {
 	this.editorUpOneLevel.setEnabled(true);
     }
 
-    public final JMenuBar getMenuBar() {
+    final JMenuBar getMenuBar() {
 	return this.menuBar;
     }
 
@@ -582,7 +582,7 @@ public class MenubarHost {
     }
 
     // Methods
-    public final void updateMenuItemState() {
+    final void updateMenuItemState() {
 	try {
 	    final var editor = Editor.get();
 	    if (ArenaManager.get().getLoaded()) {

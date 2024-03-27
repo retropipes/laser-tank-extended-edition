@@ -9,8 +9,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.puttysoftware.lasertank.engine.fileio.GameIODataReader;
-import com.puttysoftware.lasertank.engine.fileio.GameIODataWriter;
+import com.puttysoftware.lasertank.fileio.GameIODataReader;
+import com.puttysoftware.lasertank.fileio.GameIODataWriter;
 
 public class LaserTankSortedScoreTable extends LaserTankScoreTable {
     public static LaserTankSortedScoreTable load(final GameIODataReader gio) throws IOException {

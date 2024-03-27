@@ -13,20 +13,18 @@ import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaLocks;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
-import com.puttysoftware.lasertank.locale.global.GlobalStrings;
-import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.AlreadyDeadException;
 
-final class MLOTask extends Thread {
+final class MLOTask implements Runnable {
     static void activateAutomaticMovement() {
 	Game.get().scheduleAutoMove();
     }
@@ -123,8 +121,6 @@ final class MLOTask extends Thread {
 
     // Constructors
     public MLOTask() {
-	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.MLOH_NAME));
-	this.setPriority(Thread.MIN_PRIORITY);
 	this.abort = false;
 	this.laserTrackers = new ArrayList<>();
 	this.objectTrackers = new ArrayList<>();

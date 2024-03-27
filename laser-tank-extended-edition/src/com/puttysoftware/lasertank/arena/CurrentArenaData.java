@@ -8,11 +8,10 @@ package com.puttysoftware.lasertank.arena;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.engine.storage.FlagStorage;
+import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.asset.Sounds;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
@@ -27,6 +26,7 @@ import com.puttysoftware.lasertank.index.RangeType;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.storage.FlagStorage;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 
 final class CurrentArenaData extends ArenaData {
@@ -674,7 +674,8 @@ final class CurrentArenaData extends ArenaData {
 
     @Override
     public int[] findPlayer(final Arena arena, final int number) {
-	final var t = new ArenaObject(GameObjectID.TANK, number);
+	final var t = new ArenaObject(GameObjectID.TANK);
+	t.setIndex(number);
 	int y, x, z;
 	for (x = 0; x < this.getColumns(); x++) {
 	    for (y = 0; y < this.getRows(); y++) {

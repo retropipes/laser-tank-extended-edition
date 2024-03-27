@@ -13,15 +13,11 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.fileio.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.fileio.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.datatype.FileExtensions;
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.engine.fileio.XDataReader;
-import com.puttysoftware.lasertank.engine.fileio.XDataWriter;
-import com.puttysoftware.lasertank.engine.fileio.utility.FileUtilities;
-import com.puttysoftware.lasertank.engine.internal.PrivateErrorString;
-import com.puttysoftware.lasertank.engine.internal.PrivateStrings;
-import com.puttysoftware.lasertank.engine.locale.LTEStrings;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
+import com.puttysoftware.lasertank.fileio.XDataReader;
+import com.puttysoftware.lasertank.fileio.XDataWriter;
+import com.puttysoftware.lasertank.fileio.utility.FileUtilities;
 import com.puttysoftware.lasertank.helper.DifficultyHelper;
 import com.puttysoftware.lasertank.helper.GameFormatHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -35,6 +31,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.utility.FileExtensions;
 import com.puttysoftware.lasertank.utility.IDGenerator;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
@@ -167,17 +164,17 @@ class CurrentArena extends Arena {
 
     @Override
     public void disableHorizontalWraparound() {
-	this.levelInfoData.get(this.activeLevel).disableHorizontalWraparound();
+	this.levelInfoData.get(this.activeLevel).disableHorizontalWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void disableThirdDimensionWraparound() {
-	this.levelInfoData.get(this.activeLevel).disableThirdDimensionWraparound();
+	this.levelInfoData.get(this.activeLevel).disableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void disableVerticalWraparound() {
-	this.levelInfoData.get(this.activeLevel).disableVerticalWraparound();
+	this.levelInfoData.get(this.activeLevel).disableVerticalWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -192,22 +189,22 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean doesPlayerExist(final int pi) {
-	return this.levelInfoData.get(this.activeLevel).doesPlayerExist(pi);
+	return this.levelInfoData.get(this.activeLevel).doesPlayerExist(pi, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void enableHorizontalWraparound() {
-	this.levelInfoData.get(this.activeLevel).enableHorizontalWraparound();
+	this.levelInfoData.get(this.activeLevel).enableHorizontalWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void enableThirdDimensionWraparound() {
-	this.levelInfoData.get(this.activeLevel).enableThirdDimensionWraparound();
+	this.levelInfoData.get(this.activeLevel).enableThirdDimensionWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void enableVerticalWraparound() {
-	this.levelInfoData.get(this.activeLevel).enableVerticalWraparound();
+	this.levelInfoData.get(this.activeLevel).enableVerticalWraparound(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -305,7 +302,7 @@ class CurrentArena extends Arena {
 
     @Override
     public String getAuthor() {
-	return this.levelInfoData.get(this.activeLevel).getAuthor();
+	return this.levelInfoData.get(this.activeLevel).getAuthor(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -325,7 +322,7 @@ class CurrentArena extends Arena {
 
     @Override
     public int getDifficulty() {
-	return this.levelInfoData.get(this.activeLevel).getDifficulty();
+	return this.levelInfoData.get(this.activeLevel).getDifficulty(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -335,7 +332,7 @@ class CurrentArena extends Arena {
 
     @Override
     public String getHint() {
-	return this.levelInfoData.get(this.activeLevel).getHint();
+	return this.levelInfoData.get(this.activeLevel).getHint(this.levelInfoData.get(this.activeLevel));
     }
 
     private File getLevelFile(final int level, final int era) {
@@ -382,7 +379,7 @@ class CurrentArena extends Arena {
 
     @Override
     public String getName() {
-	return this.levelInfoData.get(this.activeLevel).getName();
+	return this.levelInfoData.get(this.activeLevel).getName(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -392,17 +389,17 @@ class CurrentArena extends Arena {
 
     @Override
     public int getStartColumn(final int pi) {
-	return this.levelInfoData.get(this.activeLevel).getStartColumn(pi);
+	return this.levelInfoData.get(this.activeLevel).getStartColumn(pi, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public int getStartFloor(final int pi) {
-	return this.levelInfoData.get(this.activeLevel).getStartFloor(pi);
+	return this.levelInfoData.get(this.activeLevel).getStartFloor(pi, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public int getStartRow(final int pi) {
-	return this.levelInfoData.get(this.activeLevel).getStartRow(pi);
+	return this.levelInfoData.get(this.activeLevel).getStartRow(pi, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -437,7 +434,7 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean isHorizontalWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isHorizontalWraparoundEnabled();
+	return this.levelInfoData.get(this.activeLevel).isHorizontalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -452,7 +449,7 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean isMoveShootAllowedThisLevel() {
-	return this.levelInfoData.get(this.activeLevel).isMoveShootAllowed();
+	return this.levelInfoData.get(this.activeLevel).isMoveShootAllowed(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -462,12 +459,12 @@ class CurrentArena extends Arena {
 
     @Override
     public boolean isThirdDimensionWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isThirdDimensionWraparoundEnabled();
+	return this.levelInfoData.get(this.activeLevel).isThirdDimensionWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public boolean isVerticalWraparoundEnabled() {
-	return this.levelInfoData.get(this.activeLevel).isVerticalWraparoundEnabled();
+	return this.levelInfoData.get(this.activeLevel).isVerticalWraparoundEnabled(this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -638,7 +635,7 @@ class CurrentArena extends Arena {
 
     @Override
     public void setAuthor(final String newAuthor) {
-	this.levelInfoData.get(this.activeLevel).setAuthor(newAuthor);
+	this.levelInfoData.get(this.activeLevel).setAuthor(newAuthor, this.levelInfoData.get(this.activeLevel));
 	this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
     }
 
@@ -659,7 +656,7 @@ class CurrentArena extends Arena {
 
     @Override
     public void setDifficulty(final int newDifficulty) {
-	this.levelInfoData.get(this.activeLevel).setDifficulty(newDifficulty);
+	this.levelInfoData.get(this.activeLevel).setDifficulty(newDifficulty, this.levelInfoData.get(this.activeLevel));
 	this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
     }
 
@@ -670,7 +667,7 @@ class CurrentArena extends Arena {
 
     @Override
     public void setHint(final String newHint) {
-	this.levelInfoData.get(this.activeLevel).setHint(newHint);
+	this.levelInfoData.get(this.activeLevel).setHint(newHint, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -680,7 +677,7 @@ class CurrentArena extends Arena {
 
     @Override
     public void setMoveShootAllowedThisLevel(final boolean value) {
-	this.levelInfoData.get(this.activeLevel).setMoveShootAllowed(value);
+	this.levelInfoData.get(this.activeLevel).setMoveShootAllowed(value, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -690,7 +687,7 @@ class CurrentArena extends Arena {
 
     @Override
     public void setName(final String newName) {
-	this.levelInfoData.get(this.activeLevel).setName(newName);
+	this.levelInfoData.get(this.activeLevel).setName(newName, this.levelInfoData.get(this.activeLevel));
 	this.levelInfoList.set(this.activeLevel, this.generateCurrentLevelInfo());
     }
 
@@ -701,17 +698,17 @@ class CurrentArena extends Arena {
 
     @Override
     public void setStartColumn(final int pi, final int newStartColumn) {
-	this.levelInfoData.get(this.activeLevel).setStartColumn(pi, newStartColumn);
+	this.levelInfoData.get(this.activeLevel).setStartColumn(pi, newStartColumn, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void setStartFloor(final int pi, final int newStartFloor) {
-	this.levelInfoData.get(this.activeLevel).setStartFloor(pi, newStartFloor);
+	this.levelInfoData.get(this.activeLevel).setStartFloor(pi, newStartFloor, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
     public void setStartRow(final int pi, final int newStartRow) {
-	this.levelInfoData.get(this.activeLevel).setStartRow(pi, newStartRow);
+	this.levelInfoData.get(this.activeLevel).setStartRow(pi, newStartRow, this.levelInfoData.get(this.activeLevel));
     }
 
     @Override
@@ -727,8 +724,8 @@ class CurrentArena extends Arena {
     @Override
     protected void switchInternal(final int level) {
 	if (level < 0 || level >= this.levelCount) {
-	    System.err.println(LTEStrings.subst(PrivateStrings.error(PrivateErrorString.SWITCH_TO_INVALID_LEVEL),
-		    Integer.toString(level)));
+	    System.err.println(
+		    Strings.subst(Strings.loadError(ErrorString.SWITCH_TO_INVALID_LEVEL), Integer.toString(level)));
 	    return;
 	}
 	if (this.activeLevel != level || this.arenaData == null) {
@@ -825,7 +822,7 @@ class CurrentArena extends Arena {
 	writer.writeString(this.musicFilename);
 	writer.writeBoolean(this.moveShootAllowed);
 	for (var l = 0; l < this.levelCount; l++) {
-	    this.levelInfoData.get(l).writeLevelInfo(writer);
+	    this.levelInfoData.get(l).writeLevelInfo(writer, this.levelInfoData.get(l));
 	    writer.writeString(this.levelInfoList.get(l));
 	}
 	if (this.suffixHandler != null) {

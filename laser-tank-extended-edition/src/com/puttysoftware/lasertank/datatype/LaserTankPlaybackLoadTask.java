@@ -13,17 +13,15 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.engine.gui.MainWindow;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.game.Game;
+import com.puttysoftware.lasertank.gui.MainWindow;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.locale.global.GlobalStrings;
-import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
-class LaserTankPlaybackLoadTask extends Thread {
+class LaserTankPlaybackLoadTask implements Runnable {
     // Fields
     private final File file;
     private final JPanel loadContent;
@@ -31,7 +29,6 @@ class LaserTankPlaybackLoadTask extends Thread {
     // Constructors
     LaserTankPlaybackLoadTask(final File theFile) {
 	this.file = theFile;
-	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.PLAYBACK_LOADER_NAME));
 	this.loadContent = new JPanel();
 	final var loadBar = new JProgressBar();
 	loadBar.setIndeterminate(true);

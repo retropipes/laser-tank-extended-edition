@@ -4,9 +4,11 @@ import java.util.ResourceBundle;
 
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameActionHelper;
+import com.puttysoftware.lasertank.helper.GameColorHelper;
 import com.puttysoftware.lasertank.helper.MaterialHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
+import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.locale.global.DataLoaderString;
@@ -68,6 +70,29 @@ class ArenaObjectDataLoader {
 	    return false;
 	}
 	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static GameColor[] loadColor(final GameObjectID objID) {
+	final var fallback = new GameColor[] { GameColor.NONE };
+	final var all = GameColor.values();
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.COLOR);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return fallback;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+	    return all;
+	}
+	if (!value.contains(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR))) {
+	    return new GameColor[] { GameColorHelper.fromStringValue(value) };
+	}
+	final var split = value.split(GlobalStrings.loadDataLoader(DataLoaderString.VALUE_SEPARATOR));
+	final var res = new GameColor[split.length];
+	for (var r = 0; r < res.length; r++) {
+	    res[r] = GameColorHelper.fromStringValue(split[r]);
+	}
+	return res;
     }
 
     public static Direction[] loadDirection(final GameObjectID objID) {
@@ -173,6 +198,15 @@ class ArenaObjectDataLoader {
 
     public static boolean loadJump(final GameObjectID objID) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.JUMP);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static boolean loadLaserPassthru(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LASER_PASSTHRU);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
 	    return false;
@@ -379,6 +413,15 @@ class ArenaObjectDataLoader {
 	return GameObjectID.values()[Integer.parseInt(value)];
     }
 
+    public static boolean loadPowerful(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.POWERFUL);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
     public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.REFLECT);
 	final var key = String.valueOf(objID);
@@ -437,6 +480,28 @@ class ArenaObjectDataLoader {
 	    return false;
 	}
 	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static boolean loadStunned(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.STUNNED);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static int loadTimer(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.TIMER);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return 0;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+	    return 0;
+	}
+	return Integer.parseInt(value);
     }
 
     public static boolean loadTrigger(final GameObjectID objID) {

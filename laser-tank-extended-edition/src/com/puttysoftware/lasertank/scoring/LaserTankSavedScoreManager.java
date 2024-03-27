@@ -8,8 +8,8 @@ package com.puttysoftware.lasertank.scoring;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.engine.fileio.GameIODataReader;
-import com.puttysoftware.lasertank.engine.fileio.GameIODataWriter;
+import com.puttysoftware.lasertank.fileio.GameIODataReader;
+import com.puttysoftware.lasertank.fileio.GameIODataWriter;
 
 public class LaserTankSavedScoreManager extends LaserTankScores {
     // Fields

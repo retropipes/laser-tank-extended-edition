@@ -15,12 +15,12 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.assets.Logos;
-import com.puttysoftware.lasertank.assets.Music;
-import com.puttysoftware.lasertank.assets.Musics;
-import com.puttysoftware.lasertank.engine.gui.MainWindow;
-import com.puttysoftware.lasertank.engine.gui.Screen;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.asset.Logos;
+import com.puttysoftware.lasertank.asset.Music;
+import com.puttysoftware.lasertank.asset.Musics;
+import com.puttysoftware.lasertank.gui.MainWindow;
+import com.puttysoftware.lasertank.gui.Screen;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
@@ -28,14 +28,14 @@ import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.CleanupTask;
 
-public class MainScreen extends Screen implements QuitHandler {
+class MainScreen extends Screen implements QuitHandler {
     // Fields
     private JLabel logoLabel;
     private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler(this);
     private final MainScreenFocusHandler fHandler = new MainScreenFocusHandler();
 
     // Constructors
-    public MainScreen() {
+    MainScreen() {
 	this.setMusic(Music.MAIN_SCREEN);
     }
 
@@ -68,7 +68,7 @@ public class MainScreen extends Screen implements QuitHandler {
     }
 
     // Methods
-    public boolean quitHandler() {
+    boolean quitHandler() {
 	final var mm = ArenaManager.get();
 	var saved = true;
 	var status = CommonDialogs.DEFAULT_OPTION;
@@ -90,7 +90,7 @@ public class MainScreen extends Screen implements QuitHandler {
 	return saved;
     }
 
-    public void showGUI() {
+    void showGUI() {
 	LaserTankEE.setOnMainScreen();
     }
 

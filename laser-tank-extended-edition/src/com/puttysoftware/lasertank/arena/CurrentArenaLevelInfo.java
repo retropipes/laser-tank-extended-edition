@@ -7,35 +7,34 @@ package com.puttysoftware.lasertank.arena;
 
 import java.io.IOException;
 
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
-import com.puttysoftware.lasertank.engine.storage.NumberStorage;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.helper.Players;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.GenericString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.storage.NumberStorage;
 
-final class CurrentArenaLevelInfo {
+final class CurrentArenaLevelInfo implements ArenaLevelInfo {
     public static CurrentArenaLevelInfo readLevelInfo(final DataIOReader reader) throws IOException {
-	final var li = new CurrentArenaLevelInfo();
-	int x, y;
-	for (y = 0; y < 3; y++) {
-	    for (x = 0; x < Players.COUNT; x++) {
-		li.playerData.setCell(reader.readInt(), y, x);
-	    }
-	}
-	li.horizontalWraparoundEnabled = reader.readBoolean();
-	li.verticalWraparoundEnabled = reader.readBoolean();
-	li.thirdDimensionWraparoundEnabled = reader.readBoolean();
-	li.name = reader.readString();
-	li.hint = reader.readString();
-	li.author = reader.readString();
-	li.difficulty = reader.readInt();
-	li.moveShootAllowed = reader.readBoolean();
-	return li;
+        final var li = new CurrentArenaLevelInfo();
+        int x, y;
+        for (y = 0; y < 3; y++) {
+            for (x = 0; x < Players.COUNT; x++) {
+        	li.playerData.setCell(reader.readInt(), y, x);
+            }
+        }
+        li.horizontalWraparoundEnabled = reader.readBoolean();
+        li.verticalWraparoundEnabled = reader.readBoolean();
+        li.thirdDimensionWraparoundEnabled = reader.readBoolean();
+        li.name = reader.readString();
+        li.hint = reader.readString();
+        li.author = reader.readString();
+        li.difficulty = reader.readInt();
+        li.moveShootAllowed = reader.readBoolean();
+        return li;
     }
 
-    // Properties
     private NumberStorage playerData;
     private boolean horizontalWraparoundEnabled;
     private boolean verticalWraparoundEnabled;
@@ -45,158 +44,185 @@ final class CurrentArenaLevelInfo {
     private String author;
     private int difficulty;
     private boolean moveShootAllowed;
-
+    
     // Constructors
     public CurrentArenaLevelInfo() {
+	super();
 	this.playerData = new NumberStorage(Players.DIMENSIONS, Players.COUNT);
 	this.playerData.fill(-1);
 	this.horizontalWraparoundEnabled = false;
 	this.verticalWraparoundEnabled = false;
+	this.thirdDimensionWraparoundEnabled = false;
 	this.name = Strings.loadGeneric(GenericString.UN_NAMED_LEVEL);
-	this.author = Strings.loadGeneric(GenericString.UNKNOWN_AUTHOR);
 	this.hint = Strings.loadCommon(CommonString.EMPTY);
+	this.author = Strings.loadGeneric(GenericString.UNKNOWN_AUTHOR);
 	this.difficulty = 1;
 	this.moveShootAllowed = false;
     }
 
-    // Methods
+    public CurrentArenaLevelInfo(final CurrentArenaLevelInfo source) {
+	super();
+	this.playerData = new NumberStorage(source.playerData);
+	this.horizontalWraparoundEnabled = source.horizontalWraparoundEnabled;
+	this.verticalWraparoundEnabled = source.verticalWraparoundEnabled;
+	this.thirdDimensionWraparoundEnabled = source.thirdDimensionWraparoundEnabled;
+	this.name = source.name;
+	this.hint = source.hint;
+	this.author = source.author;
+	this.difficulty = source.difficulty;
+	this.moveShootAllowed = source.moveShootAllowed;
+    }
+
     @Override
-    public CurrentArenaLevelInfo clone() {
-	final var copy = new CurrentArenaLevelInfo();
-	copy.playerData = new NumberStorage(this.playerData);
-	copy.horizontalWraparoundEnabled = this.horizontalWraparoundEnabled;
-	copy.verticalWraparoundEnabled = this.verticalWraparoundEnabled;
-	copy.author = this.author;
-	copy.name = this.name;
-	copy.hint = this.hint;
-	copy.difficulty = this.difficulty;
-	copy.moveShootAllowed = this.moveShootAllowed;
-	return copy;
+    public void disableHorizontalWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.horizontalWraparoundEnabled = false;
     }
 
-    public void disableHorizontalWraparound() {
-	this.horizontalWraparoundEnabled = false;
+    @Override
+    public void disableThirdDimensionWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.thirdDimensionWraparoundEnabled = false;
     }
 
-    public void disableThirdDimensionWraparound() {
-	this.thirdDimensionWraparoundEnabled = false;
+    @Override
+    public void disableVerticalWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.verticalWraparoundEnabled = false;
     }
 
-    public void disableVerticalWraparound() {
-	this.verticalWraparoundEnabled = false;
+    @Override
+    public boolean doesPlayerExist(final int pi, ArenaLevelInfo currentArenaLevelInfo) {
+        for (var y = 0; y < Players.DIMENSIONS; y++) {
+            if (this.playerData.getCell(y, pi) == -1) {
+        	return false;
+            }
+        }
+        return true;
     }
 
-    public boolean doesPlayerExist(final int pi) {
-	for (var y = 0; y < Players.DIMENSIONS; y++) {
-	    if (this.playerData.getCell(y, pi) == -1) {
-		return false;
-	    }
-	}
-	return true;
+    @Override
+    public void enableHorizontalWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.horizontalWraparoundEnabled = true;
     }
 
-    public void enableHorizontalWraparound() {
-	this.horizontalWraparoundEnabled = true;
+    @Override
+    public void enableThirdDimensionWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.thirdDimensionWraparoundEnabled = true;
     }
 
-    public void enableThirdDimensionWraparound() {
-	this.thirdDimensionWraparoundEnabled = true;
+    @Override
+    public void enableVerticalWraparound(ArenaLevelInfo currentArenaLevelInfo) {
+        this.verticalWraparoundEnabled = true;
     }
 
-    public void enableVerticalWraparound() {
-	this.verticalWraparoundEnabled = true;
+    @Override
+    public String getAuthor(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.author;
     }
 
-    public String getAuthor() {
-	return this.author;
+    @Override
+    public int getDifficulty(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.difficulty;
     }
 
-    public int getDifficulty() {
-	return this.difficulty;
+    @Override
+    public String getHint(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.hint;
     }
 
-    public String getHint() {
-	return this.hint;
+    @Override
+    public String getName(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.name;
     }
 
-    public String getName() {
-	return this.name;
+    @Override
+    public int getStartColumn(final int pi, ArenaLevelInfo currentArenaLevelInfo) {
+        return this.playerData.getCell(0, pi);
     }
 
-    public int getStartColumn(final int pi) {
-	return this.playerData.getCell(0, pi);
+    @Override
+    public int getStartFloor(final int pi, ArenaLevelInfo currentArenaLevelInfo) {
+        return this.playerData.getCell(2, pi);
     }
 
-    public int getStartFloor(final int pi) {
-	return this.playerData.getCell(2, pi);
+    @Override
+    public int getStartRow(final int pi, ArenaLevelInfo currentArenaLevelInfo) {
+        return this.playerData.getCell(1, pi);
     }
 
-    public int getStartRow(final int pi) {
-	return this.playerData.getCell(1, pi);
+    @Override
+    public boolean isHorizontalWraparoundEnabled(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.horizontalWraparoundEnabled;
     }
 
-    public boolean isHorizontalWraparoundEnabled() {
-	return this.horizontalWraparoundEnabled;
+    @Override
+    public boolean isMoveShootAllowed(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.moveShootAllowed;
     }
 
-    public boolean isMoveShootAllowed() {
-	return this.moveShootAllowed;
+    @Override
+    public boolean isThirdDimensionWraparoundEnabled(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.thirdDimensionWraparoundEnabled;
     }
 
-    public boolean isThirdDimensionWraparoundEnabled() {
-	return this.thirdDimensionWraparoundEnabled;
+    @Override
+    public boolean isVerticalWraparoundEnabled(ArenaLevelInfo currentArenaLevelInfo) {
+        return this.verticalWraparoundEnabled;
     }
 
-    public boolean isVerticalWraparoundEnabled() {
-	return this.verticalWraparoundEnabled;
+    @Override
+    public void setAuthor(final String newAuthor, ArenaLevelInfo currentArenaLevelInfo) {
+        this.author = newAuthor;
     }
 
-    public void setAuthor(final String newAuthor) {
-	this.author = newAuthor;
+    @Override
+    public void setDifficulty(final int newDifficulty, ArenaLevelInfo currentArenaLevelInfo) {
+        this.difficulty = newDifficulty;
     }
 
-    public void setDifficulty(final int newDifficulty) {
-	this.difficulty = newDifficulty;
+    @Override
+    public void setHint(final String newHint, ArenaLevelInfo currentArenaLevelInfo) {
+        this.hint = newHint;
     }
 
-    public void setHint(final String newHint) {
-	this.hint = newHint;
+    @Override
+    public void setMoveShootAllowed(final boolean value, ArenaLevelInfo currentArenaLevelInfo) {
+        this.moveShootAllowed = value;
     }
 
-    public void setMoveShootAllowed(final boolean value) {
-	this.moveShootAllowed = value;
+    @Override
+    public void setName(final String newName, ArenaLevelInfo currentArenaLevelInfo) {
+        this.name = newName;
     }
 
-    public void setName(final String newName) {
-	this.name = newName;
+    @Override
+    public void setStartColumn(final int pi, final int value, ArenaLevelInfo currentArenaLevelInfo) {
+        this.playerData.setCell(value, 0, pi);
     }
 
-    public void setStartColumn(final int pi, final int value) {
-	this.playerData.setCell(value, 0, pi);
+    @Override
+    public void setStartFloor(final int pi, final int value, ArenaLevelInfo currentArenaLevelInfo) {
+        this.playerData.setCell(value, 2, pi);
     }
 
-    public void setStartFloor(final int pi, final int value) {
-	this.playerData.setCell(value, 2, pi);
+    @Override
+    public void setStartRow(final int pi, final int value, ArenaLevelInfo currentArenaLevelInfo) {
+        this.playerData.setCell(value, 1, pi);
     }
 
-    public void setStartRow(final int pi, final int value) {
-	this.playerData.setCell(value, 1, pi);
-    }
-
-    public void writeLevelInfo(final DataIOWriter writer) throws IOException {
-	int x, y;
-	for (y = 0; y < Players.DIMENSIONS; y++) {
-	    for (x = 0; x < Players.COUNT; x++) {
-		writer.writeInt(this.playerData.getCell(y, x));
-	    }
-	}
-	writer.writeBoolean(this.horizontalWraparoundEnabled);
-	writer.writeBoolean(this.verticalWraparoundEnabled);
-	writer.writeBoolean(this.thirdDimensionWraparoundEnabled);
-	writer.writeString(this.name);
-	writer.writeString(this.hint);
-	writer.writeString(this.author);
-	writer.writeInt(this.difficulty);
-	writer.writeBoolean(this.moveShootAllowed);
+    @Override
+    public void writeLevelInfo(final DataIOWriter writer, ArenaLevelInfo currentArenaLevelInfo) throws IOException {
+        int x, y;
+        for (y = 0; y < Players.DIMENSIONS; y++) {
+            for (x = 0; x < Players.COUNT; x++) {
+        	writer.writeInt(this.playerData.getCell(y, x));
+            }
+        }
+        writer.writeBoolean(this.horizontalWraparoundEnabled);
+        writer.writeBoolean(this.verticalWraparoundEnabled);
+        writer.writeBoolean(this.thirdDimensionWraparoundEnabled);
+        writer.writeString(this.name);
+        writer.writeString(this.hint);
+        writer.writeString(this.author);
+        writer.writeInt(this.difficulty);
+        writer.writeBoolean(this.moveShootAllowed);
     }
 }

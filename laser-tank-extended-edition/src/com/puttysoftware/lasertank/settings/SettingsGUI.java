@@ -16,7 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import com.puttysoftware.lasertank.engine.gui.MainWindow;
+import com.puttysoftware.lasertank.gui.MainWindow;
 import com.puttysoftware.lasertank.helper.EditorLayoutHelper;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.SettingsString;
@@ -86,7 +86,8 @@ class SettingsGUI {
     }
 
     private void setUpGUI() {
-	final var handler = new SettingsGUIEventHandler(this);
+	final var ahandler = new SettingsGUIActionEventHandler(this);
+	final var whandler = new SettingsGUIWindowEventHandler(this);
 	this.settingsWindow = MainWindow.mainWindow();
 	this.mainSettingsPane = this.settingsWindow.createContent();
 	final var buttonPane = new Container();
@@ -104,10 +105,10 @@ class SettingsGUI {
 	this.actionDelay = new JComboBox<>(new String[] { Strings.loadSettings(SettingsString.SPEED_1),
 		Strings.loadSettings(SettingsString.SPEED_2), Strings.loadSettings(SettingsString.SPEED_3),
 		Strings.loadSettings(SettingsString.SPEED_4), Strings.loadSettings(SettingsString.SPEED_5) });
-	this.languageList = new JComboBox<>(Strings.loadLocalizedLanguagesList());
+	this.languageList = new JComboBox<>(Strings.loadLanguagesList());
 	this.editorLayoutList = new JComboBox<>(EditorLayoutHelper.getNames());
 	this.editorShowAllObjects = new JCheckBox(Strings.loadSettings(SettingsString.SHOW_ALL_OBJECTS), true);
-	this.settingsWindow.addWindowListener(handler);
+	this.settingsWindow.addWindowListener(whandler);
 	this.mainSettingsPane.setLayout(new BorderLayout());
 	settingsPane.setLayout(new GridLayout(SettingsGUI.GRID_LENGTH, 1));
 	settingsPane.add(this.sounds);
@@ -127,9 +128,8 @@ class SettingsGUI {
 	buttonPane.add(prefsCancel);
 	this.mainSettingsPane.add(settingsPane, BorderLayout.CENTER);
 	this.mainSettingsPane.add(buttonPane, BorderLayout.SOUTH);
-	prefsOK.addActionListener(handler);
-	prefsCancel.addActionListener(handler);
-	this.settingsWindow.pack();
+	prefsOK.addActionListener(ahandler);
+	prefsCancel.addActionListener(ahandler);
     }
 
     public void showSettings() {

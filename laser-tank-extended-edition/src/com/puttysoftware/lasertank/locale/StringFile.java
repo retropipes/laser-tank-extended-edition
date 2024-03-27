@@ -11,7 +11,7 @@ enum StringFile {
     DIALOGS,
     DIFFICULTY,
     EDITOR,
-    ERRORS,
+    ERROR,
     GAME,
     GENERIC,
     MENUS,

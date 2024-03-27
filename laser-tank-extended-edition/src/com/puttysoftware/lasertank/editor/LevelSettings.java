@@ -88,7 +88,8 @@ class LevelSettings {
     private void setUpGUI() {
 	Container mainSettingsPane, contentPane, buttonPane;
 	JButton prefsOK, prefsCancel;
-	final var handler = new LevelSettingsEventHandler(this);
+	final var ahandler = new LevelSettingsActionEventHandler(this);
+	final var whandler = new LevelSettingsWindowEventHandler(this);
 	this.prefFrame = new JFrame(Strings.loadEditor(EditorString.LEVEL_SETTINGS));
 	mainSettingsPane = new Container();
 	contentPane = new Container();
@@ -108,7 +109,7 @@ class LevelSettings {
 	this.moveShoot = new JCheckBox(Strings.loadEditor(EditorString.ENABLE_MOVE_SHOOT), true);
 	this.prefFrame.setContentPane(mainSettingsPane);
 	this.prefFrame.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-	this.prefFrame.addWindowListener(handler);
+	this.prefFrame.addWindowListener(whandler);
 	mainSettingsPane.setLayout(new BorderLayout());
 	this.prefFrame.setResizable(false);
 	contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -129,8 +130,8 @@ class LevelSettings {
 	buttonPane.add(prefsCancel);
 	mainSettingsPane.add(contentPane, BorderLayout.CENTER);
 	mainSettingsPane.add(buttonPane, BorderLayout.SOUTH);
-	prefsOK.addActionListener(handler);
-	prefsCancel.addActionListener(handler);
+	prefsOK.addActionListener(ahandler);
+	prefsCancel.addActionListener(ahandler);
 	this.prefFrame.pack();
     }
 

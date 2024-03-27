@@ -8,19 +8,17 @@ package com.puttysoftware.lasertank.arena;
 import java.awt.FileDialog;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
 
 import javax.swing.JFrame;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.fileio.LoadTask;
 import com.puttysoftware.lasertank.arena.fileio.SaveTask;
-import com.puttysoftware.lasertank.arena.v4.V4LevelLoadTask;
-import com.puttysoftware.lasertank.datatype.FileExtensions;
+import com.puttysoftware.lasertank.datatype.LaserTankV4LevelLoadTask;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.engine.fileio.utility.FilenameChecker;
-import com.puttysoftware.lasertank.engine.gui.MainWindow;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.fileio.utility.FilenameChecker;
+import com.puttysoftware.lasertank.gui.MainWindow;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.EditorString;
@@ -30,6 +28,8 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.utility.CleanupTask;
+import com.puttysoftware.lasertank.utility.FileExtensions;
+import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public class ArenaManager {
     // Static fields
@@ -92,8 +92,7 @@ public class ArenaManager {
 	    // Run cleanup task
 	    CleanupTask.cleanUp();
 	    // Load file
-	    final var xlt = new LoadTask(filename, isSavedGame, protect);
-	    xlt.start();
+	    TaskRunner.runTask(new LoadTask(filename, isSavedGame, protect));
 	}
     }
 
@@ -103,8 +102,7 @@ public class ArenaManager {
 	} else {
 	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.SAVING_ARENA));
 	}
-	final var xst = new SaveTask(filename, isSavedGame, protect);
-	xst.start();
+	TaskRunner.runTask(new SaveTask(filename, isSavedGame, protect));
     }
 
     public static int showSaveDialog() {
@@ -139,6 +137,22 @@ public class ArenaManager {
 	this.scoresFileName = Strings.loadCommon(CommonString.EMPTY);
     }
 
+    private boolean checkSaved() {
+	var status = 0;
+	var saved = true;
+	if (this.getDirty()) {
+	    status = ArenaManager.showSaveDialog();
+	    if (status == CommonDialogs.YES_OPTION) {
+		saved = this.saveArena(this.isArenaProtected());
+	    } else if (status == CommonDialogs.CANCEL_OPTION) {
+		saved = false;
+	    } else {
+		this.setDirty(false);
+	    }
+	}
+	return saved;
+    }
+
     public void clearLastUsedFilenames() {
 	this.lastUsedArenaFile = Strings.loadCommon(CommonString.EMPTY);
 	this.lastUsedGameFile = Strings.loadCommon(CommonString.EMPTY);
@@ -168,83 +182,64 @@ public class ArenaManager {
 	return this.scoresFileName;
     }
 
-    public void handleDeferredSuccess(final boolean value) {
-	if (value) {
-	    this.setLoaded(true);
-	}
+    public void handlePostFileLoad(final boolean value) {
+	this.setLoaded(value);
 	this.setDirty(false);
 	Editor.get().arenaChanged();
-	LaserTankEE.getMenus().updateMenuItemState();
+	LaserTankEE.updateMenuItemState();
     }
 
     public boolean isArenaProtected() {
 	return this.arenaProtected;
     }
 
-    public boolean loadArena() {
-	return this.loadArenaImpl(Settings.getLastDirOpen());
-    }
-
-    public boolean loadArenaDefault() {
-	try {
-	    return this.loadArenaImpl(
-		    ArenaManager.class.getProtectionDomain().getCodeSource().getLocation().toURI().getPath()
-			    + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.COMMON_DIR)
-			    + File.separator + GlobalStrings.loadUntranslated(UntranslatedString.LEVELS_DIR));
-	} catch (final URISyntaxException e) {
-	    return this.loadArena();
-	}
-    }
-
-    private boolean loadArenaImpl(final String initialDirectory) {
-	var status = 0;
-	var saved = true;
-	String filename, extension, file, dir;
-	final var fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.LOAD), FileDialog.LOAD);
-	fd.setDirectory(initialDirectory);
-	if (this.getDirty()) {
-	    status = ArenaManager.showSaveDialog();
-	    if (status == CommonDialogs.YES_OPTION) {
-		saved = this.saveArena(this.isArenaProtected());
-	    } else if (status == CommonDialogs.CANCEL_OPTION) {
-		saved = false;
-	    } else {
-		this.setDirty(false);
-	    }
-	}
+    public void loadArena() {
+	final var initialDirectory = Settings.getLastDirOpen();
+	final var saved = this.checkSaved();
 	if (saved) {
-	    fd.setVisible(true);
-	    file = fd.getFile();
-	    dir = fd.getDirectory();
-	    if (file != null && dir != null) {
-		Settings.setLastDirOpen(dir);
-		filename = dir + file;
-		extension = ArenaManager.getExtension(filename);
+	    final var filename = this.promptOpenFile(initialDirectory);
+	    if (filename != null) {
+		final var extension = ArenaManager.getExtension(filename);
 		if (extension.equals(FileExtensions.getArenaExtension())) {
 		    this.lastUsedArenaFile = filename;
-		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
+		    this.scoresFileName = ArenaManager.getNameWithoutExtension(filename);
 		    ArenaManager.loadFile(filename, false, false);
 		} else if (extension.equals(FileExtensions.getProtectedArenaExtension())) {
 		    this.lastUsedArenaFile = filename;
-		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
+		    this.scoresFileName = ArenaManager.getNameWithoutExtension(filename);
 		    ArenaManager.loadFile(filename, false, true);
 		} else if (extension.equals(FileExtensions.getGameExtension())) {
 		    this.lastUsedGameFile = filename;
 		    ArenaManager.loadFile(filename, true, false);
 		} else if (extension.equals(FileExtensions.getOldLevelExtension())) {
 		    this.lastUsedArenaFile = filename;
-		    this.scoresFileName = ArenaManager.getNameWithoutExtension(file);
-		    final var ollt = new V4LevelLoadTask(filename);
-		    ollt.start();
+		    this.scoresFileName = ArenaManager.getNameWithoutExtension(filename);
+		    final var ollt = new LaserTankV4LevelLoadTask(filename);
+		    TaskRunner.runTask(ollt);
 		} else {
 		    CommonDialogs.showDialog(Strings.loadDialog(DialogString.NON_ARENA_FILE));
 		}
-	    } else // User cancelled
-	    if (this.loaded) {
-		return true;
 	    }
 	}
-	return false;
+    }
+
+    public void loadArenaDefault() {
+	TaskRunner.runTask(new DefaultArenaLoadTask());
+    }
+
+    private String promptOpenFile(final String initialDirectory) {
+	String file, dir;
+	String filename = null;
+	final var fd = new FileDialog((JFrame) null, Strings.loadDialog(DialogString.LOAD), FileDialog.LOAD);
+	fd.setDirectory(initialDirectory);
+	fd.setVisible(true);
+	file = fd.getFile();
+	dir = fd.getDirectory();
+	if (file != null && dir != null) {
+	    Settings.setLastDirOpen(dir);
+	    filename = dir + file;
+	}
+	return filename;
     }
 
     public boolean saveArena(final boolean protect) {
@@ -368,7 +363,7 @@ public class ArenaManager {
     public void setDirty(final boolean newDirty) {
 	this.isDirty = newDirty;
 	MainWindow.mainWindow().setDirty(newDirty);
-	LaserTankEE.getMenus().updateMenuItemState();
+	LaserTankEE.updateMenuItemState();
     }
 
     public void setLastUsedArena(final String newFile) {
@@ -381,7 +376,7 @@ public class ArenaManager {
 
     public void setLoaded(final boolean status) {
 	this.loaded = status;
-	LaserTankEE.getMenus().updateMenuItemState();
+	LaserTankEE.updateMenuItemState();
     }
 
     public void setScoresFileName(final String filename) {

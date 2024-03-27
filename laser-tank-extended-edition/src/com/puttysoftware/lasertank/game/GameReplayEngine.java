@@ -7,8 +7,8 @@ package com.puttysoftware.lasertank.game;
 
 import java.io.IOException;
 
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.helper.GameActionHelper;
 import com.puttysoftware.lasertank.index.GameAction;
 

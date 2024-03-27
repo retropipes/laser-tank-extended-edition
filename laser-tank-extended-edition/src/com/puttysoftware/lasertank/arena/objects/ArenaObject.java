@@ -7,15 +7,14 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import java.awt.Color;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.arena.ArenaData;
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
@@ -35,7 +34,7 @@ public class ArenaObject {
     static final int DEFAULT_CUSTOM_VALUE = 0;
     protected static final int CUSTOM_FORMAT_MANUAL_OVERRIDE = -1;
     private final static boolean[] tunnelsFull = new boolean[GameColorHelper.COUNT];
-    private final static int TUNNEL_SCAN_RADIUS = 24;
+    private static final int STUNNED_START = 10;
 
     public static void checkTunnels() {
 	for (var x = 0; x < GameColorHelper.COUNT; x++) {
@@ -46,8 +45,8 @@ public class ArenaObject {
     private static void checkTunnelsOfColor(final GameColor color) {
 	final var tx = Game.get().getPlayerLocationX();
 	final var ty = Game.get().getPlayerLocationY();
-	final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(0, 0, 0, ArenaObject.TUNNEL_SCAN_RADIUS,
-		tx, ty, ArenaObject.getTunnelOfColor(color), false);
+	final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(0, 0, 0, ArenaData.TUNNEL_SCAN_RADIUS, tx,
+		ty, ArenaObject.getTunnelOfColor(color), false);
 	ArenaObject.tunnelsFull[color.ordinal()] = pgrmdest != null;
     }
 
@@ -56,7 +55,9 @@ public class ArenaObject {
     }
 
     private static ArenaObject getTunnelOfColor(final GameColor color) {
-	return new ArenaObject(GameObjectID.TUNNEL, color);
+	var o = new ArenaObject(GameObjectID.TUNNEL);
+	o.setColor(color);
+	return o;
     }
 
     public static boolean tunnelsFull(final GameColor color) {
@@ -89,76 +90,31 @@ public class ArenaObject {
     private boolean jumpShot;
     private boolean autoMove;
     private boolean shotUnlocked;
+    private int stunnedLeft;
 
     // Constructors
     public ArenaObject() {
-	if (this.canControl()) {
-	    this.activateTimer(1);
-	    this.index = 1;
-	} else {
-	    if (this.isHostile()) {
-		this.activateTimer(1);
-	    } else {
-		this.timerValue = 0;
-		this.timerActive = false;
-	    }
-	    this.index = 0;
-	}
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = GameColor.NONE;
-	this.imageEnabled = true;
-	this.gameObjectID = GameObjectID.NOTHING;
-	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
+	this(GameObjectID.NOTHING);
     }
 
     public ArenaObject(final GameObjectID goid) {
-	if (this.canControl()) {
-	    this.activateTimer(1);
-	    this.index = 1;
+	if (this.isStunned()) {
+	    this.stunnedLeft = ArenaObject.STUNNED_START;
 	} else {
-	    if (this.isHostile()) {
-		this.activateTimer(1);
-	    } else {
-		this.timerValue = 0;
-		this.timerActive = false;
-	    }
-	    this.index = 0;
+	    this.stunnedLeft = 0;
 	}
+	this.index = this.getInitialIndex();
+	this.timerActive = this.getInitialTimerActive();
+	this.timerValue = this.getInitialTimerValue();
 	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
-	this.color = GameColor.NONE;
+	this.color = this.getInitialColor();
 	this.imageEnabled = true;
 	this.gameObjectID = goid;
 	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
 	this.pairTriggered = false;
 	this.pairX = -1;
 	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
 	this.jumpRows = 0;
 	this.jumpCols = 0;
 	this.jumpShot = false;
@@ -167,45 +123,44 @@ public class ArenaObject {
 	this.dir1Y = 0;
 	this.dir2X = 0;
 	this.dir2Y = 0;
+	if (this.canMove() || this.canControl()) {
+	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+	}
+	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
+	if (pairID != null) {
+	    this.pairedWith = new ArenaObject(pairID);
+	}
     }
 
-    public ArenaObject(final GameObjectID goid, final Direction dir) {
-	if (this.canControl()) {
-	    this.activateTimer(1);
-	    this.index = 1;
-	} else {
-	    if (this.isHostile()) {
-		this.activateTimer(1);
-	    } else {
-		this.timerValue = 0;
-		this.timerActive = false;
-	    }
-	    this.index = 0;
+    public ArenaObject(final ArenaObject source) {
+	this.stunnedLeft = source.stunnedLeft;
+	this.index = source.index;
+	this.timerActive = source.timerActive;
+	this.timerValue = source.timerValue;
+	this.frameNumber = source.frameNumber;
+	this.direction = source.direction;
+	this.color = source.color;
+	this.imageEnabled = source.imageEnabled;
+	this.gameObjectID = source.gameObjectID;
+	this.waitingOnTunnel = source.waitingOnTunnel;
+	this.pairTriggered = source.pairTriggered;
+	this.pairX = source.pairX;
+	this.pairY = source.pairY;
+	this.jumpRows = source.jumpRows;
+	this.jumpCols = source.jumpCols;
+	this.jumpShot = source.jumpShot;
+	this.flip = source.flip;
+	this.dir1X = source.dir1X;
+	this.dir1Y = source.dir1Y;
+	this.dir2X = source.dir2X;
+	this.dir2Y = source.dir2Y;
+	if (source.savedObject != null) {
+	    this.savedObject = new ArenaObject(source.savedObject);
 	}
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = dir;
-	this.color = GameColor.NONE;
-	this.imageEnabled = true;
-	this.gameObjectID = goid;
-	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
+	final var pairID = ArenaObjectData.getPairedObjectID(source.getID());
 	if (pairID != null) {
 	    this.pairedWith = new ArenaObject(pairID);
 	}
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
     }
 
     public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
@@ -219,79 +174,6 @@ public class ArenaObject {
 	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = dir;
 	this.color = GameColor.NONE;
-	this.imageEnabled = true;
-	this.gameObjectID = goid;
-	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
-    }
-
-    public ArenaObject(final GameObjectID goid, final GameColor newColor) {
-	if (this.canControl()) {
-	    this.activateTimer(1);
-	    this.index = 1;
-	} else {
-	    if (this.isHostile()) {
-		this.activateTimer(1);
-	    } else {
-		this.timerValue = 0;
-		this.timerActive = false;
-	    }
-	    this.index = 0;
-	}
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = newColor;
-	this.imageEnabled = true;
-	this.gameObjectID = goid;
-	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
-    }
-
-    public ArenaObject(final GameObjectID goid, final GameColor newColor, final int newIndex) {
-	if (this.canControl() || this.isHostile()) {
-	    this.activateTimer(1);
-	} else {
-	    this.timerValue = 0;
-	    this.timerActive = false;
-	}
-	this.index = newIndex;
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = newColor;
 	this.imageEnabled = true;
 	this.gameObjectID = goid;
 	this.waitingOnTunnel = false;
@@ -396,30 +278,12 @@ public class ArenaObject {
 	return this;
     }
 
-    // Methods
-    @Override
-    public ArenaObject clone() {
-	try {
-	    final ArenaObject copy = this.getClass().getConstructor().newInstance();
-	    copy.timerValue = this.timerValue;
-	    copy.timerActive = this.timerActive;
-	    copy.frameNumber = this.frameNumber;
-	    copy.direction = this.direction;
-	    copy.color = this.color;
-	    return copy;
-	} catch (final InstantiationException | IllegalAccessException | IllegalArgumentException
-		| InvocationTargetException | NoSuchMethodException | SecurityException e) {
-	    LaserTankEE.logError(e);
-	    return null;
-	}
+    public final boolean defersSetProperties() {
+	return this.hasDirection() || this.canJump();
     }
 
-    public boolean defersSetProperties() {
-	return false;
-    }
-
-    public boolean doLasersPassThrough() {
-	return !this.isSolid();
+    public final boolean canLasersPassThrough() {
+	return ArenaObjectData.canLasersPassThrough(this.getID());
     }
 
     /**
@@ -428,8 +292,10 @@ public class ArenaObject {
      * @param y
      * @param z
      */
-    public void editorPlaceHook(final int x, final int y, final int z) {
-	if (this.pairedWith != null && this.usesTrigger()) {
+    public final void editorPlaceHook(final int x, final int y, final int z) {
+	if (this.canControl()) {
+	    Editor.get().setPlayerLocation();
+	} else if (this.pairedWith != null && this.usesTrigger()) {
 	    final var loc = ArenaManager.get().getArena().findObject(z, this.getPairedWith());
 	    if (loc != null) {
 		this.setPairX(loc[0]);
@@ -444,7 +310,7 @@ public class ArenaObject {
 	// Do nothing
     }
 
-    public ArenaObject editorPropertiesHook() {
+    public final ArenaObject editorPropertiesHook() {
 	if (this.hasDirection()) {
 	    this.toggleDirection();
 	    return this;
@@ -553,8 +419,24 @@ public class ArenaObject {
 	return ArenaObjectImageResolver.getImageName(this.getID());
     }
 
+    private final GameColor getInitialColor() {
+	return ArenaObjectData.getValidColors(this.getID())[0];
+    }
+
     private final Direction getInitialDirection() {
 	return ArenaObjectData.getValidDirections(this.getID())[0];
+    }
+
+    private final int getInitialIndex() {
+	return ArenaObjectData.getValidIndexes(this.getID())[0];
+    }
+
+    private final boolean getInitialTimerActive() {
+	return ArenaObjectData.isTimerActive(this.getID());
+    }
+
+    private final int getInitialTimerValue() {
+	return ArenaObjectData.initialTimerValue(this.getID());
     }
 
     public final int getJumpCols() {
@@ -700,12 +582,20 @@ public class ArenaObject {
 	return this.pairTriggered;
     }
 
+    public final boolean isPowerful() {
+	return ArenaObjectData.isPowerful(this.getID());
+    }
+
     public final boolean isPushable() {
 	return ArenaObjectData.isPushable(this.getID());
     }
 
     public final boolean isSolid() {
 	return ArenaObjectData.isSolid(this.getID());
+    }
+
+    public final boolean isStunned() {
+	return ArenaObjectData.isStunned(this.getID());
     }
 
     public final boolean isTunnel() {
@@ -825,7 +715,7 @@ public class ArenaObject {
 		if (laserType == LaserType.STUNNER) {
 		    // Stun
 		    final var gm = Game.get();
-		    final var sat = new StunnedAntiTank();
+		    final var sat = new ArenaObject(GameObjectID.STUNNED_ANTI_TANK);
 		    sat.setSavedObject(this.getSavedObject());
 		    sat.setDirection(baseDir);
 		    gm.morph(sat, locX, locY, locZ, this.getLayer());
@@ -894,7 +784,7 @@ public class ArenaObject {
     }
 
     public Sound laserEnteredSound() {
-	if (this.isHostile()) {
+	if (this.isHostile() || this.isStunned()) {
 	    return Sound.PUSH_ANTI_TANK;
 	}
 	return null;
@@ -1007,7 +897,7 @@ public class ArenaObject {
 	    final var tx = Game.get().getPlayerLocationX();
 	    final var ty = Game.get().getPlayerLocationY();
 	    final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(dirX, dirY, dirZ,
-		    ArenaObject.TUNNEL_SCAN_RADIUS, tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), true);
+		    ArenaData.TUNNEL_SCAN_RADIUS, tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), true);
 	    if (pgrmdest != null) {
 		Game.get().updatePositionAbsoluteNoEvents(pgrmdest[0], pgrmdest[1], pgrmdest[2]);
 		Sounds.play(Sound.WARP_TANK);
@@ -1050,8 +940,8 @@ public class ArenaObject {
 	    final var tx = Game.get().getPlayerLocationX();
 	    final var ty = Game.get().getPlayerLocationY();
 	    final var objColor = this.getColor();
-	    final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(x, y, z,
-		    ArenaObject.TUNNEL_SCAN_RADIUS, tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), false);
+	    final var pgrmdest = ArenaManager.get().getArena().circularScanTunnel(x, y, z, ArenaData.TUNNEL_SCAN_RADIUS,
+		    tx, ty, ArenaObject.getTunnelOfColor(this.getColor()), false);
 	    if (pgrmdest != null) {
 		ArenaObject.tunnelsFull[objColor.ordinal()] = false;
 		Game.get().updatePushedIntoPositionAbsolute(pgrmdest[0], pgrmdest[1], pgrmdest[2], x, y, z, pushed,
@@ -1329,6 +1219,10 @@ public class ArenaObject {
 	this.imageEnabled = value;
     }
 
+    public final void setIndex(final int ni) {
+	this.index = ni;
+    }
+
     public final void setJumpCols(final int njc) {
 	this.jumpCols = njc;
     }
@@ -1382,10 +1276,15 @@ public class ArenaObject {
      */
     public void timerExpiredAction(final int dirX, final int dirY) {
 	if (this.canControl()) {
-	    if (this.getSavedObject().canMove()) {
-		this.getSavedObject().timerExpiredAction(dirX, dirY);
+	    if (this.isPowerful()) {
+		Sounds.play(Sound.RETURN);
+		Game.get().setNormalTank();
+	    } else {
+		if (this.getSavedObject().canMove()) {
+		    this.getSavedObject().timerExpiredAction(dirX, dirY);
+		}
+		this.activateTimer(1);
 	    }
-	    this.activateTimer(1);
 	} else if (this.isHostile()) {
 	    final var moveDir = this.getSavedObject().getDirection();
 	    if (this.getSavedObject().movesHostiles(moveDir)) {
@@ -1400,6 +1299,21 @@ public class ArenaObject {
 		}
 	    }
 	    this.activateTimer(1);
+	} else if (this.isStunned()) {
+	    this.stunnedLeft--;
+	    if (this.stunnedLeft == 1) {
+		Sounds.play(Sound.RETURN);
+		this.activateTimer(1);
+	    } else if (this.stunnedLeft == 0) {
+		final var z = Game.get().getPlayerLocationZ();
+		final var at = new ArenaObject(GameObjectID.ANTI_TANK);
+		at.setSavedObject(this.getSavedObject());
+		at.setDirection(this.getDirection());
+		Game.get().morph(at, dirX, dirY, z, this.getLayer());
+	    } else {
+		Sounds.play(Sound.STUNNED);
+		this.activateTimer(1);
+	    }
 	}
 	// Do nothing
     }

@@ -10,24 +10,19 @@ import java.util.LinkedList;
 
 import javax.swing.JFrame;
 
-import com.puttysoftware.lasertank.engine.fileio.DataIOUtilities;
-import com.puttysoftware.lasertank.engine.fileio.utility.FilenameChecker;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.fileio.DataIOUtilities;
+import com.puttysoftware.lasertank.fileio.utility.FilenameChecker;
 import com.puttysoftware.lasertank.game.Game;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.utility.FileExtensions;
+import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public class LaserTankPlayback {
-    public static class LPBLoadException extends IOException {
-	private static final long serialVersionUID = 8993383672852880300L;
-
-	public LPBLoadException() {
-	}
-    }
-
     // Constants
     private static final int LEVEL_NAME_LEN = 31;
     private static final int AUTHOR_LEN = 31;
@@ -98,14 +93,17 @@ public class LaserTankPlayback {
 	return ext;
     }
 
+    public static void loadDefaultLPB() {
+	TaskRunner.runTask(new DefaultPlaybackLoadTask());
+    }
+
     private static void loadFile(final String filename) {
 	if (!FilenameChecker
 		.isFilenameOK(LaserTankPlayback.getNameWithoutExtension(LaserTankPlayback.getFileNameOnly(filename)))) {
 	    CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.ILLEGAL_CHARACTERS),
 		    Strings.loadDialog(DialogString.LOAD));
 	} else {
-	    final var lpblt = new LaserTankPlaybackLoadTask(new File(filename));
-	    lpblt.start();
+	    TaskRunner.runTask(new LaserTankPlaybackLoadTask(new File(filename)));
 	}
     }
 

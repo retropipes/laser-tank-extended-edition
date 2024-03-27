@@ -3,6 +3,7 @@ package com.puttysoftware.lasertank.arena.objects;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
+import com.puttysoftware.lasertank.index.GameColor;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.Material;
 
@@ -29,6 +30,10 @@ class ArenaObjectData {
 
     public static boolean canJump(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadJump(objectID);
+    }
+
+    public static boolean canLasersPassThrough(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadLaserPassthru(objectID);
     }
 
     public static boolean canMove(final GameObjectID objectID) {
@@ -83,6 +88,10 @@ class ArenaObjectData {
 	return ArenaObjectDataLoader.loadPair(objectID);
     }
 
+    public static GameColor[] getValidColors(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadColor(objectID);
+    }
+
     public static Direction[] getValidDirections(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadDirection(objectID);
     }
@@ -106,6 +115,10 @@ class ArenaObjectData {
 	return dir == trigger1 || dir == trigger2;
     }
 
+    public static int initialTimerValue(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadTimer(objectID);
+    }
+
     public static boolean isAnimated(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadFrame(objectID) > 1;
     }
@@ -122,6 +135,10 @@ class ArenaObjectData {
 	return ArenaObjectDataLoader.loadMovableMirror(objectID, dir);
     }
 
+    public static boolean isPowerful(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadPowerful(objectID);
+    }
+
     public static boolean isPushable(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadMovable(objectID, Direction.NONE);
     }
@@ -132,6 +149,14 @@ class ArenaObjectData {
 
     public static boolean isSolid(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadSolid(objectID, Direction.NONE);
+    }
+
+    public static boolean isStunned(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadStunned(objectID);
+    }
+
+    public static boolean isTimerActive(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadTimer(objectID) > 0;
     }
 
     public static boolean killsOnMove(final GameObjectID objectID, final int index) {

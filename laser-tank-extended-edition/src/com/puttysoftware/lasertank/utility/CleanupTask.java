@@ -8,7 +8,7 @@ package com.puttysoftware.lasertank.utility;
 import java.io.File;
 
 import com.puttysoftware.lasertank.arena.Arena;
-import com.puttysoftware.lasertank.engine.fileio.utility.DirectoryUtilities;
+import com.puttysoftware.lasertank.fileio.utility.DirectoryUtilities;
 
 public class CleanupTask {
     public static void cleanUp() {

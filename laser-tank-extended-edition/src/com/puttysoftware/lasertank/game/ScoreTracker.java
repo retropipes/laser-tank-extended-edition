@@ -8,8 +8,7 @@ package com.puttysoftware.lasertank.game;
 import java.io.File;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
-import com.puttysoftware.lasertank.datatype.FileExtensions;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -17,6 +16,7 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.scoring.LaserTankSavedScoreManager;
 import com.puttysoftware.lasertank.scoring.LaserTankScoreSortOrder;
+import com.puttysoftware.lasertank.utility.FileExtensions;
 
 class ScoreTracker {
     private static final String MAC_PREFIX = GlobalStrings.loadUntranslated(UntranslatedString.DIRECTORY_UNIX_HOME);

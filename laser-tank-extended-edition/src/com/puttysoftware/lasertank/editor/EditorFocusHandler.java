@@ -12,7 +12,7 @@ class EditorFocusHandler implements WindowFocusListener {
 
     @Override
     public void windowGainedFocus(final WindowEvent e) {
-	LaserTankEE.getMenus().updateMenuItemState();
+	LaserTankEE.updateMenuItemState();
     }
 
     @Override

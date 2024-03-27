@@ -3,19 +3,20 @@ package com.puttysoftware.lasertank.arena;
 import java.io.IOException;
 
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.engine.fileio.DataIOReader;
-import com.puttysoftware.lasertank.engine.fileio.DataIOWriter;
+import com.puttysoftware.lasertank.fileio.DataIOReader;
+import com.puttysoftware.lasertank.fileio.DataIOWriter;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
 import com.puttysoftware.lasertank.index.GameFormat;
 import com.puttysoftware.lasertank.index.RangeType;
 
-public abstract class ArenaData implements Cloneable {
+public abstract class ArenaData {
     // Constants
     protected final static int MIN_FLOORS = 1;
     protected final static int MAX_FLOORS = 9;
     protected final static int MIN_COLUMNS = 24;
     protected final static int MIN_ROWS = 24;
+    public final static int TUNNEL_SCAN_RADIUS = MIN_ROWS;
 
     public static int getMaxFloors() {
 	return ArenaData.MAX_FLOORS;

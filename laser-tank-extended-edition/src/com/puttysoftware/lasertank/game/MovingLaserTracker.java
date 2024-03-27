@@ -8,8 +8,8 @@ package com.puttysoftware.lasertank.game;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.assets.Sound;
-import com.puttysoftware.lasertank.assets.Sounds;
+import com.puttysoftware.lasertank.asset.Sound;
+import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
@@ -251,7 +251,7 @@ final class MovingLaserTracker {
 	    final var oldincX = this.incX;
 	    final var oldincY = this.incY;
 	    try {
-		if (lol.doLasersPassThrough() && lou.doLasersPassThrough()) {
+		if (lol.canLasersPassThrough() && lou.canLasersPassThrough()) {
 		    m.setVirtualCell(this.l, this.ox + this.cumX, this.oy + this.cumY, pz, this.l.getLayer());
 		}
 	    } catch (final ArrayIndexOutOfBoundsException aioobe) {

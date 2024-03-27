@@ -1,11 +1,11 @@
 package com.puttysoftware.lasertank.editor;
 
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import com.puttysoftware.lasertank.LaserTankEE;
 
-class EditorStartEventHandler implements MouseListener {
+class EditorStartEventHandler extends MouseAdapter {
     private final Editor editor;
 
     // handle scroll bars
@@ -22,26 +22,5 @@ class EditorStartEventHandler implements MouseListener {
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	}
-    }
-
-    @Override
-    public void mouseEntered(final MouseEvent e) {
-	// Do nothing
-    }
-
-    @Override
-    public void mouseExited(final MouseEvent e) {
-	// Do nothing
-    }
-
-    // handle mouse
-    @Override
-    public void mousePressed(final MouseEvent e) {
-	// Do nothing
-    }
-
-    @Override
-    public void mouseReleased(final MouseEvent e) {
-	// Do nothing
     }
 }

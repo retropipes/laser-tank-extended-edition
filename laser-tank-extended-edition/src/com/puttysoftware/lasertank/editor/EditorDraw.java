@@ -5,8 +5,8 @@ import java.awt.Graphics;
 
 import javax.swing.JPanel;
 
-import com.puttysoftware.lasertank.assets.Images;
-import com.puttysoftware.lasertank.engine.gui.DrawGrid;
+import com.puttysoftware.lasertank.asset.Images;
+import com.puttysoftware.lasertank.gui.DrawGrid;
 
 class EditorDraw extends JPanel {
     private static final long serialVersionUID = 35935343464625L;

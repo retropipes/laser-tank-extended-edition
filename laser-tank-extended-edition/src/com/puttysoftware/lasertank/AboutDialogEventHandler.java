@@ -5,9 +5,11 @@ import java.awt.event.ActionListener;
 
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.utility.TaskRunner;
 
-class AboutDialogEventHandler implements ActionListener {
+class AboutDialogEventHandler implements ActionListener, Runnable {
     private final AboutDialog aboutDialog;
+    private ActionEvent event;
 
     public AboutDialogEventHandler(final AboutDialog theAboutDialog) {
 	this.aboutDialog = theAboutDialog;
@@ -16,19 +18,21 @@ class AboutDialogEventHandler implements ActionListener {
     // Handle buttons
     @Override
     public void actionPerformed(final ActionEvent e) {
-	new Thread() {
-	    @Override
-	    public void run() {
-		try {
-		    final var ad = AboutDialogEventHandler.this.aboutDialog;
-		    final var cmd = e.getActionCommand();
-		    if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-			ad.hideScreen();
-		    }
-		} catch (final Exception ex) {
-		    LaserTankEE.logError(ex);
+	this.event = e;
+	TaskRunner.runTask(this);
+    }
+
+    @Override
+    public void run() {
+	try {
+	    if (this.aboutDialog != null && this.event != null) {
+		final var cmd = this.event.getActionCommand();
+		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
+		    this.aboutDialog.hideScreen();
 		}
 	    }
-	}.start();
+	} catch (final Exception ex) {
+	    LaserTankEE.logError(ex);
+	}
     }
 }

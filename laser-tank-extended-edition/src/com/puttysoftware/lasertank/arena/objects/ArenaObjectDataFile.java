@@ -29,7 +29,12 @@ enum ArenaObjectDataFile {
     PAIR,
     ATTRIBUTE_RENDER,
     USES_TRIGGER,
-    JUMP;
+    JUMP,
+    LASER_PASSTHRU,
+    COLOR,
+    STUNNED,
+    TIMER,
+    POWERFUL;
 
     public String getName() {
 	return Integer.toString(this.ordinal());

@@ -18,9 +18,9 @@ import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.engine.fileio.utility.ZipUtilities;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.fileio.utility.ZipUtilities;
 import com.puttysoftware.lasertank.game.Game;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
@@ -28,7 +28,7 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
-public class LoadTask extends Thread {
+public class LoadTask implements Runnable {
     // Fields
     private final String filename;
     private final boolean isSavedGame;
@@ -41,7 +41,6 @@ public class LoadTask extends Thread {
 	this.filename = file;
 	this.isSavedGame = saved;
 	this.arenaProtected = protect;
-	this.setName(GlobalStrings.loadUntranslated(UntranslatedString.NEW_AG_LOADER_NAME));
 	this.loadFrame = new JFrame(Strings.loadDialog(DialogString.LOADING));
 	loadBar = new JProgressBar();
 	loadBar.setIndeterminate(true);
@@ -74,7 +73,7 @@ public class LoadTask extends Thread {
 		} catch (final ZipException ze) {
 		    CommonDialogs.showErrorDialog(Strings.loadError(ErrorString.BAD_PROTECTION_KEY),
 			    Strings.loadError(ErrorString.PROTECTION));
-		    ArenaManager.get().handleDeferredSuccess(false);
+		    ArenaManager.get().handlePostFileLoad(false);
 		    return;
 		} finally {
 		    tempLock.delete();
@@ -118,16 +117,16 @@ public class LoadTask extends Thread {
 	    } else {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_SUCCESS));
 	    }
-	    ArenaManager.get().handleDeferredSuccess(true);
+	    ArenaManager.get().handlePostFileLoad(true);
 	} catch (final FileNotFoundException fnfe) {
 	    if (this.isSavedGame) {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
 	    } else {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    }
-	    ArenaManager.get().handleDeferredSuccess(false);
+	    ArenaManager.get().handlePostFileLoad(false);
 	} catch (final ProtectionCancelException pce) {
-	    ArenaManager.get().handleDeferredSuccess(false);
+	    ArenaManager.get().handlePostFileLoad(false);
 	} catch (final IOException ie) {
 	    if (this.isSavedGame) {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.GAME_LOADING_FAILED));
@@ -135,7 +134,7 @@ public class LoadTask extends Thread {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    }
 	    LaserTankEE.logWarning(ie);
-	    ArenaManager.get().handleDeferredSuccess(false);
+	    ArenaManager.get().handlePostFileLoad(false);
 	} catch (final Exception ex) {
 	    LaserTankEE.logError(ex);
 	} finally {

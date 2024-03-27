@@ -15,25 +15,25 @@ import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
+import com.puttysoftware.lasertank.asset.music.MusicIndex;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.engine.LaserTankEngine;
-import com.puttysoftware.lasertank.engine.asset.music.LTEMusicIndex;
-import com.puttysoftware.lasertank.engine.gui.MainContentFactory;
-import com.puttysoftware.lasertank.engine.gui.MainWindow;
-import com.puttysoftware.lasertank.engine.gui.Screen;
-import com.puttysoftware.lasertank.engine.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.engine.integration.Integration;
-import com.puttysoftware.lasertank.engine.update.ProductData;
+import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
 import com.puttysoftware.lasertank.game.Game;
+import com.puttysoftware.lasertank.gui.MainContentFactory;
+import com.puttysoftware.lasertank.gui.MainWindow;
+import com.puttysoftware.lasertank.gui.Screen;
+import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.integration.Integration;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.update.ProductData;
 
 public class LaserTankEE {
     // Constants
     private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
-    private static CustomErrorHandler errorHandler;
+    private static GameErrorHandler errorHandler;
     static String ERROR_MESSAGE = null;
     static String ERROR_TITLE = null;
     static String WARNING_MESSAGE = null;
@@ -58,6 +58,10 @@ public class LaserTankEE {
 	Editor.get().activeLanguageChanged();
     }
 
+    public static void disableRecording() {
+	LaserTankEE.menus.disableRecording();
+    }
+
     static AboutDialog getAboutDialog() {
 	return LaserTankEE.about;
     }
@@ -74,12 +78,15 @@ public class LaserTankEE {
 	return "v" + LaserTankEE.VERSION.getShortVersionString(); //$NON-NLS-1$
     }
 
-    public static MainScreen getMainScreen() {
-	return LaserTankEE.mainScreen;
+    static MenubarHost getMenus() {
+	return LaserTankEE.menus;
     }
 
-    public static MenubarHost getMenus() {
-	return LaserTankEE.menus;
+    public static MusicIndex getScreenMusic() {
+	if (LaserTankEE.currentScreen != null) {
+	    return LaserTankEE.currentScreen.music();
+	}
+	return null;
     }
 
     private static String getVersionString() {
@@ -119,8 +126,8 @@ public class LaserTankEE {
 	final var ni = new Integration();
 	ni.configureLookAndFeel();
 	// Install error handler
-	LaserTankEE.errorHandler = new CustomErrorHandler(LaserTankEE.PROGRAM_NAME);
-	LaserTankEngine.installCustomErrorHandler(LaserTankEE.errorHandler);
+	LaserTankEE.errorHandler = new GameErrorHandler(LaserTankEE.PROGRAM_NAME);
+	ErrorHandlerInstaller.installErrorHandler(LaserTankEE.errorHandler);
 	// Initialize strings
 	LaserTankEE.initStrings();
 	// Set Up Common Dialogs
@@ -143,10 +150,10 @@ public class LaserTankEE {
 	Settings.readSettings();
 	Strings.activeLanguageChanged(Settings.getLanguageID());
 	// Register platform hooks
-	MainWindow.mainWindow().setMenus(LaserTankEE.getMenus().getMenuBar());
+	MainWindow.mainWindow().setMenus(LaserTankEE.menus.getMenuBar());
 	ni.setAboutHandler(LaserTankEE.getAboutDialog());
 	ni.setPreferencesHandler(new SettingsInvoker());
-	ni.setQuitHandler(LaserTankEE.getMainScreen());
+	ni.setQuitHandler(LaserTankEE.mainScreen);
 	// Set up default error handling
 	final UncaughtExceptionHandler eh = (t, e) -> LaserTankEE.logWarning(e);
 	final Runnable doRun = () -> Thread.currentThread().setUncaughtExceptionHandler(eh);
@@ -171,11 +178,8 @@ public class LaserTankEE {
 	return LaserTankEE.currentScreen == LaserTankEE.mainScreen;
     }
 
-    public static LTEMusicIndex getScreenMusic() {
-	if (LaserTankEE.currentScreen != null) {
-	    return LaserTankEE.currentScreen.music();
-	}
-	return null;
+    public static boolean quitHandler() {
+	return LaserTankEE.mainScreen.quitHandler();
     }
 
     public static void setOnEditorScreen() {
@@ -203,6 +207,10 @@ public class LaserTankEE {
 	LaserTankEE.masterFrame.pack();
     }
 
+    public static void showGUI() {
+	LaserTankEE.mainScreen.showGUI();
+    }
+
     public static void showMessage(final String msg) {
 	LaserTankEE.currentScreen.statusMessage(msg);
     }
@@ -227,6 +235,10 @@ public class LaserTankEE {
 	loadFrame.setVisible(true);
 	LaserTankEE.arenaMgr.getArena().generateLevelInfoList();
 	loadFrame.setVisible(false);
+    }
+
+    public static void updateMenuItemState() {
+	LaserTankEE.menus.updateMenuItemState();
     }
 
     private LaserTankEE() {

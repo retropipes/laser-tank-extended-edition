@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import com.puttysoftware.lasertank.engine.fileio.DataIOUtilities;
+import com.puttysoftware.lasertank.fileio.DataIOUtilities;
 import com.puttysoftware.lasertank.scoring.LaserTankScore;
 import com.puttysoftware.lasertank.scoring.LaserTankScoreTable;
 

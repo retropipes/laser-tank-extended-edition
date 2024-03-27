@@ -6,20 +6,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import com.puttysoftware.lasertank.engine.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.engine.fileio.DataIOUtilities;
-import com.puttysoftware.lasertank.engine.fileio.DataIOUtilities.ImageBMP;
+import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
+import com.puttysoftware.lasertank.fileio.DataIOUtilities;
+import com.puttysoftware.lasertank.fileio.DataIOUtilities.ImageBMP;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 
 public class LaserTankGraphics {
-    public static class LTGLoadException extends IOException {
-	private static final long serialVersionUID = 2667335570076496956L;
-
-	public LTGLoadException() {
-	}
-    }
-
     // Constants
     private static final String FILE_ID = Strings.loadCommon(CommonString.LTG_ID);
     private static final int FILE_ID_LEN = 5;
