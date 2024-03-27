@@ -15,7 +15,7 @@ class ShowWarningDialogTask implements Runnable {
 
     @Override
     public void run() {
-	Sounds.play(Sound.ERROR);
+	Sounds.play(Sound.WARNING);
 	CommonDialogs.showTitledDialog(LaserTankEE.WARNING_MESSAGE, LaserTankEE.WARNING_TITLE);
 	this.log.logWarning(this.t);
 	GameErrorHandler.DIALOG_SHOWING = false;

@@ -15,7 +15,7 @@ class ShowErrorDialogTask implements Runnable {
 
     @Override
     public void run() {
-	Sounds.play(Sound.ERROR);
+	Sounds.play(Sound.FATAL);
 	CommonDialogs.showErrorDialog(LaserTankEE.ERROR_MESSAGE, LaserTankEE.ERROR_TITLE);
 	this.log.logError(this.t);
 	GameErrorHandler.DIALOG_SHOWING = false;

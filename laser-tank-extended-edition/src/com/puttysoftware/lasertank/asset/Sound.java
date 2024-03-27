@@ -61,7 +61,9 @@ public enum Sound implements SoundIndex {
     SPRING,
     WARP_OBJECT,
     WARP_TANK,
-    ERROR;
+    ERROR,
+    WARNING,
+    FATAL;
 
     @Override
     public String getName() {
