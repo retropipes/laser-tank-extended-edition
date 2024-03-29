@@ -33,15 +33,16 @@ public class Strings {
     private static final String REPLACE_PREFIX = "$"; //$NON-NLS-1$
     private static final String LANGUAGES_FILE_NAME = "languages.list"; //$NON-NLS-1$
     private static final String LOAD_PATH = "/locale/"; //$NON-NLS-1$
+    private static final String LOAD_SEPARATOR = "/"; //$NON-NLS-1$
     private static Class<?> LOAD_CLASS = Strings.class;
     private static ArrayList<String> LANGUAGES_CACHE;
     private static int LANGUAGE_ID = 0;
-    private static String LANGUAGE_NAME = null;
+    private static String LANGUAGE_NAME = "en"; //$NON-NLS-1$
 
     public static void activeLanguageChanged(final int newLanguageID) {
 	Strings.LANGUAGES_CACHE = null;
 	Strings.LANGUAGE_ID = newLanguageID;
-	Strings.LANGUAGE_NAME = GlobalStrings.loadLanguage(Strings.LANGUAGE_ID) + "/"; //$NON-NLS-1$
+	Strings.LANGUAGE_NAME = GlobalStrings.loadLanguage(Strings.LANGUAGE_ID);
 	DifficultyHelper.activeLanguageChanged();
 	EraHelper.activeLanguageChanged();
 	LayerHelper.activeLanguageChanged();
@@ -51,7 +52,7 @@ public class Strings {
     }
 
     public static String getLanguageName() {
-	return Strings.LANGUAGE_NAME;
+	return Strings.LANGUAGE_NAME + Strings.LOAD_SEPARATOR;
     }
 
     public static String loadCommon(final CommonString str) {
@@ -104,7 +105,7 @@ public class Strings {
     }
 
     private static ResourceBundle loadFile(final StringFile file) {
-	return ResourceBundle.getBundle("locale." + Strings.LANGUAGE_NAME + file.getName()); //$NON-NLS-1$
+	return ResourceBundle.getBundle("locale." + Strings.LANGUAGE_NAME + Strings.VERSION_SEPARATOR + file.getName()); //$NON-NLS-1$
     }
 
     public static String loadGame(final GameString str, final Object... values) {
@@ -190,7 +191,7 @@ public class Strings {
     public static void setDefaultLanguage() {
 	Strings.LANGUAGES_CACHE = null;
 	Strings.LANGUAGE_ID = 0;
-	Strings.LANGUAGE_NAME = GlobalStrings.loadLanguage(Strings.LANGUAGE_ID) + "/"; //$NON-NLS-1$
+	Strings.LANGUAGE_NAME = GlobalStrings.loadLanguage(Strings.LANGUAGE_ID);
     }
 
     public static String subst(final String orig, final String... values) {
