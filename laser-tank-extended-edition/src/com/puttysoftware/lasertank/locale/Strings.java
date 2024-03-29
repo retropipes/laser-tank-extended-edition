@@ -37,7 +37,7 @@ public class Strings {
     private static Class<?> LOAD_CLASS = Strings.class;
     private static ArrayList<String> LANGUAGES_CACHE;
     private static int LANGUAGE_ID = 0;
-    private static String LANGUAGE_NAME = "en"; //$NON-NLS-1$
+    private static String LANGUAGE_NAME;
 
     public static void activeLanguageChanged(final int newLanguageID) {
 	Strings.LANGUAGES_CACHE = null;

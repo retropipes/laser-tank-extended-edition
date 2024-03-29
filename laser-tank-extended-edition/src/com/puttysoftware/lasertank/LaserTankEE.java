@@ -46,7 +46,7 @@ public class LaserTankEE {
     private static Editor editor;
     private static MainScreen mainScreen;
     private static Screen currentScreen, lastScreen;
-    private static final ProductData VERSION = new ProductData(1, 0, 0, 1, 1);
+    private static ProductData VERSION;
 
     public static void activeLanguageChanged() {
 	// Rebuild menus
@@ -138,6 +138,7 @@ public class LaserTankEE {
 	LaserTankEE.currentScreen = null;
 	LaserTankEE.lastScreen = null;
 	// Create Managers
+	LaserTankEE.VERSION = new ProductData(1, 0, 0, 1, 1);
 	LaserTankEE.menus = new MenubarHost();
 	LaserTankEE.about = new AboutDialog(LaserTankEE.getVersionString());
 	LaserTankEE.mainScreen = new MainScreen();
