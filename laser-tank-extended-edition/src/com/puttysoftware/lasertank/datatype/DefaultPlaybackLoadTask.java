@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.fileio.utility.ResourceStreamReader;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class DefaultPlaybackLoadTask implements Runnable {
     private static String[] DEFAULT_PLAYBACK_CACHE;
@@ -29,7 +29,7 @@ class DefaultPlaybackLoadTask implements Runnable {
 		    }
 		}
 	    } catch (final IOException ioe) {
-		LaserTankEE.logErrorDirectly(ioe);
+		AppTaskManager.logErrorDirectly(ioe);
 	    }
 	    final var size = temp.size();
 	    DefaultPlaybackLoadTask.DEFAULT_PLAYBACK_CACHE = temp.toArray(new String[size]);

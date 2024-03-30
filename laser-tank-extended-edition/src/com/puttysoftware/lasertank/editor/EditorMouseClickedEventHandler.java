@@ -3,8 +3,7 @@ package com.puttysoftware.lasertank.editor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class EditorMouseClickedEventHandler extends MouseAdapter implements Runnable {
     private final Editor editor;
@@ -17,7 +16,7 @@ class EditorMouseClickedEventHandler extends MouseAdapter implements Runnable {
     @Override
     public void mouseClicked(final MouseEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -34,7 +33,7 @@ class EditorMouseClickedEventHandler extends MouseAdapter implements Runnable {
 		}
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

@@ -17,7 +17,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class MenubarEventHandler implements ActionListener, Runnable {
     private final MenubarHost menubarHost;
@@ -31,7 +31,7 @@ class MenubarEventHandler implements ActionListener, Runnable {
     @Override
     public void actionPerformed(final ActionEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -241,7 +241,7 @@ class MenubarEventHandler implements ActionListener, Runnable {
 	    }
 	    LaserTankEE.updateMenuItemState();
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

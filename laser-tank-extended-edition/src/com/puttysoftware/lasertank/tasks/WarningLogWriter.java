@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank;
+package com.puttysoftware.lasertank.tasks;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,7 +13,7 @@ import java.io.PrintStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
-class ErrorLogWriter {
+class WarningLogWriter {
     // Fields
     private static final String MAC_PREFIX = "HOME"; //$NON-NLS-1$
     private static final String WIN_PREFIX = "LOCALAPPDATA"; //$NON-NLS-1$
@@ -21,50 +21,50 @@ class ErrorLogWriter {
     private static final String MAC_DIR = "/Library/Logs/CrashReporter/"; //$NON-NLS-1$
     private static final String WIN_DIR = "\\PuttySoftware\\Logs\\"; //$NON-NLS-1$
     private static final String UNIX_DIR = "/.config/puttysoftware/logs/"; //$NON-NLS-1$
-    private static final String MAC_EXT = ".error.log"; //$NON-NLS-1$
-    private static final String WIN_EXT = ".error.log"; //$NON-NLS-1$
-    private static final String UNIX_EXT = ".error.log"; //$NON-NLS-1$
+    private static final String MAC_EXT = ".warning.log"; //$NON-NLS-1$
+    private static final String WIN_EXT = ".warning.log"; //$NON-NLS-1$
+    private static final String UNIX_EXT = ".warning.log"; //$NON-NLS-1$
 
-    private static String getErrorDirectory() {
+    private static String getLogDirectory() {
 	final var osName = System.getProperty("os.name"); //$NON-NLS-1$
 	if (osName.indexOf("Mac OS X") != -1) { //$NON-NLS-1$
 	    // Mac OS X
-	    return ErrorLogWriter.MAC_DIR;
+	    return WarningLogWriter.MAC_DIR;
 	}
 	if (osName.indexOf("Windows") != -1) { //$NON-NLS-1$
 	    // Windows
-	    return ErrorLogWriter.WIN_DIR;
+	    return WarningLogWriter.WIN_DIR;
 	}
 	// Other - assume UNIX-like
-	return ErrorLogWriter.UNIX_DIR;
+	return WarningLogWriter.UNIX_DIR;
     }
 
-    private static String getErrorDirPrefix() {
+    private static String getLogDirPrefix() {
 	final var osName = System.getProperty("os.name"); //$NON-NLS-1$
 	if (osName.indexOf("Mac OS X") != -1) { //$NON-NLS-1$
 	    // Mac OS X
-	    return System.getenv(ErrorLogWriter.MAC_PREFIX);
+	    return System.getenv(WarningLogWriter.MAC_PREFIX);
 	}
 	if (osName.indexOf("Windows") != -1) { //$NON-NLS-1$
 	    // Windows
-	    return System.getenv(ErrorLogWriter.WIN_PREFIX);
+	    return System.getenv(WarningLogWriter.WIN_PREFIX);
 	}
 	// Other - assume UNIX-like
-	return System.getenv(ErrorLogWriter.UNIX_PREFIX);
+	return System.getenv(WarningLogWriter.UNIX_PREFIX);
     }
 
-    private static String getErrorFileExtension() {
+    private static String getLogFileExtension() {
 	final var osName = System.getProperty("os.name"); //$NON-NLS-1$
 	if (osName.indexOf("Mac OS X") != -1) { //$NON-NLS-1$
 	    // Mac OS X
-	    return ErrorLogWriter.MAC_EXT;
+	    return WarningLogWriter.MAC_EXT;
 	}
 	if (osName.indexOf("Windows") != -1) { //$NON-NLS-1$
 	    // Windows
-	    return ErrorLogWriter.WIN_EXT;
+	    return WarningLogWriter.WIN_EXT;
 	}
 	// Other - assume UNIX-like
-	return ErrorLogWriter.UNIX_EXT;
+	return WarningLogWriter.UNIX_EXT;
     }
 
     private final Throwable t;
@@ -72,23 +72,23 @@ class ErrorLogWriter {
     private final String p;
 
     // Constructors
-    ErrorLogWriter(final Throwable problem, final String programName) {
+    WarningLogWriter(final Throwable problem, final String programName) {
 	this.t = problem;
 	this.c = Calendar.getInstance();
 	this.p = programName;
     }
 
-    private File getErrorFile() {
+    private File getLogFile() {
 	final var b = new StringBuilder();
-	b.append(ErrorLogWriter.getErrorDirPrefix());
-	b.append(ErrorLogWriter.getErrorDirectory());
-	b.append(this.getErrorFileName());
+	b.append(WarningLogWriter.getLogDirPrefix());
+	b.append(WarningLogWriter.getLogDirectory());
+	b.append(this.getLogFileName());
 	b.append(this.getStampSuffix());
-	b.append(ErrorLogWriter.getErrorFileExtension());
+	b.append(WarningLogWriter.getLogFileExtension());
 	return new File(b.toString());
     }
 
-    private String getErrorFileName() {
+    private String getLogFileName() {
 	return this.p;
     }
 
@@ -99,10 +99,10 @@ class ErrorLogWriter {
     }
 
     // Methods
-    void writeErrorInfo() {
+    void writeLogInfo() {
 	try {
 	    // Make sure the needed directories exist first
-	    final var df = this.getErrorFile();
+	    final var df = this.getLogFile();
 	    final var parent = new File(df.getParent());
 	    if (!parent.exists()) {
 		final var res = parent.mkdirs();

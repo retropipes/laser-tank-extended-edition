@@ -15,7 +15,7 @@ import javax.swing.JPanel;
 
 import com.puttysoftware.lasertank.asset.music.MusicIndex;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public abstract class Screen extends WindowAdapter {
     // Fields
@@ -130,7 +130,7 @@ public abstract class Screen extends WindowAdapter {
 
     public final String showValueScreen() {
 	this.valueTask = new ScreenValueTask(this);
-	final var t = TaskRunner.runTrackedTask(this.valueTask);
+	final var t = AppTaskManager.runTrackedTask(this.valueTask);
 	try {
 	    t.join();
 	} catch (final InterruptedException e) {

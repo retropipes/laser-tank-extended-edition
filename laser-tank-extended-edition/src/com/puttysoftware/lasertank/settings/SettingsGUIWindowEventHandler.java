@@ -3,7 +3,7 @@ package com.puttysoftware.lasertank.settings;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class SettingsGUIWindowEventHandler extends WindowAdapter implements Runnable {
     private final SettingsGUI settingsGUI;
@@ -19,6 +19,6 @@ class SettingsGUIWindowEventHandler extends WindowAdapter implements Runnable {
 
     @Override
     public void windowClosing(final WindowEvent e) {
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 }

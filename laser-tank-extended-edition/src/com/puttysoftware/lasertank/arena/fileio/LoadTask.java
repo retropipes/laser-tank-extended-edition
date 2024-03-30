@@ -14,7 +14,6 @@ import javax.swing.JFrame;
 import javax.swing.JProgressBar;
 import javax.swing.WindowConstants;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.editor.Editor;
@@ -26,6 +25,7 @@ import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 public class LoadTask implements Runnable {
@@ -133,10 +133,10 @@ public class LoadTask implements Runnable {
 	    } else {
 		CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    }
-	    LaserTankEE.logWarning(ie);
+	    AppTaskManager.warning(ie);
 	    ArenaManager.handlePostFileLoad(false);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	} finally {
 	    this.loadFrame.setVisible(false);
 	}

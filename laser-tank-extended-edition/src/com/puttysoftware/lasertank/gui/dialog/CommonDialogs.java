@@ -12,10 +12,9 @@ import java.util.concurrent.ExecutionException;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.asset.image.BufferedImageIcon;
-import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class CommonDialogs {
     // Fields
@@ -86,7 +85,7 @@ public class CommonDialogs {
 	try {
 	    return InputDialog.showConfirmDialog(prompt, title, CommonDialogs.ICON).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }
@@ -95,7 +94,7 @@ public class CommonDialogs {
 	try {
 	    return InputDialog.showDialog(prompt, title, CommonDialogs.ICON, buttonNames).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }
@@ -106,7 +105,7 @@ public class CommonDialogs {
 	    return InputWithDefaultDialog.showDialog(prompt, title, CommonDialogs.ICON, buttonNames, defaultButton)
 		    .get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }
@@ -128,7 +127,7 @@ public class CommonDialogs {
      * @param msg The dialog message.
      */
     public static void showDialogLater(final String msg) {
-	TaskRunner.runTask(new ShowDialogTask(msg));
+	AppTaskManager.runTask(new ShowDialogTask(msg));
     }
 
     /**
@@ -156,7 +155,7 @@ public class CommonDialogs {
      * @param msg The dialog message.
      */
     public static void showErrorDialogLater(final String msg) {
-	TaskRunner.runTask(new ShowDialogTask(msg));
+	AppTaskManager.runTask(new ShowDialogTask(msg));
     }
 
     /**
@@ -166,7 +165,7 @@ public class CommonDialogs {
      * @param title The dialog title.
      */
     public static void showErrorDialogLater(final String msg, final String title) {
-	TaskRunner.runTask(new ShowDialogWithTitleTask(msg, title));
+	AppTaskManager.runTask(new ShowDialogWithTitleTask(msg, title));
     }
 
     public static File showFileOpenDialog(final File dir, final FilenameFilter filter, final String prompt) {
@@ -202,7 +201,7 @@ public class CommonDialogs {
 	try {
 	    return ImageListDialog.showDialog(labelText, title, possibleValues, initialValue).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }
@@ -214,7 +213,7 @@ public class CommonDialogs {
 	    return ImageListWithDescDialog
 		    .showDialog(labelText, title, possibleValues, initialValue, descValue, possibleDescriptions).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }
@@ -234,7 +233,7 @@ public class CommonDialogs {
 	try {
 	    return ListDialog.showDialog(prompt, title, CommonDialogs.ICON, choices, defaultChoice).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return null;
 	}
     }
@@ -246,7 +245,7 @@ public class CommonDialogs {
 	    return ListWithDescDialog
 		    .showDialog(labelText, title, possibleValues, initialValue, descValue, possibleDescriptions).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return null;
 	}
     }
@@ -262,7 +261,7 @@ public class CommonDialogs {
 	try {
 	    return PasswordInputDialog.showDialog(prompt, title, CommonDialogs.ICON).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return null;
 	}
     }
@@ -278,7 +277,7 @@ public class CommonDialogs {
 	try {
 	    return TextInputDialog.showDialog(prompt, title, CommonDialogs.ICON, null).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return null;
 	}
     }
@@ -295,7 +294,7 @@ public class CommonDialogs {
 	try {
 	    return TextInputDialog.showDialog(prompt, title, CommonDialogs.ICON, defaultValue).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return null;
 	}
     }
@@ -317,7 +316,7 @@ public class CommonDialogs {
      * @param title The dialog title.
      */
     public static void showTitledDialogLater(final String msg, final String title) {
-	TaskRunner.runTask(new ShowDialogWithTitleTask(msg, title));
+	AppTaskManager.runTask(new ShowDialogWithTitleTask(msg, title));
     }
 
     /**
@@ -331,7 +330,7 @@ public class CommonDialogs {
 	try {
 	    return InputDialog.showYNCConfirmDialog(prompt, title, CommonDialogs.ICON).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	    return CommonDialogs.CANCEL;
 	}
     }

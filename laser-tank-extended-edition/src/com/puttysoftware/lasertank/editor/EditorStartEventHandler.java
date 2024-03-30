@@ -3,7 +3,7 @@ package com.puttysoftware.lasertank.editor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.puttysoftware.lasertank.LaserTankEE;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class EditorStartEventHandler extends MouseAdapter {
     private final Editor editor;
@@ -20,7 +20,7 @@ class EditorStartEventHandler extends MouseAdapter {
 	    final var y = e.getY();
 	    this.editor.setPlayerLocation(x, y);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

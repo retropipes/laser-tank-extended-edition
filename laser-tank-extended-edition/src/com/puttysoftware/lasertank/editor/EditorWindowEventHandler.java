@@ -4,7 +4,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
 import com.puttysoftware.lasertank.LaserTankEE;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class EditorWindowEventHandler extends WindowAdapter implements Runnable {
     public EditorWindowEventHandler() {
@@ -19,6 +19,6 @@ class EditorWindowEventHandler extends WindowAdapter implements Runnable {
     // handle window
     @Override
     public void windowClosing(final WindowEvent we) {
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 }

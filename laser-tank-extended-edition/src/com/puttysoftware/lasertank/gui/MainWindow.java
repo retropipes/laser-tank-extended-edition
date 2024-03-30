@@ -24,8 +24,8 @@ import javax.swing.WindowConstants;
 import com.puttysoftware.lasertank.asset.DefaultAssets;
 import com.puttysoftware.lasertank.asset.music.MusicIndex;
 import com.puttysoftware.lasertank.asset.music.MusicPlayer;
-import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public final class MainWindow {
     private static MainWindow window;
@@ -162,7 +162,7 @@ public final class MainWindow {
 		try {
 		    MusicPlayer.play(this.currentMusic);
 		} catch (final IOException e) {
-		    ErrorHandlerInstaller.handleError(e);
+		    AppTaskManager.error(e);
 		}
 	    }
 	    this.currentDefault = this.savedDefaultButtonStack.pop();
@@ -237,7 +237,7 @@ public final class MainWindow {
 	    try {
 		MusicPlayer.play(this.currentMusic);
 	    } catch (final IOException e) {
-		ErrorHandlerInstaller.handleError(e);
+		AppTaskManager.error(e);
 	    }
 	}
     }
@@ -259,7 +259,7 @@ public final class MainWindow {
 	    try {
 		MusicPlayer.play(this.currentMusic);
 	    } catch (final IOException e) {
-		ErrorHandlerInstaller.handleError(e);
+		AppTaskManager.error(e);
 	    }
 	}
 	this.currentDefault = defaultButton;
@@ -282,7 +282,7 @@ public final class MainWindow {
 	    try {
 		MusicPlayer.play(this.currentMusic);
 	    } catch (final IOException e) {
-		ErrorHandlerInstaller.handleError(e);
+		AppTaskManager.error(e);
 	    }
 	}
 	this.currentDefault = screen.defaultButton();

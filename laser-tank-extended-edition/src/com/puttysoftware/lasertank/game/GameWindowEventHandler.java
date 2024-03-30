@@ -6,7 +6,7 @@ import java.awt.event.WindowEvent;
 import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class GameWindowEventHandler extends WindowAdapter implements Runnable {
     public GameWindowEventHandler() {
@@ -38,12 +38,12 @@ class GameWindowEventHandler extends WindowAdapter implements Runnable {
 		LaserTankEE.showGUI();
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
     @Override
     public void windowClosing(final WindowEvent we) {
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 }

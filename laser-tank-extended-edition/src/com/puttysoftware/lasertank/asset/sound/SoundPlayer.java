@@ -5,7 +5,7 @@
  */
 package com.puttysoftware.lasertank.asset.sound;
 
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public final class SoundPlayer {
     // Constants
@@ -13,7 +13,7 @@ public final class SoundPlayer {
 
     // Methods
     public static void play(final SoundIndex index) {
-	TaskRunner.runTask(new SoundResource(index.getURL()));
+	AppTaskManager.runTask(new SoundResource(index.getURL()));
     }
 
     // Constructor

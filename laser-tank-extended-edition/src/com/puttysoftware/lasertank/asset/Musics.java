@@ -2,11 +2,11 @@ package com.puttysoftware.lasertank.asset;
 
 import java.io.IOException;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.music.MusicIndex;
 import com.puttysoftware.lasertank.asset.music.MusicPlayer;
 import com.puttysoftware.lasertank.random.RandomRange;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class Musics {
     public static void play(final Music musicID) {
@@ -28,7 +28,7 @@ public class Musics {
 		    break;
 		}
 	    } catch (final IOException e) {
-		LaserTankEE.logError(e);
+		AppTaskManager.error(e);
 	    }
 	}
     }
@@ -38,7 +38,7 @@ public class Musics {
 	    try {
 		MusicPlayer.play(musicID);
 	    } catch (final IOException e) {
-		LaserTankEE.logError(e);
+		AppTaskManager.error(e);
 	    }
 	}
     }

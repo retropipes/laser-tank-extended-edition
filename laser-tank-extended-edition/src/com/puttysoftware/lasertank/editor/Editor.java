@@ -37,6 +37,7 @@ import com.puttysoftware.lasertank.locale.EditorString;
 import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.ArenaObjectList;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 import com.puttysoftware.lasertank.utility.RCLGenerator;
@@ -403,7 +404,7 @@ public class Editor extends Screen {
 		Editor.exitEditor();
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 

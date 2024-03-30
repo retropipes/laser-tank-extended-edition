@@ -3,7 +3,7 @@ package com.puttysoftware.lasertank.game;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class GameDifficultyWindowEventHandler extends WindowAdapter implements Runnable {
     public GameDifficultyWindowEventHandler() {
@@ -16,6 +16,6 @@ class GameDifficultyWindowEventHandler extends WindowAdapter implements Runnable
 
     @Override
     public void windowClosing(final WindowEvent e) {
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 }

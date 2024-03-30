@@ -22,6 +22,7 @@ import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.FileExtensions;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
@@ -224,7 +225,7 @@ public class Settings {
 	    Settings.storeMgr
 		    .setBoolean(GlobalStrings.loadUntranslated(UntranslatedString.SETTINGS_KEY_EDITOR_SHOW_ALL), true);
 	} catch (final IOException ioe) {
-	    LaserTankEE.logError(ioe);
+	    AppTaskManager.error(ioe);
 	}
     }
 

@@ -27,9 +27,8 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
-import com.puttysoftware.lasertank.utility.CleanupTask;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.FileExtensions;
-import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public class ArenaManager {
     // Static fields
@@ -158,7 +157,7 @@ public class ArenaManager {
 		    ArenaManager.lastUsedArenaFile = filename;
 		    ArenaManager.scoresFileName = ArenaManager.getNameWithoutExtension(filename);
 		    final var ollt = new LaserTankV4LevelLoadTask(filename);
-		    TaskRunner.runTask(ollt);
+		    AppTaskManager.runTask(ollt);
 		} else {
 		    CommonDialogs.showDialog(Strings.loadDialog(DialogString.NON_ARENA_FILE));
 		}
@@ -167,7 +166,7 @@ public class ArenaManager {
     }
 
     public static void loadArenaDefault() {
-	TaskRunner.runTask(new DefaultArenaLoadTask());
+	AppTaskManager.runTask(new DefaultArenaLoadTask());
     }
 
     private static void loadFile(final String filename, final boolean isSavedGame, final boolean protect) {
@@ -177,9 +176,9 @@ public class ArenaManager {
 		    Strings.loadDialog(DialogString.LOAD));
 	} else {
 	    // Run cleanup task
-	    CleanupTask.cleanUp();
+	    AppTaskManager.cleanUp();
 	    // Load file
-	    TaskRunner.runTask(new LoadTask(filename, isSavedGame, protect));
+	    AppTaskManager.runTask(new LoadTask(filename, isSavedGame, protect));
 	}
     }
 
@@ -315,7 +314,7 @@ public class ArenaManager {
 	} else {
 	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.SAVING_ARENA));
 	}
-	TaskRunner.runTask(new SaveTask(filename, isSavedGame, protect));
+	AppTaskManager.runTask(new SaveTask(filename, isSavedGame, protect));
     }
 
     public static void setArena(final Arena newArena) {

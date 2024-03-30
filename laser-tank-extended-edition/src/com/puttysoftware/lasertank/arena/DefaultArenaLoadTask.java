@@ -3,12 +3,12 @@ package com.puttysoftware.lasertank.arena;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.datatype.LaserTankV4LevelLoadTask;
 import com.puttysoftware.lasertank.fileio.utility.ResourceStreamReader;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.CommonString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class DefaultArenaLoadTask implements Runnable {
     private static String[] DEFAULT_LEVEL_CACHE;
@@ -29,7 +29,7 @@ class DefaultArenaLoadTask implements Runnable {
 		    }
 		}
 	    } catch (final IOException ioe) {
-		LaserTankEE.logErrorDirectly(ioe);
+		AppTaskManager.logErrorDirectly(ioe);
 	    }
 	    final var size = temp.size();
 	    DefaultArenaLoadTask.DEFAULT_LEVEL_CACHE = temp.toArray(new String[size]);

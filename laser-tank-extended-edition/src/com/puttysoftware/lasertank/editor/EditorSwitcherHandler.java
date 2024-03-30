@@ -3,11 +3,10 @@ package com.puttysoftware.lasertank.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.locale.EditorString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class EditorSwitcherHandler implements ActionListener, Runnable {
     private final Editor editor;
@@ -20,7 +19,7 @@ class EditorSwitcherHandler implements ActionListener, Runnable {
     @Override
     public void actionPerformed(final ActionEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -40,7 +39,7 @@ class EditorSwitcherHandler implements ActionListener, Runnable {
 		}
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

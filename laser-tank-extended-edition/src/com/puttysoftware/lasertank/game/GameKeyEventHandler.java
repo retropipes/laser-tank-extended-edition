@@ -3,7 +3,6 @@ package com.puttysoftware.lasertank.game;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.index.Direction;
@@ -12,8 +11,8 @@ import com.puttysoftware.lasertank.index.RangeType;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.TankInventory;
-import com.puttysoftware.lasertank.utility.TaskRunner;
 
 class GameKeyEventHandler extends KeyAdapter implements Runnable {
     private static Direction mapKeyToDirection(final KeyEvent e) {
@@ -39,7 +38,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    final var py = Game.getPlayerLocationY();
 	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -53,7 +52,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_BOMBS));
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -83,7 +82,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_BOOSTS));
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -97,7 +96,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_HEAT_BOMBS));
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -111,7 +110,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_ICE_BOMBS));
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -174,7 +173,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    final var py = Game.getPlayerLocationY();
 	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -204,7 +203,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.OUT_OF_MAGNETS));
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -215,7 +214,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    final var py = Game.getPlayerLocationY();
 	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -239,7 +238,7 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 		break;
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
@@ -250,20 +249,20 @@ class GameKeyEventHandler extends KeyAdapter implements Runnable {
 	    final var py = Game.getPlayerLocationY();
 	    Game.fireLaser(px, py, Game.tank);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
     @Override
     public void keyPressed(final KeyEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
     public void keyReleased(final KeyEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override

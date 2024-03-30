@@ -26,7 +26,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
-import com.puttysoftware.lasertank.utility.CleanupTask;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class MainScreen extends Screen implements QuitHandler {
     // Fields
@@ -84,7 +84,7 @@ class MainScreen extends Screen implements QuitHandler {
 	if (saved) {
 	    Settings.writeSettings();
 	    // Run cleanup task
-	    CleanupTask.cleanUp();
+	    AppTaskManager.cleanUp();
 	}
 	return saved;
     }

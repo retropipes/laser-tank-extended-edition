@@ -19,6 +19,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class MenubarHost {
     // Fields
@@ -685,7 +686,7 @@ class MenubarHost {
 		this.enableCutLevel();
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

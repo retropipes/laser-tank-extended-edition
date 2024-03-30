@@ -8,7 +8,6 @@ package com.puttysoftware.lasertank.game;
 import java.util.ArrayList;
 import java.util.ConcurrentModificationException;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.arena.ArenaLocks;
 import com.puttysoftware.lasertank.arena.ArenaManager;
@@ -22,6 +21,7 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.Layer;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.AlreadyDeadException;
 
 final class MLOTask implements Runnable {
@@ -627,7 +627,7 @@ final class MLOTask implements Runnable {
 	} catch (final AlreadyDeadException ade) {
 	    // Ignore
 	} catch (final Throwable t) {
-	    LaserTankEE.logError(t);
+	    AppTaskManager.error(t);
 	}
     }
 }

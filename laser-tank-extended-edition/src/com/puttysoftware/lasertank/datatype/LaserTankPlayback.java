@@ -19,8 +19,8 @@ import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.FileExtensions;
-import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public class LaserTankPlayback {
     // Constants
@@ -93,7 +93,7 @@ public class LaserTankPlayback {
     }
 
     public static void loadDefaultLPB() {
-	TaskRunner.runTask(new DefaultPlaybackLoadTask());
+	AppTaskManager.runTask(new DefaultPlaybackLoadTask());
     }
 
     private static void loadFile(final String filename) {
@@ -102,7 +102,7 @@ public class LaserTankPlayback {
 	    CommonDialogs.showErrorDialog(Strings.loadDialog(DialogString.ILLEGAL_CHARACTERS),
 		    Strings.loadDialog(DialogString.LOAD));
 	} else {
-	    TaskRunner.runTask(new LaserTankPlaybackLoadTask(new File(filename)));
+	    AppTaskManager.runTask(new LaserTankPlaybackLoadTask(new File(filename)));
 	}
     }
 

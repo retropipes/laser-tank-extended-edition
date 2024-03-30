@@ -2,7 +2,7 @@ package com.puttysoftware.lasertank.gui.dialog;
 
 import java.util.concurrent.ExecutionException;
 
-import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class ShowDialogWithTitleTask implements Runnable {
     private final String msg, title;
@@ -17,7 +17,7 @@ class ShowDialogWithTitleTask implements Runnable {
 	try {
 	    GeneralDialog.showDialog(this.msg, this.title, CommonDialogs.ICON).get();
 	} catch (InterruptedException | ExecutionException e) {
-	    ErrorHandlerInstaller.handleError(e);
+	    AppTaskManager.error(e);
 	}
     }
 }

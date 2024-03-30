@@ -3,15 +3,15 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.utility;
+package com.puttysoftware.lasertank.tasks;
 
 import java.io.File;
 
 import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.fileio.utility.DirectoryUtilities;
 
-public class CleanupTask {
-    public static void cleanUp() {
+class CleanupTask {
+    static void cleanUp() {
 	try {
 	    final var dirToDelete = new File(Arena.getArenaTempFolder());
 	    DirectoryUtilities.removeDirectory(dirToDelete);

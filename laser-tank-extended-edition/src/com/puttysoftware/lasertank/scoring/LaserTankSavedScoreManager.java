@@ -7,9 +7,9 @@ package com.puttysoftware.lasertank.scoring;
 
 import java.io.IOException;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.fileio.GameIODataReader;
 import com.puttysoftware.lasertank.fileio.GameIODataWriter;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class LaserTankSavedScoreManager extends LaserTankScores {
     // Fields
@@ -34,7 +34,7 @@ public class LaserTankSavedScoreManager extends LaserTankScores {
 	try {
 	    this.writeScoresFile();
 	} catch (final IOException io) {
-	    LaserTankEE.logWarningDirectly(io);
+	    AppTaskManager.logWarningDirectly(io);
 	}
 	return success;
     }
@@ -45,7 +45,7 @@ public class LaserTankSavedScoreManager extends LaserTankScores {
 	try {
 	    this.writeScoresFile();
 	} catch (final IOException io) {
-	    LaserTankEE.logWarningDirectly(io);
+	    AppTaskManager.logWarningDirectly(io);
 	}
 	return success;
     }

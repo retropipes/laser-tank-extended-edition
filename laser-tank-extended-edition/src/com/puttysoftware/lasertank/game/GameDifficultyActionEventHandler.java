@@ -5,7 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class GameDifficultyActionEventHandler implements ActionListener, Runnable {
     private ActionEvent event;
@@ -16,7 +16,7 @@ class GameDifficultyActionEventHandler implements ActionListener, Runnable {
     @Override
     public void actionPerformed(final ActionEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override

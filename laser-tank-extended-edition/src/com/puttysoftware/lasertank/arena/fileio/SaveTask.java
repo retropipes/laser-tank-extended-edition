@@ -18,6 +18,7 @@ import com.puttysoftware.lasertank.locale.MessageString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.FileExtensions;
 
 public class SaveTask implements Runnable {
@@ -90,7 +91,7 @@ public class SaveTask implements Runnable {
 	} catch (final ProtectionCancelException pce) {
 	    success = false;
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
 	if (this.isSavedGame) {
 	    LaserTankEE.showMessage(Strings.loadMessage(MessageString.GAME_SAVED));

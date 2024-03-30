@@ -1,8 +1,8 @@
 package com.puttysoftware.lasertank.game;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.index.LaserType;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class UpdatePushedPositionTask implements Runnable {
     private final int x;
@@ -39,7 +39,7 @@ class UpdatePushedPositionTask implements Runnable {
 	    Game.updatePushedPosition(this.x, this.y, this.x + this.pushX, this.y + this.pushY, this.o);
 	    Game.waitForMLOLoop();
 	} catch (final Throwable t) {
-	    LaserTankEE.logError(t);
+	    AppTaskManager.error(t);
 	}
     }
 }

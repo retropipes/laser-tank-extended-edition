@@ -20,6 +20,7 @@ import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class LaserTankV4LevelLoadTask implements Runnable {
     // Fields
@@ -66,10 +67,10 @@ public class LaserTankV4LevelLoadTask implements Runnable {
 	    CommonDialogs.showDialog(Strings.loadDialog(DialogString.ARENA_LOADING_FAILED));
 	    ArenaManager.handlePostFileLoad(false);
 	} catch (final IOException ie) {
-	    LaserTankEE.logWarning(ie);
+	    AppTaskManager.warning(ie);
 	    ArenaManager.handlePostFileLoad(false);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	} finally {
 	    this.loadFrame.setVisible(false);
 	}

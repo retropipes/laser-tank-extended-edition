@@ -6,39 +6,27 @@
 package com.puttysoftware.lasertank;
 
 import java.awt.Dimension;
-import java.lang.Thread.UncaughtExceptionHandler;
-import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JFrame;
 import javax.swing.JProgressBar;
-import javax.swing.SwingUtilities;
 import javax.swing.WindowConstants;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.asset.music.MusicIndex;
 import com.puttysoftware.lasertank.editor.Editor;
-import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.gui.MainContentFactory;
 import com.puttysoftware.lasertank.gui.MainWindow;
 import com.puttysoftware.lasertank.gui.Screen;
-import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.integration.Integration;
 import com.puttysoftware.lasertank.locale.DialogString;
-import com.puttysoftware.lasertank.locale.ErrorString;
 import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.update.ProductData;
 
 public class LaserTankEE {
     // Constants
-    private static String PROGRAM_NAME = "LaserTankEE"; //$NON-NLS-1$
-    private static GameErrorHandler errorHandler;
-    static String ERROR_MESSAGE = null;
-    static String ERROR_TITLE = null;
-    static String WARNING_MESSAGE = null;
-    static String WARNING_TITLE = null;
-    static final boolean DEBUG = true;
     private static final int CONTENT_SIZE = 768;
     private static MainWindow masterFrame;
     private static AboutDialog about;
@@ -91,32 +79,8 @@ public class LaserTankEE {
 	return LaserTankEE.VERSION.getVersionString();
     }
 
-    private static void initStrings() {
-	Strings.setDefaultLanguage();
-	LaserTankEE.ERROR_TITLE = Strings.loadError(ErrorString.ERROR_TITLE);
-	LaserTankEE.ERROR_MESSAGE = Strings.loadError(ErrorString.ERROR_MESSAGE);
-	LaserTankEE.WARNING_TITLE = Strings.loadError(ErrorString.WARNING_TITLE);
-	LaserTankEE.WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
-    }
-
     static void leaveScreen() {
 	LaserTankEE.currentScreen.hideScreen();
-    }
-
-    public static void logError(final Throwable t) {
-	LaserTankEE.errorHandler.handleError(t);
-    }
-
-    public static void logErrorDirectly(final Throwable t) {
-	LaserTankEE.errorHandler.handleErrorDirectly(t);
-    }
-
-    public static void logWarning(final Throwable t) {
-	LaserTankEE.errorHandler.handleWarning(t);
-    }
-
-    public static void logWarningDirectly(final Throwable t) {
-	LaserTankEE.errorHandler.handleWarningDirectly(t);
     }
 
     public static void main(final String[] args) {
@@ -124,12 +88,7 @@ public class LaserTankEE {
 	final var ni = new Integration();
 	ni.configureLookAndFeel();
 	// Install error handler
-	LaserTankEE.errorHandler = new GameErrorHandler(LaserTankEE.PROGRAM_NAME);
-	ErrorHandlerInstaller.installErrorHandler(LaserTankEE.errorHandler);
-	// Initialize strings
-	LaserTankEE.initStrings();
-	// Set Up Common Dialogs
-	CommonDialogs.setDefaultTitle(LaserTankEE.PROGRAM_NAME);
+	AppTaskManager.installDefaultErrorHandler();
 	// Create main window
 	MainContentFactory.setContentSize(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
 	MainWindow.createMainWindow(LaserTankEE.CONTENT_SIZE, LaserTankEE.CONTENT_SIZE);
@@ -151,14 +110,6 @@ public class LaserTankEE {
 	ni.setAboutHandler(LaserTankEE.getAboutDialog());
 	ni.setPreferencesHandler(new SettingsInvoker());
 	ni.setQuitHandler(LaserTankEE.mainScreen);
-	// Set up default error handling
-	final UncaughtExceptionHandler eh = (t, e) -> LaserTankEE.logWarning(e);
-	final Runnable doRun = () -> Thread.currentThread().setUncaughtExceptionHandler(eh);
-	try {
-	    SwingUtilities.invokeAndWait(doRun);
-	} catch (InvocationTargetException | InterruptedException e) {
-	    LaserTankEE.logError(e);
-	}
 	// Display GUI
 	MainScreen.showGUI();
     }

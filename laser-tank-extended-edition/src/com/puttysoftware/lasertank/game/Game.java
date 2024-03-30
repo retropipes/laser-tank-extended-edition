@@ -52,13 +52,13 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.AlreadyDeadException;
 import com.puttysoftware.lasertank.utility.CustomDialogs;
 import com.puttysoftware.lasertank.utility.FileExtensions;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 import com.puttysoftware.lasertank.utility.RCLGenerator;
 import com.puttysoftware.lasertank.utility.TankInventory;
-import com.puttysoftware.lasertank.utility.TaskRunner;
 
 public final class Game extends Screen {
     private static Game instance;
@@ -426,11 +426,11 @@ public final class Game extends Screen {
 		    Game.mlot = new MLOTask();
 		}
 		if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-		    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+		    Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 		}
 		Game.mlot.activateLasers(x, y, ox, oy, Game.activeLaserType, shooter);
 		if (!Game.actionThread.isAlive()) {
-		    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+		    Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 		}
 		if (Game.replaying) {
 		    // Wait
@@ -753,7 +753,7 @@ public final class Game extends Screen {
 		// Start animator, if enabled
 		if (Settings.enableAnimation()) {
 		    Game.animator = new AnimationTask();
-		    Game.animatorThread = TaskRunner.runTrackedTask(Game.animator);
+		    Game.animatorThread = AppTaskManager.runTrackedTask(Game.animator);
 		}
 	    } else {
 		CommonDialogs.showDialog(Strings.loadGame(GameString.NO_LEVEL_WITH_DIFFICULTY));
@@ -1064,7 +1064,7 @@ public final class Game extends Screen {
 		return;
 	    }
 	    final var rt = new ReplayTask();
-	    TaskRunner.runTask(rt);
+	    AppTaskManager.runTask(rt);
 	} else {
 	    final var success = Game.readSolution();
 	    if (!success) {
@@ -1084,7 +1084,7 @@ public final class Game extends Screen {
 		    return;
 		}
 		final var rt = new ReplayTask();
-		TaskRunner.runTask(rt);
+		AppTaskManager.runTask(rt);
 	    }
 	}
     }
@@ -1162,7 +1162,7 @@ public final class Game extends Screen {
     private static void resumeAnimator() {
 	if (Game.animator == null) {
 	    Game.animator = new AnimationTask();
-	    Game.animatorThread = TaskRunner.runTrackedTask(Game.animator);
+	    Game.animatorThread = AppTaskManager.runTrackedTask(Game.animator);
 	}
     }
 
@@ -1431,7 +1431,7 @@ public final class Game extends Screen {
 	    }
 	    Game.mlot.activateMovement(x, y);
 	    if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-		Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+		Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 	    }
 	    if (Game.replaying) {
 		// Wait
@@ -1456,7 +1456,7 @@ public final class Game extends Screen {
 	final var y = unres[1];
 	Game.mlot.activateFrozenMovement(x, y);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+	    Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 	}
 	if (Game.replaying) {
 	    // Wait
@@ -1480,7 +1480,7 @@ public final class Game extends Screen {
 	final var y = unres[1];
 	Game.mlot.activateMoltenMovement(x, y);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+	    Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 	}
 	if (Game.replaying) {
 	    // Wait
@@ -1548,14 +1548,14 @@ public final class Game extends Screen {
 	}
 	Game.mlot.activateObjects(x, y, pushX, pushY, o);
 	if (Game.actionThread == null || !Game.actionThread.isAlive()) {
-	    Game.actionThread = TaskRunner.runTrackedTask(Game.mlot);
+	    Game.actionThread = AppTaskManager.runTrackedTask(Game.mlot);
 	}
     }
 
     public static void updatePushedPositionLater(final int x, final int y, final int pushX, final int pushY,
 	    final ArenaObject o, final int x2, final int y2, final ArenaObject other, final LaserType laserType,
 	    final int forceUnits) {
-	TaskRunner.runTask(new UpdatePushedPositionTask(x, y, pushX, pushY, o, x2, y2, other, laserType, forceUnits));
+	AppTaskManager.runTask(new UpdatePushedPositionTask(x, y, pushX, pushY, o, x2, y2, other, laserType, forceUnits));
     }
 
     static void updateReplay(final GameAction a, final int x, final int y) {

@@ -9,7 +9,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.fileio.DataIOPrefixHandler;
 import com.puttysoftware.lasertank.arena.fileio.DataIOSuffixHandler;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
@@ -31,6 +30,7 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.FileExtensions;
 import com.puttysoftware.lasertank.utility.IDGenerator;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
@@ -749,7 +749,7 @@ class CurrentArena extends Arena {
 		// Load new level
 		this.readArenaLevel(reader);
 	    } catch (final IOException ioe) {
-		LaserTankEE.logError(ioe);
+		AppTaskManager.error(ioe);
 	    }
 	}
     }

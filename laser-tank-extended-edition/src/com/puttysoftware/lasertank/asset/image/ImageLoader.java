@@ -10,7 +10,7 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import com.puttysoftware.lasertank.error.ErrorHandlerInstaller;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class ImageLoader {
     public static BufferedImageIcon load(final ImageIndex image, final URL url) {
@@ -26,7 +26,7 @@ public class ImageLoader {
 	    final var image = ImageIO.read(url);
 	    return new BufferedImageIcon(image);
 	} catch (final IOException ie) {
-	    ErrorHandlerInstaller.handleError(ie);
+	    AppTaskManager.error(ie);
 	    return null;
 	}
     }

@@ -3,10 +3,9 @@ package com.puttysoftware.lasertank.settings;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class SettingsGUIActionEventHandler implements ActionListener, Runnable {
     private final SettingsGUI settingsGUI;
@@ -20,7 +19,7 @@ class SettingsGUIActionEventHandler implements ActionListener, Runnable {
     @Override
     public void actionPerformed(final ActionEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -33,7 +32,7 @@ class SettingsGUIActionEventHandler implements ActionListener, Runnable {
 		this.settingsGUI.hideSettings();
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

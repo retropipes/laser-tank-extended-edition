@@ -3,10 +3,9 @@ package com.puttysoftware.lasertank.editor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.Strings;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class LevelSettingsActionEventHandler implements ActionListener, Runnable {
     private final LevelSettings levelSettings;
@@ -19,7 +18,7 @@ class LevelSettingsActionEventHandler implements ActionListener, Runnable {
     @Override
     public void actionPerformed(final ActionEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -35,7 +34,7 @@ class LevelSettingsActionEventHandler implements ActionListener, Runnable {
 		}
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

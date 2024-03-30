@@ -5,10 +5,10 @@
  */
 package com.puttysoftware.lasertank.game;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.arena.ArenaLocks;
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.helper.LayerHelper;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class AnimationTask implements Runnable {
     // Fields
@@ -45,7 +45,7 @@ class AnimationTask implements Runnable {
 		}
 	    }
 	} catch (final Throwable t) {
-	    LaserTankEE.logError(t);
+	    AppTaskManager.error(t);
 	}
     }
 

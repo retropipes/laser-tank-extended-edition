@@ -3,7 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank.error;
+package com.puttysoftware.lasertank.tasks;
 
 public interface ErrorHandler extends Thread.UncaughtExceptionHandler {
     void handleWarning(Throwable t);

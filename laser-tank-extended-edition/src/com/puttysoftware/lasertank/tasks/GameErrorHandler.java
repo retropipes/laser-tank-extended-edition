@@ -3,11 +3,7 @@
 
  Any questions should be directed to the author via email at: products@puttysoftware.com
  */
-package com.puttysoftware.lasertank;
-
-import com.puttysoftware.lasertank.error.ErrorHandler;
-import com.puttysoftware.lasertank.utility.CleanupTask;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+package com.puttysoftware.lasertank.tasks;
 
 class GameErrorHandler implements ErrorHandler {
     static boolean DIALOG_SHOWING = false;
@@ -20,14 +16,10 @@ class GameErrorHandler implements ErrorHandler {
     }
 
     public void handleError(final Throwable t) {
-	if (LaserTankEE.DEBUG) {
-	    t.printStackTrace();
-	    CleanupTask.cleanUp();
-	    System.exit(1);
-	} else if (!GameErrorHandler.DIALOG_SHOWING) {
+	if (!GameErrorHandler.DIALOG_SHOWING) {
 	    CleanupTask.cleanUp();
 	    GameErrorHandler.DIALOG_SHOWING = true;
-	    TaskRunner.runTask(new ShowErrorDialogTask(t, this.logger));
+	    AppTaskManager.runTask(new ShowErrorDialogTask(t, this.logger));
 	} else {
 	    CleanupTask.cleanUp();
 	    this.logger.logError(t);
@@ -41,15 +33,10 @@ class GameErrorHandler implements ErrorHandler {
 
     @Override
     public void handleWarning(final Throwable t) {
-	if (LaserTankEE.DEBUG) {
-	    t.printStackTrace();
-	    System.exit(2);
-	} else {
-	    this.logger.logWarning(t);
-	    if (!GameErrorHandler.DIALOG_SHOWING) {
-		GameErrorHandler.DIALOG_SHOWING = true;
-		TaskRunner.runTask(new ShowWarningDialogTask(t, this.logger));
-	    }
+	this.logger.logWarning(t);
+	if (!GameErrorHandler.DIALOG_SHOWING) {
+	    GameErrorHandler.DIALOG_SHOWING = true;
+	    AppTaskManager.runTask(new ShowWarningDialogTask(t, this.logger));
 	}
     }
 

@@ -12,13 +12,13 @@ import java.io.IOException;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.gui.MainWindow;
 import com.puttysoftware.lasertank.gui.dialog.CommonDialogs;
 import com.puttysoftware.lasertank.locale.DialogString;
 import com.puttysoftware.lasertank.locale.GameString;
 import com.puttysoftware.lasertank.locale.Strings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 class LaserTankPlaybackLoadTask implements Runnable {
@@ -47,7 +47,7 @@ class LaserTankPlaybackLoadTask implements Runnable {
 	} catch (final IOException ioe) {
 	    throw new InvalidArenaException(ioe);
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	} finally {
 	    MainWindow.mainWindow().restoreSaved();
 	}

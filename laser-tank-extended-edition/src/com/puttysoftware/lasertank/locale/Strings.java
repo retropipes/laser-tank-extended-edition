@@ -20,6 +20,7 @@ import com.puttysoftware.lasertank.index.Era;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.settings.Settings;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class Strings {
     public static final String EMPTY = ""; //$NON-NLS-1$
@@ -141,7 +142,7 @@ public class Strings {
 		    }
 		}
 	    } catch (final IOException ioe) {
-		LaserTankEE.logErrorDirectly(ioe);
+		AppTaskManager.logErrorDirectly(ioe);
 	    }
 	}
 	final var size = Strings.LANGUAGES_CACHE.size();

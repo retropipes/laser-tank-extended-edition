@@ -3,12 +3,11 @@ package com.puttysoftware.lasertank.game;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Images;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.utility.TaskRunner;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class GameMouseEventHandler extends MouseAdapter implements Runnable {
     private MouseEvent event;
@@ -29,7 +28,7 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
     @Override
     public void mouseClicked(final MouseEvent e) {
 	this.event = e;
-	TaskRunner.runTask(this);
+	AppTaskManager.runTask(this);
     }
 
     @Override
@@ -58,7 +57,7 @@ class GameMouseEventHandler extends MouseAdapter implements Runnable {
 		Game.fireLaser(px, py, Game.tank);
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 }

@@ -1,10 +1,10 @@
 package com.puttysoftware.lasertank.game;
 
-import com.puttysoftware.lasertank.LaserTankEE;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
+import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class CommonGameEventHandlers {
     static void handleTurns(final Direction dir) {
@@ -48,7 +48,7 @@ class CommonGameEventHandlers {
 		Game.redrawArena();
 	    }
 	} catch (final Exception ex) {
-	    LaserTankEE.logError(ex);
+	    AppTaskManager.error(ex);
 	}
     }
 
