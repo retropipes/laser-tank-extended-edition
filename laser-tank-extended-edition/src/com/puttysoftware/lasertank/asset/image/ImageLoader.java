@@ -21,6 +21,9 @@ public class ImageLoader {
 	return ImageCache.getCachedImage(name, url);
     }
 
+    /**
+     * @param name  
+     */
     static BufferedImageIcon loadUncached(final String name, final URL url) {
 	try {
 	    final var image = ImageIO.read(url);

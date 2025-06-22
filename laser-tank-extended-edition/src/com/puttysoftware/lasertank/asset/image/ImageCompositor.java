@@ -109,6 +109,9 @@ public class ImageCompositor {
 	return input2;
     }
 
+    /**
+     * @param name  
+     */
     static BufferedImageIcon compositeUncached(final String name, final BufferedImageIcon... inputs) {
 	if (inputs != null) {
 	    if (inputs.length >= 2) {

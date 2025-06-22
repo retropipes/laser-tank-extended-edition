@@ -89,31 +89,37 @@ class InputDialog {
     public static Future<Integer> showConfirmDialog(final String text, final String title,
 	    final BufferedImageIcon icon) {
 	InputDialog.completer = new CompletableFuture<>();
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    final String[] possibleValues = { Strings.loadDialog(DialogString.YES),
-		    Strings.loadDialog(DialogString.NO) };
-	    InputDialog.initializeDialog(text, title, icon, possibleValues);
-	});
-	return InputDialog.completer;
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		final String[] possibleValues = { Strings.loadDialog(DialogString.YES),
+			Strings.loadDialog(DialogString.NO) };
+		InputDialog.initializeDialog(text, title, icon, possibleValues);
+	    });
+	    return InputDialog.completer;
+	}
     }
 
     public static Future<Integer> showDialog(final String text, final String title, final BufferedImageIcon icon,
 	    final String[] possibleValues) {
 	InputDialog.completer = new CompletableFuture<>();
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    InputDialog.initializeDialog(text, title, icon, possibleValues);
-	});
-	return InputDialog.completer;
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		InputDialog.initializeDialog(text, title, icon, possibleValues);
+	    });
+	    return InputDialog.completer;
+	}
     }
 
     public static Future<Integer> showYNCConfirmDialog(final String text, final String title,
 	    final BufferedImageIcon icon) {
 	InputDialog.completer = new CompletableFuture<>();
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    final String[] possibleValues = { Strings.loadDialog(DialogString.YES), Strings.loadDialog(DialogString.NO),
-		    Strings.loadError(ErrorString.CANCEL_BUTTON) };
-	    InputDialog.initializeDialog(text, title, icon, possibleValues);
-	});
-	return InputDialog.completer;
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		final String[] possibleValues = { Strings.loadDialog(DialogString.YES),
+			Strings.loadDialog(DialogString.NO), Strings.loadError(ErrorString.CANCEL_BUTTON) };
+		InputDialog.initializeDialog(text, title, icon, possibleValues);
+	    });
+	    return InputDialog.completer;
+	}
     }
 }

@@ -45,52 +45,54 @@ class PasswordInputDialog {
      * appear.
      */
     public static Future<char[]> showDialog(final String text, final String title, final BufferedImageIcon icon) {
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    // Create and initialize the dialog.
-	    PasswordInputDialog.dialogFrame = MainWindow.mainWindow();
-	    PasswordInputDialog.dialogPane = PasswordInputDialog.dialogFrame.createContent();
-	    // Create and initialize the buttons.
-	    final var cancelButton = new JButton(Strings.loadError(ErrorString.CANCEL_BUTTON));
-	    cancelButton.addActionListener(h -> {
-		PasswordInputDialog.setValue(null);
-		PasswordInputDialog.dialogFrame.restoreSaved();
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		// Create and initialize the dialog.
+		PasswordInputDialog.dialogFrame = MainWindow.mainWindow();
+		PasswordInputDialog.dialogPane = PasswordInputDialog.dialogFrame.createContent();
+		// Create and initialize the buttons.
+		final var cancelButton = new JButton(Strings.loadError(ErrorString.CANCEL_BUTTON));
+		cancelButton.addActionListener(h -> {
+		    PasswordInputDialog.setValue(null);
+		    PasswordInputDialog.dialogFrame.restoreSaved();
+		});
+		final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.addActionListener(h -> {
+		    PasswordInputDialog.setValue(PasswordInputDialog.input.getPassword());
+		    PasswordInputDialog.dialogFrame.restoreSaved();
+		});
+		// main part of the dialog
+		PasswordInputDialog.input = new JPasswordField();
+		final var iconPane = new JPanel();
+		final var iconLabel = new JLabel(icon);
+		iconPane.setLayout(new BoxLayout(iconPane, BoxLayout.PAGE_AXIS));
+		iconPane.add(iconLabel);
+		final var mainPane = new JPanel();
+		mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
+		final var textLabel = new JTextArea(text);
+		textLabel.setEditable(false);
+		textLabel.setLineWrap(true);
+		mainPane.add(textLabel);
+		mainPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		mainPane.add(PasswordInputDialog.input);
+		mainPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		// Lay out the buttons from left to right.
+		final var buttonPane = new JPanel();
+		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		buttonPane.add(Box.createHorizontalGlue());
+		buttonPane.add(cancelButton);
+		buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+		buttonPane.add(setButton);
+		// Put everything together, using the content pane's BorderLayout.
+		PasswordInputDialog.dialogPane.add(iconPane, BorderLayout.WEST);
+		PasswordInputDialog.dialogPane.add(mainPane, BorderLayout.CENTER);
+		PasswordInputDialog.dialogPane.add(buttonPane, BorderLayout.SOUTH);
+		// Initialize values.
+		PasswordInputDialog.dialogFrame.setAndSave(PasswordInputDialog.dialogPane, title);
 	    });
-	    final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.addActionListener(h -> {
-		PasswordInputDialog.setValue(PasswordInputDialog.input.getPassword());
-		PasswordInputDialog.dialogFrame.restoreSaved();
-	    });
-	    // main part of the dialog
-	    PasswordInputDialog.input = new JPasswordField();
-	    final var iconPane = new JPanel();
-	    final var iconLabel = new JLabel(icon);
-	    iconPane.setLayout(new BoxLayout(iconPane, BoxLayout.PAGE_AXIS));
-	    iconPane.add(iconLabel);
-	    final var mainPane = new JPanel();
-	    mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
-	    final var textLabel = new JTextArea(text);
-	    textLabel.setEditable(false);
-	    textLabel.setLineWrap(true);
-	    mainPane.add(textLabel);
-	    mainPane.add(Box.createRigidArea(new Dimension(0, 5)));
-	    mainPane.add(PasswordInputDialog.input);
-	    mainPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	    // Lay out the buttons from left to right.
-	    final var buttonPane = new JPanel();
-	    buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-	    buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-	    buttonPane.add(Box.createHorizontalGlue());
-	    buttonPane.add(cancelButton);
-	    buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
-	    buttonPane.add(setButton);
-	    // Put everything together, using the content pane's BorderLayout.
-	    PasswordInputDialog.dialogPane.add(iconPane, BorderLayout.WEST);
-	    PasswordInputDialog.dialogPane.add(mainPane, BorderLayout.CENTER);
-	    PasswordInputDialog.dialogPane.add(buttonPane, BorderLayout.SOUTH);
-	    // Initialize values.
-	    PasswordInputDialog.dialogFrame.setAndSave(PasswordInputDialog.dialogPane, title);
-	});
-	return PasswordInputDialog.completer;
+	    return PasswordInputDialog.completer;
+	}
     }
 }

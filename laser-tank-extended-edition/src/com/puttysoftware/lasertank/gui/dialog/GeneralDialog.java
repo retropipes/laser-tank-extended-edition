@@ -31,42 +31,44 @@ class GeneralDialog {
     private static CompletableFuture<Void> completer = new CompletableFuture<>();
 
     public static Future<Void> showDialog(final String text, final String title, final BufferedImageIcon icon) {
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    // Create and initialize the dialog.
-	    GeneralDialog.dialogFrame = MainWindow.mainWindow();
-	    GeneralDialog.dialogPane = GeneralDialog.dialogFrame.createContent();
-	    // Create and initialize the buttons.
-	    final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.addActionListener(h -> {
-		GeneralDialog.completer.complete(null);
-		GeneralDialog.dialogFrame.restoreSaved();
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		// Create and initialize the dialog.
+		GeneralDialog.dialogFrame = MainWindow.mainWindow();
+		GeneralDialog.dialogPane = GeneralDialog.dialogFrame.createContent();
+		// Create and initialize the buttons.
+		final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.addActionListener(h -> {
+		    GeneralDialog.completer.complete(null);
+		    GeneralDialog.dialogFrame.restoreSaved();
+		});
+		// main part of the dialog
+		final var iconPane = new JPanel();
+		final var iconLabel = new JLabel(icon);
+		iconPane.setLayout(new BoxLayout(iconPane, BoxLayout.PAGE_AXIS));
+		iconPane.add(iconLabel);
+		final var mainPane = new JPanel();
+		mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
+		final var textLabel = new JTextArea(text);
+		textLabel.setEditable(false);
+		textLabel.setLineWrap(true);
+		mainPane.add(textLabel);
+		mainPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		// Lay out the buttons from left to right.
+		final var buttonPane = new JPanel();
+		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		buttonPane.add(Box.createHorizontalGlue());
+		buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+		buttonPane.add(setButton);
+		// Put everything together, using the content pane's BorderLayout.
+		GeneralDialog.dialogPane.add(iconPane, BorderLayout.WEST);
+		GeneralDialog.dialogPane.add(mainPane, BorderLayout.CENTER);
+		GeneralDialog.dialogPane.add(buttonPane, BorderLayout.SOUTH);
+		GeneralDialog.dialogFrame.setAndSave(GeneralDialog.dialogPane, title);
 	    });
-	    // main part of the dialog
-	    final var iconPane = new JPanel();
-	    final var iconLabel = new JLabel(icon);
-	    iconPane.setLayout(new BoxLayout(iconPane, BoxLayout.PAGE_AXIS));
-	    iconPane.add(iconLabel);
-	    final var mainPane = new JPanel();
-	    mainPane.setLayout(new BoxLayout(mainPane, BoxLayout.PAGE_AXIS));
-	    final var textLabel = new JTextArea(text);
-	    textLabel.setEditable(false);
-	    textLabel.setLineWrap(true);
-	    mainPane.add(textLabel);
-	    mainPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	    // Lay out the buttons from left to right.
-	    final var buttonPane = new JPanel();
-	    buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-	    buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-	    buttonPane.add(Box.createHorizontalGlue());
-	    buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
-	    buttonPane.add(setButton);
-	    // Put everything together, using the content pane's BorderLayout.
-	    GeneralDialog.dialogPane.add(iconPane, BorderLayout.WEST);
-	    GeneralDialog.dialogPane.add(mainPane, BorderLayout.CENTER);
-	    GeneralDialog.dialogPane.add(buttonPane, BorderLayout.SOUTH);
-	    GeneralDialog.dialogFrame.setAndSave(GeneralDialog.dialogPane, title);
-	});
-	return GeneralDialog.completer;
+	    return GeneralDialog.completer;
+	}
     }
 }

@@ -21,7 +21,7 @@ class CurrentArenaStorageTests {
 
     @Test
     final void canCopyBase() {
-	var copy = new ObjectStorage(testObject);
+	var copy = new ObjectStorage(this.testObject);
 	assertNotNull(copy);
     }
 

@@ -88,77 +88,79 @@ class ImageListWithDescDialog {
     public static Future<Integer> showDialog(final String labelText, final String title,
 	    final BufferedImageIcon[] possibleValues, final int initialValue, final String descValue,
 	    final String... possibleDescriptions) {
-	Executors.newSingleThreadExecutor().submit(() -> {
-	    // Create and initialize the dialog.
-	    ImageListWithDescDialog.dialogFrame = MainWindow.mainWindow();
-	    ImageListWithDescDialog.dialogPane = ImageListWithDescDialog.dialogFrame.createContent();
-	    // Initialize the descriptions
-	    ImageListWithDescDialog.descs = possibleDescriptions;
-	    // Create and initialize the buttons.
-	    final var cancelButton = new JButton(Strings.loadError(ErrorString.CANCEL_BUTTON));
-	    cancelButton.addActionListener(h -> {
-		ImageListWithDescDialog.setValue(CommonDialogs.CANCEL);
-		ImageListWithDescDialog.dialogFrame.restoreSaved();
-	    });
-	    final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
-	    setButton.addActionListener(h -> {
-		ImageListWithDescDialog.setValue(ImageListWithDescDialog.list.getSelectedIndex());
-		ImageListWithDescDialog.dialogFrame.restoreSaved();
-	    });
-	    // Create a text area to hold the description
-	    final var descPane = new JPanel();
-	    final var descArea = new JTextArea(descValue);
-	    descArea.setLineWrap(true);
-	    descArea.setWrapStyleWord(true);
-	    descArea.setPreferredSize(new Dimension(250, 80));
-	    descPane.add(descArea);
-	    // main part of the dialog
-	    ImageListWithDescDialog.list = new SubJList<>(possibleValues);
-	    ImageListWithDescDialog.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-	    ImageListWithDescDialog.list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-	    ImageListWithDescDialog.list.setVisibleRowCount(-1);
-	    ImageListWithDescDialog.list.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(final MouseEvent e) {
-		    if (e.getClickCount() == 2) {
-			setButton.doClick(); // emulate button click
+	try (var exec = Executors.newSingleThreadExecutor()) {
+	    exec.submit(() -> {
+		// Create and initialize the dialog.
+		ImageListWithDescDialog.dialogFrame = MainWindow.mainWindow();
+		ImageListWithDescDialog.dialogPane = ImageListWithDescDialog.dialogFrame.createContent();
+		// Initialize the descriptions
+		ImageListWithDescDialog.descs = possibleDescriptions;
+		// Create and initialize the buttons.
+		final var cancelButton = new JButton(Strings.loadError(ErrorString.CANCEL_BUTTON));
+		cancelButton.addActionListener(h -> {
+		    ImageListWithDescDialog.setValue(CommonDialogs.CANCEL);
+		    ImageListWithDescDialog.dialogFrame.restoreSaved();
+		});
+		final var setButton = new JButton(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.setActionCommand(Strings.loadError(ErrorString.OK_BUTTON));
+		setButton.addActionListener(h -> {
+		    ImageListWithDescDialog.setValue(ImageListWithDescDialog.list.getSelectedIndex());
+		    ImageListWithDescDialog.dialogFrame.restoreSaved();
+		});
+		// Create a text area to hold the description
+		final var descPane = new JPanel();
+		final var descArea = new JTextArea(descValue);
+		descArea.setLineWrap(true);
+		descArea.setWrapStyleWord(true);
+		descArea.setPreferredSize(new Dimension(250, 80));
+		descPane.add(descArea);
+		// main part of the dialog
+		ImageListWithDescDialog.list = new SubJList<>(possibleValues);
+		ImageListWithDescDialog.list.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		ImageListWithDescDialog.list.setLayoutOrientation(JList.HORIZONTAL_WRAP);
+		ImageListWithDescDialog.list.setVisibleRowCount(-1);
+		ImageListWithDescDialog.list.addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(final MouseEvent e) {
+			if (e.getClickCount() == 2) {
+			    setButton.doClick(); // emulate button click
+			}
 		    }
-		}
+		});
+		ImageListWithDescDialog.list.addListSelectionListener(e -> descArea
+			.setText(ImageListWithDescDialog.descs[ImageListWithDescDialog.list.getSelectedIndex()]));
+		final var listScroller = new JScrollPane(ImageListWithDescDialog.list);
+		listScroller.setPreferredSize(new Dimension(250, 80));
+		listScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
+		// Create a container so that we can add a title around
+		// the scroll pane. Can't add a title directly to the
+		// scroll pane because its background would be white.
+		// Lay out the label and scroll pane from top to bottom.
+		final var listPane = new JPanel();
+		listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
+		final var label = new JLabel(labelText);
+		label.setLabelFor(ImageListWithDescDialog.list);
+		listPane.add(label);
+		listPane.add(Box.createRigidArea(new Dimension(0, 5)));
+		listPane.add(listScroller);
+		listPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+		// Lay out the buttons from left to right.
+		final var buttonPane = new JPanel();
+		buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
+		buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
+		buttonPane.add(Box.createHorizontalGlue());
+		buttonPane.add(cancelButton);
+		buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
+		buttonPane.add(setButton);
+		// Put everything together, using the content pane's BorderLayout.
+		ImageListWithDescDialog.dialogPane.add(listPane, BorderLayout.NORTH);
+		ImageListWithDescDialog.dialogPane.add(descPane, BorderLayout.CENTER);
+		ImageListWithDescDialog.dialogPane.add(buttonPane, BorderLayout.PAGE_END);
+		// Initialize values.
+		ImageListWithDescDialog.setValue(initialValue);
+		ImageListWithDescDialog.dialogFrame.setAndSave(ImageListWithDescDialog.dialogPane, title);
 	    });
-	    ImageListWithDescDialog.list.addListSelectionListener(e -> descArea
-		    .setText(ImageListWithDescDialog.descs[ImageListWithDescDialog.list.getSelectedIndex()]));
-	    final var listScroller = new JScrollPane(ImageListWithDescDialog.list);
-	    listScroller.setPreferredSize(new Dimension(250, 80));
-	    listScroller.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    // Create a container so that we can add a title around
-	    // the scroll pane. Can't add a title directly to the
-	    // scroll pane because its background would be white.
-	    // Lay out the label and scroll pane from top to bottom.
-	    final var listPane = new JPanel();
-	    listPane.setLayout(new BoxLayout(listPane, BoxLayout.PAGE_AXIS));
-	    final var label = new JLabel(labelText);
-	    label.setLabelFor(ImageListWithDescDialog.list);
-	    listPane.add(label);
-	    listPane.add(Box.createRigidArea(new Dimension(0, 5)));
-	    listPane.add(listScroller);
-	    listPane.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-	    // Lay out the buttons from left to right.
-	    final var buttonPane = new JPanel();
-	    buttonPane.setLayout(new BoxLayout(buttonPane, BoxLayout.LINE_AXIS));
-	    buttonPane.setBorder(BorderFactory.createEmptyBorder(0, 10, 10, 10));
-	    buttonPane.add(Box.createHorizontalGlue());
-	    buttonPane.add(cancelButton);
-	    buttonPane.add(Box.createRigidArea(new Dimension(10, 0)));
-	    buttonPane.add(setButton);
-	    // Put everything together, using the content pane's BorderLayout.
-	    ImageListWithDescDialog.dialogPane.add(listPane, BorderLayout.NORTH);
-	    ImageListWithDescDialog.dialogPane.add(descPane, BorderLayout.CENTER);
-	    ImageListWithDescDialog.dialogPane.add(buttonPane, BorderLayout.PAGE_END);
-	    // Initialize values.
-	    ImageListWithDescDialog.setValue(initialValue);
-	    ImageListWithDescDialog.dialogFrame.setAndSave(ImageListWithDescDialog.dialogPane, title);
-	});
-	return ImageListWithDescDialog.completer;
+	    return ImageListWithDescDialog.completer;
+	}
     }
 }

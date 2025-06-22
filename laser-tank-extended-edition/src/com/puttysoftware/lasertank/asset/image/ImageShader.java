@@ -84,6 +84,9 @@ public class ImageShader {
 	return ImageCache.getCachedImage(name, input, shade);
     }
 
+    /**
+     * @param name  
+     */
     static BufferedImageIcon shadeUncached(final String name, final BufferedImageIcon input, final ColorShader shade) {
 	if (input == null) {
 	    return null;

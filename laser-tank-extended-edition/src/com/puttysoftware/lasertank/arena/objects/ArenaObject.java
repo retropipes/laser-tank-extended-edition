@@ -370,6 +370,9 @@ public class ArenaObject {
 	return 0;
     }
 
+    /**
+     * @param propID  
+     */
     public int getCustomProperty(final int propID) {
 	return ArenaObject.DEFAULT_CUSTOM_VALUE;
     }
@@ -772,6 +775,15 @@ public class ArenaObject {
 	return Direction.NONE;
     }
 
+    /**
+     * @param locX 
+     * @param locY 
+     * @param locZ  
+     * @param dirX 
+     * @param dirY 
+     * @param laserType 
+     * @param forceUnits 
+     */
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
 	// Do nothing
@@ -901,6 +913,11 @@ public class ArenaObject {
 	this.postMoveActionHook(dirX, dirY, dirZ);
     }
 
+    /**
+     * @param dirX  
+     * @param dirY 
+     * @param dirZ 
+     */
     protected void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	// Do nothing
     }
@@ -1031,12 +1048,24 @@ public class ArenaObject {
 	return false;
     }
 
+    /**
+     * @param locX 
+     * @param locY 
+     * @param locZ 
+     * @param dirX  
+     * @param dirY 
+     * @param rangeType 
+     * @param forceUnits 
+     */
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
 	// Do nothing
 	return false;
     }
 
+    /**
+     * @param ident  
+     */
     public final ArenaObject readArenaObjectG2(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
 	final var cc = this.getCustomFormat();
@@ -1055,6 +1084,9 @@ public class ArenaObject {
 	return this;
     }
 
+    /**
+     * @param ident  
+     */
     public final ArenaObject readArenaObjectG3(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
 	final var cc = this.getCustomFormat();
@@ -1076,6 +1108,9 @@ public class ArenaObject {
 	return this;
     }
 
+    /**
+     * @param ident  
+     */
     public final ArenaObject readArenaObjectG4(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
 	final var cc = this.getCustomFormat();
@@ -1093,6 +1128,9 @@ public class ArenaObject {
 	return this;
     }
 
+    /**
+     * @param ident  
+     */
     public final ArenaObject readArenaObjectG5(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
 	final var cc = this.getCustomFormat();
@@ -1110,6 +1148,9 @@ public class ArenaObject {
 	return this;
     }
 
+    /**
+     * @param ident  
+     */
     public final ArenaObject readArenaObjectG6(final DataIOReader reader, final String ident,
 	    final GameFormat formatVersion) throws IOException {
 	final var cc = this.getCustomFormat();
@@ -1196,6 +1237,10 @@ public class ArenaObject {
 	this.color = col;
     }
 
+    /**
+     * @param propID  
+     * @param value 
+     */
     public void setCustomProperty(final int propID, final int value) {
 	// Do nothing
     }
