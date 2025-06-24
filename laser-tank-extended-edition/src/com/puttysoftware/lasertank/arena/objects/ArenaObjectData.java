@@ -12,6 +12,14 @@ class ArenaObjectData {
     private static final int DEFAULT_FORCE = 1;
     private static final int METAL_FORCE = 2;
 
+    public static boolean acceptFire(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadAcceptFire(objectID);
+    }
+
+    public static boolean acceptIce(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadAcceptIce(objectID);
+    }
+
     public static boolean acceptTick(final GameObjectID objectID, final GameAction action) {
 	return ArenaObjectDataLoader.loadAcceptTick(objectID, action);
     }
@@ -82,6 +90,14 @@ class ArenaObjectData {
 	    return ArenaObjectData.METAL_FORCE;
 	}
 	return ArenaObjectData.DEFAULT_FORCE;
+    }
+
+    public static GameObjectID getNewObjectIDOnAcceptingFire(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadNewIDFire(objectID);
+    }
+
+    public static GameObjectID getNewObjectIDOnAcceptingIce(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadNewIDIce(objectID);
     }
 
     public static GameObjectID getPairedObjectID(final GameObjectID objectID) {

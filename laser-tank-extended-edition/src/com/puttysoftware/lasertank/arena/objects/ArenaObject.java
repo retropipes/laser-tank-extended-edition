@@ -231,6 +231,14 @@ public class ArenaObject {
 	this.dir2Y = 0;
     }
 
+    public final boolean acceptFire() {
+	return ArenaObjectData.acceptFire(this.getID());
+    }
+
+    public final boolean acceptIce() {
+	return ArenaObjectData.acceptIce(this.getID());
+    }
+
     public final boolean acceptTick(final GameAction actionType) {
 	return ArenaObjectData.acceptTick(this.getID(), actionType);
     }
@@ -275,7 +283,31 @@ public class ArenaObject {
      * @return
      */
     public ArenaObject changesToOnExposure(final Material materialID) {
-	return this;
+	return switch (materialID) {
+	case ICE -> {
+	    if (this.acceptIce()) {
+		final var newID = ArenaObjectData.getNewObjectIDOnAcceptingIce(this.getID());
+		if (this.getID() != newID) {
+		    final var i = new ArenaObject(newID);
+		    i.setPreviousState(this);
+		    yield i;
+		}
+	    }
+	    yield this;
+	}
+	case FIRE -> {
+	    if (this.acceptFire()) {
+		final var newID = ArenaObjectData.getNewObjectIDOnAcceptingFire(this.getID());
+		if (this.getID() != newID) {
+		    final var f = new ArenaObject(newID);
+		    f.setPreviousState(this);
+		    yield f;
+		}
+	    }
+	    yield this;
+	}
+	default -> this;
+	};
     }
 
     public final boolean defersSetProperties() {

@@ -34,7 +34,11 @@ enum ArenaObjectDataFile {
     COLOR,
     STUNNED,
     TIMER,
-    POWERFUL;
+    POWERFUL,
+    ACCEPT_FIRE,
+    ACCEPT_ICE,
+    NEW_ID_FIRE,
+    NEW_ID_ICE;
 
     public String getName() {
 	return Integer.toString(this.ordinal());

@@ -19,6 +19,40 @@ class ArenaObjectDataLoader {
 	return ResourceBundle.getBundle(GlobalStrings.loadDataLoader(DataLoaderString.LOAD_PATH) + file.getName());
     }
 
+    public static boolean loadAcceptFire(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ACCEPT_FIRE);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+	    return true;
+	}
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+		|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static boolean loadAcceptIce(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ACCEPT_ICE);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.ANY)) {
+	    return true;
+	}
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)
+		|| value != GlobalStrings.loadDataLoader(DataLoaderString.VALUE_DIRECTION)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
     public static boolean loadAcceptTick(final GameObjectID objID, final GameAction action) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ACCEPT_TICK);
 	final var key = String.valueOf(objID);
@@ -398,6 +432,32 @@ class ArenaObjectDataLoader {
 	    return 0;
 	}
 	return Integer.parseInt(value);
+    }
+
+    public static GameObjectID loadNewIDFire(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.NEW_ID_FIRE);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return null;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+	    return null;
+	}
+	return GameObjectID.values()[Integer.parseInt(value)];
+    }
+
+    public static GameObjectID loadNewIDIce(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.NEW_ID_ICE);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return null;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+	    return null;
+	}
+	return GameObjectID.values()[Integer.parseInt(value)];
     }
 
     public static GameObjectID loadPair(final GameObjectID objID) {
