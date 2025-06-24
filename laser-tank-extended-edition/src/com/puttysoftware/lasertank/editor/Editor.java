@@ -271,7 +271,6 @@ public class Editor extends Screen {
 	final var objInstance = new ArenaObject(mo);
 	this.elMgr.setEditorLocationX(gridX);
 	this.elMgr.setEditorLocationY(gridY);
-	this.savedArenaObject.editorRemoveHook(gridX, gridY, this.elMgr.getEditorLocationZ());
 	mo.editorPlaceHook(gridX, gridY, this.elMgr.getEditorLocationZ());
 	try {
 	    this.updateUndoHistory(this.savedArenaObject, gridX, gridY, this.elMgr.getEditorLocationZ(),

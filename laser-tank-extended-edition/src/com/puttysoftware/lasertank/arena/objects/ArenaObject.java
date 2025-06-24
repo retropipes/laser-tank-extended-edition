@@ -323,16 +323,6 @@ public class ArenaObject {
 	return null;
     }
 
-    /**
-     *
-     * @param x
-     * @param y
-     * @param z
-     */
-    public void editorRemoveHook(final int x, final int y, final int z) {
-	// Do nothing
-    }
-
     @Override
     public boolean equals(final Object obj) {
 	if (this == obj) {
