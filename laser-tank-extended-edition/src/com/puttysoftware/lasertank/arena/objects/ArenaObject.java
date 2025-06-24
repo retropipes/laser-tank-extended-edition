@@ -406,10 +406,6 @@ public class ArenaObject {
 	return this.gameObjectID;
     }
 
-    private final String getIdentifier() {
-	return this.getImageName();
-    }
-
     public final String getImageName() {
 	if (this.hasDirection() && this.isAnimated()) {
 	    return ArenaObjectImageResolver.getImageName(this.getID(), this.direction, this.frameNumber);
@@ -1373,7 +1369,7 @@ public class ArenaObject {
     }
 
     public final void writeArenaObject(final DataIOWriter writer) throws IOException {
-	writer.writeString(this.getIdentifier());
+	writer.writeString(this.getID().toString());
 	final var cc = this.getCustomFormat();
 	if (cc == ArenaObject.CUSTOM_FORMAT_MANUAL_OVERRIDE) {
 	    writer.writeInt(this.direction.ordinal());
