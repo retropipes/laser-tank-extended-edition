@@ -164,29 +164,23 @@ public class ArenaObject {
     }
 
     public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
-	if (this.canControl() || this.isHostile()) {
-	    this.activateTimer(1);
+	if (this.isStunned()) {
+	    this.stunnedLeft = ArenaObject.STUNNED_START;
 	} else {
-	    this.timerValue = 0;
-	    this.timerActive = false;
+	    this.stunnedLeft = 0;
 	}
 	this.index = newIndex;
+	this.timerActive = this.getInitialTimerActive();
+	this.timerValue = this.getInitialTimerValue();
 	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = dir;
-	this.color = GameColor.NONE;
+	this.color = this.getInitialColor();
 	this.imageEnabled = true;
 	this.gameObjectID = goid;
 	this.waitingOnTunnel = false;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
 	this.pairTriggered = false;
 	this.pairX = -1;
 	this.pairY = -1;
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
 	this.jumpRows = 0;
 	this.jumpCols = 0;
 	this.jumpShot = false;
@@ -195,42 +189,15 @@ public class ArenaObject {
 	this.dir1Y = 0;
 	this.dir2X = 0;
 	this.dir2Y = 0;
-    }
-
-    public ArenaObject(final GameObjectID goid, final int newIndex) {
-	if (this.canControl() || this.isHostile()) {
-	    this.activateTimer(1);
-	} else {
-	    this.timerValue = 0;
-	    this.timerActive = false;
-	}
-	this.index = newIndex;
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = GameColor.NONE;
-	this.imageEnabled = true;
-	this.gameObjectID = goid;
-	this.waitingOnTunnel = false;
 	if (this.canMove() || this.canControl()) {
 	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 	}
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
 	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
 	if (pairID != null) {
 	    this.pairedWith = new ArenaObject(pairID);
 	}
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
     }
-
+    
     public final boolean acceptFire() {
 	return ArenaObjectData.acceptFire(this.getID());
     }
