@@ -197,7 +197,7 @@ public class ArenaObject {
 	    this.pairedWith = new ArenaObject(pairID);
 	}
     }
-    
+
     public final boolean acceptFire() {
 	return ArenaObjectData.acceptFire(this.getID());
     }
@@ -994,7 +994,6 @@ public class ArenaObject {
 		// Burn wooden object
 		Sounds.play(Sound.BURN);
 		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
-		return true;
 	    }
 	    if (RangeTypeHelper.material(rangeType) == Material.ICE
 		    && (this.getMaterial() == Material.METALLIC || this.getMaterial() == Material.WOODEN
@@ -1003,29 +1002,30 @@ public class ArenaObject {
 		// Freeze metal, wooden, or plastic object
 		Sounds.play(Sound.FREEZE);
 		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
-		return true;
 	    }
 	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
 		    && this.changesToOnExposure(Material.FIRE) != null) {
 		// Melt icy object
 		Sounds.play(Sound.DEFROST);
 		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
-		return true;
 	    }
 	    if (RangeTypeHelper.material(rangeType) == Material.ICE && this.getMaterial() == Material.FIRE
 		    && this.changesToOnExposure(Material.ICE) != null) {
 		// Cool hot object
 		Sounds.play(Sound.COOL_OFF);
 		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
-		return true;
 	    }
 	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.METALLIC
 		    && this.changesToOnExposure(Material.FIRE) != null) {
 		// Melt metal object
 		Sounds.play(Sound.MELT);
 		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
-		return true;
 	    }
+	    var snd = this.rangeSound();
+	    if (snd != Sound._NONE) {
+		Sounds.play(snd);
+	    }
+	    return this.rangeActionHook(locX, locY, locZ, dirX, dirY, rangeType, forceUnits);
 	}
 	return false;
     }
@@ -1042,7 +1042,11 @@ public class ArenaObject {
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
 	// Do nothing
-	return false;
+	return true;
+    }
+
+    public final Sound rangeSound() {
+	return ArenaObjectData.rangeSound(this.getID());
     }
 
     /**

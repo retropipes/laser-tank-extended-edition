@@ -6,8 +6,6 @@
 package com.puttysoftware.lasertank.arena.objects.predefined;
 
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -40,7 +38,6 @@ public class TougherBricks extends ArenaObject {
     @Override
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
-	Sounds.play(Sound.BREAK_BRICKS);
 	Game.morph(new ArenaObject(GameObjectID.TOUGH_BRICKS), locX + dirX, locY + dirY, locZ, this.getLayer());
 	return true;
     }

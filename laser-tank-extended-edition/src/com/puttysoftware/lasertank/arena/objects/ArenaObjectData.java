@@ -181,7 +181,7 @@ class ArenaObjectData {
     }
 
     public static Sound laserEnterSound(final GameObjectID objID) {
-	return ArenaObjectDataLoader.loadLaserEnter(objID);
+	return ArenaObjectDataLoader.loadLaserEnterSound(objID);
     }
 
     public static boolean movesBoxes(final GameObjectID objectID, final Direction dir) {
@@ -202,6 +202,10 @@ class ArenaObjectData {
 
     public static int navigatesToOnMove(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadNavigate(objectID);
+    }
+
+    public static Sound rangeSound(final GameObjectID objID) {
+	return ArenaObjectDataLoader.loadRangeSound(objID);
     }
 
     public static boolean solvesOnMove(final GameObjectID objectID) {

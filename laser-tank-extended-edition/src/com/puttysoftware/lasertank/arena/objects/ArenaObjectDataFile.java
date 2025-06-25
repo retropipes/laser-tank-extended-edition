@@ -39,7 +39,8 @@ enum ArenaObjectDataFile {
     ACCEPT_ICE,
     NEW_ID_FIRE,
     NEW_ID_ICE,
-    LASER_ENTER_SOUND;
+    LASER_ENTER_SOUND,
+    RANGE_SOUND;
 
     public String getName() {
 	return Integer.toString(this.ordinal());

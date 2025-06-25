@@ -7,8 +7,6 @@ package com.puttysoftware.lasertank.arena.objects.predefined;
 
 import com.puttysoftware.lasertank.arena.ArenaManager;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.asset.Sound;
-import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
@@ -58,8 +56,6 @@ public class ProximityCrystal extends ArenaObject {
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
 	final var a = ArenaManager.getArena();
-	// Boom!
-	Sounds.play(Sound.PROXIMITY);
 	// Check for tank in range of explosion
 	final var target = a.circularScanTank(locX + dirX, locY + dirY, locZ, 1);
 	if (target) {

@@ -16,6 +16,8 @@ import com.puttysoftware.lasertank.locale.global.DataLoaderString;
 import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 
 class ArenaObjectDataLoader {
+    private static final int GameObjectID_DONT_CHANGE = -1;
+
     private static ResourceBundle load(final ArenaObjectDataFile file) {
 	return ResourceBundle.getBundle(GlobalStrings.loadDataLoader(DataLoaderString.LOAD_PATH) + file.getName());
     }
@@ -71,13 +73,17 @@ class ArenaObjectDataLoader {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.ATTRIBUTE_RENDER);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
-	    return null;
+	    return objID;
 	}
 	final var value = data.getString(key);
 	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return null;
+	    return objID;
 	}
-	return GameObjectID.values()[Integer.parseInt(value)];
+	var index = Integer.parseInt(value);
+	if (index == ArenaObjectDataLoader.GameObjectID_DONT_CHANGE) {
+	    return objID;
+	}
+	return GameObjectID.values()[index];
     }
 
     public static boolean loadBox(final GameObjectID objID) {
@@ -262,7 +268,7 @@ class ArenaObjectDataLoader {
 	return Integer.parseInt(value);
     }
 
-    public static Sound loadLaserEnter(final GameObjectID objID) {
+    public static Sound loadLaserEnterSound(final GameObjectID objID) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LASER_ENTER_SOUND);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
@@ -450,39 +456,51 @@ class ArenaObjectDataLoader {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.NEW_ID_FIRE);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
-	    return null;
+	    return objID;
 	}
 	final var value = data.getString(key);
 	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return null;
+	    return objID;
 	}
-	return GameObjectID.values()[Integer.parseInt(value)];
+	var index = Integer.parseInt(value);
+	if (index == ArenaObjectDataLoader.GameObjectID_DONT_CHANGE) {
+	    return objID;
+	}
+	return GameObjectID.values()[index];
     }
 
     public static GameObjectID loadNewIDIce(final GameObjectID objID) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.NEW_ID_ICE);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
-	    return null;
+	    return objID;
 	}
 	final var value = data.getString(key);
 	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return null;
+	    return objID;
 	}
-	return GameObjectID.values()[Integer.parseInt(value)];
+	var index = Integer.parseInt(value);
+	if (index == ArenaObjectDataLoader.GameObjectID_DONT_CHANGE) {
+	    return objID;
+	}
+	return GameObjectID.values()[index];
     }
 
     public static GameObjectID loadPair(final GameObjectID objID) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.PAIR);
 	final var key = String.valueOf(objID);
 	if (!data.containsKey(key)) {
-	    return null;
+	    return objID;
 	}
 	final var value = data.getString(key);
 	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
-	    return null;
+	    return objID;
 	}
-	return GameObjectID.values()[Integer.parseInt(value)];
+	var index = Integer.parseInt(value);
+	if (index == ArenaObjectDataLoader.GameObjectID_DONT_CHANGE) {
+	    return objID;
+	}
+	return GameObjectID.values()[index];
     }
 
     public static boolean loadPowerful(final GameObjectID objID) {
@@ -492,6 +510,17 @@ class ArenaObjectDataLoader {
 	    return false;
 	}
 	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static Sound loadRangeSound(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.RANGE_SOUND);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return Sound._NONE;
+	}
+	var value = data.getString(key);
+	var index = Integer.parseInt(value);
+	return Sound.values()[index];
     }
 
     public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
