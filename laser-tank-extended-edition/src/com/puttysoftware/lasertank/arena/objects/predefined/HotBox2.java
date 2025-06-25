@@ -8,19 +8,10 @@ package com.puttysoftware.lasertank.arena.objects.predefined;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class HotBox2 extends ArenaObject {
     // Constructors
     public HotBox2() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new ArenaObject(GameObjectID.BOX_2);
-	default -> this;
-	};
     }
 
     @Override

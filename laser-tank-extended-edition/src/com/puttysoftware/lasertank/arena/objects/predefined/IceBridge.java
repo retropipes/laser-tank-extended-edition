@@ -9,24 +9,10 @@ import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class IceBridge extends ArenaObject {
     // Constructors
     public IceBridge() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    }
-	    return new ArenaObject(GameObjectID.BRIDGE);
-	default:
-	    return this;
-	}
     }
 
     @Override

@@ -10,24 +10,10 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class ThinIce extends ArenaObject {
     // Constructors
     public ThinIce() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new ArenaObject(GameObjectID.ICE);
-	    i.setPreviousState(this);
-	    yield i;
-	}
-	case FIRE -> new ArenaObject(GameObjectID.WATER);
-	default -> this;
-	};
     }
 
     @Override

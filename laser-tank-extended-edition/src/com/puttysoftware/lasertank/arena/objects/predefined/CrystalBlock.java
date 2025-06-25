@@ -23,19 +23,6 @@ public class CrystalBlock extends ArenaObject {
     }
 
     @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var icb = new ArenaObject(GameObjectID.ICY_CRYSTAL_BLOCK);
-	    icb.setPreviousState(this);
-	    yield icb;
-	}
-	case FIRE -> new ArenaObject(GameObjectID.HOT_CRYSTAL_BLOCK);
-	default -> this;
-	};
-    }
-
-    @Override
     public final GameObjectID getID() {
 	return GameObjectID.CRYSTAL_BLOCK;
     }

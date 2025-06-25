@@ -12,24 +12,10 @@ import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class WildWall extends ArenaObject {
     // Constructors
     public WildWall() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var iw = new ArenaObject(GameObjectID.ICY_WALL);
-	    iw.setPreviousState(this);
-	    yield iw;
-	}
-	case FIRE -> new ArenaObject(GameObjectID.HOT_WALL);
-	default -> this;
-	};
     }
 
     @Override

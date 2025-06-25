@@ -22,14 +22,6 @@ public class HotCrystalBlock extends ArenaObject {
     }
 
     @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new ArenaObject(GameObjectID.CRYSTAL_BLOCK);
-	default -> this;
-	};
-    }
-
-    @Override
     public final GameObjectID getID() {
 	return GameObjectID.HOT_CRYSTAL_BLOCK;
     }

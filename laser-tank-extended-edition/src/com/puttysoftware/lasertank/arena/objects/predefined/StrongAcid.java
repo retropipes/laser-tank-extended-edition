@@ -18,19 +18,6 @@ public class StrongAcid extends ArenaObject {
     }
 
     @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var i = new ArenaObject(GameObjectID.ICE);
-	    i.setPreviousState(this);
-	    yield i;
-	}
-	case FIRE -> new ArenaObject(GameObjectID.ACID);
-	default -> this;
-	};
-    }
-
-    @Override
     public final GameObjectID getID() {
 	return GameObjectID.STRONG_ACID;
     }

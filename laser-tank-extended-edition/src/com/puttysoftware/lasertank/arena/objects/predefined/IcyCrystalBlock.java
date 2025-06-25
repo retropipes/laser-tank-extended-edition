@@ -22,19 +22,6 @@ public class IcyCrystalBlock extends ArenaObject {
     }
 
     @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    }
-	    return new ArenaObject(GameObjectID.CRYSTAL_BLOCK);
-	default:
-	    return this;
-	}
-    }
-
-    @Override
     public final GameObjectID getID() {
 	return GameObjectID.ICY_CRYSTAL_BLOCK;
     }

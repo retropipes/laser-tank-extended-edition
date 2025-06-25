@@ -12,19 +12,10 @@ import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class HotWall extends ArenaObject {
     // Constructors
     public HotWall() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new ArenaObject(GameObjectID.WALL);
-	default -> this;
-	};
     }
 
     @Override

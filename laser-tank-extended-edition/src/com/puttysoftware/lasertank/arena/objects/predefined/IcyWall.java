@@ -12,24 +12,10 @@ import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
-import com.puttysoftware.lasertank.index.Material;
 
 public class IcyWall extends ArenaObject {
     // Constructors
     public IcyWall() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    }
-	    return new ArenaObject(GameObjectID.WALL);
-	default:
-	    return this;
-	}
     }
 
     @Override

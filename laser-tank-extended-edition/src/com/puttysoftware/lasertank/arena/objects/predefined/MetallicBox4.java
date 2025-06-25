@@ -8,24 +8,10 @@ package com.puttysoftware.lasertank.arena.objects.predefined;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class MetallicBox4 extends ArenaObject {
     // Constructors
     public MetallicBox4() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> {
-	    final var ib = new ArenaObject(GameObjectID.ICY_BOX_4);
-	    ib.setPreviousState(this);
-	    yield ib;
-	}
-	case FIRE -> new ArenaObject(GameObjectID.HOT_BOX_4);
-	default -> this;
-	};
     }
 
     @Override

@@ -10,19 +10,10 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class HotLava extends ArenaObject {
     // Constructors
     public HotLava() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	return switch (materialID) {
-	case ICE -> new ArenaObject(GameObjectID.LAVA);
-	default -> this;
-	};
     }
 
     @Override

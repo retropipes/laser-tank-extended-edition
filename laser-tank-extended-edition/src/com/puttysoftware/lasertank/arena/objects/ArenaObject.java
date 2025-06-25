@@ -282,7 +282,7 @@ public class ArenaObject {
      * @param materialID
      * @return
      */
-    public ArenaObject changesToOnExposure(final Material materialID) {
+    public final ArenaObject changesToOnExposure(final Material materialID) {
 	return switch (materialID) {
 	case ICE -> {
 	    if (this.acceptIce()) {

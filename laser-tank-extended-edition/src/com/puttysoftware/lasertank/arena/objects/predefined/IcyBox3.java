@@ -8,24 +8,10 @@ package com.puttysoftware.lasertank.arena.objects.predefined;
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
 import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class IcyBox3 extends ArenaObject {
     // Constructors
     public IcyBox3() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    }
-	    return new ArenaObject(GameObjectID.BOX_3);
-	default:
-	    return this;
-	}
     }
 
     @Override

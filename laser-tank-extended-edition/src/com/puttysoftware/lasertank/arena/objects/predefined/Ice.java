@@ -10,23 +10,9 @@ import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.asset.Sounds;
 import com.puttysoftware.lasertank.game.Game;
 import com.puttysoftware.lasertank.index.GameObjectID;
-import com.puttysoftware.lasertank.index.Material;
 
 public class Ice extends ArenaObject {
     public Ice() {
-    }
-
-    @Override
-    public ArenaObject changesToOnExposure(final Material materialID) {
-	switch (materialID) {
-	case FIRE:
-	    if (this.hasPreviousState()) {
-		return this.getPreviousState();
-	    }
-	    return new ArenaObject(GameObjectID.GROUND);
-	default:
-	    return this;
-	}
     }
 
     @Override
