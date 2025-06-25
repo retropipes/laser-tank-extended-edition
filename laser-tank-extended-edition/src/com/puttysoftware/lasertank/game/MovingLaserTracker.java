@@ -77,6 +77,23 @@ final class MovingLaserTracker {
 	};
     }
 
+    private Sound createSoundForLaserType() {
+	return switch (this.lt) {
+	case GREEN -> Sound.FIRE_LASER;
+	case BLUE -> Sound.FIRE_LASER;
+	case RED -> Sound.ANTI_FIRE;
+	case MISSILE -> Sound.MISSILE;
+	case STUNNER -> Sound.STUNNER;
+	case POWER -> Sound.POWER_LASER;
+	case VIOLET -> Sound.POWER_TURRET;
+	case HEAT -> Sound.FIRE_LASER;
+	case ICE -> Sound.FIRE_LASER;
+	case LIGHT -> Sound.FIRE_LASER;
+	case SHADOW -> Sound.FIRE_LASER;
+	default -> null;
+	};
+    }
+
     private static int normalizeColumn(final int column, final int columns) {
 	var fC = column;
 	if (fC < 0) {
@@ -136,9 +153,6 @@ final class MovingLaserTracker {
 	if (this.lt == LaserType.GREEN) {
 	    if (this.shooter.getID() == GameObjectID.POWER_TANK) {
 		this.lt = LaserType.POWER;
-		Sounds.play(Sound.POWER_LASER);
-	    } else {
-		Sounds.play(Sound.FIRE_LASER);
 	    }
 	    ArenaManager.setDirty(true);
 	    Game.updateUndo(true, false, false, false, false, false, false, false, false, false);
@@ -152,9 +166,6 @@ final class MovingLaserTracker {
 	    if (!Game.getCheatStatus(Game.CHEAT_INVINCIBLE)) {
 		if (this.shooter.getID() == GameObjectID.POWER_TURRET) {
 		    this.lt = LaserType.VIOLET;
-		    Sounds.play(Sound.POWER_LASER);
-		} else {
-		    Sounds.play(Sound.FIRE_LASER);
 		}
 		this.laser = true;
 		this.res = true;
@@ -163,7 +174,6 @@ final class MovingLaserTracker {
 	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, true, false, false, false, false, false, false, false, false);
 	    TankInventory.fireMissile();
-	    Sounds.play(Sound.MISSILE);
 	    Game.updateScore(0, 0, 1);
 	    if (!Game.isReplaying()) {
 		Game.updateReplay(GameAction.SHOOT_ALT_AMMO, 0, 0);
@@ -174,7 +184,6 @@ final class MovingLaserTracker {
 	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, false, true, false, false, false, false, false, false, false);
 	    TankInventory.fireStunner();
-	    Sounds.play(Sound.STUNNER);
 	    Game.updateScore(0, 0, 1);
 	    if (!Game.isReplaying()) {
 		Game.updateReplay(GameAction.SHOOT_ALT_AMMO, 0, 0);
@@ -185,10 +194,13 @@ final class MovingLaserTracker {
 	    ArenaManager.setDirty(true);
 	    Game.updateUndo(false, false, false, false, false, true, false, false, false, false);
 	    TankInventory.fireBlueLaser();
-	    Sounds.play(Sound.FIRE_LASER);
 	    Game.updateScore(0, 0, 1);
 	    if (!Game.isReplaying()) {
 		Game.updateReplay(GameAction.SHOOT_ALT_AMMO, 0, 0);
+	    }
+	    var snd = this.createSoundForLaserType();
+	    if (snd != null && snd != Sound._NONE) {
+		Sounds.play(snd);
 	    }
 	    this.laser = true;
 	    this.res = true;
