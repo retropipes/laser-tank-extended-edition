@@ -80,7 +80,7 @@ final class MovingLaserTracker {
     private Sound createSoundForLaserType() {
 	return switch (this.lt) {
 	case GREEN -> Sound.FIRE_LASER;
-	case BLUE -> Sound.FIRE_LASER;
+	case BLUE -> Sound.BLUE_LASER;
 	case RED -> Sound.ANTI_FIRE;
 	case MISSILE -> Sound.MISSILE;
 	case STUNNER -> Sound.STUNNER;

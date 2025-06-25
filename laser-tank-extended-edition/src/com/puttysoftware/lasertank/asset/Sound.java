@@ -35,7 +35,7 @@ public enum Sound implements SoundIndex {
     COOL_OFF,
     CRACK,
     CRUSH,
-    CUT,
+    BLUE_LASER,
     DEFROST,
     DOOR_CLOSES,
     DOOR_OPENS,
