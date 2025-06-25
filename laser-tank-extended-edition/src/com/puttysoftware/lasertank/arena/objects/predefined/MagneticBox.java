@@ -41,9 +41,4 @@ public class MagneticBox extends ArenaObject {
 	}
 	return Direction.NONE;
     }
-
-    @Override
-    public Sound laserEnteredSound() {
-	return Sound.PUSH_BOX;
-    }
 }

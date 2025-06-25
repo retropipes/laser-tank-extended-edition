@@ -6,7 +6,6 @@
 package com.puttysoftware.lasertank.arena.objects.predefined;
 
 import com.puttysoftware.lasertank.arena.objects.ArenaObject;
-import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameObjectID;
@@ -32,10 +31,5 @@ public class MetallicMirror extends ArenaObject {
 	}
 	// Move mirror
 	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-    }
-
-    @Override
-    public Sound laserEnteredSound() {
-	return Sound.PUSH_MIRROR;
     }
 }

@@ -2,6 +2,7 @@ package com.puttysoftware.lasertank.arena.objects;
 
 import java.util.ResourceBundle;
 
+import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.helper.GameActionHelper;
 import com.puttysoftware.lasertank.helper.GameColorHelper;
@@ -259,6 +260,17 @@ class ArenaObjectDataLoader {
 	    return 0;
 	}
 	return Integer.parseInt(value);
+    }
+
+    public static Sound loadLaserEnter(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.LASER_ENTER_SOUND);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return Sound._NONE;
+	}
+	var value = data.getString(key);
+	var index = Integer.parseInt(value);
+	return Sound.values()[index];
     }
 
     public static boolean loadLethal(final GameObjectID objID, final int index) {

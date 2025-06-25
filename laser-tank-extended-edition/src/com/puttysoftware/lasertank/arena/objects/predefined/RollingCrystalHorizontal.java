@@ -54,11 +54,6 @@ public class RollingCrystalHorizontal extends ArenaObject {
     }
 
     @Override
-    public Sound laserEnteredSound() {
-	return Sound.ROLL;
-    }
-
-    @Override
     public void pushCollideAction(final ArenaObject pushed, final int x, final int y, final int z) {
 	// Break up
 	final var a = ArenaManager.getArena();

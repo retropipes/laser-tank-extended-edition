@@ -1,5 +1,6 @@
 package com.puttysoftware.lasertank.arena.objects;
 
+import com.puttysoftware.lasertank.asset.Sound;
 import com.puttysoftware.lasertank.helper.DirectionHelper;
 import com.puttysoftware.lasertank.index.Direction;
 import com.puttysoftware.lasertank.index.GameAction;
@@ -177,6 +178,10 @@ class ArenaObjectData {
 
     public static boolean killsOnMove(final GameObjectID objectID, final int index) {
 	return ArenaObjectDataLoader.loadLethal(objectID, index);
+    }
+
+    public static Sound laserEnterSound(final GameObjectID objID) {
+	return ArenaObjectDataLoader.loadLaserEnter(objID);
     }
 
     public static boolean movesBoxes(final GameObjectID objectID, final Direction dir) {

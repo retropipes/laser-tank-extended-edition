@@ -8,6 +8,7 @@ import com.puttysoftware.lasertank.locale.global.GlobalStrings;
 import com.puttysoftware.lasertank.locale.global.UntranslatedString;
 
 public enum Sound implements SoundIndex {
+    _NONE,
     ANTI_DIE,
     ANTI_FIRE,
     BREAK_BRICKS,
@@ -67,12 +68,13 @@ public enum Sound implements SoundIndex {
 
     @Override
     public String getName() {
-	return this.toString().toLowerCase(Locale.ENGLISH);
+	return this == _NONE ? null : this.toString().toLowerCase(Locale.ENGLISH);
     }
 
     @Override
     public URL getURL() {
-	return Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
-		+ GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
+	return this == _NONE ? null
+		: Sound.class.getResource(GlobalStrings.loadUntranslated(UntranslatedString.SOUND_PATH) + this.getName()
+			+ GlobalStrings.loadUntranslated(UntranslatedString.SOUND_EXTENSION));
     }
 }

@@ -34,9 +34,4 @@ public class MagneticMirror extends ArenaObject {
 	}
 	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
-
-    @Override
-    public Sound laserEnteredSound() {
-	return Sound.PUSH_MIRROR;
-    }
 }

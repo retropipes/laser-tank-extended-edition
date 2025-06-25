@@ -808,11 +808,8 @@ public class ArenaObject {
 	return Direction.NONE;
     }
 
-    public Sound laserEnteredSound() {
-	if (this.isHostile() || this.isStunned()) {
-	    return Sound.PUSH_ANTI_TANK;
-	}
-	return null;
+    public final Sound laserEnteredSound() {
+	return ArenaObjectData.laserEnterSound(this.getID());
     }
 
     /**
