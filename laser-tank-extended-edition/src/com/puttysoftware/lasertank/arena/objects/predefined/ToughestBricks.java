@@ -28,7 +28,6 @@ public class ToughestBricks extends ArenaObject {
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
-	Sounds.play(Sound.BREAK_BRICKS);
 	Game.morph(new ArenaObject(GameObjectID.TOUGHER_BRICKS), locX, locY, locZ, this.getLayer());
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going

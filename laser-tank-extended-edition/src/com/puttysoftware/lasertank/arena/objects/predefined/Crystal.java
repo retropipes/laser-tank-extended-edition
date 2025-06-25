@@ -75,8 +75,6 @@ public class Crystal extends ArenaObject {
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
-	// Boom!
-	Sounds.play(Sound.BOOM);
 	// Did tank die?
 	final var dead = this.laserEnteredActionInnerP1(locX, locY, locZ, false);
 	if (dead) {
