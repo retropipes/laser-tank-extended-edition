@@ -208,11 +208,23 @@ class ArenaObjectData {
 	return ArenaObjectDataLoader.loadRangeSound(objID);
     }
 
+    public static boolean reactsToObjectsPushedInto(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadReactsToObjectsPushedInto(objectID);
+    }
+
+    public static boolean removesPushedObjects(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadRemovesPushedObjects(objectID);
+    }
+
     public static boolean solvesOnMove(final GameObjectID objectID) {
 	return objectID == GameObjectID.FLAG;
     }
 
     public static boolean usesTrigger(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadTrigger(objectID);
+    }
+
+    public static GameObjectID weakensTo(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadWeaken(objectID);
     }
 }

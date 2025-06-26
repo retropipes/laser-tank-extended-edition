@@ -523,6 +523,15 @@ class ArenaObjectDataLoader {
 	return Sound.values()[index];
     }
 
+    public static boolean loadReactsToObjectsPushedInto(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.REACTS_TO_OBJECTS_PUSHED_INTO);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
     public static boolean loadReflect(final GameObjectID objID, final Direction dir) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.REFLECT);
 	final var key = String.valueOf(objID);
@@ -542,6 +551,15 @@ class ArenaObjectDataLoader {
 	    return false;
 	}
 	return data.getString(subkey) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static boolean loadRemovesPushedObjects(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.REMOVES_PUSHED_OBJECTS);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
     public static boolean loadRoll(final GameObjectID objID) {
@@ -612,6 +630,23 @@ class ArenaObjectDataLoader {
 	    return false;
 	}
 	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
+    public static GameObjectID loadWeaken(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.WEAKEN);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return objID;
+	}
+	final var value = data.getString(key);
+	if (value == GlobalStrings.loadDataLoader(DataLoaderString.NONE)) {
+	    return objID;
+	}
+	var index = Integer.parseInt(value);
+	if (index == ArenaObjectDataLoader.GameObjectID_DONT_CHANGE) {
+	    return objID;
+	}
+	return GameObjectID.values()[index];
     }
 
     public static int loadWeight(final GameObjectID objID) {

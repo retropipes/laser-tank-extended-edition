@@ -930,6 +930,27 @@ public class ArenaObject {
      * @return
      */
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
+	if (this.removesPushedObjects()) {
+	    // Remove pushed object
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	}
+	if (this.reactsToObjectsPushedInto()) {
+	    // Transform based on material of pushed object
+	    if (pushed.isBox()) {
+		if (this.getBlockHeight() > -1) {
+		    // Weaken if depth is more than 1
+		    Game.morph(this.weakensTo(), x, y, z, this.getLayer());
+		} else {
+		    if (pushed.getMaterial() == Material.ICE) {
+			Game.morph(new ArenaObject(GameObjectID.ICE_BRIDGE), x, y, z, this.getLayer());
+		    } else if (pushed.getMaterial() == Material.FIRE) {
+			Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.getLayer());
+		    } else {
+			Game.morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
+		    }
+		}
+	    }
+	}
 	if (this.isTunnel()) {
 	    final var tx = Game.getPlayerLocationX();
 	    final var ty = Game.getPlayerLocationY();
@@ -1219,6 +1240,14 @@ public class ArenaObject {
 	return this;
     }
 
+    public final boolean reactsToObjectsPushedInto() {
+	return ArenaObjectData.reactsToObjectsPushedInto(this.getID());
+    }
+
+    public final boolean removesPushedObjects() {
+	return ArenaObjectData.removesPushedObjects(this.getID());
+    }
+
     public final void setColor(final GameColor col) {
 	this.color = col;
     }
@@ -1352,6 +1381,14 @@ public class ArenaObject {
 
     public final boolean waitingOnTunnel() {
 	return this.waitingOnTunnel;
+    }
+
+    public final ArenaObject weakensTo() {
+	final var newID = ArenaObjectData.weakensTo(this.getID());
+	if (this.getID() != newID) {
+	    return new ArenaObject(newID);
+	}
+	return this;
     }
 
     public final void writeArenaObject(final DataIOWriter writer) throws IOException {

@@ -40,7 +40,10 @@ enum ArenaObjectDataFile {
     NEW_ID_FIRE,
     NEW_ID_ICE,
     LASER_ENTER_SOUND,
-    RANGE_SOUND;
+    RANGE_SOUND,
+    REMOVES_PUSHED_OBJECTS,
+    REACTS_TO_OBJECTS_PUSHED_INTO,
+    WEAKEN;
 
     public String getName() {
 	return Integer.toString(this.ordinal());
