@@ -933,6 +933,7 @@ public class ArenaObject {
 	if (this.removesPushedObjects()) {
 	    // Remove pushed object
 	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	    Sounds.play(Sound.SINK);
 	}
 	if (this.reactsToObjectsPushedInto()) {
 	    // Transform based on material of pushed object
