@@ -9,16 +9,16 @@ class SettingsGUIWindowEventHandler extends WindowAdapter implements Runnable {
     private final SettingsGUI settingsGUI;
 
     SettingsGUIWindowEventHandler(final SettingsGUI theSettingsGUI) {
-	this.settingsGUI = theSettingsGUI;
+        this.settingsGUI = theSettingsGUI;
     }
 
     @Override
     public void run() {
-	this.settingsGUI.hideSettings();
+        this.settingsGUI.hideSettings();
     }
 
     @Override
     public void windowClosing(final WindowEvent e) {
-	AppTaskManager.runTask(this);
+        AppTaskManager.runTask(this);
     }
 }

@@ -11,6 +11,6 @@ class SettingsInvoker implements PreferencesHandler {
 
     @Override
     public void handlePreferences(final PreferencesEvent e) {
-	Settings.showSettings();
+        Settings.showSettings();
     }
 }

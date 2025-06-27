@@ -19,18 +19,18 @@ public class MagneticDoor extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_DOOR;
+        return GameObjectID.MAGNETIC_DOOR;
     }
 
     @Override
     public boolean isConditionallySolid() {
-	return TankInventory.getGreenKeysLeft() < 1;
+        return TankInventory.getGreenKeysLeft() < 1;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.UNLOCK);
-	TankInventory.useGreenKey();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        Sounds.play(Sound.UNLOCK);
+        TankInventory.useGreenKey();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

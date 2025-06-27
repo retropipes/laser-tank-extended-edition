@@ -9,6 +9,6 @@ import com.puttysoftware.lasertank.index.Index;
 
 public class IndexHelper {
     public static String toStringValue(final Index thing) {
-	return Integer.toString(thing.ordinal());
+        return Integer.toString(thing.ordinal());
     }
 }

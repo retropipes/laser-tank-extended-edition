@@ -17,21 +17,21 @@ public class ReverseJumpBox extends ArenaObject {
 
     @Override
     public int getColumnsToJump() {
-	return -super.getColumnsToJump();
+        return -super.getColumnsToJump();
     }
 
     @Override
     public final Color getCustomTextColor() {
-	return Color.black;
+        return Color.black;
     }
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.REVERSE_JUMP_BOX;
+        return GameObjectID.REVERSE_JUMP_BOX;
     }
 
     @Override
     public int getRowsToJump() {
-	return -super.getRowsToJump();
+        return -super.getRowsToJump();
     }
 }

@@ -12,30 +12,30 @@ public class EditorLayoutHelper {
     private static String[] NAMES = null;
 
     public static void activeLanguageChanged() {
-	EditorLayoutHelper.NAMES = new String[] { Strings.loadEditorLayout(EditorLayout.CLASSIC),
-		Strings.loadEditorLayout(EditorLayout.MODERN_V11), Strings.loadEditorLayout(EditorLayout.MODERN_V12) };
+        EditorLayoutHelper.NAMES = new String[] { Strings.loadEditorLayout(EditorLayout.CLASSIC),
+                Strings.loadEditorLayout(EditorLayout.MODERN_V11), Strings.loadEditorLayout(EditorLayout.MODERN_V12) };
     }
 
     public static int fromStringValue(final String value) {
-	return Integer.parseInt(value);
+        return Integer.parseInt(value);
     }
 
     public static String getName(final int thing) {
-	return Strings.loadEditorLayout(thing);
+        return Strings.loadEditorLayout(thing);
     }
 
     public static String[] getNames() {
-	if (EditorLayoutHelper.NAMES == null) {
-	    EditorLayoutHelper.activeLanguageChanged();
-	}
-	return EditorLayoutHelper.NAMES;
+        if (EditorLayoutHelper.NAMES == null) {
+            EditorLayoutHelper.activeLanguageChanged();
+        }
+        return EditorLayoutHelper.NAMES;
     }
 
     public static String toStringValue(final int thing) {
-	return Integer.toString(thing);
+        return Integer.toString(thing);
     }
 
     private EditorLayoutHelper() {
-	// Do nothing
+        // Do nothing
     }
 }

@@ -20,18 +20,18 @@ public class MagneticMirror extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_MIRROR;
+        return GameObjectID.MAGNETIC_MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Destroy mirror
-	    Sounds.play(Sound.BOOM);
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	    return Direction.NONE;
-	}
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+            final LaserType laserType, final int forceUnits) {
+        if (laserType == LaserType.MISSILE) {
+            // Destroy mirror
+            Sounds.play(Sound.BOOM);
+            Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+            return Direction.NONE;
+        }
+        return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 }

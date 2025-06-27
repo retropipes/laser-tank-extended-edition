@@ -14,23 +14,23 @@ import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class ImageLoader {
     public static BufferedImageIcon load(final ImageIndex image, final URL url) {
-	return ImageCache.getCachedImage(image.getName(), url);
+        return ImageCache.getCachedImage(image.getName(), url);
     }
 
     public static BufferedImageIcon load(final String name, final URL url) {
-	return ImageCache.getCachedImage(name, url);
+        return ImageCache.getCachedImage(name, url);
     }
 
     /**
-     * @param name  
+     * @param name
      */
     static BufferedImageIcon loadUncached(final String name, final URL url) {
-	try {
-	    final var image = ImageIO.read(url);
-	    return new BufferedImageIcon(image);
-	} catch (final IOException ie) {
-	    AppTaskManager.error(ie);
-	    return null;
-	}
+        try {
+            final var image = ImageIO.read(url);
+            return new BufferedImageIcon(image);
+        } catch (final IOException ie) {
+            AppTaskManager.error(ie);
+            return null;
+        }
     }
 }

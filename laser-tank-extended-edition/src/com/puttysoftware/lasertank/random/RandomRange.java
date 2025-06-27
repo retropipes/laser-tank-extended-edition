@@ -15,10 +15,10 @@ public class RandomRange {
      * @return the generated integer
      */
     public static int generate(final int minimum, final int maximum) {
-	if (maximum - minimum + 1 == 0) {
-	    return Math.abs(RandomnessSource.nextInt()) + minimum;
-	}
-	return Math.abs(RandomnessSource.nextInt() % (maximum - minimum + 1)) + minimum;
+        if (maximum - minimum + 1 == 0) {
+            return Math.abs(RandomnessSource.nextInt()) + minimum;
+        }
+        return Math.abs(RandomnessSource.nextInt() % (maximum - minimum + 1)) + minimum;
     }
 
     /**
@@ -27,7 +27,7 @@ public class RandomRange {
      * @return the int
      */
     public static int generateRaw() {
-	return RandomnessSource.nextInt();
+        return RandomnessSource.nextInt();
     }
 
     /** The minimum. */
@@ -44,8 +44,8 @@ public class RandomRange {
      */
     // Constructor
     public RandomRange(final int min, final int max) {
-	this.minimum = min;
-	this.maximum = max;
+        this.minimum = min;
+        this.maximum = max;
     }
 
     /**
@@ -54,10 +54,10 @@ public class RandomRange {
      * @return the generated integer
      */
     public int generate() {
-	if (this.maximum - this.minimum + 1 == 0) {
-	    return Math.abs(RandomnessSource.nextInt()) + this.minimum;
-	}
-	return Math.abs(RandomnessSource.nextInt() % (this.maximum - this.minimum + 1)) + this.minimum;
+        if (this.maximum - this.minimum + 1 == 0) {
+            return Math.abs(RandomnessSource.nextInt()) + this.minimum;
+        }
+        return Math.abs(RandomnessSource.nextInt() % (this.maximum - this.minimum + 1)) + this.minimum;
     }
 
     /**
@@ -66,7 +66,7 @@ public class RandomRange {
      * @param newMax the new maximum
      */
     public void setMaximum(final int newMax) {
-	this.maximum = newMax;
+        this.maximum = newMax;
     }
 
     /**
@@ -76,6 +76,6 @@ public class RandomRange {
      */
     // Methods
     public void setMinimum(final int newMin) {
-	this.minimum = newMin;
+        this.minimum = newMin;
     }
 }

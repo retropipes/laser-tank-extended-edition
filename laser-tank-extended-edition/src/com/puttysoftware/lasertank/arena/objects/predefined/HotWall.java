@@ -14,25 +14,25 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class HotWall extends ArenaObject {
-    // Constructors
-    public HotWall() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.HOT_WALL;
-    }
-
-    @Override
-    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.STUNNER) {
-	    // Cool off hot wall
-	    Sounds.play(Sound.COOL_OFF);
-	    Game.morph(new ArenaObject(GameObjectID.WALL), locX, locY, locZ, this.layer());
-	    return Direction.NONE;
+	// Constructors
+	public HotWall() {
 	}
-	// Stop laser
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.HOT_WALL;
+	}
+
+	@Override
+	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final LaserType laserType, final int forceUnits) {
+		if (laserType == LaserType.STUNNER) {
+			// Cool off hot wall
+			Sounds.play(Sound.COOL_OFF);
+			Game.morph(new ArenaObject(GameObjectID.WALL), locX, locY, locZ, this.layer());
+			return Direction.NONE;
+		}
+		// Stop laser
+		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
 }

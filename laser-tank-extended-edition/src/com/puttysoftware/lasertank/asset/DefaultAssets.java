@@ -15,6 +15,6 @@ public class DefaultAssets {
     public static final MusicIndex NO_MUSIC = null;
 
     private DefaultAssets() {
-	// Unused
+        // Unused
     }
 }

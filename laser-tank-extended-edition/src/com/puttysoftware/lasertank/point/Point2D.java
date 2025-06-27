@@ -13,7 +13,7 @@ public class Point2D {
     }
 
     public Point2D(final int nx, final int ny) {
-	this.x = nx;
-	this.y = ny;
+        this.x = nx;
+        this.y = ny;
     }
 }

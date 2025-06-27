@@ -19,13 +19,13 @@ public class MagneticKey extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_KEY;
+        return GameObjectID.MAGNETIC_KEY;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.GRAB);
-	TankInventory.addOneGreenKey();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        Sounds.play(Sound.GRAB);
+        TankInventory.addOneGreenKey();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

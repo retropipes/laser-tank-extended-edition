@@ -12,13 +12,13 @@ class EditorWindowEventHandler extends WindowAdapter implements Runnable {
 
     @Override
     public void run() {
-	Editor.handleCloseWindow();
-	LaserTankEE.showGUI();
+        Editor.handleCloseWindow();
+        LaserTankEE.showGUI();
     }
 
     // handle window
     @Override
     public void windowClosing(final WindowEvent we) {
-	AppTaskManager.runTask(this);
+        AppTaskManager.runTask(this);
     }
 }

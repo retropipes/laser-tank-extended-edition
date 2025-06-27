@@ -12,53 +12,53 @@ import com.puttysoftware.lasertank.fileio.GameIODataWriter;
 import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 public class LaserTankSavedScoreManager extends LaserTankScores {
-    // Fields
-    private final String scoresFilename;
+	// Fields
+	private final String scoresFilename;
 
-    // Constructors
-    public LaserTankSavedScoreManager(final int length, final LaserTankScoreSortOrder laserTankScoreSortOrder,
-	    final String customTitle, final String scoresFile) {
-	super(length, laserTankScoreSortOrder, customTitle);
-	this.scoresFilename = scoresFile;
-	try {
-	    this.readScoresFile();
-	} catch (final IOException io) {
-	    // Do nothing
+	// Constructors
+	public LaserTankSavedScoreManager(final int length, final LaserTankScoreSortOrder laserTankScoreSortOrder,
+			final String customTitle, final String scoresFile) {
+		super(length, laserTankScoreSortOrder, customTitle);
+		this.scoresFilename = scoresFile;
+		try {
+			this.readScoresFile();
+		} catch (final IOException io) {
+			// Do nothing
+		}
 	}
-    }
 
-    // Methods
-    @Override
-    public boolean add(final long newMoves, final long newShots) {
-	final var success = super.add(newMoves, newShots);
-	try {
-	    this.writeScoresFile();
-	} catch (final IOException io) {
-	    AppTaskManager.logWarningDirectly(io);
+	// Methods
+	@Override
+	public boolean add(final long newMoves, final long newShots) {
+		final var success = super.add(newMoves, newShots);
+		try {
+			this.writeScoresFile();
+		} catch (final IOException io) {
+			AppTaskManager.logWarningDirectly(io);
+		}
+		return success;
 	}
-	return success;
-    }
 
-    @Override
-    public boolean add(final long newMoves, final long newShots, final String newName) {
-	final var success = super.add(newMoves, newShots, newName);
-	try {
-	    this.writeScoresFile();
-	} catch (final IOException io) {
-	    AppTaskManager.logWarningDirectly(io);
+	@Override
+	public boolean add(final long newMoves, final long newShots, final String newName) {
+		final var success = super.add(newMoves, newShots, newName);
+		try {
+			this.writeScoresFile();
+		} catch (final IOException io) {
+			AppTaskManager.logWarningDirectly(io);
+		}
+		return success;
 	}
-	return success;
-    }
 
-    private void readScoresFile() throws IOException {
-	try (var gio = new GameIODataReader(this.scoresFilename)) {
-	    this.table = LaserTankSortedScoreTable.load(gio);
+	private void readScoresFile() throws IOException {
+		try (var gio = new GameIODataReader(this.scoresFilename)) {
+			this.table = LaserTankSortedScoreTable.load(gio);
+		}
 	}
-    }
 
-    private void writeScoresFile() throws IOException {
-	try (var gio = new GameIODataWriter(this.scoresFilename)) {
-	    this.table.save(gio);
+	private void writeScoresFile() throws IOException {
+		try (var gio = new GameIODataWriter(this.scoresFilename)) {
+			this.table.save(gio);
+		}
 	}
-    }
 }

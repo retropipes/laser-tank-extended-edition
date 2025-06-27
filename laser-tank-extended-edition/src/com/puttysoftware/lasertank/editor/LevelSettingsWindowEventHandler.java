@@ -9,16 +9,16 @@ class LevelSettingsWindowEventHandler extends WindowAdapter implements Runnable 
     private final LevelSettings levelSettings;
 
     public LevelSettingsWindowEventHandler(final LevelSettings theLevelSettings) {
-	this.levelSettings = theLevelSettings;
+        this.levelSettings = theLevelSettings;
     }
 
     @Override
     public void run() {
-	LevelSettingsWindowEventHandler.this.levelSettings.hideSettings();
+        LevelSettingsWindowEventHandler.this.levelSettings.hideSettings();
     }
 
     @Override
     public void windowClosing(final WindowEvent e) {
-	AppTaskManager.runTask(this);
+        AppTaskManager.runTask(this);
     }
 }

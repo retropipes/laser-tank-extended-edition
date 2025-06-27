@@ -20,25 +20,25 @@ public class ToughBricks extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TOUGH_BRICKS;
+        return GameObjectID.TOUGH_BRICKS;
     }
 
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-	    final int dirY, final LaserType laserType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.BRICKS), locX, locY, locZ, this.layer());
-	if (laserType == LaserType.POWER) {
-	    // Laser keeps going
-	    return DirectionHelper.resolveRelative(dirX, dirY);
-	}
-	// Laser stops
-	return Direction.NONE;
+            final int dirY, final LaserType laserType, final int forceUnits) {
+        Game.morph(new ArenaObject(GameObjectID.BRICKS), locX, locY, locZ, this.layer());
+        if (laserType == LaserType.POWER) {
+            // Laser keeps going
+            return DirectionHelper.resolveRelative(dirX, dirY);
+        }
+        // Laser stops
+        return Direction.NONE;
     }
 
     @Override
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final RangeType rangeType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.BRICKS), locX + dirX, locY + dirY, locZ, this.layer());
-	return true;
+            final RangeType rangeType, final int forceUnits) {
+        Game.morph(new ArenaObject(GameObjectID.BRICKS), locX + dirX, locY + dirY, locZ, this.layer());
+        return true;
     }
 }

@@ -8,33 +8,33 @@ import com.puttysoftware.lasertank.locale.Strings;
 import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class LevelSettingsActionEventHandler implements ActionListener, Runnable {
-    private final LevelSettings levelSettings;
-    private ActionEvent event;
+	private final LevelSettings levelSettings;
+	private ActionEvent event;
 
-    public LevelSettingsActionEventHandler(final LevelSettings theLevelSettings) {
-	this.levelSettings = theLevelSettings;
-    }
-
-    @Override
-    public void actionPerformed(final ActionEvent e) {
-	this.event = e;
-	AppTaskManager.runTask(this);
-    }
-
-    @Override
-    public void run() {
-	try {
-	    if (this.levelSettings != null && this.event != null) {
-		final var cmd = this.event.getActionCommand();
-		if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-		    this.levelSettings.setSettings();
-		    this.levelSettings.hideSettings();
-		} else if (cmd.equals(Strings.loadDialog(DialogString.CANCEL_BUTTON))) {
-		    this.levelSettings.hideSettings();
-		}
-	    }
-	} catch (final Exception ex) {
-	    AppTaskManager.error(ex);
+	public LevelSettingsActionEventHandler(final LevelSettings theLevelSettings) {
+		this.levelSettings = theLevelSettings;
 	}
-    }
+
+	@Override
+	public void actionPerformed(final ActionEvent e) {
+		this.event = e;
+		AppTaskManager.runTask(this);
+	}
+
+	@Override
+	public void run() {
+		try {
+			if (this.levelSettings != null && this.event != null) {
+				final var cmd = this.event.getActionCommand();
+				if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
+					this.levelSettings.setSettings();
+					this.levelSettings.hideSettings();
+				} else if (cmd.equals(Strings.loadDialog(DialogString.CANCEL_BUTTON))) {
+					this.levelSettings.hideSettings();
+				}
+			}
+		} catch (final Exception ex) {
+			AppTaskManager.error(ex);
+		}
+	}
 }

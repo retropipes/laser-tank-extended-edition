@@ -18,13 +18,13 @@ public class PowerBolt extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.POWER_BOLT;
+        return GameObjectID.POWER_BOLT;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.POWERFUL);
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
-	Game.setPowerfulTank();
+        Sounds.play(Sound.POWERFUL);
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        Game.setPowerfulTank();
     }
 }

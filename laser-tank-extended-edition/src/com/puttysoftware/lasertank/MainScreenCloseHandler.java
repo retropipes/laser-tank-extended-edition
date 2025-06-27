@@ -9,8 +9,8 @@ class MainScreenCloseHandler extends WindowAdapter {
 
     @Override
     public void windowClosing(final WindowEvent arg0) {
-	if (MainScreen.quitHandler()) {
-	    System.exit(0);
-	}
+        if (MainScreen.quitHandler()) {
+            System.exit(0);
+        }
     }
 }

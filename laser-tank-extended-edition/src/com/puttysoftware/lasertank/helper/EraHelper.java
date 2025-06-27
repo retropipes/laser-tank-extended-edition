@@ -12,22 +12,22 @@ public class EraHelper {
     private static String[] NAMES = null;
 
     public static void activeLanguageChanged() {
-	EraHelper.NAMES = new String[] { Strings.loadEra(Era.DISTANT_PAST), Strings.loadEra(Era.PAST),
-		Strings.loadEra(Era.PRESENT), Strings.loadEra(Era.FUTURE), Strings.loadEra(Era.DISTANT_FUTURE) };
+        EraHelper.NAMES = new String[] { Strings.loadEra(Era.DISTANT_PAST), Strings.loadEra(Era.PAST),
+                Strings.loadEra(Era.PRESENT), Strings.loadEra(Era.FUTURE), Strings.loadEra(Era.DISTANT_FUTURE) };
     }
 
     public static Era fromOrdinal(final int value) {
-	return Era.values()[value];
+        return Era.values()[value];
     }
 
     public static String getName(final Era thing) {
-	return Strings.loadEra(thing);
+        return Strings.loadEra(thing);
     }
 
     public static String[] getNames() {
-	if (EraHelper.NAMES == null) {
-	    EraHelper.activeLanguageChanged();
-	}
-	return EraHelper.NAMES;
+        if (EraHelper.NAMES == null) {
+            EraHelper.activeLanguageChanged();
+        }
+        return EraHelper.NAMES;
     }
 }

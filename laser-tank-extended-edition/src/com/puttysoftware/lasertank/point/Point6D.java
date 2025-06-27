@@ -12,7 +12,7 @@ public class Point6D extends Point5D {
     }
 
     public Point6D(final int nx, final int ny, final int nz, final int nw, final int nv, final int nu) {
-	super(nx, ny, nz, nw, nv);
-	this.u = nu;
+        super(nx, ny, nz, nw, nv);
+        this.u = nu;
     }
 }

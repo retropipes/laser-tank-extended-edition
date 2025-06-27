@@ -17,11 +17,11 @@ public class Pit extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.PIT;
+        return GameObjectID.PIT;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.FALL);
+        Sounds.play(Sound.FALL);
     }
 }

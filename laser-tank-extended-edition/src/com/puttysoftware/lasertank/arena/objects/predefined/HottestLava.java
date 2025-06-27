@@ -18,18 +18,18 @@ public class HottestLava extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.HOTTEST_LAVA;
+        return GameObjectID.HOTTEST_LAVA;
     }
 
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-	if (pushed.getID() == GameObjectID.ICY_BOX) {
-	    Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.layer());
-	    Sounds.play(Sound.COOL_OFF);
-	    return true;
-	}
-	Game.morph(new ArenaObject(GameObjectID.HOTTER_LAVA), x, y, z, pushed.layer());
-	Sounds.play(Sound.MELT);
-	return false;
+        if (pushed.getID() == GameObjectID.ICY_BOX) {
+            Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.layer());
+            Sounds.play(Sound.COOL_OFF);
+            return true;
+        }
+        Game.morph(new ArenaObject(GameObjectID.HOTTER_LAVA), x, y, z, pushed.layer());
+        Sounds.play(Sound.MELT);
+        return false;
     }
 }

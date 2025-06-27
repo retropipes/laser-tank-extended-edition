@@ -16,18 +16,18 @@ public class HistoryStatus {
     private boolean[] wasWhat;
 
     public HistoryStatus(final boolean... entries) {
-	if (entries == null || entries.length == 0) {
-	    this.wasWhat = new boolean[HistoryStatus.MAX_WHAT];
-	} else {
-	    this.wasWhat = entries;
-	}
+        if (entries == null || entries.length == 0) {
+            this.wasWhat = new boolean[HistoryStatus.MAX_WHAT];
+        } else {
+            this.wasWhat = entries;
+        }
     }
 
     public void setWasSomething(final int index, final boolean value) {
-	this.wasWhat[index] = value;
+        this.wasWhat[index] = value;
     }
 
     public boolean wasSomething(final int index) {
-	return this.wasWhat[index];
+        return this.wasWhat[index];
     }
 }

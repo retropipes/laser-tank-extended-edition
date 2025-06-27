@@ -9,15 +9,15 @@ class ShowWarningDialogTask implements Runnable {
     private final ErrorLogger log;
 
     ShowWarningDialogTask(final Throwable problem, final ErrorLogger logger) {
-	this.t = problem;
-	this.log = logger;
+        this.t = problem;
+        this.log = logger;
     }
 
     @Override
     public void run() {
-	Sounds.play(Sound.WARNING);
-	CommonDialogs.showTitledDialog(AppTaskManager.WARNING_MESSAGE, AppTaskManager.WARNING_TITLE);
-	this.log.logWarning(this.t);
-	GameErrorHandler.DIALOG_SHOWING = false;
+        Sounds.play(Sound.WARNING);
+        CommonDialogs.showTitledDialog(AppTaskManager.WARNING_MESSAGE, AppTaskManager.WARNING_TITLE);
+        this.log.logWarning(this.t);
+        GameErrorHandler.DIALOG_SHOWING = false;
     }
 }

@@ -14,31 +14,31 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class IcyWall extends ArenaObject {
-    // Constructors
-    public IcyWall() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ICY_WALL;
-    }
-
-    @Override
-    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	if (laserType != LaserType.MISSILE) {
-	    // Stop laser
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	// Constructors
+	public IcyWall() {
 	}
-	// Defrost icy wall
-	Sounds.play(Sound.DEFROST);
-	ArenaObject ao;
-	if (this.hasPreviousState()) {
-	    ao = this.getPreviousState();
-	} else {
-	    ao = new ArenaObject(GameObjectID.WALL);
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ICY_WALL;
 	}
-	Game.morph(ao, locX, locY, locZ, this.layer());
-	return Direction.NONE;
-    }
+
+	@Override
+	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final LaserType laserType, final int forceUnits) {
+		if (laserType != LaserType.MISSILE) {
+			// Stop laser
+			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+		}
+		// Defrost icy wall
+		Sounds.play(Sound.DEFROST);
+		ArenaObject ao;
+		if (this.hasPreviousState()) {
+			ao = this.getPreviousState();
+		} else {
+			ao = new ArenaObject(GameObjectID.WALL);
+		}
+		Game.morph(ao, locX, locY, locZ, this.layer());
+		return Direction.NONE;
+	}
 }

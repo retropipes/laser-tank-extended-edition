@@ -17,12 +17,12 @@ public class TenMagnets extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TEN_MAGNETS;
+        return GameObjectID.TEN_MAGNETS;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	TankInventory.addTenMagnets();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        TankInventory.addTenMagnets();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

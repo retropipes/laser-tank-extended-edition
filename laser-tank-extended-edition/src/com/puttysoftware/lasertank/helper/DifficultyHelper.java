@@ -12,27 +12,27 @@ public class DifficultyHelper {
     private static String[] NAMES = null;
 
     public static void activeLanguageChanged() {
-	DifficultyHelper.NAMES = new String[] { Strings.loadDifficulty(Difficulty.KIDS),
-		Strings.loadDifficulty(Difficulty.EASY), Strings.loadDifficulty(Difficulty.MEDIUM),
-		Strings.loadDifficulty(Difficulty.HARD), Strings.loadDifficulty(Difficulty.DEADLY) };
+        DifficultyHelper.NAMES = new String[] { Strings.loadDifficulty(Difficulty.KIDS),
+                Strings.loadDifficulty(Difficulty.EASY), Strings.loadDifficulty(Difficulty.MEDIUM),
+                Strings.loadDifficulty(Difficulty.HARD), Strings.loadDifficulty(Difficulty.DEADLY) };
     }
 
     public static Difficulty fromOrdinal(final int value) {
-	return Difficulty.values()[value];
+        return Difficulty.values()[value];
     }
 
     public static String getName(final Difficulty thing) {
-	return Strings.loadDifficulty(thing);
+        return Strings.loadDifficulty(thing);
     }
 
     public static String[] getNames() {
-	if (DifficultyHelper.NAMES == null) {
-	    DifficultyHelper.activeLanguageChanged();
-	}
-	return DifficultyHelper.NAMES;
+        if (DifficultyHelper.NAMES == null) {
+            DifficultyHelper.activeLanguageChanged();
+        }
+        return DifficultyHelper.NAMES;
     }
 
     private DifficultyHelper() {
-	// Do nothing
+        // Do nothing
     }
 }

@@ -17,13 +17,13 @@ public enum Music implements MusicIndex {
 
     @Override
     public String getName() {
-	return Integer.toString(this.ordinal());
+        return Integer.toString(this.ordinal());
     }
 
     @Override
     public URL getURL() {
-	final var path = GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_PATH) + this.getName()
-		+ GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION);
-	return Music.class.getResource(path);
+        final var path = GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_PATH) + this.getName()
+                + GlobalStrings.loadUntranslated(UntranslatedString.MUSIC_EXTENSION);
+        return Music.class.getResource(path);
     }
 }

@@ -19,18 +19,18 @@ public class WaterDoor extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.WATER_DOOR;
+        return GameObjectID.WATER_DOOR;
     }
 
     @Override
     public boolean isConditionallySolid() {
-	return TankInventory.getBlueKeysLeft() < 1;
+        return TankInventory.getBlueKeysLeft() < 1;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.UNLOCK);
-	TankInventory.useBlueKey();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        Sounds.play(Sound.UNLOCK);
+        TankInventory.useBlueKey();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

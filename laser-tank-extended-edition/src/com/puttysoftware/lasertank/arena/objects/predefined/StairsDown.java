@@ -17,11 +17,11 @@ public class StairsDown extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.STAIRS_DOWN;
+        return GameObjectID.STAIRS_DOWN;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.DOWN);
+        Sounds.play(Sound.DOWN);
     }
 }

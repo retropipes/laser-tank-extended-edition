@@ -17,12 +17,12 @@ public class TenBlueLasers extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TEN_BLUE_LASERS;
+        return GameObjectID.TEN_BLUE_LASERS;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	TankInventory.addTenBlueLasers();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        TankInventory.addTenBlueLasers();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

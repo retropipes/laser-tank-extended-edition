@@ -9,15 +9,15 @@ class ShowErrorDialogTask implements Runnable {
     private final ErrorLogger log;
 
     ShowErrorDialogTask(final Throwable problem, final ErrorLogger logger) {
-	this.t = problem;
-	this.log = logger;
+        this.t = problem;
+        this.log = logger;
     }
 
     @Override
     public void run() {
-	Sounds.play(Sound.FATAL);
-	CommonDialogs.showErrorDialog(AppTaskManager.ERROR_MESSAGE, AppTaskManager.ERROR_TITLE);
-	this.log.logError(this.t);
-	GameErrorHandler.DIALOG_SHOWING = false;
+        Sounds.play(Sound.FATAL);
+        CommonDialogs.showErrorDialog(AppTaskManager.ERROR_MESSAGE, AppTaskManager.ERROR_TITLE);
+        this.log.logError(this.t);
+        GameErrorHandler.DIALOG_SHOWING = false;
     }
 }

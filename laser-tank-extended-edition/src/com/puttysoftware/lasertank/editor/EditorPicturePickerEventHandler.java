@@ -7,14 +7,14 @@ class EditorPicturePickerEventHandler implements ActionListener {
     private final EditorPicturePicker editorPicturePicker;
 
     EditorPicturePickerEventHandler(EditorPicturePicker thePicker) {
-	this.editorPicturePicker = thePicker;
-	// Do nothing
+        this.editorPicturePicker = thePicker;
+        // Do nothing
     }
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-	final var cmd = e.getActionCommand();
-	// A radio button
-	this.editorPicturePicker.index = Integer.parseInt(cmd);
+        final var cmd = e.getActionCommand();
+        // A radio button
+        this.editorPicturePicker.index = Integer.parseInt(cmd);
     }
 }

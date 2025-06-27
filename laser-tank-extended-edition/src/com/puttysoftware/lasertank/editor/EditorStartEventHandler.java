@@ -6,21 +6,21 @@ import java.awt.event.MouseEvent;
 import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class EditorStartEventHandler extends MouseAdapter {
-    private final Editor editor;
+	private final Editor editor;
 
-    // handle scroll bars
-    public EditorStartEventHandler(final Editor theEditor) {
-	this.editor = theEditor;
-    }
-
-    @Override
-    public void mouseClicked(final MouseEvent e) {
-	try {
-	    final var x = e.getX();
-	    final var y = e.getY();
-	    this.editor.setPlayerLocation(x, y);
-	} catch (final Exception ex) {
-	    AppTaskManager.error(ex);
+	// handle scroll bars
+	public EditorStartEventHandler(final Editor theEditor) {
+		this.editor = theEditor;
 	}
-    }
+
+	@Override
+	public void mouseClicked(final MouseEvent e) {
+		try {
+			final var x = e.getX();
+			final var y = e.getY();
+			this.editor.setPlayerLocation(x, y);
+		} catch (final Exception ex) {
+			AppTaskManager.error(ex);
+		}
+	}
 }

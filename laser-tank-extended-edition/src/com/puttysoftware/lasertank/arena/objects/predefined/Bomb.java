@@ -15,11 +15,11 @@ public class Bomb extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.BOMB;
+        return GameObjectID.BOMB;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	this.nextIndex();
+        this.nextIndex();
     }
 }

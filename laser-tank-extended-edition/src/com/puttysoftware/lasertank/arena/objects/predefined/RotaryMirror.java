@@ -16,34 +16,34 @@ import com.puttysoftware.lasertank.index.LaserType;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class RotaryMirror extends ArenaObject {
-    // Constructors
-    public RotaryMirror() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.ROTARY_MIRROR;
-    }
-
-    @Override
-    public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-	    final int dirY, final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Destroy mirror
-	    Sounds.play(Sound.BOOM);
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	    return Direction.NONE;
+	// Constructors
+	public RotaryMirror() {
 	}
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
-    }
 
-    @Override
-    public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final RangeType rangeType, final int forceUnits) {
-	// Rotate mirror
-	this.toggleDirection();
-	Sounds.play(Sound.ROTATE);
-	ArenaManager.getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
-	return true;
-    }
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.ROTARY_MIRROR;
+	}
+
+	@Override
+	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
+			final int dirY, final LaserType laserType, final int forceUnits) {
+		if (laserType == LaserType.MISSILE) {
+			// Destroy mirror
+			Sounds.play(Sound.BOOM);
+			Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+			return Direction.NONE;
+		}
+		return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	}
+
+	@Override
+	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final RangeType rangeType, final int forceUnits) {
+		// Rotate mirror
+		this.toggleDirection();
+		Sounds.play(Sound.ROTATE);
+		ArenaManager.getArena().markAsDirty(locX + dirX, locY + dirY, locZ);
+		return true;
+	}
 }

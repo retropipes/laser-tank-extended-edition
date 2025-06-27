@@ -17,45 +17,45 @@ import com.puttysoftware.lasertank.index.Material;
 import com.puttysoftware.lasertank.index.RangeType;
 
 public class HotCrystalBlock extends ArenaObject {
-    // Constructors
-    public HotCrystalBlock() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.HOT_CRYSTAL_BLOCK;
-    }
-
-    @Override
-    public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
-	    final int dirY, final LaserType laserType, final int forceUnits) {
-	if (laserType == LaserType.MISSILE) {
-	    // Destroy hot crystal block
-	    Sounds.play(Sound.BOOM);
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	    return Direction.NONE;
+	// Constructors
+	public HotCrystalBlock() {
 	}
-	// Stop laser
-	Sounds.play(Sound.LASER_DIE);
-	return Direction.NONE;
-    }
 
-    @Override
-    public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final RangeType rangeType, final int forceUnits) {
-	if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
-	    // Destroy hot crystal block
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
-	    return true;
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.HOT_CRYSTAL_BLOCK;
 	}
-	if (RangeTypeHelper.material(rangeType) == Material.FIRE
-		|| RangeTypeHelper.material(rangeType) != Material.ICE) {
-	} else {
-	    // Freeze crystal block
-	    Sounds.play(Sound.FREEZE);
-	    Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
+
+	@Override
+	public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
+			final int dirY, final LaserType laserType, final int forceUnits) {
+		if (laserType == LaserType.MISSILE) {
+			// Destroy hot crystal block
+			Sounds.play(Sound.BOOM);
+			Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+			return Direction.NONE;
+		}
+		// Stop laser
+		Sounds.play(Sound.LASER_DIE);
+		return Direction.NONE;
 	}
-	// Do nothing
-	return true;
-    }
+
+	@Override
+	public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final RangeType rangeType, final int forceUnits) {
+		if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
+			// Destroy hot crystal block
+			Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
+			return true;
+		}
+		if (RangeTypeHelper.material(rangeType) == Material.FIRE
+				|| RangeTypeHelper.material(rangeType) != Material.ICE) {
+		} else {
+			// Freeze crystal block
+			Sounds.play(Sound.FREEZE);
+			Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
+		}
+		// Do nothing
+		return true;
+	}
 }

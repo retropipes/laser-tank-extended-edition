@@ -47,6 +47,6 @@ enum ArenaObjectDataFile {
     CAN_BREAK;
 
     public String getName() {
-	return Integer.toString(this.ordinal());
+        return Integer.toString(this.ordinal());
     }
 }

@@ -7,19 +7,19 @@ class CurrentArenaHistoryStack {
     private final ArrayDeque<CurrentArenaHistoryEntry> stack;
 
     CurrentArenaHistoryStack() {
-	this.stack = new ArrayDeque<>();
+        this.stack = new ArrayDeque<>();
     }
 
     public boolean isEmpty() {
-	return this.stack.isEmpty();
+        return this.stack.isEmpty();
     }
 
     public CurrentArenaHistoryEntry pop() {
-	return this.stack.removeFirst();
+        return this.stack.removeFirst();
     }
 
     public void push(final CurrentArenaStorage i, final HistoryStatus hww) {
-	final var newEntry = new CurrentArenaHistoryEntry(i, hww);
-	this.stack.addFirst(newEntry);
+        final var newEntry = new CurrentArenaHistoryEntry(i, hww);
+        this.stack.addFirst(newEntry);
     }
 }

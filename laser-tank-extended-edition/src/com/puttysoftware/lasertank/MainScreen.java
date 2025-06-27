@@ -29,74 +29,74 @@ import com.puttysoftware.lasertank.settings.Settings;
 import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class MainScreen extends Screen implements QuitHandler {
-    // Fields
-    private JLabel logoLabel;
-    private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler();
-    private final MainScreenFocusHandler fHandler = new MainScreenFocusHandler();
+	// Fields
+	private JLabel logoLabel;
+	private final MainScreenCloseHandler cHandler = new MainScreenCloseHandler();
+	private final MainScreenFocusHandler fHandler = new MainScreenFocusHandler();
 
-    // Constructors
-    MainScreen() {
-	this.setMusic(Music.MAIN_SCREEN);
-    }
-
-    @Override
-    public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response) {
-	final var okToQuit = MainScreen.quitHandler();
-	if (okToQuit) {
-	    response.performQuit();
-	} else {
-	    response.cancelQuit();
+	// Constructors
+	MainScreen() {
+		this.setMusic(Music.MAIN_SCREEN);
 	}
-    }
 
-    @Override
-    protected void hideScreenHook() {
-	MainWindow.mainWindow().removeWindowFocusListener(this.fHandler);
-	MainWindow.mainWindow().removeWindowListener(this.cHandler);
-    }
-
-    @Override
-    protected void populateMainPanel() {
-	this.theContent.setLayout(new GridLayout(1, 1));
-	this.logoLabel = new JLabel(Strings.loadCommon(CommonString.EMPTY), null, SwingConstants.CENTER);
-	this.logoLabel.setLabelFor(null);
-	this.logoLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
-	final var logo = Logos.getOpening();
-	this.logoLabel.setIcon(logo);
-	this.theContent.add(this.logoLabel);
-	this.setTitle(GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
-    }
-
-    // Methods
-    static boolean quitHandler() {
-	var saved = true;
-	var status = CommonDialogs.DEFAULT_OPTION;
-	if (ArenaManager.getDirty()) {
-	    status = ArenaManager.showSaveDialog();
-	    if (status == CommonDialogs.YES_OPTION) {
-		saved = ArenaManager.saveArena(ArenaManager.isArenaProtected());
-	    } else if (status == CommonDialogs.CANCEL_OPTION) {
-		saved = false;
-	    } else {
-		ArenaManager.setDirty(false);
-	    }
+	@Override
+	public void handleQuitRequestWith(final QuitEvent e, final QuitResponse response) {
+		final var okToQuit = MainScreen.quitHandler();
+		if (okToQuit) {
+			response.performQuit();
+		} else {
+			response.cancelQuit();
+		}
 	}
-	if (saved) {
-	    Settings.writeSettings();
-	    // Run cleanup task
-	    AppTaskManager.cleanUp();
+
+	@Override
+	protected void hideScreenHook() {
+		MainWindow.mainWindow().removeWindowFocusListener(this.fHandler);
+		MainWindow.mainWindow().removeWindowListener(this.cHandler);
 	}
-	return saved;
-    }
 
-    static void showGUI() {
-	LaserTankEE.setOnMainScreen();
-    }
+	@Override
+	protected void populateMainPanel() {
+		this.theContent.setLayout(new GridLayout(1, 1));
+		this.logoLabel = new JLabel(Strings.loadCommon(CommonString.EMPTY), null, SwingConstants.CENTER);
+		this.logoLabel.setLabelFor(null);
+		this.logoLabel.setBorder(new EmptyBorder(0, 0, 0, 0));
+		final var logo = Logos.getOpening();
+		this.logoLabel.setIcon(logo);
+		this.theContent.add(this.logoLabel);
+		this.setTitle(GlobalStrings.loadUntranslated(UntranslatedString.PROGRAM_NAME));
+	}
 
-    @Override
-    protected void showScreenHook() {
-	MainWindow.mainWindow().addWindowListener(this.cHandler);
-	MainWindow.mainWindow().addWindowFocusListener(this.fHandler);
-	Musics.play(Music.MAIN_SCREEN);
-    }
+	// Methods
+	static boolean quitHandler() {
+		var saved = true;
+		var status = CommonDialogs.DEFAULT_OPTION;
+		if (ArenaManager.getDirty()) {
+			status = ArenaManager.showSaveDialog();
+			if (status == CommonDialogs.YES_OPTION) {
+				saved = ArenaManager.saveArena(ArenaManager.isArenaProtected());
+			} else if (status == CommonDialogs.CANCEL_OPTION) {
+				saved = false;
+			} else {
+				ArenaManager.setDirty(false);
+			}
+		}
+		if (saved) {
+			Settings.writeSettings();
+			// Run cleanup task
+			AppTaskManager.cleanUp();
+		}
+		return saved;
+	}
+
+	static void showGUI() {
+		LaserTankEE.setOnMainScreen();
+	}
+
+	@Override
+	protected void showScreenHook() {
+		MainWindow.mainWindow().addWindowListener(this.cHandler);
+		MainWindow.mainWindow().addWindowFocusListener(this.fHandler);
+		Musics.play(Music.MAIN_SCREEN);
+	}
 }

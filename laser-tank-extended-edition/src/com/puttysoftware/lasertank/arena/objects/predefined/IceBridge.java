@@ -17,19 +17,19 @@ public class IceBridge extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ICE_BRIDGE;
+        return GameObjectID.ICE_BRIDGE;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.PUSH_MIRROR);
+        Sounds.play(Sound.PUSH_MIRROR);
     }
 
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-	if (pushed.getID() == GameObjectID.HOT_BOX) {
-	    pushed.setSavedObject(new ArenaObject(GameObjectID.BRIDGE));
-	}
-	return true;
+        if (pushed.getID() == GameObjectID.HOT_BOX) {
+            pushed.setSavedObject(new ArenaObject(GameObjectID.BRIDGE));
+        }
+        return true;
     }
 }

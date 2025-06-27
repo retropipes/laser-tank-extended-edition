@@ -16,41 +16,41 @@ class SettingsFile {
 
     // Constructors
     SettingsFile() {
-	this.store = new Properties();
+        this.store = new Properties();
     }
 
     boolean getBoolean(final String key, final boolean defaultValue) {
-	final var strVal = this.getString(key, Boolean.toString(defaultValue));
-	return Boolean.parseBoolean(strVal);
+        final var strVal = this.getString(key, Boolean.toString(defaultValue));
+        return Boolean.parseBoolean(strVal);
     }
 
     int getInteger(final String key, final int defaultValue) {
-	final var strVal = this.getString(key, Integer.toString(defaultValue));
-	return Integer.parseInt(strVal);
+        final var strVal = this.getString(key, Integer.toString(defaultValue));
+        return Integer.parseInt(strVal);
     }
 
     // Methods
     String getString(final String key, final String defaultValue) {
-	return this.store.getProperty(key, defaultValue);
+        return this.store.getProperty(key, defaultValue);
     }
 
     void loadStore(final InputStream source) throws IOException {
-	this.store.loadFromXML(source);
+        this.store.loadFromXML(source);
     }
 
     void saveStore(final OutputStream dest) throws IOException {
-	this.store.storeToXML(dest, null);
+        this.store.storeToXML(dest, null);
     }
 
     void setBoolean(final String key, final boolean newValue) {
-	this.setString(key, Boolean.toString(newValue));
+        this.setString(key, Boolean.toString(newValue));
     }
 
     void setInteger(final String key, final int newValue) {
-	this.setString(key, Integer.toString(newValue));
+        this.setString(key, Integer.toString(newValue));
     }
 
     void setString(final String key, final String newValue) {
-	this.store.setProperty(key, newValue);
+        this.store.setProperty(key, newValue);
     }
 }

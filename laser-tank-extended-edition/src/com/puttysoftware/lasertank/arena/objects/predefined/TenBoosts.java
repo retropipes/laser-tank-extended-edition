@@ -17,12 +17,12 @@ public class TenBoosts extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.TEN_BOOSTS;
+        return GameObjectID.TEN_BOOSTS;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	TankInventory.addTenBoosts();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        TankInventory.addTenBoosts();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

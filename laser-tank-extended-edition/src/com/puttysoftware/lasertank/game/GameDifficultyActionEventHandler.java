@@ -15,17 +15,17 @@ class GameDifficultyActionEventHandler implements ActionListener, Runnable {
 
     @Override
     public void actionPerformed(final ActionEvent e) {
-	this.event = e;
-	AppTaskManager.runTask(this);
+        this.event = e;
+        AppTaskManager.runTask(this);
     }
 
     @Override
     public void run() {
-	final var cmd = this.event.getActionCommand();
-	if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
-	    Game.okButtonClicked();
-	} else {
-	    Game.cancelButtonClicked();
-	}
+        final var cmd = this.event.getActionCommand();
+        if (cmd.equals(Strings.loadDialog(DialogString.OK_BUTTON))) {
+            Game.okButtonClicked();
+        } else {
+            Game.cancelButtonClicked();
+        }
     }
 }

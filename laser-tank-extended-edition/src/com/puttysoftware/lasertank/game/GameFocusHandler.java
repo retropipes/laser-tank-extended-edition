@@ -7,16 +7,16 @@ import com.puttysoftware.lasertank.LaserTankEE;
 
 class GameFocusHandler implements WindowFocusListener {
     public GameFocusHandler() {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void windowGainedFocus(final WindowEvent e) {
-	LaserTankEE.updateMenuItemState();
+        LaserTankEE.updateMenuItemState();
     }
 
     @Override
     public void windowLostFocus(final WindowEvent e) {
-	// Do nothing
+        // Do nothing
     }
 }

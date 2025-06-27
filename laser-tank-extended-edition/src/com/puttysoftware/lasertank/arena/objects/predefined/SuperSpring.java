@@ -17,11 +17,11 @@ public class SuperSpring extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.SUPER_SPRING;
+        return GameObjectID.SUPER_SPRING;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.SPRING);
+        Sounds.play(Sound.SPRING);
     }
 }

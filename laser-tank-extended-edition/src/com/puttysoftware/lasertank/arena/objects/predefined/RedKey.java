@@ -19,13 +19,13 @@ public class RedKey extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.RED_KEY;
+        return GameObjectID.RED_KEY;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.GRAB);
-	TankInventory.addOneRedKey();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
+        Sounds.play(Sound.GRAB);
+        TankInventory.addOneRedKey();
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

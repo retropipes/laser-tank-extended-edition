@@ -7,11 +7,11 @@ abstract class Cheat {
     private static final int INSTANTS = 12;
 
     public static int count() {
-	return CheatEffect.values().length;
+        return CheatEffect.values().length;
     }
 
     public static int instantCount() {
-	return Cheat.INSTANTS;
+        return Cheat.INSTANTS;
     }
 
     private final String code;
@@ -19,34 +19,34 @@ abstract class Cheat {
 
     // Constructor
     public Cheat(final String activator, final CheatEffect doesWhat) {
-	this.code = activator;
-	this.cheatEffect = doesWhat;
+        this.code = activator;
+        this.cheatEffect = doesWhat;
     }
 
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (obj == null || !(obj instanceof final Cheat other)) {
-	    return false;
-	}
-	return Objects.equals(this.code, other.code) && this.cheatEffect == other.cheatEffect;
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null || !(obj instanceof final Cheat other)) {
+            return false;
+        }
+        return Objects.equals(this.code, other.code) && this.cheatEffect == other.cheatEffect;
     }
 
     public final String getCode() {
-	return this.code;
+        return this.code;
     }
 
     public final CheatEffect getEffect() {
-	return this.cheatEffect;
+        return this.cheatEffect;
     }
 
     public abstract boolean getState();
 
     @Override
     public int hashCode() {
-	return Objects.hash(this.code, this.cheatEffect);
+        return Objects.hash(this.code, this.cheatEffect);
     }
 
     public abstract boolean hasState();

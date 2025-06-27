@@ -16,47 +16,47 @@ public class AppTaskManager {
     static String ERROR_TITLE = null;
     static String WARNING_MESSAGE = null;
     static String WARNING_TITLE = null;
-    
+
     public static void cleanUp() {
-	CleanupTask.cleanUp();
+        CleanupTask.cleanUp();
     }
 
     public static void error(final Throwable t) {
-	AppTaskManager.errHandler.handleError(t);
+        AppTaskManager.errHandler.handleError(t);
     }
 
     public static void logErrorDirectly(final Throwable t) {
-	AppTaskManager.errHandler.handleErrorDirectly(t);
+        AppTaskManager.errHandler.handleErrorDirectly(t);
     }
 
     public static void warning(final Throwable t) {
-	AppTaskManager.errHandler.handleWarning(t);
+        AppTaskManager.errHandler.handleWarning(t);
     }
 
     public static void logWarningDirectly(final Throwable t) {
-	AppTaskManager.errHandler.handleWarningDirectly(t);
+        AppTaskManager.errHandler.handleWarningDirectly(t);
     }
 
     public static void installDefaultErrorHandler() {
-	// Initialize strings
-	Strings.setDefaultLanguage();
-	AppTaskManager.ERROR_TITLE = Strings.loadError(ErrorString.ERROR_TITLE);
-	AppTaskManager.ERROR_MESSAGE = Strings.loadError(ErrorString.ERROR_MESSAGE);
-	AppTaskManager.WARNING_TITLE = Strings.loadError(ErrorString.WARNING_TITLE);
-	AppTaskManager.WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
-	// Set Up Common Dialogs
-	CommonDialogs.setDefaultTitle(AppTaskManager.PROGRAM_NAME);
-	// Install custom error handler
-	AppTaskManager.errHandler = new GameErrorHandler(AppTaskManager.PROGRAM_NAME);
-	Thread.setDefaultUncaughtExceptionHandler(AppTaskManager.errHandler);
+        // Initialize strings
+        Strings.setDefaultLanguage();
+        AppTaskManager.ERROR_TITLE = Strings.loadError(ErrorString.ERROR_TITLE);
+        AppTaskManager.ERROR_MESSAGE = Strings.loadError(ErrorString.ERROR_MESSAGE);
+        AppTaskManager.WARNING_TITLE = Strings.loadError(ErrorString.WARNING_TITLE);
+        AppTaskManager.WARNING_MESSAGE = Strings.loadError(ErrorString.WARNING_MESSAGE);
+        // Set Up Common Dialogs
+        CommonDialogs.setDefaultTitle(AppTaskManager.PROGRAM_NAME);
+        // Install custom error handler
+        AppTaskManager.errHandler = new GameErrorHandler(AppTaskManager.PROGRAM_NAME);
+        Thread.setDefaultUncaughtExceptionHandler(AppTaskManager.errHandler);
     }
 
     public static void runTask(final Runnable task) {
-	Thread.ofPlatform().uncaughtExceptionHandler(AppTaskManager.errHandler).start(task);
+        Thread.ofPlatform().uncaughtExceptionHandler(AppTaskManager.errHandler).start(task);
     }
 
     public static Thread runTrackedTask(final Runnable task) {
-	return Thread.ofPlatform().uncaughtExceptionHandler(AppTaskManager.errHandler).start(task);
+        return Thread.ofPlatform().uncaughtExceptionHandler(AppTaskManager.errHandler).start(task);
     }
 
     private AppTaskManager() {

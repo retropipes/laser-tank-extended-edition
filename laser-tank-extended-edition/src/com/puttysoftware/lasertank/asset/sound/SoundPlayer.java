@@ -13,7 +13,7 @@ public final class SoundPlayer {
 
     // Methods
     public static void play(final SoundIndex index) {
-	AppTaskManager.runTask(new SoundResource(index.getURL()));
+        AppTaskManager.runTask(new SoundResource(index.getURL()));
     }
 
     // Constructor

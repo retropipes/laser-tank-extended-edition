@@ -17,21 +17,21 @@ public class Ice extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.ICE;
+        return GameObjectID.ICE;
     }
 
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
-	Sounds.play(Sound.PUSH_MIRROR);
+        Sounds.play(Sound.PUSH_MIRROR);
     }
 
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
-	if (pushed.getID() == GameObjectID.HOT_BOX) {
-	    final var g = new ArenaObject(GameObjectID.GROUND);
-	    Game.morph(g, x, y, z, g.layer());
-	    Sounds.play(Sound.DEFROST);
-	}
-	return true;
+        if (pushed.getID() == GameObjectID.HOT_BOX) {
+            final var g = new ArenaObject(GameObjectID.GROUND);
+            Game.morph(g, x, y, z, g.layer());
+            Sounds.play(Sound.DEFROST);
+        }
+        return true;
     }
 }

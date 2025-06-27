@@ -11,11 +11,11 @@ class GameDifficultyWindowEventHandler extends WindowAdapter implements Runnable
 
     @Override
     public void run() {
-	Game.cancelButtonClicked();
+        Game.cancelButtonClicked();
     }
 
     @Override
     public void windowClosing(final WindowEvent e) {
-	AppTaskManager.runTask(this);
+        AppTaskManager.runTask(this);
     }
 }

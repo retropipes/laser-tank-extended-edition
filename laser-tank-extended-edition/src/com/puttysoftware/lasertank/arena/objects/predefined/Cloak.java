@@ -20,26 +20,26 @@ public class Cloak extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.CLOAK;
+        return GameObjectID.CLOAK;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	Sounds.play(Sound.CHANGE);
-	return Direction.NONE;
+            final LaserType laserType, final int forceUnits) {
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+        Sounds.play(Sound.CHANGE);
+        return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	Sounds.play(Sound.CHANGE);
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+        Sounds.play(Sound.CHANGE);
     }
 
     @Override
     public void postMoveActionHook(final int locX, final int locY, final int locZ) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	Sounds.play(Sound.CHANGE);
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+        Sounds.play(Sound.CHANGE);
     }
 }

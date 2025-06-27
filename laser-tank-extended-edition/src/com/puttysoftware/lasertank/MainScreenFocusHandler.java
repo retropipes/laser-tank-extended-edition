@@ -5,16 +5,16 @@ import java.awt.event.WindowFocusListener;
 
 class MainScreenFocusHandler implements WindowFocusListener {
     public MainScreenFocusHandler() {
-	// Do nothing
+        // Do nothing
     }
 
     @Override
     public void windowGainedFocus(final WindowEvent e) {
-	LaserTankEE.updateMenuItemState();
+        LaserTankEE.updateMenuItemState();
     }
 
     @Override
     public void windowLostFocus(final WindowEvent e) {
-	// Do nothing
+        // Do nothing
     }
 }

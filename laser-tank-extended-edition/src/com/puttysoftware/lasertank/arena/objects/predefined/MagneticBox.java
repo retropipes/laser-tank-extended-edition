@@ -15,30 +15,30 @@ import com.puttysoftware.lasertank.index.GameObjectID;
 import com.puttysoftware.lasertank.index.LaserType;
 
 public class MagneticBox extends ArenaObject {
-    // Constructors
-    public MagneticBox() {
-    }
-
-    @Override
-    public final GameObjectID getID() {
-	return GameObjectID.MAGNETIC_BOX;
-    }
-
-    @Override
-    public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	final var mo = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.layer());
-	if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
-	    Game.updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
-	    Sounds.play(this.laserEnteredSound());
-	} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
-	    Game.updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
-	    Sounds.play(this.laserEnteredSound());
-	} else if (laserType == LaserType.MISSILE) {
-	    Sounds.play(Sound.BOOM);
-	} else {
-	    return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+	// Constructors
+	public MagneticBox() {
 	}
-	return Direction.NONE;
-    }
+
+	@Override
+	public final GameObjectID getID() {
+		return GameObjectID.MAGNETIC_BOX;
+	}
+
+	@Override
+	public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
+			final LaserType laserType, final int forceUnits) {
+		final var mo = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.layer());
+		if (laserType == LaserType.BLUE && mo != null && (mo.canControl() || !mo.isSolid())) {
+			Game.updatePushedPosition(locX, locY, locX + dirX, locY + dirY, this);
+			Sounds.play(this.laserEnteredSound());
+		} else if (mo != null && (mo.canControl() || !mo.isSolid())) {
+			Game.updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
+			Sounds.play(this.laserEnteredSound());
+		} else if (laserType == LaserType.MISSILE) {
+			Sounds.play(Sound.BOOM);
+		} else {
+			return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+		}
+		return Direction.NONE;
+	}
 }

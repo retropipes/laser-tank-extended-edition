@@ -11,16 +11,16 @@ import com.puttysoftware.lasertank.arena.Arena;
 import com.puttysoftware.lasertank.fileio.utility.DirectoryUtilities;
 
 class CleanupTask {
-    static void cleanUp() {
-	try {
-	    final var dirToDelete = new File(Arena.getArenaTempFolder());
-	    DirectoryUtilities.removeDirectory(dirToDelete);
-	} catch (final Throwable t) {
-	    // Ignore
+	static void cleanUp() {
+		try {
+			final var dirToDelete = new File(Arena.getArenaTempFolder());
+			DirectoryUtilities.removeDirectory(dirToDelete);
+		} catch (final Throwable t) {
+			// Ignore
+		}
 	}
-    }
 
-    private CleanupTask() {
-	// Do nothing
-    }
+	private CleanupTask() {
+		// Do nothing
+	}
 }

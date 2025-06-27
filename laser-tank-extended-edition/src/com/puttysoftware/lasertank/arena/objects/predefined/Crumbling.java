@@ -21,24 +21,24 @@ public class Crumbling extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.CRUMBLING;
+        return GameObjectID.CRUMBLING;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	// Destroy whatever we were attached to
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
-	Sounds.play(Sound.CRACK);
-	return Direction.NONE;
+            final LaserType laserType, final int forceUnits) {
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+        // Destroy whatever we were attached to
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+        Sounds.play(Sound.CRACK);
+        return Direction.NONE;
     }
 
     @Override
     public void moveFailedAction(final int locX, final int locY, final int locZ) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
-	// Destroy whatever we were attached to
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
-	Sounds.play(Sound.CRACK);
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+        // Destroy whatever we were attached to
+        Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, Layer.LOWER_OBJECTS.ordinal());
+        Sounds.play(Sound.CRACK);
     }
 }

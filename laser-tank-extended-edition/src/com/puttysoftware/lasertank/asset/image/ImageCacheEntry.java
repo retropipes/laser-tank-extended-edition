@@ -9,32 +9,32 @@ class ImageCacheEntry {
 
     // Constructors
     public ImageCacheEntry(final BufferedImageIcon newImage, final String newName) {
-	this.image = newImage;
-	this.name = newName;
+        this.image = newImage;
+        this.name = newName;
     }
 
     @Override
     public boolean equals(final Object obj) {
-	if (this == obj) {
-	    return true;
-	}
-	if (!(obj instanceof final ImageCacheEntry other)) {
-	    return false;
-	}
-	return Objects.equals(this.name, other.name);
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof final ImageCacheEntry other)) {
+            return false;
+        }
+        return Objects.equals(this.name, other.name);
     }
 
     @Override
     public int hashCode() {
-	return Objects.hash(this.name);
+        return Objects.hash(this.name);
     }
 
     // Methods
     public BufferedImageIcon image() {
-	return this.image;
+        return this.image;
     }
 
     public String name() {
-	return this.name;
+        return this.name;
     }
 }

@@ -7,15 +7,15 @@ class CurrentArenaHistoryEntry {
     private final HistoryStatus histWhatWas;
 
     CurrentArenaHistoryEntry(final CurrentArenaStorage i, final HistoryStatus hww) {
-	this.histImage = i;
-	this.histWhatWas = hww;
+        this.histImage = i;
+        this.histWhatWas = hww;
     }
 
     public CurrentArenaStorage getImage() {
-	return this.histImage;
+        return this.histImage;
     }
 
     public HistoryStatus getWhatWas() {
-	return this.histWhatWas;
+        return this.histWhatWas;
     }
 }

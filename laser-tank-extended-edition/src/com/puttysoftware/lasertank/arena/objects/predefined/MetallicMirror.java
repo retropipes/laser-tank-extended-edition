@@ -18,18 +18,18 @@ public class MetallicMirror extends ArenaObject {
 
     @Override
     public final GameObjectID getID() {
-	return GameObjectID.METALLIC_MIRROR;
+        return GameObjectID.METALLIC_MIRROR;
     }
 
     @Override
     public Direction laserEnteredAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
-	    final LaserType laserType, final int forceUnits) {
-	final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
-	if (this.hitReflectiveSide(dir)) {
-	    // Reflect laser
-	    return this.getDirection();
-	}
-	// Move mirror
-	return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
+            final LaserType laserType, final int forceUnits) {
+        final var dir = DirectionHelper.resolveRelativeInvert(dirX, dirY);
+        if (this.hitReflectiveSide(dir)) {
+            // Reflect laser
+            return this.getDirection();
+        }
+        // Move mirror
+        return super.laserEnteredAction(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
     }
 }

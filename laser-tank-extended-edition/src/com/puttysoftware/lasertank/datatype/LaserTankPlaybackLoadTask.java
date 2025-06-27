@@ -22,34 +22,34 @@ import com.puttysoftware.lasertank.tasks.AppTaskManager;
 import com.puttysoftware.lasertank.utility.InvalidArenaException;
 
 class LaserTankPlaybackLoadTask implements Runnable {
-    // Fields
-    private final File file;
-    private final JPanel loadContent;
+	// Fields
+	private final File file;
+	private final JPanel loadContent;
 
-    // Constructors
-    LaserTankPlaybackLoadTask(final File theFile) {
-	this.file = theFile;
-	this.loadContent = new JPanel();
-	final var loadBar = new JProgressBar();
-	loadBar.setIndeterminate(true);
-	this.loadContent.add(loadBar);
-    }
-
-    // Methods
-    @Override
-    public void run() {
-	MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
-	Game.setSavedGameFlag(false);
-	try {
-	    LaserTankPlayback.loadFromFile(this.file);
-	} catch (final FileNotFoundException fnfe) {
-	    CommonDialogs.showDialog(Strings.loadGame(GameString.PLAYBACK_LOAD_FAILED));
-	} catch (final IOException ioe) {
-	    throw new InvalidArenaException(ioe);
-	} catch (final Exception ex) {
-	    AppTaskManager.error(ex);
-	} finally {
-	    MainWindow.mainWindow().restoreSaved();
+	// Constructors
+	LaserTankPlaybackLoadTask(final File theFile) {
+		this.file = theFile;
+		this.loadContent = new JPanel();
+		final var loadBar = new JProgressBar();
+		loadBar.setIndeterminate(true);
+		this.loadContent.add(loadBar);
 	}
-    }
+
+	// Methods
+	@Override
+	public void run() {
+		MainWindow.mainWindow().setAndSave(this.loadContent, Strings.loadDialog(DialogString.LOADING));
+		Game.setSavedGameFlag(false);
+		try {
+			LaserTankPlayback.loadFromFile(this.file);
+		} catch (final FileNotFoundException fnfe) {
+			CommonDialogs.showDialog(Strings.loadGame(GameString.PLAYBACK_LOAD_FAILED));
+		} catch (final IOException ioe) {
+			throw new InvalidArenaException(ioe);
+		} catch (final Exception ex) {
+			AppTaskManager.error(ex);
+		} finally {
+			MainWindow.mainWindow().restoreSaved();
+		}
+	}
 }

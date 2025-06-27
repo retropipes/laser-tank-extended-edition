@@ -11,15 +11,15 @@ class GlobalFileNames {
 
     // Static methods
     static int getFileCount() {
-	return GlobalFileNames.LIST.length;
+        return GlobalFileNames.LIST.length;
     }
 
     static String getFileName(final GlobalFile file) {
-	return GlobalFileNames.LIST[file.ordinal()];
+        return GlobalFileNames.LIST[file.ordinal()];
     }
 
     // Private constructor
     private GlobalFileNames() {
-	// Do nothing
+        // Do nothing
     }
 }

@@ -5,19 +5,19 @@ import java.util.concurrent.ExecutionException;
 import com.puttysoftware.lasertank.tasks.AppTaskManager;
 
 class ShowDialogWithTitleTask implements Runnable {
-    private final String msg, title;
+	private final String msg, title;
 
-    ShowDialogWithTitleTask(final String message, final String customTitle) {
-	this.msg = message;
-	this.title = customTitle;
-    }
-
-    @Override
-    public void run() {
-	try {
-	    GeneralDialog.showDialog(this.msg, this.title, CommonDialogs.ICON).get();
-	} catch (InterruptedException | ExecutionException e) {
-	    AppTaskManager.error(e);
+	ShowDialogWithTitleTask(final String message, final String customTitle) {
+		this.msg = message;
+		this.title = customTitle;
 	}
-    }
+
+	@Override
+	public void run() {
+		try {
+			GeneralDialog.showDialog(this.msg, this.title, CommonDialogs.ICON).get();
+		} catch (InterruptedException | ExecutionException e) {
+			AppTaskManager.error(e);
+		}
+	}
 }

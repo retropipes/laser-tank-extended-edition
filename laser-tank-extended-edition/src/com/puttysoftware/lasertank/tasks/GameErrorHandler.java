@@ -6,46 +6,46 @@
 package com.puttysoftware.lasertank.tasks;
 
 class GameErrorHandler implements ErrorHandler {
-    static boolean DIALOG_SHOWING = false;
-    private final String programName;
-    private final ErrorLogger logger;
+	static boolean DIALOG_SHOWING = false;
+	private final String programName;
+	private final ErrorLogger logger;
 
-    public GameErrorHandler(final String name) {
-	this.programName = name;
-	this.logger = new ErrorLogger(this.programName);
-    }
-
-    public void handleError(final Throwable t) {
-	if (!GameErrorHandler.DIALOG_SHOWING) {
-	    CleanupTask.cleanUp();
-	    GameErrorHandler.DIALOG_SHOWING = true;
-	    AppTaskManager.runTask(new ShowErrorDialogTask(t, this.logger));
-	} else {
-	    CleanupTask.cleanUp();
-	    this.logger.logError(t);
+	public GameErrorHandler(final String name) {
+		this.programName = name;
+		this.logger = new ErrorLogger(this.programName);
 	}
-    }
 
-    public void handleErrorDirectly(final Throwable t) {
-	CleanupTask.cleanUp();
-	this.logger.logError(t);
-    }
-
-    @Override
-    public void handleWarning(final Throwable t) {
-	this.logger.logWarning(t);
-	if (!GameErrorHandler.DIALOG_SHOWING) {
-	    GameErrorHandler.DIALOG_SHOWING = true;
-	    AppTaskManager.runTask(new ShowWarningDialogTask(t, this.logger));
+	public void handleError(final Throwable t) {
+		if (!GameErrorHandler.DIALOG_SHOWING) {
+			CleanupTask.cleanUp();
+			GameErrorHandler.DIALOG_SHOWING = true;
+			AppTaskManager.runTask(new ShowErrorDialogTask(t, this.logger));
+		} else {
+			CleanupTask.cleanUp();
+			this.logger.logError(t);
+		}
 	}
-    }
 
-    public void handleWarningDirectly(final Throwable t) {
-	this.logger.logWarning(t);
-    }
+	public void handleErrorDirectly(final Throwable t) {
+		CleanupTask.cleanUp();
+		this.logger.logError(t);
+	}
 
-    @Override
-    public void uncaughtException(final Thread t, final Throwable e) {
-	this.handleError(e);
-    }
+	@Override
+	public void handleWarning(final Throwable t) {
+		this.logger.logWarning(t);
+		if (!GameErrorHandler.DIALOG_SHOWING) {
+			GameErrorHandler.DIALOG_SHOWING = true;
+			AppTaskManager.runTask(new ShowWarningDialogTask(t, this.logger));
+		}
+	}
+
+	public void handleWarningDirectly(final Throwable t) {
+		this.logger.logWarning(t);
+	}
+
+	@Override
+	public void uncaughtException(final Thread t, final Throwable e) {
+		this.handleError(e);
+	}
 }
