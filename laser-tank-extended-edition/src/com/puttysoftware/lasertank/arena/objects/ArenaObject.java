@@ -82,8 +82,8 @@ public class ArenaObject {
     private boolean canBreak;
     private boolean canCloak;
     private boolean canControl;
-    private boolean canLasersPassThrough;
     private boolean canJump;
+    private boolean canLasersPassThrough;
     private boolean canMove;
     private boolean canRoll;
     private boolean canShoot;
@@ -141,8 +141,8 @@ public class ArenaObject {
 	this.canBreak = source.canBreak;
 	this.canCloak = source.canCloak;
 	this.canControl = source.canControl;
-	this.canLasersPassThrough = source.canLasersPassThrough;
 	this.canJump = source.canJump;
+	this.canLasersPassThrough = source.canLasersPassThrough;
 	this.canMove = source.canMove;
 	this.canRoll = source.canRoll;
 	this.canShoot = source.canShoot;
@@ -206,8 +206,8 @@ public class ArenaObject {
 	this.canBreak = ArenaObjectData.canBreak(goid);
 	this.canCloak = ArenaObjectData.canCloak(goid);
 	this.canControl = ArenaObjectData.canControl(goid);
-	this.canLasersPassThrough = ArenaObjectData.canLasersPassThrough(goid);
 	this.canJump = ArenaObjectData.canJump(goid);
+	this.canLasersPassThrough = ArenaObjectData.canLasersPassThrough(goid);
 	this.canMove = ArenaObjectData.canMove(goid);
 	this.canRoll = ArenaObjectData.canRoll(goid);
 	this.canShoot = ArenaObjectData.canShoot(goid);
@@ -290,12 +290,12 @@ public class ArenaObject {
 	return this.canControl;
     }
 
-    public final boolean canLasersPassThrough() {
-	return this.canLasersPassThrough;
-    }
-
     public final boolean canJump() {
 	return this.canJump;
+    }
+
+    public final boolean canLasersPassThrough() {
+	return this.canLasersPassThrough;
     }
 
     public final boolean canMove() {
