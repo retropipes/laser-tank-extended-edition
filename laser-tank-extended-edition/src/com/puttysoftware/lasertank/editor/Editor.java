@@ -724,7 +724,7 @@ public class Editor extends Screen {
 	// Erase old player
 	try {
 	    ArenaManager.getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
-		    template.getLayer());
+		    template.layer());
 	} catch (final ArrayIndexOutOfBoundsException aioob) {
 	    // Ignore
 	}
@@ -733,7 +733,7 @@ public class Editor extends Screen {
 	ArenaManager.getArena().setStartColumn(this.activePlayer, this.elMgr.getEditorLocationX());
 	ArenaManager.getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
 	ArenaManager.getArena().setCell(template, this.elMgr.getEditorLocationX(), this.elMgr.getEditorLocationY(),
-		this.elMgr.getEditorLocationZ(), template.getLayer());
+		this.elMgr.getEditorLocationZ(), template.layer());
     }
 
     void setPlayerLocation(final int x, final int y) {
@@ -751,7 +751,7 @@ public class Editor extends Screen {
 	// Erase old player
 	try {
 	    ArenaManager.getArena().setCell(new ArenaObject(GameObjectID.GROUND), oldX, oldY, oldZ,
-		    template.getLayer());
+		    template.layer());
 	} catch (final ArrayIndexOutOfBoundsException aioob) {
 	    // Ignore
 	}
@@ -761,13 +761,13 @@ public class Editor extends Screen {
 	    ArenaManager.getArena().setStartColumn(this.activePlayer, destX);
 	    ArenaManager.getArena().setStartFloor(this.activePlayer, this.elMgr.getEditorLocationZ());
 	    ArenaManager.getArena().setCell(template, destX, destY, this.elMgr.getEditorLocationZ(),
-		    template.getLayer());
+		    template.layer());
 	    LaserTankEE.showMessage(Strings.loadEditor(EditorString.START_POINT_SET));
 	} catch (final ArrayIndexOutOfBoundsException aioob) {
 	    try {
 		ArenaManager.getArena().setStartRow(this.activePlayer, oldY);
 		ArenaManager.getArena().setStartColumn(this.activePlayer, oldX);
-		ArenaManager.getArena().setCell(template, oldX, oldY, oldZ, template.getLayer());
+		ArenaManager.getArena().setCell(template, oldX, oldY, oldZ, template.layer());
 	    } catch (final ArrayIndexOutOfBoundsException aioob2) {
 		// Ignore
 	    }

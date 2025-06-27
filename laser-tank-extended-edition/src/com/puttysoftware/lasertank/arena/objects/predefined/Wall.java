@@ -29,7 +29,7 @@ public class Wall extends ArenaObject {
 	if (laserType == LaserType.MISSILE) {
 	    // Heat up wall
 	    Sounds.play(Sound.MELT);
-	    Game.morph(new ArenaObject(GameObjectID.HOT_WALL), locX, locY, locZ, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.HOT_WALL), locX, locY, locZ, this.layer());
 	    return Direction.NONE;
 	}
 	if (laserType == LaserType.STUNNER) {
@@ -37,7 +37,7 @@ public class Wall extends ArenaObject {
 	    Sounds.play(Sound.FREEZE);
 	    final var iw = new ArenaObject(GameObjectID.ICY_WALL);
 	    iw.setPreviousState(this);
-	    Game.morph(iw, locX, locY, locZ, this.getLayer());
+	    Game.morph(iw, locX, locY, locZ, this.layer());
 	    return Direction.NONE;
 	}
 	// Stop laser

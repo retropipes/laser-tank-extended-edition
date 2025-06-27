@@ -23,6 +23,6 @@ public class TenHeatBombs extends ArenaObject {
     @Override
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	TankInventory.addTenHeatBombs();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

@@ -29,7 +29,7 @@ public class ProximityCrystal extends ArenaObject {
 	    final int dirY, final LaserType laserType, final int forceUnits) {
 	final var a = ArenaManager.getArena();
 	// Destroy barrel
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
 	// Check for tank in range of explosion
 	final var target = a.circularScanTank(locX, locY, locZ, 1);
 	if (target) {
@@ -64,7 +64,7 @@ public class ProximityCrystal extends ArenaObject {
 	    return true;
 	}
 	// Destroy barrel
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
 	return true;
     }
 }

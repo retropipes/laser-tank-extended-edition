@@ -55,7 +55,7 @@ final class MLOTask implements Runnable {
 	final var pz = Game.getPlayerLocationZ();
 	final var ft = new ArenaObject(GameObjectID.FROZEN_TANK, dir, tank.getNumber());
 	ft.setSavedObject(tank.getSavedObject());
-	Game.morph(ft, px, py, pz, ft.getLayer());
+	Game.morph(ft, px, py, pz, ft.layer());
 	Game.updateTank();
     }
 
@@ -67,7 +67,7 @@ final class MLOTask implements Runnable {
 	final var pz = Game.getPlayerLocationZ();
 	final var mt = new ArenaObject(GameObjectID.MOLTEN_TANK, dir, tank.getNumber());
 	mt.setSavedObject(tank.getSavedObject());
-	Game.morph(mt, px, py, pz, mt.getLayer());
+	Game.morph(mt, px, py, pz, mt.layer());
 	Game.updateTank();
     }
 
@@ -342,7 +342,7 @@ final class MLOTask implements Runnable {
 	    final var pz = Game.getPlayerLocationZ();
 	    final var t = new ArenaObject(GameObjectID.TANK, dir, tank.getNumber());
 	    t.setSavedObject(tank.getSavedObject());
-	    Game.morph(t, px, py, pz, t.getLayer());
+	    Game.morph(t, px, py, pz, t.layer());
 	    Game.updateTank();
 	    Sounds.play(Sound.DEFROST);
 	}

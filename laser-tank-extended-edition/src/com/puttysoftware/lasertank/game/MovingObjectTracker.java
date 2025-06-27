@@ -79,7 +79,7 @@ final class MovingObjectTracker {
 	    }
 	    final var oldSave = jumper.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
-		    this.objCumY + this.objIncY * this.objMultY, pz, jumper.getLayer());
+		    this.objCumY + this.objIncY * this.objMultY, pz, jumper.layer());
 	    this.belowUpper = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.UPPER_GROUND.ordinal());
 	    this.belowLower = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
@@ -87,10 +87,10 @@ final class MovingObjectTracker {
 	    if (MovingObjectTracker.checkSolid(saved) && this.objMultX != 0 && this.objMultY != 0) {
 		jumper.jumpSound(true);
 		oldSave.pushOutAction(jumper, this.objCumX, this.objCumY, pz);
-		m.setCell(oldSave, this.objCumX, this.objCumY, pz, jumper.getLayer());
+		m.setCell(oldSave, this.objCumX, this.objCumY, pz, jumper.layer());
 		jumper.setSavedObject(saved);
 		m.setCell(jumper, this.objCumX + this.objIncX * this.objMultX,
-			this.objCumY + this.objIncY * this.objMultY, pz, jumper.getLayer());
+			this.objCumY + this.objIncY * this.objMultY, pz, jumper.layer());
 		var stopObj = this.belowLower.pushIntoAction(this.movingObj,
 			this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz);
 		final var temp1 = this.belowUpper.pushIntoAction(this.movingObj,
@@ -181,7 +181,7 @@ final class MovingObjectTracker {
 	    }
 	    final var oldSave = this.movingObj.getSavedObject();
 	    final var saved = m.getCell(this.objCumX + this.objIncX * this.objMultX,
-		    this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.getLayer());
+		    this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.layer());
 	    this.belowUpper = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
 		    this.objCumY + this.objIncY * this.objMultY, pz, Layer.UPPER_GROUND.ordinal());
 	    this.belowLower = ArenaManager.getArena().getCell(this.objCumX + this.objIncX * this.objMultX,
@@ -190,10 +190,10 @@ final class MovingObjectTracker {
 		this.belowLower.pushOutAction(this.movingObj, this.objCumX, this.objCumY, pz);
 		this.belowUpper.pushOutAction(this.movingObj, this.objCumX, this.objCumY, pz);
 		oldSave.pushOutAction(this.movingObj, this.objCumX, this.objCumY, pz);
-		m.setCell(oldSave, this.objCumX, this.objCumY, pz, this.movingObj.getLayer());
+		m.setCell(oldSave, this.objCumX, this.objCumY, pz, this.movingObj.layer());
 		this.movingObj.setSavedObject(saved);
 		m.setCell(this.movingObj, this.objCumX + this.objIncX * this.objMultX,
-			this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.getLayer());
+			this.objCumY + this.objIncY * this.objMultY, pz, this.movingObj.layer());
 		var stopObj = this.belowLower.pushIntoAction(this.movingObj,
 			this.objCumX + this.objIncX * this.objMultX, this.objCumY + this.objIncY * this.objMultY, pz);
 		final var temp1 = this.belowUpper.pushIntoAction(this.movingObj,

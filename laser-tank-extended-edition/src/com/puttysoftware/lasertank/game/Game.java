@@ -1151,7 +1151,7 @@ public final class Game extends Screen {
 
     private static void resetTank() {
 	ArenaManager.getArena().setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-		Game.plMgr.getPlayerLocationZ(), Game.tank.getLayer());
+		Game.plMgr.getPlayerLocationZ(), Game.tank.layer());
 	Game.markTankAsDirty();
     }
 
@@ -1397,19 +1397,19 @@ public final class Game extends Screen {
 	final var m = ArenaManager.getArena();
 	Game.plMgr.savePlayerLocation();
 	try {
-	    if (!m.getCell(x, y, z, template.getLayer()).isConditionallySolid()) {
+	    if (!m.getCell(x, y, z, template.layer()).isConditionallySolid()) {
 		if (z != 0) {
 		    Game.suspendAnimator();
 		    m.setDirtyFlags(Game.plMgr.getPlayerLocationZ());
 		    m.setDirtyFlags(z);
 		}
 		m.setCell(Game.tank.getSavedObject(), Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-			Game.plMgr.getPlayerLocationZ(), template.getLayer());
+			Game.plMgr.getPlayerLocationZ(), template.layer());
 		Game.plMgr.setPlayerLocation(x, y, z);
 		Game.tank.setSavedObject(m.getCell(Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-			Game.plMgr.getPlayerLocationZ(), template.getLayer()));
+			Game.plMgr.getPlayerLocationZ(), template.layer()));
 		m.setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-			Game.plMgr.getPlayerLocationZ(), template.getLayer());
+			Game.plMgr.getPlayerLocationZ(), template.layer());
 		ArenaManager.setDirty(true);
 		if (z != 0) {
 		    Game.resumeAnimator();
@@ -1418,7 +1418,7 @@ public final class Game extends Screen {
 	} catch (final ArrayIndexOutOfBoundsException | NullPointerException np) {
 	    Game.plMgr.restorePlayerLocation();
 	    m.setCell(Game.tank, Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-		    Game.plMgr.getPlayerLocationZ(), template.getLayer());
+		    Game.plMgr.getPlayerLocationZ(), template.layer());
 	    LaserTankEE.showMessage(Strings.loadGame(GameString.OUTSIDE_ARENA));
 	}
     }
@@ -1510,9 +1510,9 @@ public final class Game extends Screen {
 	var needsFixup1 = false;
 	var needsFixup2 = false;
 	try {
-	    if (!m.getCell(x, y, z, pushedInto.getLayer()).isConditionallySolid()) {
-		final var saved = m.getCell(x, y, z, pushedInto.getLayer());
-		final var there = m.getCell(x2, y2, z2, pushedInto.getLayer());
+	    if (!m.getCell(x, y, z, pushedInto.layer()).isConditionallySolid()) {
+		final var saved = m.getCell(x, y, z, pushedInto.layer());
+		final var there = m.getCell(x2, y2, z2, pushedInto.layer());
 		if (there.canControl()) {
 		    needsFixup1 = true;
 		}
@@ -1520,24 +1520,24 @@ public final class Game extends Screen {
 		    needsFixup2 = true;
 		}
 		if (needsFixup2) {
-		    m.setCell(Game.tank, x, y, z, template.getLayer());
+		    m.setCell(Game.tank, x, y, z, template.layer());
 		    pushedInto.setSavedObject(saved.getSavedObject());
 		    Game.tank.setSavedObject(pushedInto);
 		} else {
-		    m.setCell(pushedInto, x, y, z, pushedInto.getLayer());
+		    m.setCell(pushedInto, x, y, z, pushedInto.layer());
 		    pushedInto.setSavedObject(saved);
 		}
 		if (needsFixup1) {
-		    m.setCell(Game.tank, x2, y2, z2, template.getLayer());
+		    m.setCell(Game.tank, x2, y2, z2, template.layer());
 		    Game.tank.setSavedObject(source);
 		} else {
-		    m.setCell(source, x2, y2, z2, pushedInto.getLayer());
+		    m.setCell(source, x2, y2, z2, pushedInto.layer());
 		}
 		ArenaManager.setDirty(true);
 	    }
 	} catch (final ArrayIndexOutOfBoundsException ae) {
 	    final var e = new ArenaObject(GameObjectID.PLACEHOLDER);
-	    m.setCell(e, x2, y2, z2, pushedInto.getLayer());
+	    m.setCell(e, x2, y2, z2, pushedInto.layer());
 	}
     }
 
@@ -1725,7 +1725,7 @@ public final class Game extends Screen {
 	final var template = new ArenaObject(GameObjectID.TANK);
 	template.setIndex(Game.plMgr.getActivePlayerNumber() + 1);
 	Game.tank = ArenaManager.getArena().getCell(Game.plMgr.getPlayerLocationX(), Game.plMgr.getPlayerLocationY(),
-		Game.plMgr.getPlayerLocationZ(), template.getLayer());
+		Game.plMgr.getPlayerLocationZ(), template.layer());
     }
 
     static void waitForMLOLoop() {

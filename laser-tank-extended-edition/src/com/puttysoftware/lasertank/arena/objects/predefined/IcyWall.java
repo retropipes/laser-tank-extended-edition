@@ -38,7 +38,7 @@ public class IcyWall extends ArenaObject {
 	} else {
 	    ao = new ArenaObject(GameObjectID.WALL);
 	}
-	Game.morph(ao, locX, locY, locZ, this.getLayer());
+	Game.morph(ao, locX, locY, locZ, this.layer());
 	return Direction.NONE;
     }
 }

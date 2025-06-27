@@ -24,11 +24,11 @@ public class Lava extends ArenaObject {
     @Override
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 	if (pushed.getID() == GameObjectID.ICY_BOX) {
-	    Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.layer());
 	    Sounds.play(Sound.COOL_OFF);
 	    return true;
 	}
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.layer());
 	Sounds.play(Sound.MELT);
 	return false;
     }

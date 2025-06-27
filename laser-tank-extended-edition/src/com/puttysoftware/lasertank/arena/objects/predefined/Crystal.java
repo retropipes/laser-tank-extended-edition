@@ -80,7 +80,7 @@ public class Crystal extends ArenaObject {
 	    Game.gameOver();
 	    return Direction.NONE;
 	}
-	Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.getLayer());
+	Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.layer());
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going
 	    return DirectionHelper.resolveRelative(dirX, dirY);
@@ -103,22 +103,22 @@ public class Crystal extends ArenaObject {
 	// Set destroyed status
 	this.destroyed = true;
 	// Check for nearby crystals and blow them up too
-	final var boom2 = ArenaManager.getArena().getCell(locX, locY - 1, locZ, this.getLayer()).getClass()
+	final var boom2 = ArenaManager.getArena().getCell(locX, locY - 1, locZ, this.layer()).getClass()
 		.equals(Crystal.class);
 	if (boom2) {
 	    return this.laserEnteredActionInnerP1(locX, locY - 1, locZ, dead);
 	}
-	final var boom4 = ArenaManager.getArena().getCell(locX - 1, locY, locZ, this.getLayer()).getClass()
+	final var boom4 = ArenaManager.getArena().getCell(locX - 1, locY, locZ, this.layer()).getClass()
 		.equals(Crystal.class);
 	if (boom4) {
 	    return this.laserEnteredActionInnerP1(locX - 1, locY, locZ, dead);
 	}
-	final var boom6 = ArenaManager.getArena().getCell(locX + 1, locY, locZ, this.getLayer()).getClass()
+	final var boom6 = ArenaManager.getArena().getCell(locX + 1, locY, locZ, this.layer()).getClass()
 		.equals(Crystal.class);
 	if (boom6) {
 	    return this.laserEnteredActionInnerP1(locX + 1, locY, locZ, dead);
 	}
-	final var boom8 = ArenaManager.getArena().getCell(locX, locY + 1, locZ, this.getLayer()).getClass()
+	final var boom8 = ArenaManager.getArena().getCell(locX, locY + 1, locZ, this.layer()).getClass()
 		.equals(Crystal.class);
 	if (boom8) {
 	    return this.laserEnteredActionInnerP1(locX, locY + 1, locZ, dead);
@@ -146,7 +146,7 @@ public class Crystal extends ArenaObject {
 	    return true;
 	}
 	// Destroy crystal
-	Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.getLayer());
+	Crystal.laserEnteredActionInnerP2(locX, locY, locZ, this.layer());
 	return true;
     }
 }

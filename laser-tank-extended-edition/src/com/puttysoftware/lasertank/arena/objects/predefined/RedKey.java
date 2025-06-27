@@ -26,6 +26,6 @@ public class RedKey extends ArenaObject {
     public void postMoveActionHook(final int dirX, final int dirY, final int dirZ) {
 	Sounds.play(Sound.GRAB);
 	TankInventory.addOneRedKey();
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), dirX, dirY, dirZ, this.layer());
     }
 }

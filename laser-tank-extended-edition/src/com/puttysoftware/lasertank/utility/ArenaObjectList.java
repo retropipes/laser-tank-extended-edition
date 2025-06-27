@@ -37,7 +37,7 @@ public class ArenaObjectList {
 	if (useDisable) {
 	    final var allEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.COUNT];
 	    for (var x = 0; x < ArenaObjectList.COUNT; x++) {
-		if (ArenaObjectList.createObject(x).getLayer() == layer) {
+		if (ArenaObjectList.createObject(x).layer() == layer) {
 		    ArenaObjectList.createObject(x).setEnabled(true);
 		} else {
 		    ArenaObjectList.createObject(x).setEnabled(false);
@@ -49,7 +49,7 @@ public class ArenaObjectList {
 	final var tempAllEditorAppearancesOnLayer = new BufferedImageIcon[ArenaObjectList.COUNT];
 	var objectCount = 0;
 	for (var x = 0; x < ArenaObjectList.COUNT; x++) {
-	    if (ArenaObjectList.createObject(x).getLayer() == layer) {
+	    if (ArenaObjectList.createObject(x).layer() == layer) {
 		tempAllEditorAppearancesOnLayer[x] = Images.getImage(ArenaObjectList.createObject(x), false);
 	    }
 	}
@@ -73,10 +73,10 @@ public class ArenaObjectList {
 	final var tempAllObjectsOnLayer = new ArenaObject[ArenaObjectList.COUNT];
 	var objectCount = 0;
 	for (var x = 0; x < ArenaObjectList.COUNT; x++) {
-	    if (ArenaObjectList.createObject(x).getLayer() == layer) {
+	    if (ArenaObjectList.createObject(x).layer() == layer) {
 		tempAllObjectsOnLayer[x] = ArenaObjectList.createObject(x);
 		if (useDisable) {
-		    if (tempAllObjectsOnLayer[x].getLayer() == layer) {
+		    if (tempAllObjectsOnLayer[x].layer() == layer) {
 			tempAllObjectsOnLayer[x].setEnabled(true);
 		    } else {
 			tempAllObjectsOnLayer[x].setEnabled(false);
@@ -103,7 +103,7 @@ public class ArenaObjectList {
     public static boolean[] getObjectEnabledStatuses(final int layer) {
 	final var allObjectEnabledStatuses = new boolean[ArenaObjectList.COUNT];
 	for (var x = 0; x < ArenaObjectList.COUNT; x++) {
-	    if (ArenaObjectList.createObject(x).getLayer() == layer) {
+	    if (ArenaObjectList.createObject(x).layer() == layer) {
 		allObjectEnabledStatuses[x] = true;
 	    } else {
 		allObjectEnabledStatuses[x] = false;

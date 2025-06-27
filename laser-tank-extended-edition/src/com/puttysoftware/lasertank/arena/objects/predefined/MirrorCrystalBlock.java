@@ -33,7 +33,7 @@ public class MirrorCrystalBlock extends ArenaObject {
 	if (laserType == LaserType.MISSILE) {
 	    // Destroy mirror crystal block
 	    Sounds.play(Sound.BOOM);
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
 	    return Direction.NONE;
 	}
 	if (laserType == LaserType.BLUE) {
@@ -55,17 +55,17 @@ public class MirrorCrystalBlock extends ArenaObject {
 	    final RangeType rangeType, final int forceUnits) {
 	if (rangeType == RangeType.BOMB || RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 	    // Destroy mirror crystal block
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
 	    return true;
 	}
 	if (RangeTypeHelper.material(rangeType) == Material.FIRE) {
 	    // Heat up mirror crystal block
 	    Sounds.play(Sound.MELT);
-	    Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
+	    Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.layer());
 	} else if (RangeTypeHelper.material(rangeType) == Material.ICE) {
 	    // Freeze mirror crystal block
 	    Sounds.play(Sound.FREEZE);
-	    Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
+	    Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
 	}
 	return true;
     }

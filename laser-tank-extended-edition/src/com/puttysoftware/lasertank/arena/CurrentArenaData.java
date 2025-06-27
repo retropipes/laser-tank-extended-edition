@@ -41,7 +41,7 @@ final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
 		    final var obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
-		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
+		    lt.setCell(arena, obj, y, x, z, obj.layer());
 		}
 	    }
 	}
@@ -84,7 +84,7 @@ final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
 		    final var obj = ArenaObjectList.readArenaObjectG2(reader, formatVersion);
-		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
+		    lt.setCell(arena, obj, y, x, z, obj.layer());
 		}
 	    }
 	}
@@ -132,7 +132,7 @@ final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
 		    final var obj = ArenaObjectList.readArenaObjectG3(reader, formatVersion);
-		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
+		    lt.setCell(arena, obj, y, x, z, obj.layer());
 		}
 	    }
 	}
@@ -180,7 +180,7 @@ final class CurrentArenaData extends ArenaData {
 	    for (y = 0; y < arenaSizeY; y++) {
 		for (z = 0; z < arenaSizeZ; z++) {
 		    final var obj = ArenaObjectList.readArenaObjectG4(reader, formatVersion);
-		    lt.setCell(arena, obj, y, x, z, obj.getLayer());
+		    lt.setCell(arena, obj, y, x, z, obj.layer());
 		}
 	    }
 	}
@@ -331,22 +331,22 @@ final class CurrentArenaData extends ArenaData {
 	}
 	final var scanE = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.EAST);
 	if (scanE) {
-	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.layer());
 	    at.kill(this.foundX, this.foundY);
 	}
 	final var scanW = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.WEST);
 	if (scanW) {
-	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.layer());
 	    at.kill(this.foundX, this.foundY);
 	}
 	final var scanS = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.SOUTH);
 	if (scanS) {
-	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.layer());
 	    at.kill(this.foundX, this.foundY);
 	}
 	final var scanN = this.linearScan(arena, enemyLocX, enemyLocY, floor, Direction.NORTH);
 	if (scanN) {
-	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.getLayer());
+	    final var at = this.getCell(arena, this.foundX, this.foundY, floor, template.layer());
 	    at.kill(this.foundX, this.foundY);
 	}
     }
@@ -680,7 +680,7 @@ final class CurrentArenaData extends ArenaData {
 	for (x = 0; x < this.getColumns(); x++) {
 	    for (y = 0; y < this.getRows(); y++) {
 		for (z = 0; z < this.getFloors(); z++) {
-		    final var mo = this.getCell(arena, y, x, z, t.getLayer());
+		    final var mo = this.getCell(arena, y, x, z, t.layer());
 		    if (mo != null && t.equals(mo)) {
 			return new int[] { y, x, z };
 		    }
@@ -699,7 +699,7 @@ final class CurrentArenaData extends ArenaData {
 	}
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final var obj = this.getCell(arena, x, y, zFix, source.getLayer());
+		final var obj = this.getCell(arena, x, y, zFix, source.layer());
 		if (obj.getPairedWith() != null && obj.usesTrigger() && obj.isPairedWith(source)) {
 		    obj.setPairTriggered(true);
 		    return;
@@ -753,7 +753,7 @@ final class CurrentArenaData extends ArenaData {
 	}
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final var obj = this.getCell(arena, x, y, z, source.getLayer());
+		final var obj = this.getCell(arena, x, y, z, source.layer());
 		if (obj.getPairedWith() != null && obj.usesTrigger()
 			&& source.getClass().equals(obj.getPairedWith().getClass())) {
 		    obj.setPairX(dx);
@@ -764,9 +764,9 @@ final class CurrentArenaData extends ArenaData {
 	}
 	for (var x = 0; x < ArenaData.MIN_COLUMNS; x++) {
 	    for (var y = 0; y < ArenaData.MIN_ROWS; y++) {
-		final var obj = this.getCell(arena, x, y, z, source.getLayer());
+		final var obj = this.getCell(arena, x, y, z, source.layer());
 		if (source.getClass().equals(obj.getClass())) {
-		    this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, z, source.getLayer());
+		    this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, z, source.layer());
 		}
 	    }
 	}
@@ -785,9 +785,9 @@ final class CurrentArenaData extends ArenaData {
 		if (x == px && y == py) {
 		    continue;
 		}
-		final var obj = this.getCell(arena, x, y, zFix, source.getLayer());
+		final var obj = this.getCell(arena, x, y, zFix, source.layer());
 		if (obj.getPairedWith() != null && obj.usesTrigger() && obj.hasSamePair(source)) {
-		    this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, zFix, source.getLayer());
+		    this.setCell(arena, new ArenaObject(GameObjectID.GROUND), x, y, zFix, source.layer());
 		}
 	    }
 	}
@@ -809,7 +809,7 @@ final class CurrentArenaData extends ArenaData {
 		if (flag) {
 		    break;
 		}
-		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
+		final var obj = this.getCell(arena, y, x, zFix, source.layer());
 		if (obj.getPairedWith() != null && obj.usesTrigger() && source.hasSamePair(obj)
 			&& !obj.isPairTriggered()) {
 		    flag = true;
@@ -820,9 +820,9 @@ final class CurrentArenaData extends ArenaData {
 	    // Scan said OK to proceed
 	    final var dx = source.getPairX();
 	    final var dy = source.getPairY();
-	    if (!this.getCell(arena, dx, dy, zFix, source.getLayer()).getClass()
+	    if (!this.getCell(arena, dx, dy, zFix, source.layer()).getClass()
 		    .equals(source.getPairedWith().getClass())) {
-		this.setCell(arena, source.getPairedWith(), dx, dy, zFix, source.getLayer());
+		this.setCell(arena, source.getPairedWith(), dx, dy, zFix, source.layer());
 		Sounds.play(Sound.DOOR_CLOSES);
 	    }
 	}
@@ -844,7 +844,7 @@ final class CurrentArenaData extends ArenaData {
 		if (!flag) {
 		    break;
 		}
-		final var obj = this.getCell(arena, y, x, zFix, source.getLayer());
+		final var obj = this.getCell(arena, y, x, zFix, source.layer());
 		if (obj.getPairedWith() != null && obj.usesTrigger() && source.hasSamePair(obj)
 			&& !obj.isPairTriggered()) {
 		    flag = false;
@@ -855,8 +855,8 @@ final class CurrentArenaData extends ArenaData {
 	    // Scan said OK to proceed
 	    final var dx = source.getPairX();
 	    final var dy = source.getPairY();
-	    if (this.getCell(arena, dx, dy, zFix, source.getLayer()).getID() != GameObjectID.GROUND) {
-		this.setCell(arena, new ArenaObject(GameObjectID.GROUND), dx, dy, zFix, source.getLayer());
+	    if (this.getCell(arena, dx, dy, zFix, source.layer()).getID() != GameObjectID.GROUND) {
+		this.setCell(arena, new ArenaObject(GameObjectID.GROUND), dx, dy, zFix, source.layer());
 		Sounds.play(Sound.DOOR_OPENS);
 	    }
 	}
@@ -1077,7 +1077,7 @@ final class CurrentArenaData extends ArenaData {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
 			final var obj = this.getCell(arena, xFix, u, zFix, w);
-			if (obj.getMaterial() == Material.MAGNETIC) {
+			if (obj.material() == Material.MAGNETIC) {
 			    return yFix - u - 1;
 			}
 			if (obj.isSolid()) {
@@ -1095,7 +1095,7 @@ final class CurrentArenaData extends ArenaData {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
 			final var obj = this.getCell(arena, xFix, u, zFix, w);
-			if (obj.getMaterial() == Material.MAGNETIC) {
+			if (obj.material() == Material.MAGNETIC) {
 			    return u - yFix - 1;
 			}
 			if (obj.isSolid()) {
@@ -1111,7 +1111,7 @@ final class CurrentArenaData extends ArenaData {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
 			final var obj = this.getCell(arena, u, yFix, zFix, w);
-			if (obj.getMaterial() == Material.MAGNETIC) {
+			if (obj.material() == Material.MAGNETIC) {
 			    return xFix - u - 1;
 			}
 			if (obj.isSolid()) {
@@ -1127,7 +1127,7 @@ final class CurrentArenaData extends ArenaData {
 		for (w = 0; w < LayerHelper.COUNT; w++) {
 		    try {
 			final var obj = this.getCell(arena, u, yFix, zFix, w);
-			if (obj.getMaterial() == Material.MAGNETIC) {
+			if (obj.material() == Material.MAGNETIC) {
 			    return u - xFix - 1;
 			}
 			if (obj.isSolid()) {

@@ -64,8 +64,9 @@ public class ArenaObject {
 	return ArenaObject.tunnelsFull[color.ordinal()];
     }
 
-    // Properties
+    // Fixed Properties
     private final GameObjectID gameObjectID;
+    // Cached Properties
     private int stunnedLeft;
     private int timerValue;
     private boolean timerActive;
@@ -75,6 +76,33 @@ public class ArenaObject {
     private ArenaObject savedObject;
     private ArenaObject pairedWith;
     private int index;
+    private boolean acceptFire;
+    private boolean acceptIce;
+    private int blockHeight;
+    private boolean canBreak;
+    private boolean canCloak;
+    private boolean canControl;
+    private boolean canLasersPassThrough;
+    private boolean canJump;
+    private boolean canMove;
+    private boolean canRoll;
+    private boolean canShoot;
+    private boolean hasFriction;
+    private boolean isAnimated;
+    private boolean isBox;
+    private boolean isHostile;
+    private boolean isPowerful;
+    private boolean isPushable;
+    private boolean isSolid;
+    private boolean isStunned;
+    private Sound laserEnteredSound;
+    private int layer;
+    private Material material;
+    private Sound rangeSound;
+    private boolean reactsToObjectsPushedInto;
+    private boolean removesPushedObjects;
+    private boolean solvesOnMove;
+    // Dynamic Properties
     private boolean imageEnabled;
     private boolean waitingOnTunnel;
     private boolean pairTriggered;
@@ -99,43 +127,12 @@ public class ArenaObject {
 
     public ArenaObject(final GameObjectID goid) {
 	this.gameObjectID = goid;
-	if (this.isStunned()) {
-	    this.stunnedLeft = ArenaObject.STUNNED_START;
-	} else {
-	    this.stunnedLeft = 0;
-	}
-	this.index = this.getInitialIndex();
-	this.timerActive = this.getInitialTimerActive();
-	this.timerValue = this.getInitialTimerValue();
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = this.getInitialColor();
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
-	this.imageEnabled = true;
-	this.waitingOnTunnel = false;
-	this.pairTriggered = false;
-	this.pairX = -1;
-	this.pairY = -1;
-	this.jumpRows = 0;
-	this.jumpCols = 0;
-	this.jumpShot = false;
-	this.flip = false;
-	this.dir1X = 0;
-	this.dir1Y = 0;
-	this.dir2X = 0;
-	this.dir2Y = 0;
-	this.previousState = null;
-	this.autoMove = false;
-	this.shotUnlocked = false;
+	this.cachePropertyValues(goid);
+	this.initDynamicPropertyValues();
     }
 
     public ArenaObject(final ArenaObject source) {
+	this.gameObjectID = source.gameObjectID;
 	this.stunnedLeft = source.stunnedLeft;
 	this.index = source.index;
 	this.timerActive = source.timerActive;
@@ -144,7 +141,6 @@ public class ArenaObject {
 	this.direction = source.direction;
 	this.color = source.color;
 	this.imageEnabled = source.imageEnabled;
-	this.gameObjectID = source.gameObjectID;
 	this.waitingOnTunnel = source.waitingOnTunnel;
 	this.pairTriggered = source.pairTriggered;
 	this.pairX = source.pairX;
@@ -168,24 +164,60 @@ public class ArenaObject {
 
     public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
 	this.gameObjectID = goid;
+	this.cachePropertyValues(goid);
+	this.initDynamicPropertyValues();
+	this.index = newIndex;
+	this.direction = dir;
+    }
+
+    private final void cachePropertyValues(final GameObjectID goid) {
+	this.acceptFire = ArenaObjectData.acceptFire(goid);
+	this.acceptIce = ArenaObjectData.acceptIce(goid);
+	this.blockHeight = ArenaObjectData.getBlockHeight(goid);
+	this.canBreak = ArenaObjectData.canBreak(goid);
+	this.canCloak = ArenaObjectData.canCloak(goid);
+	this.canControl = ArenaObjectData.canControl(goid);
+	this.canLasersPassThrough = ArenaObjectData.canLasersPassThrough(goid);
+	this.canJump = ArenaObjectData.canJump(goid);
+	this.canMove = ArenaObjectData.canMove(goid);
+	this.canRoll = ArenaObjectData.canRoll(goid);
+	this.canShoot = ArenaObjectData.canShoot(goid);
+	this.hasFriction = ArenaObjectData.hasFriction(goid);
+	this.isAnimated = ArenaObjectData.isAnimated(goid);
+	this.isBox = ArenaObjectData.isBox(goid);
+	this.isHostile = ArenaObjectData.isHostile(goid);
+	this.isPowerful = ArenaObjectData.isPowerful(goid);
+	this.isPushable = ArenaObjectData.isPushable(goid);
+	this.isSolid = ArenaObjectData.isSolid(goid);
+	this.isStunned = ArenaObjectData.isStunned(goid);
+	this.laserEnteredSound = ArenaObjectData.laserEnterSound(goid);
+	this.layer = ArenaObjectData.getLayer(goid);
+	this.material = ArenaObjectData.getMaterial(goid);
+	this.rangeSound = ArenaObjectData.rangeSound(goid);
+	this.reactsToObjectsPushedInto = ArenaObjectData.reactsToObjectsPushedInto(goid);
+	this.removesPushedObjects = ArenaObjectData.removesPushedObjects(goid);
+	this.solvesOnMove = ArenaObjectData.solvesOnMove(goid);
+	this.index = this.getInitialIndex();
+	this.timerActive = this.getInitialTimerActive();
+	this.timerValue = this.getInitialTimerValue();
+	this.direction = this.getInitialDirection();
+	this.color = this.getInitialColor();
+	this.frameNumber = this.isAnimated() ? 1 : 0;
 	if (this.isStunned()) {
 	    this.stunnedLeft = ArenaObject.STUNNED_START;
 	} else {
 	    this.stunnedLeft = 0;
 	}
-	this.index = this.getInitialIndex();
-	this.timerActive = this.getInitialTimerActive();
-	this.timerValue = this.getInitialTimerValue();
-	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = this.getInitialDirection();
-	this.color = this.getInitialColor();
 	if (this.canMove() || this.canControl()) {
 	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
 	}
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
+	final var pairID = ArenaObjectData.getPairedObjectID(goid);
 	if (pairID != null) {
 	    this.pairedWith = new ArenaObject(pairID);
 	}
+    }
+
+    private final void initDynamicPropertyValues() {
 	this.imageEnabled = true;
 	this.waitingOnTunnel = false;
 	this.pairTriggered = false;
@@ -202,17 +234,113 @@ public class ArenaObject {
 	this.previousState = null;
 	this.autoMove = false;
 	this.shotUnlocked = false;
-	this.index = newIndex;
-	this.direction = dir;
     }
 
+    /* BEGIN: Cache Fetch */
     public final boolean acceptFire() {
-	return ArenaObjectData.acceptFire(this.getID());
+	return this.acceptFire;
     }
 
     public final boolean acceptIce() {
-	return ArenaObjectData.acceptIce(this.getID());
+	return this.acceptIce;
     }
+
+    public final int blockHeight() {
+	return this.blockHeight;
+    }
+
+    public final boolean canBreak() {
+	return this.canBreak;
+    }
+
+    public final boolean canCloak() {
+	return this.canCloak;
+    }
+
+    public final boolean canControl() {
+	return this.canControl;
+    }
+
+    public final boolean canLasersPassThrough() {
+	return this.canLasersPassThrough;
+    }
+
+    public final boolean canJump() {
+	return this.canJump;
+    }
+
+    public final boolean canMove() {
+	return this.canMove;
+    }
+
+    public final boolean canRoll() {
+	return this.canRoll;
+    }
+
+    public final boolean canShoot() {
+	return this.canShoot;
+    }
+
+    public final boolean hasFriction() {
+	return this.hasFriction;
+    }
+
+    public final boolean isAnimated() {
+	return this.isAnimated;
+    }
+
+    public final boolean isBox() {
+	return this.isBox;
+    }
+
+    public final boolean isHostile() {
+	return this.isHostile;
+    }
+
+    public final boolean isPowerful() {
+	return this.isPowerful;
+    }
+
+    public final boolean isPushable() {
+	return this.isPushable;
+    }
+
+    public final boolean isSolid() {
+	return this.isSolid;
+    }
+
+    public final boolean isStunned() {
+	return this.isStunned;
+    }
+
+    public final Sound laserEnteredSound() {
+	return this.laserEnteredSound;
+    }
+
+    public final int layer() {
+	return this.layer;
+    }
+
+    public final Material material() {
+	return this.material;
+    }
+
+    public final Sound rangeSound() {
+	return this.rangeSound;
+    }
+
+    public final boolean reactsToObjectsPushedInto() {
+	return this.reactsToObjectsPushedInto;
+    }
+
+    public final boolean removesPushedObjects() {
+	return this.removesPushedObjects;
+    }
+
+    public final boolean solvesOnMove() {
+	return this.solvesOnMove;
+    }
+    /* END: Cache Fetch */
 
     public final boolean acceptTick(final GameAction actionType) {
 	return ArenaObjectData.acceptTick(this.getID(), actionType);
@@ -226,34 +354,6 @@ public class ArenaObject {
     public final ArenaObject attributeRenderHook() {
 	final var renderAs = ArenaObjectData.attributeRenderHook(this.getID());
 	return renderAs != null ? new ArenaObject(renderAs) : null;
-    }
-
-    public final boolean canBreak() {
-	return ArenaObjectData.canBreak(this.getID());
-    }
-
-    public final boolean canCloak() {
-	return ArenaObjectData.canCloak(this.getID());
-    }
-
-    public final boolean canControl() {
-	return ArenaObjectData.canControl(this.getID());
-    }
-
-    public final boolean canJump() {
-	return ArenaObjectData.canJump(this.getID());
-    }
-
-    public final boolean canMove() {
-	return ArenaObjectData.canMove(this.getID());
-    }
-
-    public final boolean canRoll() {
-	return ArenaObjectData.canRoll(this.getID());
-    }
-
-    public final boolean canShoot() {
-	return ArenaObjectData.canShoot(this.getID());
     }
 
     /**
@@ -293,10 +393,6 @@ public class ArenaObject {
 	return this.hasDirection() || this.canJump();
     }
 
-    public final boolean canLasersPassThrough() {
-	return ArenaObjectData.canLasersPassThrough(this.getID());
-    }
-
     /**
      *
      * @param x
@@ -318,7 +414,6 @@ public class ArenaObject {
 	    }
 	    Editor.get().redrawEditor();
 	}
-	// Do nothing
     }
 
     public final ArenaObject editorPropertiesHook() {
@@ -344,10 +439,6 @@ public class ArenaObject {
 	    return false;
 	}
 	return true;
-    }
-
-    public final int getBlockHeight() {
-	return ArenaObjectData.getBlockHeight(this.getID());
     }
 
     public final GameColor getColor() {
@@ -452,16 +543,8 @@ public class ArenaObject {
 	return ArenaObjectData.getLastFrameNumber(this.getID());
     }
 
-    public final int getLayer() {
-	return ArenaObjectData.getLayer(this.getID());
-    }
-
-    public final Material getMaterial() {
-	return ArenaObjectData.getMaterial(this.getID());
-    }
-
     public final int getMinimumReactionForce() {
-	return ArenaObjectData.getMinimumReactionForce(this.getMaterial());
+	return ArenaObjectData.getMinimumReactionForce(this.material());
     }
 
     public final int getNumber() {
@@ -505,10 +588,6 @@ public class ArenaObject {
 	return this.direction != Direction.NONE;
     }
 
-    public final boolean hasFriction() {
-	return ArenaObjectData.hasFriction(this.getID());
-    }
-
     @Override
     public int hashCode() {
 	final var prime = 31;
@@ -544,24 +623,12 @@ public class ArenaObject {
 	return ArenaObjectData.hitReflectiveSide(dir);
     }
 
-    private final boolean isAnimated() {
-	return ArenaObjectData.isAnimated(this.getID());
-    }
-
-    public final boolean isBox() {
-	return ArenaObjectData.isBox(this.getID());
-    }
-
     public boolean isConditionallySolid() {
 	return this.isSolid();
     }
 
     public boolean isEnabled() {
 	return this.imageEnabled;
-    }
-
-    public final boolean isHostile() {
-	return ArenaObjectData.isHostile(this.getID());
     }
 
     public final boolean isMovableMirror(final Direction dir) {
@@ -581,22 +648,6 @@ public class ArenaObject {
 
     public boolean isPairTriggered() {
 	return this.pairTriggered;
-    }
-
-    public final boolean isPowerful() {
-	return ArenaObjectData.isPowerful(this.getID());
-    }
-
-    public final boolean isPushable() {
-	return ArenaObjectData.isPushable(this.getID());
-    }
-
-    public final boolean isSolid() {
-	return ArenaObjectData.isSolid(this.getID());
-    }
-
-    public final boolean isStunned() {
-	return ArenaObjectData.isStunned(this.getID());
     }
 
     public final boolean isTunnel() {
@@ -627,7 +678,6 @@ public class ArenaObject {
 	if (this.isHostile()) {
 	    this.shotUnlocked = true;
 	}
-	// Do nothing
     }
 
     /**
@@ -646,9 +696,9 @@ public class ArenaObject {
 	if (forceUnits >= this.getMinimumReactionForce()) {
 	    if (this.canMove()) {
 		try {
-		    final var mof = ArenaManager.getArena().getCell(locX + dirX, locY + dirY, locZ, this.getLayer());
-		    final var mor = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
-		    if (this.getMaterial() == Material.MAGNETIC) {
+		    final var mof = ArenaManager.getArena().getCell(locX + dirX, locY + dirY, locZ, this.layer());
+		    final var mor = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.layer());
+		    if (this.material() == Material.MAGNETIC) {
 			if (laserType == LaserType.BLUE && mof != null && (mof.canControl() || !mof.isSolid())) {
 			    Game.updatePushedPosition(locX, locY, locX - dirX, locY - dirY, this);
 			} else if (mor != null && (mor.canControl() || !mor.isSolid())) {
@@ -706,7 +756,7 @@ public class ArenaObject {
 		    final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 		    dat.setSavedObject(this.getSavedObject());
 		    dat.setDirection(baseDir);
-		    Game.morph(dat, locX, locY, locZ, this.getLayer());
+		    Game.morph(dat, locX, locY, locZ, this.layer());
 		    Sounds.play(Sound.ANTI_DIE);
 		    return Direction.NONE;
 		}
@@ -715,7 +765,7 @@ public class ArenaObject {
 		    final var sat = new ArenaObject(GameObjectID.STUNNED_ANTI_TANK);
 		    sat.setSavedObject(this.getSavedObject());
 		    sat.setDirection(baseDir);
-		    Game.morph(sat, locX, locY, locZ, this.getLayer());
+		    Game.morph(sat, locX, locY, locZ, this.layer());
 		    Sounds.play(Sound.STUN);
 		    return Direction.NONE;
 		}
@@ -725,7 +775,7 @@ public class ArenaObject {
 		    final var dat = new ArenaObject(GameObjectID.DEAD_ANTI_TANK);
 		    dat.setSavedObject(this.getSavedObject());
 		    dat.setDirection(baseDir);
-		    Game.morph(dat, locX, locY, locZ, this.getLayer());
+		    Game.morph(dat, locX, locY, locZ, this.layer());
 		    Sounds.play(Sound.ANTI_DIE);
 		    return Direction.NONE;
 		}
@@ -737,9 +787,9 @@ public class ArenaObject {
 		if (forceUnits > this.getMinimumReactionForce() && this.canMove()) {
 		    try {
 			final var nextObj = ArenaManager.getArena().getCell(locX + dirX, locY + dirY, locZ,
-				this.getLayer());
+				this.layer());
 			final var nextObj2 = ArenaManager.getArena().getCell(locX + dirX * 2, locY + dirY * 2, locZ,
-				this.getLayer());
+				this.layer());
 			if (nextObj.canMove()
 				&& (nextObj2 != null && !nextObj2.isConditionallySolid() || forceUnits > 2)) {
 			    Game.updatePushedPositionLater(locX, locY, dirX, dirY, this, locX + dirX, locY + dirY,
@@ -753,7 +803,7 @@ public class ArenaObject {
 			this.pushCrushAction(locX, locY, locZ);
 		    }
 		} else {
-		    final var adj = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.getLayer());
+		    final var adj = ArenaManager.getArena().getCell(locX - dirX, locY - dirY, locZ, this.layer());
 		    if (adj != null && !adj.rangeAction(locX - 2 * dirX, locY - 2 * dirY, locZ, dirX, dirY,
 			    LaserTypeHelper.rangeType(laserType), 1)) {
 			Sounds.play(Sound.LASER_DIE);
@@ -785,10 +835,6 @@ public class ArenaObject {
 	    final int dirY, final LaserType laserType, final int forceUnits) {
 	// Do nothing
 	return Direction.NONE;
-    }
-
-    public final Sound laserEnteredSound() {
-	return ArenaObjectData.laserEnterSound(this.getID());
     }
 
     /**
@@ -930,7 +976,7 @@ public class ArenaObject {
     protected void pushCrushAction(final int x, final int y, final int z) {
 	// Object crushed
 	Sounds.play(Sound.CRUSH);
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, this.layer());
     }
 
     /**
@@ -944,22 +990,22 @@ public class ArenaObject {
     public boolean pushIntoAction(final ArenaObject pushed, final int x, final int y, final int z) {
 	if (this.removesPushedObjects()) {
 	    // Remove pushed object
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), x, y, z, pushed.layer());
 	    Sounds.play(Sound.SINK);
 	}
 	if (this.reactsToObjectsPushedInto()) {
 	    // Transform based on material of pushed object
 	    if (pushed.isBox()) {
-		if (this.getBlockHeight() > -1) {
+		if (this.blockHeight() > -1) {
 		    // Weaken if depth is more than 1
-		    Game.morph(this.weakensTo(), x, y, z, this.getLayer());
+		    Game.morph(this.weakensTo(), x, y, z, this.layer());
 		} else {
-		    if (pushed.getMaterial() == Material.ICE) {
-			Game.morph(new ArenaObject(GameObjectID.ICE_BRIDGE), x, y, z, this.getLayer());
-		    } else if (pushed.getMaterial() == Material.FIRE) {
-			Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.getLayer());
+		    if (pushed.material() == Material.ICE) {
+			Game.morph(new ArenaObject(GameObjectID.ICE_BRIDGE), x, y, z, this.layer());
+		    } else if (pushed.material() == Material.FIRE) {
+			Game.morph(new ArenaObject(GameObjectID.LAVA_BRIDGE), x, y, z, this.layer());
 		    } else {
-			Game.morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.getLayer());
+			Game.morph(new ArenaObject(GameObjectID.BRIDGE), x, y, z, this.layer());
 		    }
 		}
 	    }
@@ -980,7 +1026,7 @@ public class ArenaObject {
 	    }
 	    return false;
 	}
-	if (this.getPairedWith() != null && this.usesTrigger() && pushed.getMaterial() == this.getMaterial()) {
+	if (this.getPairedWith() != null && this.usesTrigger() && pushed.material() == this.material()) {
 	    Sounds.play(Sound.BUTTON);
 	    if (!this.isPairTriggered()) {
 		// Check to open door at location
@@ -1000,7 +1046,7 @@ public class ArenaObject {
      * @param z
      */
     public void pushOutAction(final ArenaObject pushed, final int x, final int y, final int z) {
-	if (this.getPairedWith() != null && this.usesTrigger() && pushed.getMaterial() == this.getMaterial()
+	if (this.getPairedWith() != null && this.usesTrigger() && pushed.material() == this.material()
 		&& this.isPairTriggered()) {
 	    // Check to close door at location
 	    this.setPairTriggered(false);
@@ -1023,37 +1069,36 @@ public class ArenaObject {
     public boolean rangeAction(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
 	if (forceUnits >= this.getMinimumReactionForce()) {
-	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.WOODEN
+	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.material() == Material.WOODEN
 		    && this.changesToOnExposure(Material.FIRE) != null) {
 		// Burn wooden object
 		Sounds.play(Sound.BURN);
-		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
+		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.layer());
 	    }
-	    if (RangeTypeHelper.material(rangeType) == Material.ICE
-		    && (this.getMaterial() == Material.METALLIC || this.getMaterial() == Material.WOODEN
-			    || this.getMaterial() == Material.PLASTIC)
+	    if (RangeTypeHelper.material(rangeType) == Material.ICE && (this.material() == Material.METALLIC
+		    || this.material() == Material.WOODEN || this.material() == Material.PLASTIC)
 		    && this.changesToOnExposure(Material.ICE) != null) {
 		// Freeze metal, wooden, or plastic object
 		Sounds.play(Sound.FREEZE);
-		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
+		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
 	    }
-	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.ICE
+	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.material() == Material.ICE
 		    && this.changesToOnExposure(Material.FIRE) != null) {
 		// Melt icy object
 		Sounds.play(Sound.DEFROST);
-		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
+		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.layer());
 	    }
-	    if (RangeTypeHelper.material(rangeType) == Material.ICE && this.getMaterial() == Material.FIRE
+	    if (RangeTypeHelper.material(rangeType) == Material.ICE && this.material() == Material.FIRE
 		    && this.changesToOnExposure(Material.ICE) != null) {
 		// Cool hot object
 		Sounds.play(Sound.COOL_OFF);
-		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
+		Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
 	    }
-	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.getMaterial() == Material.METALLIC
+	    if (RangeTypeHelper.material(rangeType) == Material.FIRE && this.material() == Material.METALLIC
 		    && this.changesToOnExposure(Material.FIRE) != null) {
 		// Melt metal object
 		Sounds.play(Sound.MELT);
-		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.getLayer());
+		Game.morph(this.changesToOnExposure(Material.FIRE), locX + dirX, locY + dirY, locZ, this.layer());
 	    }
 	    var snd = this.rangeSound();
 	    if (snd != Sound._NONE) {
@@ -1077,10 +1122,6 @@ public class ArenaObject {
 	    final RangeType rangeType, final int forceUnits) {
 	// Do nothing
 	return true;
-    }
-
-    public final Sound rangeSound() {
-	return ArenaObjectData.rangeSound(this.getID());
     }
 
     /**
@@ -1253,14 +1294,6 @@ public class ArenaObject {
 	return this;
     }
 
-    public final boolean reactsToObjectsPushedInto() {
-	return ArenaObjectData.reactsToObjectsPushedInto(this.getID());
-    }
-
-    public final boolean removesPushedObjects() {
-	return ArenaObjectData.removesPushedObjects(this.getID());
-    }
-
     public final void setColor(final GameColor col) {
 	this.color = col;
     }
@@ -1317,10 +1350,6 @@ public class ArenaObject {
 	this.waitingOnTunnel = value;
     }
 
-    public final boolean solvesOnMove() {
-	return ArenaObjectData.solvesOnMove(this.getID());
-    }
-
     public final void tickTimer(final int dirX, final int dirY, final GameAction actionType) {
 	if (this.timerActive && this.acceptTick(actionType)) {
 	    this.timerValue--;
@@ -1371,7 +1400,7 @@ public class ArenaObject {
 		final var at = new ArenaObject(GameObjectID.ANTI_TANK);
 		at.setSavedObject(this.getSavedObject());
 		at.setDirection(this.getDirection());
-		Game.morph(at, dirX, dirY, z, this.getLayer());
+		Game.morph(at, dirX, dirY, z, this.layer());
 	    } else {
 		Sounds.play(Sound.STUNNED);
 		this.activateTimer(1);

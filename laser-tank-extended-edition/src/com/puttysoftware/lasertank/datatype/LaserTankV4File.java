@@ -194,7 +194,7 @@ class LaserTankV4File {
 		    default:
 			ao = new ArenaObject(GameObjectID.PLACEHOLDER);
 		    }
-		    t.setCell(a, ao, x, y, 0, ao.getLayer());
+		    t.setCell(a, ao, x, y, 0, ao.layer());
 		}
 	    }
 	    // Convert level name

@@ -32,7 +32,7 @@ public class HotCrystalBlock extends ArenaObject {
 	if (laserType == LaserType.MISSILE) {
 	    // Destroy hot crystal block
 	    Sounds.play(Sound.BOOM);
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
 	    return Direction.NONE;
 	}
 	// Stop laser
@@ -45,7 +45,7 @@ public class HotCrystalBlock extends ArenaObject {
 	    final RangeType rangeType, final int forceUnits) {
 	if (RangeTypeHelper.material(rangeType) == Material.METALLIC) {
 	    // Destroy hot crystal block
-	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
+	    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
 	    return true;
 	}
 	if (RangeTypeHelper.material(rangeType) == Material.FIRE
@@ -53,7 +53,7 @@ public class HotCrystalBlock extends ArenaObject {
 	} else {
 	    // Freeze crystal block
 	    Sounds.play(Sound.FREEZE);
-	    Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.getLayer());
+	    Game.morph(this.changesToOnExposure(Material.ICE), locX + dirX, locY + dirY, locZ, this.layer());
 	}
 	// Do nothing
 	return true;

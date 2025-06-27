@@ -26,7 +26,7 @@ public class HotBricks extends ArenaObject {
     @Override
     public Direction laserEnteredActionHook(final int locX, final int locY, final int locZ, final int dirX,
 	    final int dirY, final LaserType laserType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
 	if (laserType == LaserType.POWER) {
 	    // Laser keeps going
 	    return DirectionHelper.resolveRelative(dirX, dirY);
@@ -38,7 +38,7 @@ public class HotBricks extends ArenaObject {
     @Override
     public boolean rangeActionHook(final int locX, final int locY, final int locZ, final int dirX, final int dirY,
 	    final RangeType rangeType, final int forceUnits) {
-	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.getLayer());
+	Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX + dirX, locY + dirY, locZ, this.layer());
 	return true;
     }
 }
