@@ -809,6 +809,16 @@ public class ArenaObject {
 		    return Direction.NONE;
 		}
 	    } else if (this.isSolid()) {
+		if (this.canBreak()) {
+		    // Delete self
+		    Game.morph(new ArenaObject(GameObjectID.PLACEHOLDER), locX, locY, locZ, this.layer());
+		    if (laserType == LaserType.POWER) {
+			// Laser keeps going
+			return DirectionHelper.resolveRelative(dirX, dirY);
+		    }
+		    // Laser stops
+		    return Direction.NONE;
+		}
 		return this.laserEnteredActionHook(locX, locY, locZ, dirX, dirY, laserType, forceUnits);
 	    }
 	    final var dir = DirectionHelper.resolveRelative(dirX, dirY);
