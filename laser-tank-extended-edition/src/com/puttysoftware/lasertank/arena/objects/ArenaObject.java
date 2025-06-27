@@ -132,7 +132,36 @@ public class ArenaObject {
     }
 
     public ArenaObject(final ArenaObject source) {
+	// Copy ID
 	this.gameObjectID = source.gameObjectID;
+	// Copy caches
+	this.acceptFire = source.acceptFire;
+	this.acceptIce = source.acceptIce;
+	this.blockHeight = source.blockHeight;
+	this.canBreak = source.canBreak;
+	this.canCloak = source.canCloak;
+	this.canControl = source.canControl;
+	this.canLasersPassThrough = source.canLasersPassThrough;
+	this.canJump = source.canJump;
+	this.canMove = source.canMove;
+	this.canRoll = source.canRoll;
+	this.canShoot = source.canShoot;
+	this.hasFriction = source.hasFriction;
+	this.isAnimated = source.isAnimated;
+	this.isBox = source.isBox;
+	this.isHostile = source.isHostile;
+	this.isPowerful = source.isPowerful;
+	this.isPushable = source.isPushable;
+	this.isSolid = source.isSolid;
+	this.isStunned = source.isStunned;
+	this.laserEnteredSound = source.laserEnteredSound;
+	this.layer = source.layer;
+	this.material = source.material;
+	this.rangeSound = source.rangeSound;
+	this.reactsToObjectsPushedInto = source.reactsToObjectsPushedInto;
+	this.removesPushedObjects = source.removesPushedObjects;
+	this.solvesOnMove = source.solvesOnMove;
+	// Copy everything else
 	this.stunnedLeft = source.stunnedLeft;
 	this.index = source.index;
 	this.timerActive = source.timerActive;
