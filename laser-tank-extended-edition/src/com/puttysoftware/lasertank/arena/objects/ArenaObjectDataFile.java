@@ -43,7 +43,8 @@ enum ArenaObjectDataFile {
     RANGE_SOUND,
     REMOVES_PUSHED_OBJECTS,
     REACTS_TO_OBJECTS_PUSHED_INTO,
-    WEAKEN;
+    WEAKEN,
+    CAN_BREAK;
 
     public String getName() {
 	return Integer.toString(this.ordinal());

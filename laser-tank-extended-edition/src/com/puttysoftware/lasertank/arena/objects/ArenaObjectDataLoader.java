@@ -95,6 +95,15 @@ class ArenaObjectDataLoader {
 	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
     }
 
+    public static boolean loadCanBreak(final GameObjectID objID) {
+	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.CAN_BREAK);
+	final var key = String.valueOf(objID);
+	if (!data.containsKey(key)) {
+	    return false;
+	}
+	return data.getString(key) == GlobalStrings.loadDataLoader(DataLoaderString.ANY);
+    }
+
     public static boolean loadCloak(final GameObjectID objID) {
 	final var data = ArenaObjectDataLoader.load(ArenaObjectDataFile.CLOAK);
 	final var key = String.valueOf(objID);

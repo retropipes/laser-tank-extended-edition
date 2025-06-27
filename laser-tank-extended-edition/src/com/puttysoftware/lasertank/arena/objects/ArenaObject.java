@@ -65,32 +65,32 @@ public class ArenaObject {
     }
 
     // Properties
+    private final GameObjectID gameObjectID;
+    private int stunnedLeft;
     private int timerValue;
     private boolean timerActive;
     private int frameNumber;
     private Direction direction;
     private GameColor color;
+    private ArenaObject savedObject;
+    private ArenaObject pairedWith;
     private int index;
     private boolean imageEnabled;
-    private ArenaObject savedObject;
-    private ArenaObject previousState;
-    private final GameObjectID gameObjectID;
     private boolean waitingOnTunnel;
     private boolean pairTriggered;
     private int pairX;
     private int pairY;
-    private ArenaObject pairedWith;
+    private int jumpRows;
+    private int jumpCols;
+    private boolean jumpShot;
     private boolean flip;
     private int dir1X;
     private int dir1Y;
     private int dir2X;
     private int dir2Y;
-    private int jumpRows;
-    private int jumpCols;
-    private boolean jumpShot;
+    private ArenaObject previousState;
     private boolean autoMove;
     private boolean shotUnlocked;
-    private int stunnedLeft;
 
     // Constructors
     public ArenaObject() {
@@ -98,6 +98,7 @@ public class ArenaObject {
     }
 
     public ArenaObject(final GameObjectID goid) {
+	this.gameObjectID = goid;
 	if (this.isStunned()) {
 	    this.stunnedLeft = ArenaObject.STUNNED_START;
 	} else {
@@ -109,8 +110,14 @@ public class ArenaObject {
 	this.frameNumber = this.isAnimated() ? 1 : 0;
 	this.direction = this.getInitialDirection();
 	this.color = this.getInitialColor();
+	if (this.canMove() || this.canControl()) {
+	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+	}
+	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
+	if (pairID != null) {
+	    this.pairedWith = new ArenaObject(pairID);
+	}
 	this.imageEnabled = true;
-	this.gameObjectID = goid;
 	this.waitingOnTunnel = false;
 	this.pairTriggered = false;
 	this.pairX = -1;
@@ -123,13 +130,9 @@ public class ArenaObject {
 	this.dir1Y = 0;
 	this.dir2X = 0;
 	this.dir2Y = 0;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
+	this.previousState = null;
+	this.autoMove = false;
+	this.shotUnlocked = false;
     }
 
     public ArenaObject(final ArenaObject source) {
@@ -164,19 +167,26 @@ public class ArenaObject {
     }
 
     public ArenaObject(final GameObjectID goid, final Direction dir, final int newIndex) {
+	this.gameObjectID = goid;
 	if (this.isStunned()) {
 	    this.stunnedLeft = ArenaObject.STUNNED_START;
 	} else {
 	    this.stunnedLeft = 0;
 	}
-	this.index = newIndex;
+	this.index = this.getInitialIndex();
 	this.timerActive = this.getInitialTimerActive();
 	this.timerValue = this.getInitialTimerValue();
 	this.frameNumber = this.isAnimated() ? 1 : 0;
-	this.direction = dir;
+	this.direction = this.getInitialDirection();
 	this.color = this.getInitialColor();
+	if (this.canMove() || this.canControl()) {
+	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
+	}
+	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
+	if (pairID != null) {
+	    this.pairedWith = new ArenaObject(pairID);
+	}
 	this.imageEnabled = true;
-	this.gameObjectID = goid;
 	this.waitingOnTunnel = false;
 	this.pairTriggered = false;
 	this.pairX = -1;
@@ -189,13 +199,11 @@ public class ArenaObject {
 	this.dir1Y = 0;
 	this.dir2X = 0;
 	this.dir2Y = 0;
-	if (this.canMove() || this.canControl()) {
-	    this.savedObject = new ArenaObject(GameObjectID.PLACEHOLDER);
-	}
-	final var pairID = ArenaObjectData.getPairedObjectID(this.getID());
-	if (pairID != null) {
-	    this.pairedWith = new ArenaObject(pairID);
-	}
+	this.previousState = null;
+	this.autoMove = false;
+	this.shotUnlocked = false;
+	this.index = newIndex;
+	this.direction = dir;
     }
 
     public final boolean acceptFire() {
@@ -218,6 +226,10 @@ public class ArenaObject {
     public final ArenaObject attributeRenderHook() {
 	final var renderAs = ArenaObjectData.attributeRenderHook(this.getID());
 	return renderAs != null ? new ArenaObject(renderAs) : null;
+    }
+
+    public final boolean canBreak() {
+	return ArenaObjectData.canBreak(this.getID());
     }
 
     public final boolean canCloak() {

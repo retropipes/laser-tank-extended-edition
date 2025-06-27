@@ -29,6 +29,10 @@ class ArenaObjectData {
 	return ArenaObjectDataLoader.loadAttributeRender(objectID);
     }
 
+    public static boolean canBreak(final GameObjectID objectID) {
+	return ArenaObjectDataLoader.loadCanBreak(objectID);
+    }
+
     public static boolean canCloak(final GameObjectID objectID) {
 	return ArenaObjectDataLoader.loadCloak(objectID);
     }
